@@ -1,0 +1,16 @@
+{
+    "name": "lesstif/php-jira-rest-client",
+    "description": "JIRA REST API Client for PHP Users.",
+    "require": {
+        "netresearch/jsonmapper": "0.4.*",
+        "monolog/monolog": "~1.12",
+        "phpunit/phpunit": "~4.4"
+    },
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "KwangSeob Jeong",
+            "email": "lesstif@gmail.com"
+        }
+    ]
+}
