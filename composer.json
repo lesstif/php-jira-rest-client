@@ -10,7 +10,13 @@
     "authors": [
         {
             "name": "KwangSeob Jeong",
-            "email": "lesstif@gmail.com"
+            "email": "lesstif@gmail.com",
+            "homepage": "http://lesstif.com/"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4" : {
+            "JiraRestApi\\" : "src"
+        }
+    }
 }
