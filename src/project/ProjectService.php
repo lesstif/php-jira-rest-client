@@ -5,20 +5,8 @@ namespace JiraRestApi\Project;
 require 'vendor/autoload.php';
 
 class ProjectService extends \JiraRestApi\JiraClient {	
-
-	/**
-     * Project URI
-     * @var string
-     */
-    public $self;
-
-    /**
-     * Project id
-     * @var string
-     */
-    public $id;
-
     private $uri = "/project";
+
  	public function __construct($config, $opt_array = null) {
         parent::__construct($config, $opt_array);        
     }
@@ -29,7 +17,7 @@ class ProjectService extends \JiraRestApi\JiraClient {
      * @return array of Project class
      */
     public function getAllProjects() {
-        $ret = $this->exec('/project', null);        
+        $ret = $this->exec($this->uri, null);        
         
         $prjs = $this->json_mapper->mapArray(
              json_decode($ret, true), new \ArrayObject(), '\JiraRestApi\Project\Project'
@@ -39,7 +27,7 @@ class ProjectService extends \JiraRestApi\JiraClient {
     }
 
     public function get($projectIdOrKey) {
-    	$ret = $this->exec("/project/$projectIdOrKey", null);
+    	$ret = $this->exec("$this->uri/$projectIdOrKey", null);
 
         $this->log->addInfo("Result=" . $ret );
 

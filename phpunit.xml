@@ -7,6 +7,7 @@
             <directory>tests/</directory>
             -->            
             <file>tests/ProjectTest.php</file>
+            <file>tests/IssueTest.php</file>
         </testsuite>
     </testsuites>
 

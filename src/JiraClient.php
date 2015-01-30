@@ -90,7 +90,7 @@ class JiraClient {
         $this->http_response = 200;
     }
 
-    public function exec($context, $post_data = null) {
+    public function exec($context, $post_data = null, $custom_request = null) {
 		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
 
 		$this->log->addDebug("Curl $url JsonData=" . $post_data);	
@@ -101,10 +101,20 @@ class JiraClient {
 
 		// post_data
 		if (!is_null($post_data)) {
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+			// PUT REQUEST
+			if (!is_null($custom_request) && $custom_request == "PUT") {
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+			}
+			if (!is_null($custom_request) && $custom_request == "DELETE") {
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+			}
+			else {
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+			}			
 		}
-		
+        
 		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
 
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $this->options[CURLOPT_SSL_VERIFYHOST]);
