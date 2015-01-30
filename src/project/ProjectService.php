@@ -6,8 +6,6 @@ require 'vendor/autoload.php';
 
 class ProjectService extends \JiraRestApi\JiraClient {	
 
-	//private $mapper = new JsonMapper();
-
 	/**
      * Project URI
      * @var string
@@ -26,11 +24,25 @@ class ProjectService extends \JiraRestApi\JiraClient {
     }
 
     public function getAllProjects() {
-        return $this->exec('/project', null);
+        $ret = $this->exec('/project', null);        
+
+        $prjs = $this->json_mapper->mapArray(
+             json_decode($ret), new ArrayObject(), '\JiraRestApi\Project\Project'
+        );
+
+        return $prjs;
     }
 
-    public function get($project_name) {
-    	return $this->exec('/project/$project_name', null);
+    public function get($projectIdOrKey) {
+    	$ret = $this->exec("/project/$projectIdOrKey", null);
+
+        #var_dump($ret);
+        $json_mapper = new \JsonMapper();
+        $prj = $json_mapper->map(
+             json_decode($ret), new Project()
+        );
+
+        return $prj;
     }
 }
 

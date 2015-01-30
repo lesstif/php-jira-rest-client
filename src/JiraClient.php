@@ -2,6 +2,8 @@
 
 namespace JiraRestApi;
 
+require 'vendor/autoload.php';
+
 class HTTPException extends \Exception { }
 
 use \Monolog\Logger as Logger;
@@ -11,6 +13,9 @@ use \Monolog\Handler\StreamHandler;
  * interact jira server with REST API
  */
 class JiraClient {
+	/* @var json mapper */
+	protected $json_mapper;
+
 	/** @var HTTP response code */
 	protected $http_response;
 
@@ -55,7 +60,9 @@ class JiraClient {
 
 	public function __construct($config, $options = null)
     {
-    	var_dump($config);
+    	$json_mapper = new \JsonMapper();
+    	$json_mapper->bExceptionOnUndefinedProperty = true;
+
         $this->host = $config['host'];
         $this->username = $config['username'];
         $this->password = $config['password'];
@@ -84,7 +91,7 @@ class JiraClient {
     }
 
     public function exec($context, $post_data = null) {
-		$url = $this->host . $this->api_uri . '/' . str_replace('/', "", $context);
+		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
 
 		$this->log->addDebug("Curl $url JsonData=" . $post_data);	
 
