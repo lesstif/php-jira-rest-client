@@ -23,22 +23,27 @@ class ProjectService extends \JiraRestApi\JiraClient {
         parent::__construct($config, $opt_array);        
     }
 
+    /**
+     * get all project list
+     * 
+     * @return array of Project class
+     */
     public function getAllProjects() {
         $ret = $this->exec('/project', null);        
-
+        
         $prjs = $this->json_mapper->mapArray(
-             json_decode($ret), new ArrayObject(), '\JiraRestApi\Project\Project'
+             json_decode($ret, true), new \ArrayObject(), '\JiraRestApi\Project\Project'
         );
-
-        return $prjs;
+        
+        return $prjs;        
     }
 
     public function get($projectIdOrKey) {
     	$ret = $this->exec("/project/$projectIdOrKey", null);
 
-        #var_dump($ret);
-        $json_mapper = new \JsonMapper();
-        $prj = $json_mapper->map(
+        $this->log->addInfo("Result=" . $ret );
+
+        $prj = $this->json_mapper->map(
              json_decode($ret), new Project()
         );
 

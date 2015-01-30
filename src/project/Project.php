@@ -2,9 +2,12 @@
 
 namespace JiraRestApi\Project;
 
-require 'vendor/autoload.php';
-
 class Project {	
+	/**
+     * return only if Project query by key(not id)
+     * @var string
+     */
+	public $expand;
 
 	/**
      * Project URI
@@ -44,6 +47,24 @@ class Project {
 
      /* @var string */
      public $description;
+
+     /* Project leader info @var array */
+     public $lead;
+
+     /* @var ComponentList[\JiraRestApi\Project\Component] */
+     public $components;
+
+     /* @var IssueTypeList[\JiraRestApi\Issue\IssueType] */
+     public $issueTypes;
+
+     /* @var string */
+     public $assigneeType;
+
+     /* @var array */
+     public $versions;
+
+      /* @var array */
+     public $roles;
 }
 
 ?>

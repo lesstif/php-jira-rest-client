@@ -5,8 +5,7 @@
         <testsuite name="Jira Rest API Test Suite">
             <!--
             <directory>tests/</directory>
-            -->
-            <file>tests/CurlTest.php</file>
+            -->            
             <file>tests/ProjectTest.php</file>
         </testsuite>
     </testsuites>

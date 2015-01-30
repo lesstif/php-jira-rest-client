@@ -1,8 +1,5 @@
 <?php
 
-//require 'vendor/autoload.php';
-//require_once 'config.php';
-
 use JiraRestApi\HTTPException;
 
 class CurlTest extends PHPUnit_Framework_TestCase 
@@ -10,19 +7,21 @@ class CurlTest extends PHPUnit_Framework_TestCase
 	public function testCurlPost()
 	{
 		try {	
+			$config = getHostConfig();
 
-			$j = new \JiraRestApi\JiraClient($jira_config, $options);
+			$config['host']='http://requestb.in/vqid8qvq';
+
+			$j = new \JiraRestApi\JiraClient($config, getOptions());
 
 			$post_data = array("name" => "value");
 
 			$http_status = 0;
-			$ret = $j->exec('/abcd', json_encode($post_data), $http_status);
+			$ret = $j->exec('/', json_encode($post_data), $http_status);
 
 			var_dump($ret);
 			$this->assertTrue(TRUE);
 		} catch (HTTPException $e) {
-			var_dump($e);
-			$this->assertTrue(FALSE);
+			$this->assertTrue(FALSE, $e->getMessage());
 		}
 	}
 }

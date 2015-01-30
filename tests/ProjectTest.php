@@ -1,35 +1,43 @@
 <?php
 
-require 'vendor/autoload.php';
-require_once 'config.jira.php';
-
 use JiraRestApi\Project\ProjectService;
 
 class ProjectTest extends PHPUnit_Framework_TestCase 
 {
-    public function testProjectLists()
+    public function testGetProject()
     {
+    	//$this->markTestIncomplete();
 		try {
-			$proj = new ProjectService($jira_config, $options);
+			$proj = new ProjectService(getHostConfig(), getOptions());
 
-			//$ret = $proj->getAllProjects();
-
-			/*
-			$mapper = new JsonMapper();
-			$mapper->bExceptionOnUndefinedProperty = true;
-
-			$prjs = $mapper->mapArray(
-		   		 json_decode($ret), new ArrayObject(), '\JiraRestApi\Project\Project'
-			);
-			var_dump($prjs);
-			*/
-			$p = $proj->get('BITA');
-			var_dump($p);
-
-			//$project = $mapper->map($ret, new Project());
-			//var_dump($project);
+			$p = $proj->get('TEST');
+			
+			print_r($p->lead);
+			foreach ($p->components as $c) {
+				echo ("COM : " . $c->name . "\n");
+			}
 		} catch (HTTPException $e) {
-			var_dump($e);
+			$this->assertTrue(FALSE, $e->getMessage());
+		}
+	}
+
+	public function testGetProjectLists()
+    {
+    	$this->markTestIncomplete();
+		try {
+			$proj = new ProjectService(getHostConfig(), getOptions());
+
+			$prjs = $proj->getAllProjects();
+
+			$i = 0;
+			foreach ($prjs as $p) {
+				echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
+					$p->key, $p->id, $p->name, $p->projectCategory['name']
+					);
+					
+			}			
+		} catch (HTTPException $e) {
+			$this->assertTrue(FALSE, $e->getMessage());
 		}
 	}
 	//
