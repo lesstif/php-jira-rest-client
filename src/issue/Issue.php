@@ -18,7 +18,7 @@ class Issue {
    /* @var string */
    public $key;
 
-   /* @var \JiraRestApi\Issue\IssueField */
+   /* @var IssueField */
    public $fields;
 
 }
