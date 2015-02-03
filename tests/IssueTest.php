@@ -31,18 +31,22 @@ class IssueTest extends PHPUnit_Framework_TestCase
     	//$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
-			$issueField->project->name = "TEST";
-			$issueField->summary = "something's wrong";
-			$issueField->reporter->name = "smithers";
-			$issueField->assignee->name = "homer";
-			$issueField->priority->name = "Critical";
-			$issueField->description = "Full description for issue";
+			$issueField->setProjectName("TEST");
+			$issueField->setSummary("something's wrong");
+			//$issueField->setReporterName("smithers");
+			$issueField->setAssigneeName("lesstif");
+			$issueField->setPriorityName("Critical");
+			$issueField->setIssueType("Bug");
+			$issueField->setDescription("Full description for issue");
 
-			//$issueService = new IssueService(getHostConfig(), getOptions());
+			$issueField->addVersion(null, "1.0.1");
+			$issueField->addVersion(null, "1.0.3");
+			
+			$issueService = new IssueService(getHostConfig(), getOptions());
 
-			//$ret = $issueService->create($issueField);
+			$ret = $issueService->create($issueField);
 
-			//print_r($ret);
+			print_r($ret);
 		} catch (HTTPException $e) {
 			$this->assertTrue(FALSE, "Create Failed : " . $e->getMessage());
 		}

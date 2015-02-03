@@ -5,9 +5,58 @@ namespace JiraRestApi\Issue;
 class IssueField {
 	public function __construct() {
         $this->project = new \JiraRestApi\Project\Project();
-        $this->reporter = new \JiraRestApi\Issue\Reporter();
+     
         $this->assignee = new \JiraRestApi\Issue\Reporter();
         $this->priority = new \JiraRestApi\Issue\Priority();
+        $this->versions = array();
+
+        $this->issuetype = new \JiraRestApi\Issue\IssueType();
+    }
+
+    public function setProjectName($name) {
+    	//$this->project->name = $name;
+    	$this->project->id = '12000';
+    }
+    public function setProjectId($id) {
+    	$this->project->id = $id;
+    }
+
+    public function setIssueType($name) {
+    	$this->issuetype->name = $name;
+    }
+
+    public function setSummary($summary) {
+    	$this->summary = $summary;
+    }
+
+    public function setReporterName($name) {
+    	if (is_null($this->reporter))
+    	  $this->reporter = new \JiraRestApi\Issue\Reporter();
+    	
+    	$this->reporter->name = $name;
+    }
+
+    public function setAssigneeName($name) {
+    	$this->assignee->name = $name;
+    }
+
+    public function setPriorityName($name) {
+    	$this->priority->name = $name;
+    }
+
+    public function setDescription($description) {
+    	$this->description = $description;
+    }
+
+    public function addVersion($id, $name) {
+    	$v = new Version();
+
+    	if (isset($id))
+    		$v->id = $id;
+    	if (isset($name))
+    		$v->name = $name;
+
+    	array_push($this->versions, $v);
     }
 
 	/** @var string */
@@ -79,8 +128,8 @@ class IssueField {
 	/** @var Reporter */
 	public $assignee;
 
-	/** @var string */
-	public $versions;	
+	/* @var VersionList[\JiraRestApi\Issue\Version] */
+	public $versions;
 }
 
 ?>

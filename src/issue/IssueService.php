@@ -37,7 +37,11 @@ class IssueService extends \JiraRestApi\JiraClient {
      */
     public function create($issueField) {
         $issue = new Issue();
-        $issue->fields = $issueField;
+
+        // serilize only not null field.
+        $issue->fields = array_filter((array) $issueField, function ($val) {
+            return !is_null($val);
+        });
 
         $data = json_encode($issue);
 
@@ -48,7 +52,7 @@ class IssueService extends \JiraRestApi\JiraClient {
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
         );
-        
+
         return $issue;
     }
 }

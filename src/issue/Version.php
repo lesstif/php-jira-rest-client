@@ -2,8 +2,8 @@
 
 namespace JiraRestApi\Issue;
 
-class IssueType {    
-    /* @var string */
+class Version {	
+	/* @var string */
     public $self;
 
     /* @var string */
@@ -13,13 +13,16 @@ class IssueType {
     public $description;
 
     /* @var string */
-    public $iconUrl;
-
-    /* @var string */
-    public $name;  
+    public $name;
 
      /* @var bool */
-    public $subtask;
+    public $archived;
+
+    /* @var bool */
+    public $released;
+
+    /* @var DateTime */
+    public $releaseDate;
 }
 
 ?>

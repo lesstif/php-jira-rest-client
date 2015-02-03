@@ -23,7 +23,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
 
 	public function testGetProjectLists()
     {
-    	$this->markTestIncomplete();
+    	//$this->markTestIncomplete();
 		try {
 			$proj = new ProjectService(getHostConfig(), getOptions());
 
