@@ -2,24 +2,24 @@
 
 namespace JiraRestApi\Issue;
 
-class IssueStatus {    
-    /* @var string */
+class Reporter {	
+	/* @var string */
     public $self;
-
-    /* @var string */
-    public $description;
-
-    /* @var string */
-    public $iconUrl;
 
     /* @var string */
     public $name;
 
-     /* @var string */
-    public $id;
+    /* @var string */
+    public $emailAddress;
+
+    /* @var string */
+    public $avatarUrls;
 
      /* @var string */
-    public $statusCategory;
+    public $displayName;
+
+     /* @var string */
+    public $active;
 }
 
 ?>

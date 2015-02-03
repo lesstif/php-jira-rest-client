@@ -12,7 +12,9 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 			$issue = $issueService->get('TEST-867');
 			
-			print_r($issue->fields);
+			file_put_contents('jira-issue.json', json_encode($issue, JSON_PRETTY_PRINT));
+
+			print_r($issue->fields->assignee);
 			/*
 			foreach ($issue->components as $c) {
 				echo ("COM : " . $c->name . "\n");
@@ -29,6 +31,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 		try {
 			$issueService = new IssueService(getHostConfig(), getOptions());
 
+			$issue = new Issue();
 			$issue = $issueService->getAllProjects();
 
 			$i = 0;
