@@ -35,16 +35,21 @@ class IssueService extends \JiraRestApi\JiraClient {
      * 
      * @return created issue key
      */
-    public function create($issue) {
-        $ret = $this->exec($this->uri, null);
+    public function create($issueField) {
+        $issue = new Issue();
+        $issue->fields = $issueField;
 
-        $this->log->addInfo("Result=\n" . $ret );
+        $data = json_encode($issue);
 
-        $prj = $this->json_mapper->map(
-             json_decode($ret), new Project()
+        $this->log->addInfo("Create Issue=\n" . $data );
+
+        $ret = $this->exec($this->uri, $data, "POST");
+
+        $issue = $this->json_mapper->map(
+             json_decode($ret), new Issue()
         );
-
-        return $prj;
+        
+        return $issue;
     }
 }
 

@@ -9,7 +9,7 @@ class Issue {
      */
     public $expand;
 
-	/* @var string */
+  	/* @var string */
     public $self;
 
     /* @var string */

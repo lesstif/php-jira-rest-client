@@ -3,6 +3,13 @@
 namespace JiraRestApi\Issue;
 
 class IssueField {
+	public function __construct() {
+        $this->project = new \JiraRestApi\Project\Project();
+        $this->reporter = new \JiraRestApi\Issue\Reporter();
+        $this->assignee = new \JiraRestApi\Issue\Reporter();
+        $this->priority = new \JiraRestApi\Issue\Priority();
+    }
+
 	/** @var string */
 	public $summary;
 
@@ -18,7 +25,7 @@ class IssueField {
 	/** @var string */
 	public $timespent;
 	
-	/** @var string */
+	/** @var Reporter */
 	public $reporter;
 
 	/** @var DateTime */
@@ -30,7 +37,7 @@ class IssueField {
 	/** @var string */
 	public $description;
 
-	/** @var string */
+	/** @var Priority */
 	public $priority;
 	
 	/** @var IssueStatus */
@@ -39,7 +46,7 @@ class IssueField {
 	/** @var string */
 	public $labels;
 
-	/** @var string */
+	/** @var JiraRestApi\Project\Project */
 	public $project;
 
 	/** @var string */
@@ -47,11 +54,33 @@ class IssueField {
 	
 	/** @var string */
 	public $components;
+
+	/** @var Comments */
+	public $comment;
 	
 	/** @var string */
-	public $versions;
+	public $votes;
 
-	
+	/** @var string */
+	public $resolution;
+
+	/** @var string */
+	public $fixVersions;
+
+	/** @var Reporter */
+	public $creator;
+
+	/** @var string */
+	public $watches;
+
+	/** @var string */
+	public $worklog;
+
+	/** @var Reporter */
+	public $assignee;
+
+	/** @var string */
+	public $versions;	
 }
 
 ?>
