@@ -9,7 +9,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
     {
     	$this->markTestIncomplete();
 		try {
-			$issueService = new IssueService(getHostConfig(), getOptions());
+			$issueService = new IssueService();
 
 			$issue = $issueService->get('TEST-867');
 			
@@ -31,9 +31,8 @@ class IssueTest extends PHPUnit_Framework_TestCase
     	//$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
-			$issueField->setProjectName("TEST");
+			$issueField->setProjectId("12000");
 			$issueField->setSummary("something's wrong");
-			//$issueField->setReporterName("smithers");
 			$issueField->setAssigneeName("lesstif");
 			$issueField->setPriorityName("Critical");
 			$issueField->setIssueType("Bug");
@@ -42,10 +41,11 @@ class IssueTest extends PHPUnit_Framework_TestCase
 			$issueField->addVersion(null, "1.0.1");
 			$issueField->addVersion(null, "1.0.3");
 			
-			$issueService = new IssueService(getHostConfig(), getOptions());
+			$issueService = new IssueService();
 
 			$ret = $issueService->create($issueField);
 
+			//If success, Returns a link to the created issue.
 			print_r($ret);
 		} catch (HTTPException $e) {
 			$this->assertTrue(FALSE, "Create Failed : " . $e->getMessage());

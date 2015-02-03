@@ -8,7 +8,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
     {
     	//$this->markTestIncomplete();
 		try {
-			$proj = new ProjectService(getHostConfig(), getOptions());
+			$proj = new ProjectService();
 
 			$p = $proj->get('TEST');
 			
@@ -25,7 +25,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
     {
     	//$this->markTestIncomplete();
 		try {
-			$proj = new ProjectService(getHostConfig(), getOptions());
+			$proj = new ProjectService();
 
 			$prjs = $proj->getAllProjects();
 

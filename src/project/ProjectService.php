@@ -7,8 +7,8 @@ require 'vendor/autoload.php';
 class ProjectService extends \JiraRestApi\JiraClient {	
     private $uri = "/project";
 
- 	public function __construct($config, $opt_array = null) {
-        parent::__construct($config, $opt_array);        
+ 	public function __construct() {
+        parent::__construct(getHostConfig(), getOptions());        
     }
 
     /**

@@ -14,8 +14,7 @@ class IssueField {
     }
 
     public function setProjectName($name) {
-    	//$this->project->name = $name;
-    	$this->project->id = '12000';
+    	$this->project->name = $name;
     }
     public function setProjectId($id) {
     	$this->project->id = $id;
@@ -32,7 +31,7 @@ class IssueField {
     public function setReporterName($name) {
     	if (is_null($this->reporter))
     	  $this->reporter = new \JiraRestApi\Issue\Reporter();
-    	
+
     	$this->reporter->name = $name;
     }
 
