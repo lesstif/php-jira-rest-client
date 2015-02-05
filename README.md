@@ -46,6 +46,8 @@ function getOptions() {
 ## Get Project Info
 
 ````php
+use JiraRestApi\Project\ProjectService;
+
 try {
 	$proj = new ProjectService();
 
@@ -59,6 +61,8 @@ try {
 
 ## Get All Project list
 ````php
+use JiraRestApi\Project\ProjectService;
+
 try {
 	$proj = new ProjectService();
 
@@ -79,6 +83,7 @@ try {
 ## Get Issue Info
 
 ````php
+use JiraRestApi\Issue\IssueService;
 try {
 	$issueService = new IssueService();
 
@@ -93,17 +98,18 @@ try {
 ## Create Issue
 
 ````php
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
 try {
 	$issueField = new IssueField();
-	$issueField->setProjectId("12000");
-	$issueField->setSummary("something's wrong");
-	$issueField->setAssigneeName("lesstif");
-	$issueField->setPriorityName("Critical");
-	$issueField->setIssueType("Bug");
-	$issueField->setDescription("Full description for issue");
-
-	$issueField->addVersion(null, "1.0.1");
-	$issueField->addVersion(null, "1.0.3");
+	$issueField->setProjectId("12000")
+				->setSummary("something's wrong")
+				->setAssigneeName("lesstif")
+				->setPriorityName("Critical")
+				->setIssueType("Bug")
+				->setDescription("Full description for issue")
+				->addVersion(null, "1.0.1")
+				->addVersion(null, "1.0.3");
 	
 	$issueService = new IssueService();
 

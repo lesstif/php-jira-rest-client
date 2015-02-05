@@ -15,17 +15,21 @@ class IssueField {
 
     public function setProjectName($name) {
     	$this->project->name = $name;
+    	return $this;
     }
     public function setProjectId($id) {
     	$this->project->id = $id;
+    	return $this;
     }
 
     public function setIssueType($name) {
     	$this->issuetype->name = $name;
+    	return $this;
     }
 
     public function setSummary($summary) {
     	$this->summary = $summary;
+    	return $this;
     }
 
     public function setReporterName($name) {
@@ -33,18 +37,22 @@ class IssueField {
     	  $this->reporter = new \JiraRestApi\Issue\Reporter();
 
     	$this->reporter->name = $name;
+    	return $this;
     }
 
     public function setAssigneeName($name) {
     	$this->assignee->name = $name;
+    	return $this;
     }
 
     public function setPriorityName($name) {
     	$this->priority->name = $name;
+    	return $this;
     }
 
     public function setDescription($description) {
     	$this->description = $description;
+    	return $this;
     }
 
     public function addVersion($id, $name) {
@@ -56,6 +64,7 @@ class IssueField {
     		$v->name = $name;
 
     	array_push($this->versions, $v);
+    	return $this;
     }
 
 	/** @var string */

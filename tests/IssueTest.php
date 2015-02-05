@@ -31,15 +31,15 @@ class IssueTest extends PHPUnit_Framework_TestCase
     	//$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
-			$issueField->setProjectId("12000");
-			$issueField->setSummary("something's wrong");
-			$issueField->setAssigneeName("lesstif");
-			$issueField->setPriorityName("Critical");
-			$issueField->setIssueType("Bug");
-			$issueField->setDescription("Full description for issue");
 
-			$issueField->addVersion(null, "1.0.1");
-			$issueField->addVersion(null, "1.0.3");
+			$issueField->setProjectId("12000")
+						->setSummary("something's wrong")
+						->setAssigneeName("lesstif")
+						->setPriorityName("Critical")
+						->setIssueType("Bug")
+						->setDescription("Full description for issue")
+						->addVersion(null, "1.0.1")
+						->addVersion(null, "1.0.3");
 			
 			$issueService = new IssueService();
 
