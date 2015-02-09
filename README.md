@@ -9,35 +9,22 @@ create config.jira.php file on your project root.
 ````php
 <?php
 
-/*
- * Description get Jira Host Configuration
- * 
- * @return array 
- */
-function getHostConfig() {
-	$jira_config = array ('host' => 'https://jira.example.com',
-			'username' => 'username',
-			'password' => 'secure_passwd');
+function getConfig() {
+    return array(
+        // JIRA Host config
+        'host' => 'https://jira.example.com',
+        'username' => 'username',
+        'password' => 'password',
 
-	return $jira_config;
+        // Options
+        'CURLOPT_SSL_VERIFYHOST' => false,
+        'CURLOPT_SSL_VERIFYPEER' => false,	
+        'CURLOPT_VERBOSE' => true,
+        'LOG_FILE' => 'QQjira-rest-client.log',
+        'LOG_LEVEL' => 'DEBUG'
+    );
 }
 
-/**
- * Description get Client options
- * 
- * @return array
- */
-function getOptions() {
-	$options = array(
-		CURLOPT_SSL_VERIFYHOST => 0,
-		CURLOPT_SSL_VERIFYPEER => 0,	
-		CURLOPT_VERBOSE => false,
-		'LOG_FILE' => 'jira-rest-client.log',
-		'LOG_LEVEL' => \Monolog\Logger::INFO
-		);
-
-	return $options;
-}
 ?>
 ````
 
@@ -46,6 +33,10 @@ function getOptions() {
 ## Get Project Info
 
 ````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
 use JiraRestApi\Project\ProjectService;
 
 try {
@@ -57,10 +48,15 @@ try {
 } catch (HTTPException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
+?>
 ````
 
 ## Get All Project list
 ````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
 use JiraRestApi\Project\ProjectService;
 
 try {
@@ -78,11 +74,16 @@ try {
 } catch (HTTPException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
+?>
 ````
 
 ## Get Issue Info
 
 ````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
 use JiraRestApi\Issue\IssueService;
 try {
 	$issueService = new IssueService();
@@ -93,11 +94,17 @@ try {
 } catch (HTTPException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
+
+?>
 ````
 
 ## Create Issue
 
 ````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 try {
@@ -120,6 +127,8 @@ try {
 } catch (HTTPException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
+
+?>
 ````
 
 # License
@@ -129,4 +138,3 @@ Apache V2 License
 # JIRA Rest API Documents
 * 6.2 - https://docs.atlassian.com/jira/REST/6.2/
 * latest - https://docs.atlassian.com/jira/REST/latest/
-

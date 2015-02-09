@@ -2,13 +2,11 @@
 
 namespace JiraRestApi\Project;
 
-require 'vendor/autoload.php';
-
 class ProjectService extends \JiraRestApi\JiraClient {	
     private $uri = "/project";
 
  	public function __construct() {
-        parent::__construct(getHostConfig(), getOptions());        
+        parent::__construct(getConfig());        
     }
 
     /**

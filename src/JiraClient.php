@@ -35,18 +35,17 @@ class JiraClient {
 	/** @var Monolog instance */
 	protected $log;
 
-	private $options = array(
-		// disable SSL Certification validation
-		CURLOPT_SSL_VERIFYHOST => 0,
-		// FALSE to stop CURL from verifying the peer's certificate. 
-		CURLOPT_SSL_VERIFYPEER => 0,
+	// disable SSL Certification validation
+	protected $CURLOPT_SSL_VERIFYHOST = false;
+	// FALSE to stop CURL from verifying the peer's certificate. 
+	protected $CURLOPT_SSL_VERIFYPEER = false;
 
-		CURLOPT_VERBOSE => true,
+	// debug curl
+	protected $CURLOPT_VERBOSE = false;
 
-		'LOG_FILE' => 'jira-rest-client.log',
-		'LOG_LEVEL' => Logger::INFO,
-		);
-
+	protected $LOG_FILE = 'jira-rest-client.log';
+	protected $LOG_LEVEL = Logger::INFO;
+	
 	private function convertLogLevel($log_level) {
 		if ($log_level == 'DEBUG')
 			return Logger::DEBUG;
@@ -58,7 +57,7 @@ class JiraClient {
 			return Logger::INFO;
 	}
 
-	public function __construct($config, $options = null)
+	public function __construct($config)
     {
     	$this->json_mapper = new \JsonMapper();
     	$this->json_mapper->bExceptionOnUndefinedProperty = true;
@@ -67,25 +66,25 @@ class JiraClient {
         $this->username = $config['username'];
         $this->password = $config['password'];
 
-        if (!is_null($options)) {
-        	//http://stackoverflow.com/questions/5929642/php-array-merge-with-numerical-keys
-        	// array_merge with numeric key
-        	$this->options = $this->options + $options;
-        	//$this->options = array_merge($this->options, $options);
+        if (isset($config['CURLOPT_SSL_VERIFYHOST']))
+        	$this->CURLOPT_SSL_VERIFYHOST = $config['CURLOPT_SSL_VERIFYHOST'] === 'true'? true: false;
 
-        	if (isset($options['LOG_FILE']))
-        		$this->options['LOG_FILE'] = $options['LOG_FILE'];
-        	if (isset($options['LOG_LEVEL']))
-        		$this->options['LOG_LEVEL'] = $this->convertLogLevel($options['LOG_LEVEL']);
-        }
+        if (isset($config['CURLOPT_SSL_VERIFYPEER']))
+        	$this->CURLOPT_SSL_VERIFYPEER = $config['CURLOPT_SSL_VERIFYPEER'] === 'true'? true: false;
 
-        // create logger
-        $log_file = $options['LOG_FILE'];
-        $log_level =  $this->convertLogLevel($options['LOG_LEVEL']);
+        if (isset($config['CURLOPT_VERBOSE']))
+        	$this->CURLOPT_VERBOSE = $config['CURLOPT_VERBOSE'] === 'true'? true: false;
 
+        if (isset($config['LOG_FILE']))
+        	$this->LOG_FILE = $config['LOG_FILE'];
+
+        if (isset($config['LOG_LEVEL']))
+        	$this->LOG_LEVEL = $this->convertLogLevel($config['LOG_LEVEL']);
+
+        // create logger      
         $this->log =  new Logger('JiraClient');
-    	$this->log->pushHandler(new StreamHandler($this->options['LOG_FILE'], 
-    		$this->options['LOG_LEVEL']));
+    	$this->log->pushHandler(new StreamHandler($this->LOG_FILE, 
+    		$this->LOG_LEVEL));
 
         $this->http_response = 200;
     }
@@ -117,14 +116,14 @@ class JiraClient {
         
 		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
 
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $this->options[CURLOPT_SSL_VERIFYHOST]);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->options[CURLOPT_SSL_VERIFYPEER]);
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $this->CURLOPT_SSL_VERIFYHOST);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->CURLOPT_SSL_VERIFYPEER);
 
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, 
 			array('Accept: */*', 'Content-Type: application/json')); 
 		
-		curl_setopt($ch, CURLOPT_VERBOSE, $this->options[CURLOPT_VERBOSE]);
+		curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
 
 		$this->log->addDebug('Curl exec=' . $url);	
 		$response = curl_exec($ch);

@@ -2,13 +2,11 @@
 
 namespace JiraRestApi\Issue;
 
-require 'vendor/autoload.php';
-
 class IssueService extends \JiraRestApi\JiraClient {
     private $uri = "/issue";
 
  	public function __construct() {
-        parent::__construct(getHostConfig(), getOptions());        
+        parent::__construct(getConfig());        
     }
 
     /**
