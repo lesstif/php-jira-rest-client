@@ -32,7 +32,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 		try {
 			$issueField = new IssueField();
 
-			$issueField->setProjectId("12000")
+			$issueField->setProjectKey("TEST")
 						->setSummary("something's wrong")
 						->setAssigneeName("lesstif")
 						->setPriorityName("Critical")
@@ -47,7 +47,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 			//If success, Returns a link to the created issue.
 			print_r($ret);
-		} catch (HTTPException $e) {
+		} catch (JIRAException $e) {
 			$this->assertTrue(FALSE, "Create Failed : " . $e->getMessage());
 		}
 	}

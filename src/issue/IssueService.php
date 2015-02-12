@@ -15,7 +15,7 @@ class IssueService extends \JiraRestApi\JiraClient {
      * @return Issue class
      */
     public function get($issueIdOrKey) {
-    	$ret = $this->exec("$this->uri/$issueIdOrKey", null);
+    	$ret = $this->exec($this->uri . "/$issueIdOrKey", null);
 
         $this->log->addInfo("Result=\n" . $ret );
 
@@ -40,6 +40,7 @@ class IssueService extends \JiraRestApi\JiraClient {
         $issue->fields = array_filter((array) $issueField, function ($val) {
             return !is_null($val);
         });
+
 
         $data = json_encode($issue);
 

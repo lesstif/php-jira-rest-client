@@ -4,7 +4,7 @@ namespace JiraRestApi;
 
 require 'vendor/autoload.php';
 
-class HTTPException extends \Exception { }
+class JIRAException extends \Exception { }
 
 use \Monolog\Logger as Logger;
 use \Monolog\Handler\StreamHandler;
@@ -134,7 +134,7 @@ class JiraClient {
 			curl_close($ch);
 			// HostNotFound, No route to Host, etc Network error
 			$this->log->addError("CURL Error: = " . $body);
-			throw new HTTPException("CURL Error: = " . $body);
+			throw new JIRAException("CURL Error: = " . $body);
 		} else {
 			// if request was ok, parsing http response code.
 			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -143,9 +143,9 @@ class JiraClient {
 
 			// don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION 
 			if ($this->http_response != 200 && $this->http_response != 201) {
-				throw new HTTPException("CURL HTTP Request Failed: Status Code : "
-				 . $this->http_response . " URL:" . $url
-				 . "\nError Message : " . $response);
+				throw new JIRAException("CURL HTTP Request Failed: Status Code : "
+				 . $this->http_response . ", URL:" . $url
+				 . "\nError Message : " . $response, $this->http_response);
 			}			
 		}		
 

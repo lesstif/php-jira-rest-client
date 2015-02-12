@@ -20,7 +20,7 @@ function getConfig() {
         'CURLOPT_SSL_VERIFYHOST' => false,
         'CURLOPT_SSL_VERIFYPEER' => false,	
         'CURLOPT_VERBOSE' => true,
-        'LOG_FILE' => 'QQjira-rest-client.log',
+        'LOG_FILE' => 'jira-rest-client.log',
         'LOG_LEVEL' => 'DEBUG'
     );
 }
@@ -45,7 +45,7 @@ try {
 	$p = $proj->get('TEST');
 	
 	print_r($p);			
-} catch (HTTPException $e) {
+} catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ?>
@@ -64,14 +64,13 @@ try {
 
 	$prjs = $proj->getAllProjects();
 
-	$i = 0;
 	foreach ($prjs as $p) {
 		echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
 			$p->key, $p->id, $p->name, $p->projectCategory['name']
 			);
 			
 	}			
-} catch (HTTPException $e) {
+} catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ?>
@@ -91,7 +90,7 @@ try {
 	$issue = $issueService->get('TEST-867');
 	
 	print_r($issue->fields);	
-} catch (HTTPException $e) {
+} catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -109,7 +108,7 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 try {
 	$issueField = new IssueField();
-	$issueField->setProjectId("12000")
+	$issueField->setProjectKey("TEST")
 				->setSummary("something's wrong")
 				->setAssigneeName("lesstif")
 				->setPriorityName("Critical")
@@ -124,7 +123,7 @@ try {
 	
 	//If success, Returns a link to the created issue.
 	print_r($ret);
-} catch (HTTPException $e) {
+} catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 

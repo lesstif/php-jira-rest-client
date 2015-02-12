@@ -13,8 +13,16 @@ class IssueField {
         $this->issuetype = new \JiraRestApi\Issue\IssueType();
     }
 
-    public function setProjectName($name) {
-    	$this->project->name = $name;
+    public function getProjectKey() {
+    	return $this->project->key;
+    }
+
+    public function getProjectId() {
+    	return $this->project->id;
+    }
+
+    public function setProjectKey($key) {
+    	$this->project->key = $key;
     	return $this;
     }
     public function setProjectId($id) {
