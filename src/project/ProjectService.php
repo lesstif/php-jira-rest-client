@@ -24,8 +24,18 @@ class ProjectService extends \JiraRestApi\JiraClient {
         return $prjs;        
     }
 
+     /**
+     * get Project id By Project Key 
+     * 
+     * @param projectName Project Key(Ex: Test, MyProj)
+     * 
+     * @throws HTTPException if the project is not found, or the calling user does not have permission or view it.
+     * 
+     * @return string project id
+     * 
+     */
     public function get($projectIdOrKey) {
-    	$ret = $this->exec("$this->uri/$projectIdOrKey", null);
+    	$ret = $this->exec($this->uri . "/$projectIdOrKey", null);
 
         $this->log->addInfo("Result=" . $ret );
 
