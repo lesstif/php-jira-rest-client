@@ -155,25 +155,22 @@ class JiraClient {
 	/**
 	 * file upload
 	 * 
+	 * @param context url context
+	 * @param upload_file upload file.
+	 * 
+	 * @todo multiple file upload suppport.
+	 * 
 	 */
-	public function upload($context, $file_list) {
+	public function upload($context, $upload_file) {
 		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
 
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_URL, $url);		
+		curl_setopt($ch, CURLOPT_URL, $url);				
 
-		$attachments = array();
-
-		$i = 0;
-        foreach ($file_list as $f) {        	
-            $attachments[$i] = array(
-                    'file' => '@' . realpath($f)
-          		);
-        }
-
-        var_dump($attachments);
-        flush();
+        $attachments = array(
+        	'file' => '@' . realpath($upload_file)
+        	);
 
         // send file
 		curl_setopt($ch, CURLOPT_POST, true);

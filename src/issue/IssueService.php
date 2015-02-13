@@ -59,15 +59,15 @@ class IssueService extends \JiraRestApi\JiraClient {
      * Add one or more file to an issue
      * 
      * @param issueIdOrKey Issue id or key
-     * @param fileList attachment file array
+     * @param filePath attachment file.
      * 
      * @return
      */
-    public function addAttachments($issueIdOrKey, $fileList) {
+    public function addAttachments($issueIdOrKey, $filePath) {
        
         $this->log->addInfo("addAttachments=\n");
 
-        $ret = $this->upload($this->uri . "/$issueIdOrKey/attachments", $fileList);
+        $ret = $this->upload($this->uri . "/$issueIdOrKey/attachments", $filePath);
 
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
