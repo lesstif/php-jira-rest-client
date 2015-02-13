@@ -146,6 +146,9 @@ class IssueField {
 
 	/* @var VersionList[\JiraRestApi\Issue\Version] */
 	public $versions;
+
+	/** @var AttachmentList[\JiraRestApi\Issue\Attachment] */
+	public $attachments;	
 }
 
 ?>

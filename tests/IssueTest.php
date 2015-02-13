@@ -28,7 +28,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 	public function testCreateIssue()
     {
-    	//$this->markTestIncomplete();
+    	$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
 
@@ -39,7 +39,10 @@ class IssueTest extends PHPUnit_Framework_TestCase
 						->setIssueType("Bug")
 						->setDescription("Full description for issue")
 						->addVersion(null, "1.0.1")
-						->addVersion(null, "1.0.3");
+						->addVersion(null, "1.0.3")
+						->addAttachment('screen_capture.png')
+						->addAttachment('bug-description.pdf')
+						;
 			
 			$issueService = new IssueService();
 
@@ -52,6 +55,21 @@ class IssueTest extends PHPUnit_Framework_TestCase
 		}
 	}
 	//
+
+	public function testAddAttachment()
+    {
+    	$this->markTestIncomplete();
+		try {
+			
+			$issueService = new IssueService();
+
+			$ret = $issueService->addAttachments("TEST-879", 'screen_capture.png');
+
+			print_r($ret);
+		} catch (JIRAException $e) {
+			$this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
+		}
+	}
 }
 
 ?>
