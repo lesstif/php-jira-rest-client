@@ -67,13 +67,13 @@ class JiraClient {
         $this->password = $config['password'];
 
         if (isset($config['CURLOPT_SSL_VERIFYHOST']))
-        	$this->CURLOPT_SSL_VERIFYHOST = $config['CURLOPT_SSL_VERIFYHOST'] === 'true'? true: false;
+        	$this->CURLOPT_SSL_VERIFYHOST = $config['CURLOPT_SSL_VERIFYHOST'] === true ? true: false;
 
         if (isset($config['CURLOPT_SSL_VERIFYPEER']))
-        	$this->CURLOPT_SSL_VERIFYPEER = $config['CURLOPT_SSL_VERIFYPEER'] === 'true'? true: false;
+        	$this->CURLOPT_SSL_VERIFYPEER = $config['CURLOPT_SSL_VERIFYPEER'] === true ? true: false;
 
         if (isset($config['CURLOPT_VERBOSE']))
-        	$this->CURLOPT_VERBOSE = $config['CURLOPT_VERBOSE'] === 'true'? true: false;
+        	$this->CURLOPT_VERBOSE = $config['CURLOPT_VERBOSE'] === true ? true: false;
 
         if (isset($config['LOG_FILE']))
         	$this->LOG_FILE = $config['LOG_FILE'];
@@ -152,6 +152,74 @@ class JiraClient {
 		return $response;
 	}
 
+	/**
+	 * file upload
+	 * 
+	 */
+	public function upload($context, $file_list) {
+		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
+
+		$ch=curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_URL, $url);		
+
+		$attachments = array();
+
+		$i = 0;
+        foreach ($file_list as $f) {        	
+            $attachments[$i] = array(
+                    'file' => '@' . realpath($f)
+          		);
+        }
+
+        var_dump($attachments);
+        flush();
+
+        // send file
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $attachments);
+        
+		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
+
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $this->CURLOPT_SSL_VERIFYHOST);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->CURLOPT_SSL_VERIFYPEER);
+
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, 
+			array(
+				'Accept: */*', 
+				'Content-Type: multipart/form-data',
+				'X-Atlassian-Token: nocheck'
+				)); 
+		
+		curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
+
+		$this->log->addDebug('Curl exec=' . $url);	
+		$response = curl_exec($ch);
+
+		// if request failed.
+		if (!$response) {		
+			$body = curl_error($ch);
+			curl_close($ch);
+			// HostNotFound, No route to Host, etc Network error
+			$this->log->addError("CURL Error: = " . $body);
+			throw new JIRAException("CURL Error: = " . $body);
+		} else {
+			// if request was ok, parsing http response code.
+			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+			curl_close($ch);
+
+			// don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION 
+			if ($this->http_response != 200 && $this->http_response != 201) {
+				throw new JIRAException("CURL HTTP Request Failed: Status Code : "
+				 . $this->http_response . ", URL:" . $url
+				 . "\nError Message : " . $response, $this->http_response);
+			}			
+		}		
+
+		return $response;
+	}
 }
 
 
