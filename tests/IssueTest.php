@@ -58,7 +58,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 	public function testAddAttachment()
     {
-    	$this->markTestIncomplete();
+    	//$this->markTestIncomplete();
 		try {
 			
 			$issueService = new IssueService();

@@ -168,13 +168,16 @@ class JiraClient {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_URL, $url);				
 
+		/*
         $attachments = array(
         	'file' => '@' . realpath($upload_file)
         	);
+		*/
+		$attachments = new \CURLFile(realpath($upload_file));
 
         // send file
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $attachments);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => $attachments));
         
 		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
 

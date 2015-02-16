@@ -130,6 +130,28 @@ try {
 ?>
 ````
 
+## Add Attachment
+
+````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+try {
+    $issueService = new IssueService();
+
+    $ret = $issueService->addAttachments("TEST-879", 'screen_capture.png');
+
+    print_r($ret);
+} catch (JIRAException $e) {
+    $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
+}
+
+?>
+````
+
 # License
 
 Apache V2 License

@@ -69,8 +69,8 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         $ret = $this->upload($this->uri . "/$issueIdOrKey/attachments", $filePath);
 
-        $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+        $issue = $this->json_mapper->mapArray(
+           json_decode($ret), new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
         );
 
         return $issue;
