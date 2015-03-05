@@ -2,6 +2,7 @@
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\Issue\Comment;
 
 class IssueTest extends PHPUnit_Framework_TestCase 
 {
@@ -79,14 +80,12 @@ class IssueTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * depends testAddAttachment
+     * @depends testAddAttachment
      * 
      */
-	public function testUpdateIssue()
+	public function testUpdateIssue($issueKey)
     {
-    	$issueKey = "TEST-920";
-
-    	//$this->markTestIncomplete();
+    	$this->markTestIncomplete();
 		try {			
 			$issueField = new IssueField(true);
 
@@ -103,11 +102,42 @@ class IssueTest extends PHPUnit_Framework_TestCase
 			$issueService = new IssueService();
 
 			$issueService->update($issueKey, $issueField);
+
+			return $issueKey;
 		} catch (JIRAException $e) {
 			$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 		}
 	}
 
+	/**
+     * Depends testUpdateIssue
+     * 
+     */
+	public function testAddcommnet()
+    {
+    	$issueKey = "TEST-924";
+    	//$this->markTestIncomplete();
+		try {			
+			$comment = new Comment();
+
+			$body = <<<COMMENT
+Adds a new comment to an issue.
+* Bullet 1
+* Bullet 2
+** sub Bullet 1
+** sub Bullet 2
+COMMENT;
+			$comment->setBody($body)
+				->setVisibility('role', 'Users');
+			;
+
+			$issueService = new IssueService();
+			$ret = $issueService->addComment($issueKey, $comment);
+			print_r($ret);
+		} catch (JIRAException $e) {
+			$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+		}
+	}
 }
 
 ?>
