@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
-class Comment {
+class Comment implements \JsonSerializable {
 	/* @var string */
 	public $self;
 
@@ -23,9 +23,14 @@ class Comment {
 
 	/* @var DateTime */
 	public $updated;
+
+	public function jsonSerialize()
+   {
+      return array_filter(get_object_vars($this));
+   }
 }
 
-class Comments {	
+class Comments implements \JsonSerializable {	
 	/* @var int */
     public $startAt;
 
@@ -37,6 +42,11 @@ class Comments {
 
     /* @var CommentList[\JiraRestApi\Issue\Comment] */
     public $comments;
+
+   public function jsonSerialize()
+   {
+      return array_filter(get_object_vars($this));
+   }
 }
 
 ?>

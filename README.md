@@ -114,8 +114,8 @@ try {
 				->setPriorityName("Critical")
 				->setIssueType("Bug")
 				->setDescription("Full description for issue")
-				->addVersion(null, "1.0.1")
-				->addVersion(null, "1.0.3");
+				->addVersion("1.0.1")
+				->addVersion("1.0.3");
 	
 	$issueService = new IssueService();
 
@@ -147,6 +147,44 @@ try {
     print_r($ret);
 } catch (JIRAException $e) {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
+}
+
+?>
+````
+
+## Update issue
+
+````php
+<?php
+require 'vendor/autoload.php';
+require_once 'config.jira.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+
+$issueKey = "TEST-920";
+
+//$this->markTestIncomplete();
+try {			
+	$issueField = new IssueField(true);
+
+	$issueField->setAssigneeName("admin")
+				->setPriorityName("Blocker")
+				->setIssueType("Task")
+				->addLabel("test-label-first")
+				->addLabel("test-label-second")
+				->addVersion("1.0.1")
+				->addVersion("1.0.2")
+				->setDescription("This is a shorthand for a set operation on the summary field")
+				;
+
+	$issueService = new IssueService();
+
+	$ret = $issueService->update($issueKey, $issueField);
+
+
+} catch (JIRAException $e) {
+	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 
 ?>

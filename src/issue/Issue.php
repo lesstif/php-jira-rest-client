@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
-class Issue {	
+class Issue implements \JsonSerializable{	
     /**
      * return only if Project query by key(not id)
      * @var string
@@ -21,6 +21,10 @@ class Issue {
    /* @var IssueField */
    public $fields;
 
+   public function jsonSerialize()
+   {
+      return array_filter(get_object_vars($this));      
+   }
 }
 
 ?>
