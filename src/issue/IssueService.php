@@ -37,10 +37,7 @@ class IssueService extends \JiraRestApi\JiraClient {
         $issue = new Issue();
 
         // serilize only not null field.
-        $issue->fields = array_filter((array) $issueField, function ($val) {
-            return !is_null($val);
-        });
-
+        $issue->fields = $this->filterNullVariable($issueField);
 
         $data = json_encode($issue);
 
@@ -79,26 +76,22 @@ class IssueService extends \JiraRestApi\JiraClient {
     /**
      * update issue
      * 
-     * @param   $issueKey Issue Key
+     * @param   $issueIdOrKey Issue Key
      * @param   $issueField object of Issue class
      * 
      * @return created issue key
      */
-    public function update($issueKey, $issueField) {
+    public function update($issueIdOrKey, $issueField) {
         $issue = new Issue();
 
-        $issue->key = $issueKey;
-
         // serilize only not null field.
-        $issue->fields = array_filter((array) $issueField, function ($val) {
-            return !is_null($val);
-        });
+        $issue->fields = $this->filterNullVariable($issueField);
 
         $data = json_encode($issue);
 
         $this->log->addInfo("Update Issue=\n" . $data );
 
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/attachments", $data, "PUT");
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, "PUT");
 
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()

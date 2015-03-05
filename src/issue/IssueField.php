@@ -75,6 +75,23 @@ class IssueField {
     	return $this;
     }
 
+    public function addComment($comment) {
+    	if (is_null($this->comments))
+    	  $this->comments = new \JiraRestApi\Issue\Comments();
+
+    	array_push($this->versions, $v);
+    	return $this;
+    }
+
+    //@TODO
+    public function addLabel($label) {
+    	if (is_null($this->labels))
+    	  $this->labels = array();
+
+    	array_push($this->labels, $label);
+    	return $this;
+    }
+
 	/** @var string */
 	public $summary;
 
@@ -121,7 +138,7 @@ class IssueField {
 	public $components;
 
 	/** @var Comments */
-	public $comment;
+	public $comments;
 	
 	/** @var string */
 	public $votes;

@@ -57,6 +57,13 @@ class JiraClient {
 			return Logger::INFO;
 	}
 
+	// serilize only not null field.
+	protected function filterNullVariable ($arr) {		 
+        return array_filter((array) $arr, function ($val) {
+        	return (!is_null($val) && !empty($val) );
+        });
+	}
+
 	public function __construct($config)
     {
     	$this->json_mapper = new \JsonMapper();
