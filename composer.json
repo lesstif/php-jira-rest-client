@@ -4,6 +4,7 @@
      "type": "library",
     "keywords": ["jira", "jira-php", "jira-rest"],
     "require": {
+        "php": ">=5.3",
         "netresearch/jsonmapper": "0.4.*",
         "monolog/monolog": "~1.12"
     },

@@ -28,7 +28,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 	public function testCreateIssue()
     {
-    	$this->markTestIncomplete();
+    	//$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
 
@@ -40,8 +40,6 @@ class IssueTest extends PHPUnit_Framework_TestCase
 						->setDescription("Full description for issue")
 						->addVersion(null, "1.0.1")
 						->addVersion(null, "1.0.3")
-						->addAttachment('screen_capture.png')
-						->addAttachment('bug-description.pdf')
 						;
 			
 			$issueService = new IssueService();
@@ -50,20 +48,49 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 			//If success, Returns a link to the created issue.
 			print_r($ret);
+
+			$issueKey = $ret->{'key'};
+			return $issueKey;
 		} catch (JIRAException $e) {
 			$this->assertTrue(FALSE, "Create Failed : " . $e->getMessage());
 		}
 	}
 	//
 
-	public function testAddAttachment()
+	/**
+     * @depends testCreateIssue
+     * 
+     */
+	public function testAddAttachment($issueKey)
     {
     	//$this->markTestIncomplete();
 		try {
 			
 			$issueService = new IssueService();
 
-			$ret = $issueService->addAttachments("TEST-879", 'screen_capture.png');
+			$ret = $issueService->addAttachments($issueKey, './src/../screen_capture.png');
+
+			print_r($ret);
+
+			return $issueKey;
+		} catch (JIRAException $e) {
+			$this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
+		}
+	}
+
+	/**
+     * @depends testAddAttachment
+     * 
+     */
+	public function testUpdateIssue($issueKey)
+    {
+    	//$this->markTestIncomplete();
+		try {			
+			$issueField = new IssueField();
+
+			$issueService = new IssueService();
+
+			$ret = $issueService->update($issueKey, 'screen_capture.png');
 
 			print_r($ret);
 		} catch (JIRAException $e) {

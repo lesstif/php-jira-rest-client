@@ -102,11 +102,11 @@ class JiraClient {
 		if (!is_null($post_data)) {
 			// PUT REQUEST
 			if (!is_null($custom_request) && $custom_request == "PUT") {
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 			}
 			if (!is_null($custom_request) && $custom_request == "DELETE") {
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 			}
 			else {
 				curl_setopt($ch, CURLOPT_POST, true);
@@ -173,11 +173,13 @@ class JiraClient {
         	'file' => '@' . realpath($upload_file)
         	);
 		*/
-		$attachments = new \CURLFile(realpath($upload_file));
+		$attachments = realpath($upload_file);
+		$filename = basename($upload_file);
 
         // send file
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => $attachments));
+		curl_setopt($ch, CURLOPT_POSTFIELDS,
+			array('file' => '@' . $attachments . ';filename=' . $filename));
         
 		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
 

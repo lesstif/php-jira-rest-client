@@ -75,6 +75,37 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         return $issue;
     }
+
+    /**
+     * update issue
+     * 
+     * @param   $issueKey Issue Key
+     * @param   $issueField object of Issue class
+     * 
+     * @return created issue key
+     */
+    public function update($issueKey, $issueField) {
+        $issue = new Issue();
+
+        $issue->key = $issueKey;
+
+        // serilize only not null field.
+        $issue->fields = array_filter((array) $issueField, function ($val) {
+            return !is_null($val);
+        });
+
+        $data = json_encode($issue);
+
+        $this->log->addInfo("Update Issue=\n" . $data );
+
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/attachments", $data, "PUT");
+
+        $issue = $this->json_mapper->map(
+             json_decode($ret), new Issue()
+        );
+
+        return $issue;
+    }
 }
 
 ?>
