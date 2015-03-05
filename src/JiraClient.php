@@ -58,10 +58,21 @@ class JiraClient {
 	}
 
 	// serilize only not null field.
-	protected function filterNullVariable ($arr) {		 
-        return array_filter((array) $arr, function ($val) {
-        	return (!is_null($val) && !empty($val) );
-        });
+	protected function filterNullVariable($haystack)
+	{
+	    foreach ($haystack as $key => $value) {
+	        if (is_array($value) ) {
+	            $haystack[$key] = $this->filterNullVariable($haystack[$key]);
+	        } else if (is_object($value)) {
+	        	$haystack[$key] = $this->filterNullVariable(get_class_vars(get_class($value)));
+	        }
+
+	        if (is_null($haystack[$key]) || empty($haystack[$key])) {
+	            unset($haystack[$key]);
+	        }
+	    }
+
+	    return $haystack;
 	}
 
 	public function __construct($config)
@@ -137,8 +148,15 @@ class JiraClient {
 
 		// if request failed.
 		if (!$response) {		
+			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$body = curl_error($ch);
 			curl_close($ch);
+
+			//The server successfully processed the request, but is not returning any content. 
+			if ($this->http_response == 204){
+				return "";
+			}
+			
 			// HostNotFound, No route to Host, etc Network error
 			$this->log->addError("CURL Error: = " . $body);
 			throw new JIRAException("CURL Error: = " . $body);
@@ -207,9 +225,16 @@ class JiraClient {
 		$response = curl_exec($ch);
 
 		// if request failed.
-		if (!$response) {		
+		if (!$response) {
+			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$body = curl_error($ch);
 			curl_close($ch);
+
+			//The server successfully processed the request, but is not returning any content. 
+			if ($this->http_response == 204){
+				return "";
+			}
+			
 			// HostNotFound, No route to Host, etc Network error
 			$this->log->addError("CURL Error: = " . $body);
 			throw new JIRAException("CURL Error: = " . $body);

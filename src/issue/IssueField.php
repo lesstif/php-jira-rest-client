@@ -2,15 +2,22 @@
 
 namespace JiraRestApi\Issue;
 
-class IssueField {
-	public function __construct() {
-        $this->project = new \JiraRestApi\Project\Project();
-     
-        $this->assignee = new \JiraRestApi\Issue\Reporter();
-        $this->priority = new \JiraRestApi\Issue\Priority();
-        $this->versions = array();
+class IssueField implements \JsonSerializable {
+	public function __construct($updateIssue = false) {
+		if ($updateIssue != true) {
+	        $this->project = new \JiraRestApi\Project\Project();
+	     
+	        $this->assignee = new \JiraRestApi\Issue\Reporter();
+	        $this->priority = new \JiraRestApi\Issue\Priority();
+	        $this->versions = array();
 
-        $this->issuetype = new \JiraRestApi\Issue\IssueType();
+	        $this->issuetype = new \JiraRestApi\Issue\IssueType();	     
+	    }
+    }
+
+    public function jsonSerialize()
+    {
+        return array_filter(get_object_vars($this));
     }
 
     public function getProjectKey() {
@@ -31,6 +38,9 @@ class IssueField {
     }
 
     public function setIssueType($name) {
+    	if (is_null($this->issuetype))
+    		$this->issuetype = new \JiraRestApi\Issue\IssueType();
+
     	$this->issuetype->name = $name;
     	return $this;
     }
@@ -49,11 +59,17 @@ class IssueField {
     }
 
     public function setAssigneeName($name) {
+    	if (is_null($this->assignee))
+    		$this->assignee = new \JiraRestApi\Issue\Reporter();
+
     	$this->assignee->name = $name;
     	return $this;
     }
 
     public function setPriorityName($name) {
+    	if (is_null($this->priority))
+    		$this->priority = new \JiraRestApi\Issue\Priority();
+
     	$this->priority->name = $name;
     	return $this;
     }
@@ -63,14 +79,12 @@ class IssueField {
     	return $this;
     }
 
-    public function addVersion($id, $name) {
+    public function addVersion($name) {
+    	if (is_null($this->versions))
+    		$this->versions = array();
+    	
     	$v = new Version();
-
-    	if (isset($id))
-    		$v->id = $id;
-    	if (isset($name))
-    		$v->name = $name;
-
+    	$v->name = $name;
     	array_push($this->versions, $v);
     	return $this;
     }
@@ -83,7 +97,6 @@ class IssueField {
     	return $this;
     }
 
-    //@TODO
     public function addLabel($label) {
     	if (is_null($this->labels))
     	  $this->labels = array();
@@ -96,7 +109,7 @@ class IssueField {
 	public $summary;
 
 	/** @var string */
-	public $progress;
+	//public $progress;
 
 	/** @var string */
 	public $timetracking;

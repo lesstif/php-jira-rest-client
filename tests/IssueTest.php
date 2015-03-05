@@ -28,7 +28,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 	public function testCreateIssue()
     {
-    	//$this->markTestIncomplete();
+    	$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
 
@@ -38,8 +38,8 @@ class IssueTest extends PHPUnit_Framework_TestCase
 						->setPriorityName("Critical")
 						->setIssueType("Bug")
 						->setDescription("Full description for issue")
-						->addVersion(null, "1.0.1")
-						->addVersion(null, "1.0.3")
+						->addVersion("1.0.1")
+						->addVersion("1.0.3")
 						;
 			
 			$issueService = new IssueService();
@@ -63,12 +63,12 @@ class IssueTest extends PHPUnit_Framework_TestCase
      */
 	public function testAddAttachment($issueKey)
     {
-    	//$this->markTestIncomplete();
+    	$this->markTestIncomplete();
 		try {
 			
 			$issueService = new IssueService();
 
-			$ret = $issueService->addAttachments($issueKey, './src/../screen_capture.png');
+			$ret = $issueService->addAttachments($issueKey, 'screen_capture.png');
 
 			print_r($ret);
 
@@ -79,24 +79,35 @@ class IssueTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @depends testAddAttachment
+     * depends testAddAttachment
      * 
      */
-	public function testUpdateIssue($issueKey)
+	public function testUpdateIssue()
     {
+    	$issueKey = "TEST-920";
+
     	//$this->markTestIncomplete();
 		try {			
-			$issueField = new IssueField();
+			$issueField = new IssueField(true);
+
+			$issueField->setAssigneeName("admin")
+						->setPriorityName("Major")
+						->setIssueType("Task")
+						->addLabel("test-label-first")
+						->addLabel("test-label-second")
+						->addVersion("1.0.1")
+						->addVersion("1.0.2")
+						->setDescription("This is a shorthand for a set operation on the summary field")
+						;
 
 			$issueService = new IssueService();
 
-			$ret = $issueService->update($issueKey, 'screen_capture.png');
-
-			print_r($ret);
+			$issueService->update($issueKey, $issueField);
 		} catch (JIRAException $e) {
-			$this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
+			$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 		}
 	}
+
 }
 
 ?>

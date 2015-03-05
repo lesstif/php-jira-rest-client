@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
-class Attachment {	
+class Attachment implements \JsonSerializable{	
   	/* @var string */
     public $self;
 
@@ -29,6 +29,11 @@ class Attachment {
 
     /* @var string */
    public $thumbnail;
+   
+   public function jsonSerialize()
+   {
+      return array_filter(get_object_vars($this));
+   }
 }
 
 ?>

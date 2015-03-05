@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
-class IssueType {    
+class IssueType implements \JsonSerializable{    
     /* @var string */
     public $self;
 
@@ -20,6 +20,11 @@ class IssueType {
 
      /* @var bool */
     public $subtask;
+
+   public function jsonSerialize()
+   {
+      return array_filter(get_object_vars($this));
+   }
 }
 
 ?>
