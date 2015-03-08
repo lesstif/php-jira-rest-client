@@ -17,7 +17,6 @@ create config.jira.json file on your project root.
     "LOG_FILE": "jira-rest-client.log",
     "LOG_LEVEL": "DEBUG"
 }
-?>
 ````
 
 # Usage
