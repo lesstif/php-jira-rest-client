@@ -28,7 +28,6 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
 	public function testCreateIssue()
     {
-    	$this->markTestIncomplete();
 		try {
 			$issueField = new IssueField();
 
@@ -62,8 +61,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
      * 
      */
 	public function testAddAttachment($issueKey)
-    {
-    	$this->markTestIncomplete();
+    {    
 		try {
 			
 			$issueService = new IssueService();
@@ -79,13 +77,11 @@ class IssueTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * depends testAddAttachment
+     * @depends testAddAttachment
      * 
      */
-	public function testUpdateIssue()
+	public function testUpdateIssue($issueKey)
     {
-    	$issueKey = "TEST-920";
-
     	//$this->markTestIncomplete();
 		try {			
 			$issueField = new IssueField(true);

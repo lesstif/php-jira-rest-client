@@ -3,11 +3,7 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="Jira Rest API Test Suite">
-            <!--
             <directory>tests/</directory>
-            -->            
-            <file>tests/ProjectTest.php</file>
-            <file>tests/IssueTest.php</file>
         </testsuite>
     </testsuites>
 

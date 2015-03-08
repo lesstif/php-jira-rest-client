@@ -1,0 +1,10 @@
+{
+    "host": "https://jira.example.com",
+    "username": "username",
+    "password": "password",
+    "CURLOPT_SSL_VERIFYHOST": false,
+    "CURLOPT_SSL_VERIFYPEER": false,
+    "CURLOPT_VERBOSE": false,
+    "LOG_FILE": "jira-rest-client.log",
+    "LOG_LEVEL": "DEBUG"
+}

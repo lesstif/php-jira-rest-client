@@ -9,6 +9,8 @@ class JIRAException extends \Exception { }
 use \Monolog\Logger as Logger;
 use \Monolog\Handler\StreamHandler;
 
+use \Noodlehaus\Config as Config;
+
 /**
  * interact jira server with REST API
  */
@@ -43,8 +45,8 @@ class JiraClient {
 	// debug curl
 	protected $CURLOPT_VERBOSE = false;
 
-	protected $LOG_FILE = 'jira-rest-client.log';
-	protected $LOG_LEVEL = Logger::INFO;
+	protected $LOG_FILE;
+	protected $LOG_LEVEL;
 	
 	private function convertLogLevel($log_level) {
 		if ($log_level == 'DEBUG')
@@ -75,8 +77,10 @@ class JiraClient {
 	    return $haystack;
 	}
 
-	public function __construct($config)
-    {
+	public function __construct()
+    {	
+    	$config = Config::load('config.jira.json');
+
     	$this->json_mapper = new \JsonMapper();
     	$this->json_mapper->bExceptionOnUndefinedProperty = true;
 
@@ -84,20 +88,13 @@ class JiraClient {
         $this->username = $config['username'];
         $this->password = $config['password'];
 
-        if (isset($config['CURLOPT_SSL_VERIFYHOST']))
-        	$this->CURLOPT_SSL_VERIFYHOST = $config['CURLOPT_SSL_VERIFYHOST'] === true ? true: false;
+        $this->CURLOPT_SSL_VERIFYHOST = $config->get('CURLOPT_SSL_VERIFYHOST', false);
 
-        if (isset($config['CURLOPT_SSL_VERIFYPEER']))
-        	$this->CURLOPT_SSL_VERIFYPEER = $config['CURLOPT_SSL_VERIFYPEER'] === true ? true: false;
+       	$this->CURLOPT_SSL_VERIFYPEER = $config->get('CURLOPT_SSL_VERIFYPEER', false);
+       	$this->CURLOPT_VERBOSE = $config->get('CURLOPT_VERBOSE', false);
 
-        if (isset($config['CURLOPT_VERBOSE']))
-        	$this->CURLOPT_VERBOSE = $config['CURLOPT_VERBOSE'] === true ? true: false;
-
-        if (isset($config['LOG_FILE']))
-        	$this->LOG_FILE = $config['LOG_FILE'];
-
-        if (isset($config['LOG_LEVEL']))
-        	$this->LOG_LEVEL = $this->convertLogLevel($config['LOG_LEVEL']);
+        $this->LOG_FILE = $config->get('LOG_FILE', 'jira-rest-client.log');
+       	$this->LOG_LEVEL = $this->convertLogLevel($config->get('LOG_LEVEL', Logger::INFO));
 
         // create logger      
         $this->log =  new Logger('JiraClient');
@@ -193,11 +190,11 @@ class JiraClient {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_URL, $url);				
 
-		/*
-        $attachments = array(
-        	'file' => '@' . realpath($upload_file)
-        	);
+		/* CURLFile support PHP 5.5 
+		$cf = new \CURLFile(realpath($upload_file), 'image/png', $upload_file);		
+		$this->log->addDebug('CURLFile=' . var_export($cf, true));	
 		*/
+		
 		$attachments = realpath($upload_file);
 		$filename = basename($upload_file);
 

@@ -5,26 +5,18 @@
 composer require lesstif/php-jira-rest-client dev-master
 ```
 
-create config.jira.php file on your project root.
-````php
-<?php
-
-function getConfig() {
-    return array(
-        // JIRA Host config
-        'host' => 'https://jira.example.com',
-        'username' => 'username',
-        'password' => 'password',
-
-        // Options
-        'CURLOPT_SSL_VERIFYHOST' => false,
-        'CURLOPT_SSL_VERIFYPEER' => false,	
-        'CURLOPT_VERBOSE' => true,
-        'LOG_FILE' => 'jira-rest-client.log',
-        'LOG_LEVEL' => 'DEBUG'
-    );
+create config.jira.json file on your project root.
+````json
+{
+    "host": "https://jira.example.com",
+    "username": "username",
+    "password": "password",
+    "CURLOPT_SSL_VERIFYHOST": false,
+    "CURLOPT_SSL_VERIFYPEER": false,
+    "CURLOPT_VERBOSE": false,
+    "LOG_FILE": "jira-rest-client.log",
+    "LOG_LEVEL": "DEBUG"
 }
-
 ?>
 ````
 
@@ -35,7 +27,6 @@ function getConfig() {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Project\ProjectService;
 
@@ -55,7 +46,6 @@ try {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Project\ProjectService;
 
@@ -81,7 +71,6 @@ try {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Issue\IssueService;
 try {
@@ -102,7 +91,6 @@ try {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
@@ -135,7 +123,6 @@ try {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
@@ -157,7 +144,6 @@ try {
 ````php
 <?php
 require 'vendor/autoload.php';
-require_once 'config.jira.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
