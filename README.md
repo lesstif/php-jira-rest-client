@@ -23,13 +23,13 @@ create config.jira.json file on your project root.
 
 ## Table of Contents
 - [Get Project Info](#get-project-info)
-- [Get All Project list](#Get-All-Project-list)
-- [Get Issue Info](#Get-Issue-Info)
-- [Create Issue](#Create-Issue)
-- [Add Attachment](#Add-Attachment)
-- [Update issue](#Update-issue)
-- [Add comment](#Add-comment)
-- [Perform a transition on an issue](#Perform a transition on an issue)
+- [Get All Project list](#get-all-project-list)
+- [Get Issue Info](#get-issue-info)
+- [Create Issue](#create-issue)
+- [Add Attachment](#add-attachment)
+- [Update issue](#update-issue)
+- [Add comment](#add-comment)
+- [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 
 ## Get Project Info
 
