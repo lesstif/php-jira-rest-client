@@ -22,7 +22,7 @@ create config.jira.json file on your project root.
 # Usage
 
 ## Table of Contents
-- [Get Project Info](#Get-Project-Info)
+- [Get Project Info](#get-project-info)
 - [Get All Project list](#Get-All-Project-list)
 - [Get Issue Info](#Get-Issue-Info)
 - [Create Issue](#Create-Issue)
