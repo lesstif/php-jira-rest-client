@@ -114,8 +114,9 @@ class IssueService extends \JiraRestApi\JiraClient {
         
         $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
 
-        $comment = $this->json_mapper->mapArray(
-           json_decode($ret), new \ArrayObject(), '\JiraRestApi\Issue\Comment'
+        $this->log->addDebug("add comment result=" . var_export($ret, true));
+        $comment = $this->json_mapper->map(
+           json_decode($ret), new Comment()
         );
 
         return $comment;
