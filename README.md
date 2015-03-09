@@ -159,7 +159,6 @@ use JiraRestApi\Issue\IssueField;
 
 $issueKey = "TEST-920";
 
-//$this->markTestIncomplete();
 try {			
 	$issueField = new IssueField(true);
 
