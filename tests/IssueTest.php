@@ -3,6 +3,7 @@
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Comment;
+use JiraRestApi\Issue\Transition;
 
 class IssueTest extends PHPUnit_Framework_TestCase 
 {
@@ -111,7 +112,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
      * @depends testUpdateIssue
      * 
      */
-	public function testAddcommnet($issueKey)
+	public function testAddcomment($issueKey)
     {
     	//$this->markTestIncomplete();
 		try {			
@@ -138,6 +139,26 @@ COMMENT;
 		}
 	}
 
+	/**
+     * @depends testAddcomment
+     * 
+     */
+	public function testTransition($issueKey)
+    {
+		try {			
+			$transition = new Transition();
+			$transition->setTransitionName('Resolved');
+			$transition->setCommentBody('Issue close by REST API.');
+
+			$issueService = new IssueService();
+			$ret = $issueService->transition($issueKey, $transition);
+
+			return $issueKey;
+		} catch (JIRAException $e) {
+			$this->assertTrue(FALSE, "testTransition Failed : " . $e->getMessage());
+		}	
+	}
+	//
 }
 
 ?>

@@ -121,6 +121,73 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         return $comment;
     }
+
+    /**
+     * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
+     * 
+     * @param issueIdOrKey Issue id or key
+     * 
+     * @return array of Transition class
+     */
+    public function getTransition($issueIdOrKey) {
+       
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions");
+
+        $this->log->addDebug("getTransitions result=" . var_export($ret, true));
+
+        $data = json_encode(json_decode($ret)->transitions);
+
+        $transitions = $this->json_mapper->mapArray(
+           json_decode($data), new \ArrayObject(), '\JiraRestApi\Issue\Transition'
+        );
+
+        return $transitions;
+    }
+
+    /**
+     * find transition id by transition's to field name(aka 'Resolved')
+     * 
+     */ 
+    public function findTransitonId($issueIdOrKey, $transitionToName) {
+        $this->log->addDebug("findTransitonId=");
+
+        $ret = $this->getTransition($issueIdOrKey);
+        
+        foreach($ret as $trans) {
+            $toName = $trans->to->name;
+            
+             $this->log->addDebug("getTransitions result=" . var_export($ret, true));
+
+            if (strcmp($toName, $transitionToName) == 0){
+                return $trans->id;
+            }
+        }
+
+        return null;
+    } 
+
+    /**
+     * Perform a transition on an issue.
+     * 
+     * @param issueIdOrKey Issue id or key
+     * 
+     * @return nothing - if transition was successful return http 204(no contents)
+     */
+    public function transition($issueIdOrKey, $transition) {
+        $this->log->addDebug("transition=" . var_export($transition, true));
+
+        if (!isset($transition->transition['id'])) {
+            $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
+        }
+
+        $data = json_encode($transition);
+
+        $this->log->addDebug("transition req=$data\n");
+
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions", $data, "POST");
+
+        $this->log->addDebug("getTransitions result=" . var_export($ret, true));
+    }
 }
 
 ?>

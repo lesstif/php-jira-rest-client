@@ -21,6 +21,16 @@ create config.jira.json file on your project root.
 
 # Usage
 
+## Table of Contents
+- [Get Project Info](#Get-Project-Info)
+- [Get All Project list](#Get-All-Project-list)
+- [Get Issue Info](#Get-Issue-Info)
+- [Create Issue](#Create-Issue)
+- [Add Attachment](#Add-Attachment)
+- [Update issue](#Update-issue)
+- [Add comment](#Add-comment)
+- [Perform a transition on an issue](#Perform a transition on an issue)
+
 ## Get Project Info
 
 ````php
@@ -204,6 +214,32 @@ COMMENT;
 	$issueService = new IssueService();
 	$ret = $issueService->addComment($issueKey, $comment);
 	print_r($ret);
+} catch (JIRAException $e) {
+	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+}
+
+?>
+````
+
+## Perform a transition on an issue
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Transition;
+
+$issueKey = "TEST-879";
+
+try {			
+	$transition = new Transition();
+	$transition->setTransitionName('Resolved');
+	$transition->setCommentBody('performing the transition via REST API.');
+
+	$issueService = new IssueService();
+
+	$issueService->transition($issueKey, $transition);
 } catch (JIRAException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
