@@ -175,6 +175,42 @@ try {
 ?>
 ````
 
+## Add comment
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Comment;
+
+$issueKey = "TEST-879";
+
+try {			
+	$comment = new Comment();
+
+	$body = <<<COMMENT
+Adds a new comment to an issue.
+* Bullet 1
+* Bullet 2
+** sub Bullet 1
+** sub Bullet 2
+* Bullet 3
+COMMENT;
+	$comment->setBody($body)
+		->setVisibility('role', 'Users');
+	;
+
+	$issueService = new IssueService();
+	$ret = $issueService->addComment($issueKey, $comment);
+	print_r($ret);
+} catch (JIRAException $e) {
+	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+}
+
+?>
+````
+
 # License
 
 Apache V2 License

@@ -97,6 +97,30 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         return $ret;
     }
+
+    /**
+     * Adds a new comment to an issue.
+     * 
+     * @param issueIdOrKey Issue id or key
+     * @param comment .
+     * 
+     * @return Comment class
+     */
+    public function addComment($issueIdOrKey, $comment) {
+       
+        $this->log->addInfo("addComment=\n");
+
+        $data = json_encode($comment);
+        
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
+
+        $this->log->addDebug("add comment result=" . var_export($ret, true));
+        $comment = $this->json_mapper->map(
+           json_decode($ret), new Comment()
+        );
+
+        return $comment;
+    }
 }
 
 ?>
