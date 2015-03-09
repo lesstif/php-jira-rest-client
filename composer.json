@@ -6,7 +6,8 @@
     "require": {
         "php": ">=5.4.0",
         "netresearch/jsonmapper": "0.4.*",
-        "monolog/monolog": "~1.12"
+        "monolog/monolog": "~1.12",
+        "noodlehaus/config": "0.7.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4"

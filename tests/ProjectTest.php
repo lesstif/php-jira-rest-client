@@ -29,7 +29,6 @@ class ProjectTest extends PHPUnit_Framework_TestCase
 
 			$prjs = $proj->getAllProjects();
 
-			$i = 0;
 			foreach ($prjs as $p) {
 				echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
 					$p->key, $p->id, $p->name, $p->projectCategory['name']

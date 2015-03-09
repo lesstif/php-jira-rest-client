@@ -6,7 +6,7 @@ class ProjectService extends \JiraRestApi\JiraClient {
     private $uri = "/project";
 
  	public function __construct() {
-        parent::__construct(getConfig());        
+        parent::__construct();        
     }
 
     /**
