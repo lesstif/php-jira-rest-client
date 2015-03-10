@@ -189,20 +189,29 @@ class JiraClient {
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_URL, $url);				
-
-		/* CURLFile support PHP 5.5 
-		$cf = new \CURLFile(realpath($upload_file), 'image/png', $upload_file);		
-		$this->log->addDebug('CURLFile=' . var_export($cf, true));	
-		*/
-		
-		$attachments = realpath($upload_file);
-		$filename = basename($upload_file);
-
-        // send file
+ 
+ 		// send file
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,
-			array('file' => '@' . $attachments . ';filename=' . $filename));
-        
+
+		if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION  < 5) {
+			$attachments = realpath($upload_file);
+			$filename = basename($upload_file);
+
+			curl_setopt($ch, CURLOPT_POSTFIELDS,
+				array('file' => '@' . $attachments . ';filename=' . $filename));
+
+			$this->log->addDebug('using legacy file upload');
+		} else {
+			// CURLFile require PHP > 5.5
+			$attachments = new \CURLFile(realpath($upload_file));
+			$attachments->setPostFilename( basename($upload_file));
+
+			curl_setopt($ch, CURLOPT_POSTFIELDS,
+					array('file'=>$attachments));
+		
+			$this->log->addDebug('using CURLFile=' . var_export($attachments, true));
+		} 
+
 		curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
 
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, $this->CURLOPT_SSL_VERIFYHOST);
