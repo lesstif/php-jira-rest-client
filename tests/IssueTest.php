@@ -68,7 +68,8 @@ class IssueTest extends PHPUnit_Framework_TestCase
 			
 			$issueService = new IssueService();
 
-			$ret = $issueService->addAttachments($issueKey, 'screen_capture.png');
+			$ret = $issueService->addAttachments($issueKey, 
+				array('screen_capture.png', 'bug-description.pdf', 'README.md'));
 
 			print_r($ret);
 
@@ -125,6 +126,7 @@ Adds a new comment to an issue.
 ** sub Bullet 1
 ** sub Bullet 2
 COMMENT;
+
 			$comment->setBody($body)
 				->setVisibility('role', 'Users');
 			;

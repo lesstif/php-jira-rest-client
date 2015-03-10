@@ -174,18 +174,7 @@ class JiraClient {
 		return $response;
 	}
 
-	/**
-	 * file upload
-	 * 
-	 * @param context url context
-	 * @param upload_file upload file.
-	 * 
-	 * @todo multiple file upload suppport.
-	 * 
-	 */
-	public function upload($context, $upload_file) {
-		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
-
+	private function createUploadHandle($url, $upload_file) {
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_URL, $url);				
@@ -227,38 +216,93 @@ class JiraClient {
 		
 		curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
 
-		$this->log->addDebug('Curl exec=' . $url);	
-		$response = curl_exec($ch);
+		$this->log->addDebug('Curl exec=' . $url);
+		return $ch;
+	}
 
-		// if request failed.
-		if (!$response) {
-			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			$body = curl_error($ch);
+	/**
+	 * file upload
+	 * 
+	 * @param context url context
+	 * @param filePathArray upload file path.
+	 * 
+	 */
+	public function upload($context, $filePathArray) {
+		$url = $this->host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
+
+    	// return value
+    	$result_code = 200;
+
+		$chArr = array();
+    	$results = array();
+    	$mh = curl_multi_init();
+
+    	for($idx = 0; $idx < count($filePathArray); $idx++) {
+    		$file = $filePathArray[$idx];
+    		if (file_exists($file) == false) {
+    			$body = "File $file not found";
+    			$result_code = -1;
+    			goto end;
+    		}
+    		$chArr[$idx] = $this->createUploadHandle($url, $filePathArray[$idx]);
+
+    		curl_multi_add_handle($mh, $chArr[$idx]);
+    	}
+
+    	$running = null;
+    	do {
+        	curl_multi_exec($mh, $running);
+    	}
+    	while ($running > 0);
+
+    	 // Get content and remove handles.
+    	for($idx = 0; $idx < count($chArr); $idx++) {
+    		$ch = $chArr[$idx];
+
+        	$results[$idx] = curl_multi_getcontent($ch);
+
+        	// if request failed.
+			if (!$results[$idx]) {
+				$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				$body = curl_error($ch);				
+
+				//The server successfully processed the request, but is not returning any content. 
+				if ($this->http_response == 204){					
+					continue;
+				} 
+				
+				// HostNotFound, No route to Host, etc Network error
+				$result_code = -1;
+				$body = "CURL Error: = " . $body;
+				$this->log->addError($body );
+			} else {
+				// if request was ok, parsing http response code.
+				$result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+				// don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION 
+				if ($this->http_response != 200 && $this->http_response != 201) {
+					$body = "CURL HTTP Request Failed: Status Code : "
+					 . $this->http_response . ", URL:" . $url
+					 . "\nError Message : " . $response;
+					$this->log->addError($body);
+				}	
+			}        	
+    	}
+
+    	// clean up
+end:
+		foreach ($chArr as $ch) {
+			$this->log->addDebug("CURL Close handle..");
 			curl_close($ch);
+			curl_multi_remove_handle($mh, $ch);
+		}
+		$this->log->addDebug("CURL Multi Close handle..");
+	    curl_multi_close($mh);
+	    if ($result_code != 200) {
+	    	throw new JIRAException("CURL Error: = " . $body, $result_code);
+	    }
 
-			//The server successfully processed the request, but is not returning any content. 
-			if ($this->http_response == 204){
-				return "";
-			}
-			
-			// HostNotFound, No route to Host, etc Network error
-			$this->log->addError("CURL Error: = " . $body);
-			throw new JIRAException("CURL Error: = " . $body);
-		} else {
-			// if request was ok, parsing http response code.
-			$this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-			curl_close($ch);
-
-			// don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION 
-			if ($this->http_response != 200 && $this->http_response != 201) {
-				throw new JIRAException("CURL HTTP Request Failed: Status Code : "
-				 . $this->http_response . ", URL:" . $url
-				 . "\nError Message : " . $response, $this->http_response);
-			}			
-		}		
-
-		return $response;
+	    return $results;
 	}
 }
 

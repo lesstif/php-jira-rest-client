@@ -135,10 +135,15 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+
+$issueKey = "TEST-879";
+
 try {
     $issueService = new IssueService();
 
-    $ret = $issueService->addAttachments("TEST-879", 'screen_capture.png');
+    // multiple file upload support.
+    $ret = $issueService->addAttachments($issueKey, 
+    	array('screen_capture.png', 'bug-description.pdf', 'README.md'));
 
     print_r($ret);
 } catch (JIRAException $e) {
@@ -157,7 +162,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 
-$issueKey = "TEST-920";
+$issueKey = "TEST-879";
 
 try {			
 	$issueField = new IssueField(true);
@@ -175,7 +180,6 @@ try {
 	$issueService = new IssueService();
 
 	$ret = $issueService->update($issueKey, $issueField);
-
 
 } catch (JIRAException $e) {
 	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
@@ -206,6 +210,7 @@ Adds a new comment to an issue.
 ** sub Bullet 2
 * Bullet 3
 COMMENT;
+
 	$comment->setBody($body)
 		->setVisibility('role', 'Users');
 	;
