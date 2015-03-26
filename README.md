@@ -39,12 +39,7 @@ create config.jira.json file on your project root.
 {
     "host": "https://your-jira.host.com",
     "username": "jira-username",
-    "password": "jira-password",
-    "CURLOPT_SSL_VERIFYHOST": false,
-    "CURLOPT_SSL_VERIFYPEER": false,
-    "CURLOPT_VERBOSE": false,
-    "LOG_FILE": "jira-rest-client.log",
-    "LOG_LEVEL": "WARNING"
+    "password": "jira-password"
 }
 ````
 

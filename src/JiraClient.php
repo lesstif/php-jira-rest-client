@@ -49,14 +49,21 @@ class JiraClient {
 	protected $LOG_LEVEL;
 	
 	private function convertLogLevel($log_level) {
-		if ($log_level == 'DEBUG')
+		if ($log_level == 'DEBUG') {
 			return Logger::DEBUG;
-		else if ($log_level == 'WARNING')
+		}
+		else if ($log_level == 'INFO') {
+			return Logger::DEBUG;
+		}
+		else if ($log_level == 'WARNING') {
 			return Logger::WARNING;
-		else if ($log_level == 'ERROR')
+		}
+		else if ($log_level == 'ERROR') {
 			return Logger::ERROR;
-		else
-			return Logger::INFO;
+		}
+		else {
+			return Logger::WARNING;
+		}
 	}
 
 	// serilize only not null field.
@@ -94,7 +101,7 @@ class JiraClient {
        	$this->CURLOPT_VERBOSE = $config->get('CURLOPT_VERBOSE', false);
 
         $this->LOG_FILE = $config->get('LOG_FILE', 'jira-rest-client.log');
-       	$this->LOG_LEVEL = $this->convertLogLevel($config->get('LOG_LEVEL', Logger::INFO));
+       	$this->LOG_LEVEL = $this->convertLogLevel($config->get('LOG_LEVEL', 'WARNING'));
 
         // create logger      
         $this->log =  new Logger('JiraClient');
