@@ -5,9 +5,9 @@
     "keywords": ["jira", "jira-php", "jira-rest"],
     "require": {
         "php": ">=5.4.0",
-        "netresearch/jsonmapper": "0.4.*",
+        "netresearch/jsonmapper": "~0.5",
         "monolog/monolog": "~1.12",
-        "noodlehaus/config": "0.7.*"
+        "hassankhan/config": "~0.8"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4"
