@@ -1,11 +1,42 @@
 
 # Installation
 
-```
-composer require lesstif/php-jira-rest-client dev-master
+1. Download and Install PHP Composer.
+
+``` sh
+curl -sS https://getcomposer.org/installer | php
 ```
 
-create config.jira.json file on your project root.
+2. Next, run the Composer command to install the latest version of php jira rest client.
+
+``` sh
+php composer.phar require lesstif/php-jira-rest-client dev-master
+```
+
+or add the following to your composer.json file.
+
+```json
+{
+    "require": {
+        "lesstif/php-jira-rest-client": "dev-master"
+    }
+}
+```
+
+3. Then run Composer's install or update commands to complete installation. 
+
+```sh
+php composer.phar install
+```
+
+4. After installing, you need to require Composer's autoloader:
+
+```php
+require 'vendor/autoload.php';
+```
+
+5. create config.jira.json file on your project root.
+
 ````json
 {
     "host": "https://jira.example.com",
@@ -15,7 +46,7 @@ create config.jira.json file on your project root.
     "CURLOPT_SSL_VERIFYPEER": false,
     "CURLOPT_VERBOSE": false,
     "LOG_FILE": "jira-rest-client.log",
-    "LOG_LEVEL": "DEBUG"
+    "LOG_LEVEL": "INFO"
 }
 ````
 
