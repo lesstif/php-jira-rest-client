@@ -7,7 +7,7 @@
         "php": ">=5.4.0",
         "netresearch/jsonmapper": "~0.5",
         "monolog/monolog": "~1.12",
-        "hassankhan/config": "~0.8"
+        "vlucas/phpdotenv" : "~2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4"

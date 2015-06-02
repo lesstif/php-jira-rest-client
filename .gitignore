@@ -23,3 +23,5 @@ config.jira.json
 jira-rest-client.log
 screen_capture.png
 bug-description.pdf
+
+.env

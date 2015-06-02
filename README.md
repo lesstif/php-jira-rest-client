@@ -33,15 +33,12 @@
 
 # Configuration
 
-create config.jira.json file on your project root.
+copy .env.example file to .env on your project root.	
+	
+	JIRA_HOST="https://your-jira.host.com"
+	JIRA_USER="jira-username"
+	JIRA_PASS="jira-password"
 
-````json
-{
-    "host": "https://your-jira.host.com",
-    "username": "jira-username",
-    "password": "jira-password"
-}
-````
 
 # Usage
 

@@ -3,8 +3,22 @@
 namespace JiraRestApi\Issue;
 
 class Visibility {
-	public $type;
-	public $value;
+	private $type;
+	private $value;
+
+	public function setType($type) {
+		$this->type = $type;
+	}
+	public function setValue($value) {
+		$this->value = $value;
+	}
+
+	public function getType() {
+		return $this->type;
+	}
+	public function getValue() {
+		return $this->value;
+	}
 }
 
 class Comment implements \JsonSerializable {
@@ -29,7 +43,9 @@ class Comment implements \JsonSerializable {
 	/* @var DateTime */
 	public $updated;
 
-	/* @var Visibility */
+	/**
+ 	 * @var Visibility
+ 	*/
 	public $visibility;
 
 	public function setBody($body) {
@@ -37,12 +53,12 @@ class Comment implements \JsonSerializable {
        	return $this;
     }
 
-    public function setVisibility($type, $value) {
+    public function setVisibility($type, $vvalue) {
     	if (is_null($this->visibility))
-    		$this->visibility = array();
+    		$this->visibility = new Visibility;
 
-		$this->visibility['type'] = $type;
-		$this->visibility['value'] = $value;
+		$this->visibility->setType($type);
+		$this->visibility->setValue($vvalue);
        	return $this;
     }
  
