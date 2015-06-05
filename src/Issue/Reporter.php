@@ -2,8 +2,9 @@
 
 namespace JiraRestApi\Issue;
 
-class Reporter implements \JsonSerializable{	
-	/* @var string */
+class Reporter implements \JsonSerializable
+{
+    /* @var string */
     public $self;
 
     /* @var string */
@@ -21,10 +22,8 @@ class Reporter implements \JsonSerializable{
      /* @var string */
     public $active;
 
-     public function jsonSerialize()
-   {
-      return array_filter(get_object_vars($this));
-   }
+    public function jsonSerialize()
+    {
+        return array_filter(get_object_vars($this));
+    }
 }
-
-?>

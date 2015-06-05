@@ -2,22 +2,25 @@
 
 namespace JiraRestApi\Issue;
 
-class IssueService extends \JiraRestApi\JiraClient {
-    private $uri = "/issue";
+class IssueService extends \JiraRestApi\JiraClient
+{
+    private $uri = '/issue';
 
- 	public function __construct() {
-        parent::__construct();        
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     /**
-     * get all project list
-     * 
+     * get all project list.
+     *
      * @return Issue class
      */
-    public function get($issueIdOrKey) {
-    	$ret = $this->exec($this->uri . "/$issueIdOrKey", null);
+    public function get($issueIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
 
-        $this->log->addInfo("Result=\n" . $ret );
+        $this->log->addInfo("Result=\n".$ret);
 
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
@@ -27,13 +30,14 @@ class IssueService extends \JiraRestApi\JiraClient {
     }
 
     /**
-     * create new issue
-     * 
+     * create new issue.
+     *
      * @param   $issue object of Issue class
-     * 
+     *
      * @return created issue key
      */
-    public function create($issueField) {
+    public function create($issueField)
+    {
         $issue = new Issue();
 
         // serilize only not null field.
@@ -41,9 +45,9 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         $data = json_encode($issue);
 
-        $this->log->addInfo("Create Issue=\n" . $data );
+        $this->log->addInfo("Create Issue=\n".$data);
 
-        $ret = $this->exec($this->uri, $data, "POST");
+        $ret = $this->exec($this->uri, $data, 'POST');
 
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
@@ -53,21 +57,21 @@ class IssueService extends \JiraRestApi\JiraClient {
     }
 
     /**
-     * Add one or more file to an issue
-     * 
+     * Add one or more file to an issue.
+     *
      * @param issueIdOrKey Issue id or key
      * @param filePathArray attachment file path.
-     * 
+     *
      * @return
      */
-    public function addAttachments($issueIdOrKey, $filePathArray) {
-       
-        $results = $this->upload($this->uri . "/$issueIdOrKey/attachments", $filePathArray);
+    public function addAttachments($issueIdOrKey, $filePathArray)
+    {
+        $results = $this->upload($this->uri."/$issueIdOrKey/attachments", $filePathArray);
 
-        $this->log->addInfo("addAttachments result=" . var_export($results, true));
+        $this->log->addInfo('addAttachments result='.var_export($results, true));
 
         $resArr = array();
-        foreach($results as $ret) {
+        foreach ($results as $ret) {
             array_push($resArr, $this->json_mapper->mapArray(
                json_decode($ret), new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
                 )
@@ -78,14 +82,15 @@ class IssueService extends \JiraRestApi\JiraClient {
     }
 
     /**
-     * update issue
-     * 
+     * update issue.
+     *
      * @param   $issueIdOrKey Issue Key
-     * @param   $issueField object of Issue class
-     * 
+     * @param   $issueField   object of Issue class
+     *
      * @return created issue key
      */
-    public function update($issueIdOrKey, $issueField) {
+    public function update($issueIdOrKey, $issueField)
+    {
         $issue = new Issue();
 
         // serilize only not null field.
@@ -95,30 +100,30 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         $data = json_encode($issue);
 
-        $this->log->addInfo("Update Issue=\n" . $data );
+        $this->log->addInfo("Update Issue=\n".$data);
 
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, "PUT");
+        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
 
     /**
      * Adds a new comment to an issue.
-     * 
+     *
      * @param issueIdOrKey Issue id or key
      * @param comment .
-     * 
+     *
      * @return Comment class
      */
-    public function addComment($issueIdOrKey, $comment) {
-       
+    public function addComment($issueIdOrKey, $comment)
+    {
         $this->log->addInfo("addComment=\n");
 
         $data = json_encode($comment);
-        
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
 
-        $this->log->addDebug("add comment result=" . var_export($ret, true));
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
+
+        $this->log->addDebug('add comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
            json_decode($ret), new Comment()
         );
@@ -128,16 +133,16 @@ class IssueService extends \JiraRestApi\JiraClient {
 
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
-     * 
+     *
      * @param issueIdOrKey Issue id or key
-     * 
+     *
      * @return array of Transition class
      */
-    public function getTransition($issueIdOrKey) {
-       
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions");
+    public function getTransition($issueIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions");
 
-        $this->log->addDebug("getTransitions result=" . var_export($ret, true));
+        $this->log->addDebug('getTransitions result='.var_export($ret, true));
 
         $data = json_encode(json_decode($ret)->transitions);
 
@@ -149,36 +154,37 @@ class IssueService extends \JiraRestApi\JiraClient {
     }
 
     /**
-     * find transition id by transition's to field name(aka 'Resolved')
-     * 
-     */ 
-    public function findTransitonId($issueIdOrKey, $transitionToName) {
-        $this->log->addDebug("findTransitonId=");
+     * find transition id by transition's to field name(aka 'Resolved').
+     */
+    public function findTransitonId($issueIdOrKey, $transitionToName)
+    {
+        $this->log->addDebug('findTransitonId=');
 
         $ret = $this->getTransition($issueIdOrKey);
-        
-        foreach($ret as $trans) {
-            $toName = $trans->to->name;
-            
-             $this->log->addDebug("getTransitions result=" . var_export($ret, true));
 
-            if (strcmp($toName, $transitionToName) == 0){
+        foreach ($ret as $trans) {
+            $toName = $trans->to->name;
+
+            $this->log->addDebug('getTransitions result='.var_export($ret, true));
+
+            if (strcmp($toName, $transitionToName) == 0) {
                 return $trans->id;
             }
         }
 
-        return null;
-    } 
+        return;
+    }
 
     /**
      * Perform a transition on an issue.
-     * 
+     *
      * @param issueIdOrKey Issue id or key
-     * 
+     *
      * @return nothing - if transition was successful return http 204(no contents)
      */
-    public function transition($issueIdOrKey, $transition) {
-        $this->log->addDebug("transition=" . var_export($transition, true));
+    public function transition($issueIdOrKey, $transition)
+    {
+        $this->log->addDebug('transition='.var_export($transition, true));
 
         if (!isset($transition->transition['id'])) {
             $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
@@ -188,9 +194,9 @@ class IssueService extends \JiraRestApi\JiraClient {
 
         $this->log->addDebug("transition req=$data\n");
 
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions", $data, "POST");
+        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions", $data, 'POST');
 
-        $this->log->addDebug("getTransitions result=" . var_export($ret, true));
+        $this->log->addDebug('getTransitions result='.var_export($ret, true));
     }
 }
 

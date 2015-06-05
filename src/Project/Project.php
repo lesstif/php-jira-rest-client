@@ -2,47 +2,55 @@
 
 namespace JiraRestApi\Project;
 
-class Project {	
-	/**
-     * return only if Project query by key(not id)
+class Project
+{
+    /**
+     * return only if Project query by key(not id).
+     *
      * @var string
      */
-	public $expand;
+    public $expand;
 
-	/**
-     * Project URI
+    /**
+     * Project URI.
+     *
      * @var string
      */
     public $self;
 
     /**
-     * Project id
+     * Project id.
+     *
      * @var string
      */
     public $id;
 
      /**
-     * Project key
-     * @var string
-     */
+      * Project key.
+      *
+      * @var string
+      */
      public $key;
 
      /**
-     * Project name
-     * @var string
-     */
+      * Project name.
+      *
+      * @var string
+      */
      public $name;
 
      /**
-     * avatar URL
-     * @var array
-     */
+      * avatar URL.
+      *
+      * @var array
+      */
      public $avatarUrls;
 
      /**
-     * Project category
-     * @var array
-     */
+      * Project category.
+      *
+      * @var array
+      */
      public $projectCategory;
 
      /* @var string */
@@ -66,5 +74,3 @@ class Project {
       /* @var array */
      public $roles;
 }
-
-?>

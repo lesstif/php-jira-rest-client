@@ -2,10 +2,11 @@
 
 namespace JiraRestApi\Issue;
 
-use \JiraRestApi\Issue\IssueField;
+use JiraRestApi\Issue\IssueField;
 
-class TransitionTo {
-	/* @var string */
+class TransitionTo
+{
+    /* @var string */
     public $self;
 
     /* @var string */
@@ -15,23 +16,23 @@ class TransitionTo {
     public $iconUrl;
 
     /** Closed, Resolved, etc..
-     * @var string 
+     * @var string
      */
     public $name;
 
     /* @var string */
     public $id;
 
-	/* @var array */
+    /* @var array */
     public $statusCategory;
 }
 
 /**
- * Issue Transition mapping class
- * 
- */ 
-class Transition implements \JsonSerializable{	
-	/* @var string */
+ * Issue Transition mapping class.
+ */
+class Transition implements \JsonSerializable
+{
+    /* @var string */
    public $id;
 
    /* @var string */
@@ -49,37 +50,40 @@ class Transition implements \JsonSerializable{
    /* @var array */
    public $transition;
 
-   public $update;
+    public $update;
 
-   public function setTransitionName($name) {
-   		if (is_null($this->transition))
-   			$this->transition = array();
+    public function setTransitionName($name)
+    {
+        if (is_null($this->transition)) {
+            $this->transition = array();
+        }
 
-   		$this->transition['name'] = $name;
-   }
+        $this->transition['name'] = $name;
+    }
 
-   public function setTransitionId($id) {
-   		if (is_null($this->transition))
-   			$this->transition = array();
-   		
-   		$this->transition['id'] = $id;
-   }
+    public function setTransitionId($id)
+    {
+        if (is_null($this->transition)) {
+            $this->transition = array();
+        }
 
-   public function setCommentBody($commentBody) {
-      if (is_null($this->update)) {
-        $this->update = array();
-        $this->update['comment'] = array();
-      }
-      
-      $ar = array();
-      $ar['add']['body'] = $commentBody;
-      array_push($this->update['comment'], $ar);
-   }
+        $this->transition['id'] = $id;
+    }
 
-   public function jsonSerialize()
-   {	
-     	return array_filter(get_object_vars($this));
-   }
+    public function setCommentBody($commentBody)
+    {
+        if (is_null($this->update)) {
+            $this->update = array();
+            $this->update['comment'] = array();
+        }
+
+        $ar = array();
+        $ar['add']['body'] = $commentBody;
+        array_push($this->update['comment'], $ar);
+    }
+
+    public function jsonSerialize()
+    {
+        return array_filter(get_object_vars($this));
+    }
 }
-
-?>

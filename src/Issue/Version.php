@@ -2,8 +2,9 @@
 
 namespace JiraRestApi\Issue;
 
-class Version implements \JsonSerializable{	
-	/* @var string */
+class Version implements \JsonSerializable
+{
+    /* @var string */
     public $self;
 
     /* @var string */
@@ -25,9 +26,7 @@ class Version implements \JsonSerializable{
     public $releaseDate;
 
     public function jsonSerialize()
-   {
-      return array_filter(get_object_vars($this));
-   }
+    {
+        return array_filter(get_object_vars($this));
+    }
 }
-
-?>

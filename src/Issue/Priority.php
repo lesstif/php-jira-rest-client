@@ -2,8 +2,9 @@
 
 namespace JiraRestApi\Issue;
 
-class Priority implements \JsonSerializable{	
-	/* @var string */
+class Priority implements \JsonSerializable
+{
+    /* @var string */
     public $self;
 
     /* @var string */
@@ -16,9 +17,7 @@ class Priority implements \JsonSerializable{
     public $id;
 
     public function jsonSerialize()
-   {
-      return array_filter(get_object_vars($this));
-   }
+    {
+        return array_filter(get_object_vars($this));
+    }
 }
-
-?>
