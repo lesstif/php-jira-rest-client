@@ -9,6 +9,8 @@ class JIRAException extends \Exception
 use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
 
+use Dotenv;
+
 /**
  * interact jira server with REST API.
  */
@@ -82,10 +84,10 @@ class JiraClient
 
     public function __construct()
     {
-        $dotenv = new \Dotenv\Dotenv('.');
-        $dotenv->load();
+        $dotenv = Dotenv::load('.');
 
-        $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
+        // not available in dotenv 1.1
+        // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
 
         $this->json_mapper = new \JsonMapper();
         $this->json_mapper->bExceptionOnUndefinedProperty = true;
