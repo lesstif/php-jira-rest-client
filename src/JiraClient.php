@@ -82,10 +82,10 @@ class JiraClient
         return $haystack;
     }
 
-    public function __construct()
-    {
-        $dotenv = Dotenv::load('.');
-
+    public function __construct($path = '.')
+    {     
+        $dotenv = Dotenv::load($path);    
+     
         // not available in dotenv 1.1
         // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
 

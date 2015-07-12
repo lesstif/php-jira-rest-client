@@ -6,9 +6,9 @@ class IssueService extends \JiraRestApi\JiraClient
 {
     private $uri = '/issue';
 
-    public function __construct()
+    public function __construct($path = '.')
     {
-        parent::__construct();
+        parent::__construct($path);
     }
 
     /**
