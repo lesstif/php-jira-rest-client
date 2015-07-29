@@ -198,6 +198,34 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addDebug('getTransitions result='.var_export($ret, true));
     }
+
+    /**
+     * Search issues
+     *
+     * @param       $jql
+     * @param int   $startAt
+     * @param int   $maxResults
+     * @param array $fields
+     *
+     * @return object
+     */
+    public function search($jql, $startAt=0, $maxResults=15, $fields=[])
+    {
+        $data = json_encode(array(
+            'jql' => $jql,
+            'startAt' => $startAt,
+            'maxResults' => $maxResults,
+            'fields' => $fields
+        ));
+
+        $ret = $this->exec("search", $data, 'POST');
+
+        $result = $this->json_mapper->map(
+            json_decode($ret), new IssueSearchResult()
+        );
+
+        return $result;
+    }
 }
 
 ?>
