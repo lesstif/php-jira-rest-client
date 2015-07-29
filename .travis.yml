@@ -11,7 +11,7 @@ before_install:
   - travis_retry composer self-update
 
 script:
-  - ./vendor/bin/phpunit --verbose
+  - ./vendor/bin/phpunit --verbose tests/MockTest
 
 matrix:
   allow_failures:

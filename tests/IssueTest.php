@@ -155,4 +155,18 @@ COMMENT;
         }
     }
     //
+
+    public function testSearch()
+    {
+        $issueKey = 'q';
+        $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->search($jql);
+            var_dump($ret);
+        } catch (JIRAException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+        }
+    }
 }

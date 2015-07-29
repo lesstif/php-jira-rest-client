@@ -52,6 +52,7 @@ copy .env.example file to .env on your project root.
 - [Update issue](#update-issue)
 - [Add comment](#add-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
+- [Perform an advanced search, using the JQL](#perform-an-advanced-search)
 
 ## Get Project Info
 
@@ -270,6 +271,27 @@ try {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
+?>
+````
+
+## Perform an advanced search
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+
+$jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
+
+try {
+    $issueService = new IssueService();
+
+    $ret = $issueService->search($jql);
+    var_dump($ret);
+} catch (JIRAException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
 ?>
 ````
 
