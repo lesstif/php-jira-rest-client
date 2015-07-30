@@ -207,7 +207,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param int   $maxResults
      * @param array $fields
      *
-     * @return object
+     * @return IssueSearchResult
      */
     public function search($jql, $startAt=0, $maxResults=15, $fields=[])
     {
