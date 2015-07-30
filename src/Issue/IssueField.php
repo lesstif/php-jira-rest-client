@@ -203,16 +203,12 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachments;
 
-    /**
-     * @param Timetracking $timetracking
-     */
-    public function setTimetracking($timetracking)
-    {
-        $this->timetracking = $timetracking;
-    }
+    /** @var  string */
+    public $aggregatetimespent;
 
-    function __isset($name)
-    {
-        return true;
-    }
+    /** @var  string */
+    public $timeestimate;
+
+    /** @var  string */
+    public $aggregatetimeoriginalestimate;
 }
