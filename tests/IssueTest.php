@@ -158,7 +158,6 @@ COMMENT;
 
     public function testSearch()
     {
-        $issueKey = 'q';
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
         try {
             $issueService = new IssueService();
@@ -169,4 +168,5 @@ COMMENT;
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }
+
 }

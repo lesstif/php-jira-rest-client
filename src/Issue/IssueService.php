@@ -226,6 +226,56 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $result;
     }
+
+    /**
+     * get worklog info
+     * 
+     * @param type $issueIdOrKey 
+     * @return type @TimeTracking
+     */
+    public function getWorklog($issueIdOrKey)
+    {
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", null);
+        $this->log->addDebug("getWorklog res=$ret\n");
+
+        $issue = $this->json_mapper->map(
+             json_decode($ret), new Issue()
+        );
+
+        return $issue->fields->timetracking;
+    }
+
+     /**
+     * worklog issues
+     *
+     * @param issueIdOrKey Issue id or key
+     * @param timeTracking   TimeTracking
+     *
+     * @return TimeTracking
+     */
+    public function worklog($issueIdOrKey, $timeTracking)
+    {   
+        $array = ["update" =>
+            [
+                "timetracking" => [
+                    ["edit" => $timeTracking]
+                ]
+            ]
+        ];
+
+        $data = json_encode($array);
+
+        $this->log->addDebug("worklog req=$data\n");
+
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');   
+
+        // FIXME 
+        $result = $this->json_mapper->map(
+            json_decode($ret), new TimeTracking()
+        );
+
+        return $result;
+    }
 }
 
 ?>

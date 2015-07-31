@@ -53,6 +53,7 @@ copy .env.example file to .env on your project root.
 - [Add comment](#add-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
+- [Issue time tracking](#issue-time-tracking)
 
 ## Get Project Info
 
@@ -288,6 +289,38 @@ try {
     $issueService = new IssueService();
 
     $ret = $issueService->search($jql);
+    var_dump($ret);
+} catch (JIRAException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+?>
+````
+
+## Issue time tracking
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\TimeTracking;
+
+$issueKey = 'TEST-961';
+
+try {
+    $issueService = new IssueService();
+    
+    // get issue's time tracking info
+    $ret = $issueService->getWorklog($this->issueKey);
+    var_dump($ret);
+    
+    $timeTracking = new TimeTracking;
+
+    $timeTracking->setOriginalEstimate('3w 4d 6h');
+    $timeTracking->setRemainingEstimate('1w 2d 3h');
+    
+    // add time tracking
+    $ret = $issueService->worklog($this->issueKey, $timeTracking);
     var_dump($ret);
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
