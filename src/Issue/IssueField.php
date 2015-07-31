@@ -138,6 +138,16 @@ class IssueField implements \JsonSerializable
         return $this->issuetype;
     }
 
+    public function setTimeTracking($timetracking)
+    {
+        $this->timetracking = $timetracking;
+        return $this;
+    }
+    public function getTimeTracking()
+    {
+        return $this->timetracking;
+    }
+
     /** @var string */
     public $summary;
 
