@@ -128,6 +128,16 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    public function setIssueType($issuetype) 
+    {
+        $this->issuetype = $issuetype;
+        return $this;
+    }
+    public function getIssueType()
+    {
+        return $this->issuetype;
+    }
+
     /** @var string */
     public $summary;
 
