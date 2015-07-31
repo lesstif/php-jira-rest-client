@@ -14,6 +14,7 @@ class IssueField implements \JsonSerializable
             $this->versions = array();
 
             $this->issuetype = new \JiraRestApi\Issue\IssueType();
+            $this->timetracking = new \JiraRestApi\Issue\TimeTracking();
         }
     }
 
@@ -41,17 +42,6 @@ class IssueField implements \JsonSerializable
     public function setProjectId($id)
     {
         $this->project->id = $id;
-
-        return $this;
-    }
-
-    public function setIssueType($name)
-    {
-        if (is_null($this->issuetype)) {
-            $this->issuetype = new \JiraRestApi\Issue\IssueType();
-        }
-
-        $this->issuetype->name = $name;
 
         return $this;
     }
@@ -144,7 +134,7 @@ class IssueField implements \JsonSerializable
     /** @var string */
     //public $progress;
 
-    /** @var string */
+    /** @var Timetracking */
     public $timetracking;
 
     /** @var IssueType */
@@ -156,10 +146,10 @@ class IssueField implements \JsonSerializable
     /** @var Reporter */
     public $reporter;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $created;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updated;
 
     /** @var string */
@@ -168,48 +158,57 @@ class IssueField implements \JsonSerializable
     /** @var Priority */
     public $priority;
 
-    /** @var IssueStatus */
+    /** @var object */
     public $status;
 
-    /** @var string */
+    /** @var object[] */
     public $labels;
 
-    /** @var JiraRestApi\Project\Project */
+    /** @var \JiraRestApi\Project\Project */
     public $project;
 
     /** @var string */
     public $environment;
 
-    /** @var string */
+    /** @var string[] */
     public $components;
 
     /** @var Comments */
     public $comments;
 
-    /** @var string */
+    /** @var object */
     public $votes;
 
-    /** @var string */
+    /** @var object */
     public $resolution;
 
-    /** @var string */
+    /** @var string[] */
     public $fixVersions;
 
     /** @var Reporter */
     public $creator;
 
-    /** @var string */
+    /** @var object */
     public $watches;
 
-    /** @var string */
+    /** @var object */
     public $worklog;
 
     /** @var Reporter */
     public $assignee;
 
-    /* @var VersionList[\JiraRestApi\Issue\Version] */
+    /** @var \JiraRestApi\Issue\Version[] */
     public $versions;
 
-    /** @var AttachmentList[\JiraRestApi\Issue\Attachment] */
+    /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachments;
+
+    /** @var  string */
+    public $aggregatetimespent;
+
+    /** @var  string */
+    public $timeestimate;
+
+    /** @var  string */
+    public $aggregatetimeoriginalestimate;
 }

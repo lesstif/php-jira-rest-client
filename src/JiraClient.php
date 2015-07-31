@@ -84,13 +84,12 @@ class JiraClient
 
     public function __construct($path = '.')
     {     
-        $dotenv = Dotenv::load($path);    
+        Dotenv::load($path);
      
         // not available in dotenv 1.1
         // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
 
         $this->json_mapper = new \JsonMapper();
-        $this->json_mapper->bExceptionOnUndefinedProperty = true;
 
         $this->host = $this->env('JIRA_HOST');
         $this->username = $this->env('JIRA_USER');
