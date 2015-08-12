@@ -3,6 +3,8 @@
 use Illuminate\Support\ServiceProvider;
 use JiraRestApi\Project\ProjectService;
 
+use Monolog\Logger as Logger;
+
 class LaravelJiraServiceProvider extends ServiceProvider
 {
     /**
@@ -13,16 +15,21 @@ class LaravelJiraServiceProvider extends ServiceProvider
     public function register()
     {
         $config = [
-            'jira_host' => env('JIRA_HOST'),
-            'jira_user' => env('JIRA_USER'),
-            'jira_password' => env('JIRA_PASS'),
-            'curlopt_ssl_verifyhost' => env('CURLOPT_SSL_VERIFYHOST', false),
-            'curlopt_ssl_verifypeer' => env('CURLOPT_SSL_VERIFYPEER', false),
-            'curlopt_verbose' => env('CURLOPT_VERBOSE', false),
+            'JIRA_HOST' => env('JIRA_HOST'),
+            'JIRA_USER' => env('JIRA_USER'),
+            'JIRA_PASS' => env('JIRA_PASS'),
+
+            'CURLOPT_SSL_VERIFYHOST' => env('CURLOPT_SSL_VERIFYHOST', false),
+            'CURLOPT_SSL_VERIFYPEER' => env('CURLOPT_SSL_VERIFYPEER', false),
+            'LOG_FILE' => ,
         ];
 
         $logger = new Logger('JiraClient');
-        $logger->log->pushHandler(new StreamHandler('jira-rest-client.log', Logger::WARNING));
+
+        $logger->log->pushHandler(new StreamHandler(
+            env('JIRA_LOG_FILE', 'jira-rest-client.log'),
+            $this->convertLogLevel(env('JIRA_LOG_LEVEL', 'WARNING'))
+        ));
 
         $this->app->bind('JiraProjectService', function () {
             $service = new ProjectService($config);

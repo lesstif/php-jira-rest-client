@@ -69,13 +69,13 @@ class JiraClient
     protected function debug($msg)
     {
         if (null == $this->log) return;
-        $this->debug($msg);
+        $this->log->addDebug($msg);
     }
 
     protected function error($msg)
     {
         if (null == $this->log) return;
-        $this->error($msg);
+        $this->log->addError($msg);
     }
 
     public function exec($context, $post_data = null, $custom_request = null)
