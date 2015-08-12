@@ -7,9 +7,6 @@ class JIRAException extends \Exception
 }
 
 use Monolog\Logger as Logger;
-use Monolog\Handler\StreamHandler;
-
-use Dotenv;
 
 /**
  * interact jira server with REST API.
@@ -49,73 +46,43 @@ class JiraClient
     protected $LOG_FILE;
     protected $LOG_LEVEL;
 
-    private function convertLogLevel($log_level)
-    {
-        if ($log_level == 'DEBUG') {
-            return Logger::DEBUG;
-        } elseif ($log_level == 'INFO') {
-            return Logger::DEBUG;
-        } elseif ($log_level == 'WARNING') {
-            return Logger::WARNING;
-        } elseif ($log_level == 'ERROR') {
-            return Logger::ERROR;
-        } else {
-            return Logger::WARNING;
-        }
-    }
-
-    // serilize only not null field.
-    protected function filterNullVariable($haystack)
-    {
-        foreach ($haystack as $key => $value) {
-            if (is_array($value)) {
-                $haystack[$key] = $this->filterNullVariable($haystack[$key]);
-            } elseif (is_object($value)) {
-                $haystack[$key] = $this->filterNullVariable(get_class_vars(get_class($value)));
-            }
-
-            if (is_null($haystack[$key]) || empty($haystack[$key])) {
-                unset($haystack[$key]);
-            }
-        }
-
-        return $haystack;
-    }
-
-    public function __construct($path = '.')
+    public function __construct(Array $config)
     {     
-        Dotenv::load($path);
-     
-        // not available in dotenv 1.1
-        // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-
         $this->json_mapper = new \JsonMapper();
 
-        $this->host = $this->env('JIRA_HOST');
-        $this->username = $this->env('JIRA_USER');
-        $this->password = $this->env('JIRA_PASS');
+        $this->host = $config['JIRA_HOST'];
+        $this->username = $config['JIRA_USER'];
+        $this->password = $config['JIRA_PASS'];
 
-        $this->CURLOPT_SSL_VERIFYHOST = $this->env('CURLOPT_SSL_VERIFYHOST', false);
-
-        $this->CURLOPT_SSL_VERIFYPEER = $this->env('CURLOPT_SSL_VERIFYPEER', false);
-        $this->CURLOPT_VERBOSE = $this->env('CURLOPT_VERBOSE', false);
-
-        $this->LOG_FILE = $this->env('JIRA_LOG_FILE', 'jira-rest-client.log');
-        $this->LOG_LEVEL = $this->convertLogLevel($this->env('JIRA_LOG_LEVEL', 'WARNING'));
-
-        // create logger
-        $this->log = new Logger('JiraClient');
-        $this->log->pushHandler(new StreamHandler($this->LOG_FILE,
-            $this->LOG_LEVEL));
+        $this->CURLOPT_SSL_VERIFYHOST = $config['CURLOPT_SSL_VERIFYHOST'];
+        $this->CURLOPT_SSL_VERIFYPEER = $config['CURLOPT_SSL_VERIFYPEER'];
+        $this->CURLOPT_VERBOSE = $config['CURLOPT_VERBOSE'];
 
         $this->http_response = 200;
+    }
+
+    public function setLogger(Logger $logger)
+    {
+        $this->log = $logger;
+    }
+
+    protected function debug($msg)
+    {
+        if (null == $this->log) return;
+        $this->log->addDebug($msg);
+    }
+
+    protected function error($msg)
+    {
+        if (null == $this->log) return;
+        $this->log->addError($msg);
     }
 
     public function exec($context, $post_data = null, $custom_request = null)
     {
         $url = $this->host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
 
-        $this->log->addDebug("Curl $url JsonData=".$post_data);
+        $this->debug("Curl $url JsonData=".$post_data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -147,7 +114,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
         // if request failed.
@@ -162,7 +129,7 @@ class JiraClient
             }
 
             // HostNotFound, No route to Host, etc Network error
-            $this->log->addError('CURL Error: = '.$body);
+            $this->error('CURL Error: = '.$body);
             throw new JIRAException('CURL Error: = '.$body);
         } else {
             // if request was ok, parsing http response code.
@@ -197,7 +164,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 array('file' => '@'.$attachments.';filename='.$filename));
 
-            $this->log->addDebug('using legacy file upload');
+            $this->debug('using legacy file upload');
         } else {
             // CURLFile require PHP > 5.5
             $attachments = new \CURLFile(realpath($upload_file));
@@ -206,7 +173,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                     array('file' => $attachments));
 
-            $this->log->addDebug('using CURLFile='.var_export($attachments, true));
+            $this->debug('using CURLFile='.var_export($attachments, true));
         }
 
         curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
@@ -224,7 +191,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->debug('Curl exec='.$url);
 
         return $ch;
     }
@@ -282,7 +249,7 @@ class JiraClient
                 // HostNotFound, No route to Host, etc Network error
                 $result_code = -1;
                 $body = 'CURL Error: = '.$body;
-                $this->log->addError($body);
+                $this->error($body);
             } else {
                 // if request was ok, parsing http response code.
                 $result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -292,7 +259,7 @@ class JiraClient
                     $body = 'CURL HTTP Request Failed: Status Code : '
                      .$this->http_response.', URL:'.$url
                      ."\nError Message : ".$response;
-                    $this->log->addError($body);
+                    $this->error($body);
                 }
             }
         }
@@ -300,97 +267,16 @@ class JiraClient
         // clean up
 end:
         foreach ($chArr as $ch) {
-            $this->log->addDebug('CURL Close handle..');
+            $this->debug('CURL Close handle..');
             curl_close($ch);
             curl_multi_remove_handle($mh, $ch);
         }
-        $this->log->addDebug('CURL Multi Close handle..');
+        $this->debug('CURL Multi Close handle..');
         curl_multi_close($mh);
         if ($result_code != 200) {
             throw new JIRAException('CURL Error: = '.$body, $result_code);
         }
 
         return $results;
-    }
-
-    // excerpt from laravel core.
-
-    /**
-     * Gets the value of an environment variable. Supports boolean, empty and null.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    private function env($key, $default = null)
-    {
-        $value = getenv($key);
-
-        if ($value === false) {
-            return $default;
-        }
-
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-
-            case 'false':
-            case '(false)':
-                return false;
-
-            case 'empty':
-            case '(empty)':
-                return '';
-
-            case 'null':
-            case '(null)':
-                return;
-        }
-
-        if ($this->startsWith($value, '"') && endsWith($value, '"')) {
-            return substr($value, 1, -1);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Determine if a given string starts with a given substring.
-     *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
-     */
-    public function startsWith($haystack, $needles)
-    {
-        foreach ((array) $needles as $needle) {
-            if ($needle != '' && strpos($haystack, $needle) === 0) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if a given string ends with a given substring.
-     *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
-     */
-    public function endsWith($haystack, $needles)
-    {
-        foreach ((array) $needles as $needle) {
-            if ((string) $needle === substr($haystack, -strlen($needle))) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

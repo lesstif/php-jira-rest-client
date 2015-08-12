@@ -6,12 +6,11 @@
     "require": {
         "php": ">=5.4.0",
         "netresearch/jsonmapper": "~0.5",
-        "monolog/monolog": "~1.12",
-        "vlucas/phpdotenv" : "~1.0",
-        "mockery/mockery": "^0.9.4"
+        "monolog/monolog": "~1.12"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.4"
+        "phpunit/phpunit": "~4.4",
+        "mockery/mockery": "^0.9.4"
     },
     "license": "Apache 2.0",
     "authors": [
