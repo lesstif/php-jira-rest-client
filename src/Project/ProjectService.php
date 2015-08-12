@@ -49,6 +49,3 @@ class ProjectService extends \JiraRestApi\JiraClient
         return $prj;
     }
 }
-
-?>
-
