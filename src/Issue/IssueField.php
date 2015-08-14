@@ -14,7 +14,6 @@ class IssueField implements \JsonSerializable
             $this->versions = array();
 
             $this->issuetype = new \JiraRestApi\Issue\IssueType();
-            $this->timetracking = new \JiraRestApi\Issue\TimeTracking();
         }
     }
 
@@ -128,31 +127,27 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function setIssueType($issuetype) 
+    public function setIssueType($name)
     {
-        $this->issuetype = $issuetype;
+        if (is_null($this->issuetype)) {
+            $this->issuetype = new \JiraRestApi\Issue\IssueType();
+        }
+
+        $this->issuetype->name = $name;
+
         return $this;
     }
+
     public function getIssueType()
     {
         return $this->issuetype;
     }
 
-    public function setTimeTracking($timetracking)
-    {
-        $this->timetracking = $timetracking;
-        return $this;
-    }
-    public function getTimeTracking()
-    {
-        return $this->timetracking;
-    }
-
     /** @var string */
     public $summary;
 
-    /** @var string */
-    //public $progress;
+    /** @var array */
+    public $progress;
 
     /** @var Timetracking */
     public $timetracking;
@@ -231,4 +226,32 @@ class IssueField implements \JsonSerializable
 
     /** @var  string */
     public $aggregatetimeoriginalestimate;
+
+    /** @var  string */
+    public $resolutiondate;
+
+    /** @var DateTime */
+    public $duedate;
+
+    /** @var object[] */
+    public $issuelinks;
+
+    /** @var object[] */
+    public $subtasks;
+
+    /** @var int */
+    public $workratio;
+
+    /** @var object */
+    public $aggregatetimeestimate;
+
+    /** @var object */
+    public $aggregateprogress;
+
+    /** @var object */
+    public $lastViewed;
+
+    /** @var object */
+    public $timeoriginalestimate;
+
 }
