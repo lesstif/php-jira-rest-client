@@ -1,91 +1,115 @@
 <?php
-
 namespace JiraRestApi;
-
-class JIRAException extends \Exception
-{
-}
 
 use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
-
 use Dotenv;
 
 /**
- * interact jira server with REST API.
+ * Interact jira server with REST API.
  */
 class JiraClient
 {
-    /* @var json mapper */
+    /**
+     * Json Mapper
+     *
+     * @var \JsonMapper
+     */
     protected $json_mapper;
 
-    /** @var HTTP response code */
+    /**
+     * HTTP response code
+     *
+     * @var string
+     */
     protected $http_response;
 
-    /** @var JIRA REST API URI */
+    /**
+     * JIRA REST API URI
+     *
+     * @var string
+     */
     private $api_uri = '/rest/api/2';
 
-    /** @var CURL instrance */
+    /**
+     * CURL instance
+     *
+     * @var resource
+     */
     protected $curl;
 
-    /** @var jira host */
+    /**
+     * Jira host
+     *
+     * @var string
+     */
     protected $host;
-    /** @var jira username */
+
+    /**
+     * Jira username
+     *
+     * @var string
+     */
     protected $username;
-    /** @var jira password */
+
+    /**
+     * Jira password
+     *
+     * @var string
+     */
     protected $password;
 
-    /** @var Monolog instance */
+    /**
+     * Monolog instance
+     *
+     * @var \Monolog\Logger
+     */
     protected $log;
 
-    // disable SSL Certification validation
+    /**
+     * Disable SSL Certification validation
+     *
+     * @var bool
+     */
     protected $CURLOPT_SSL_VERIFYHOST = false;
-    // FALSE to stop CURL from verifying the peer's certificate.
+
+    /**
+     * FALSE to stop CURL from verifying the peer's certificate.
+     *
+     * @var bool
+     */
     protected $CURLOPT_SSL_VERIFYPEER = false;
 
-    // debug curl
+    /**
+     * debug curl
+     *
+     * @var bool
+     */
     protected $CURLOPT_VERBOSE = false;
 
+    /**
+     * Log filename
+     *
+     * @var string
+     */
     protected $LOG_FILE;
+
+    /**
+     * Log level
+     *
+     * @var int
+     */
     protected $LOG_LEVEL;
 
-    private function convertLogLevel($log_level)
-    {
-        if ($log_level == 'DEBUG') {
-            return Logger::DEBUG;
-        } elseif ($log_level == 'INFO') {
-            return Logger::DEBUG;
-        } elseif ($log_level == 'WARNING') {
-            return Logger::WARNING;
-        } elseif ($log_level == 'ERROR') {
-            return Logger::ERROR;
-        } else {
-            return Logger::WARNING;
-        }
-    }
-
-    // serilize only not null field.
-    protected function filterNullVariable($haystack)
-    {
-        foreach ($haystack as $key => $value) {
-            if (is_array($value)) {
-                $haystack[$key] = $this->filterNullVariable($haystack[$key]);
-            } elseif (is_object($value)) {
-                $haystack[$key] = $this->filterNullVariable(get_class_vars(get_class($value)));
-            }
-
-            if (is_null($haystack[$key]) || empty($haystack[$key])) {
-                unset($haystack[$key]);
-            }
-        }
-
-        return $haystack;
-    }
-
+    /**
+     * Constructor
+     *
+     * @param string $path Path with dotenv file
+     */
     public function __construct($path = '.')
-    {     
+    {
         Dotenv::load($path);
-     
+
         // not available in dotenv 1.1
         // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
 
@@ -111,6 +135,61 @@ class JiraClient
         $this->http_response = 200;
     }
 
+    /**
+     * Convert log level
+     *
+     * @param $log_level
+     *
+     * @return int
+     */
+    private function convertLogLevel($log_level)
+    {
+        switch ($log_level) {
+            case 'DEBUG':
+                return Logger::DEBUG;
+            case 'INFO':
+                return Logger::INFO;
+            case 'ERROR':
+                return Logger::ERROR;
+            default:
+                return Logger::WARNING;
+        }
+    }
+
+    /**
+     * Serilize only not null field
+     *
+     * @param array $haystack
+     *
+     * @return array
+     */
+    protected function filterNullVariable($haystack)
+    {
+        foreach ($haystack as $key => $value) {
+            if (is_array($value)) {
+                $haystack[$key] = $this->filterNullVariable($haystack[$key]);
+            } elseif (is_object($value)) {
+                $haystack[$key] = $this->filterNullVariable(get_class_vars(get_class($value)));
+            }
+
+            if (is_null($haystack[$key]) || empty($haystack[$key])) {
+                unset($haystack[$key]);
+            }
+        }
+
+        return $haystack;
+    }
+
+    /**
+     * Execute REST request
+     *
+     * @param string $context Rest API context (ex.:issue, search, etc..)
+     * @param null $post_data
+     * @param null $custom_request
+     *
+     * @return string
+     * @throws JIRAException
+     */
     public function exec($context, $post_data = null, $custom_request = null)
     {
         $url = $this->host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
@@ -163,7 +242,7 @@ class JiraClient
 
             // HostNotFound, No route to Host, etc Network error
             $this->log->addError('CURL Error: = '.$body);
-            throw new JIRAException('CURL Error: = '.$body);
+            throw new JiraException('CURL Error: = '.$body);
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -172,7 +251,7 @@ class JiraClient
 
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new JIRAException('CURL HTTP Request Failed: Status Code : '
+                throw new JiraException('CURL HTTP Request Failed: Status Code : '
                  .$this->http_response.', URL:'.$url
                  ."\nError Message : ".$response, $this->http_response);
             }
@@ -181,6 +260,14 @@ class JiraClient
         return $response;
     }
 
+    /**
+     * Create upload handle
+     *
+     * @param string $url Request URL
+     * @param string $upload_file Filename
+     *
+     * @return resource
+     */
     private function createUploadHandle($url, $upload_file)
     {
         $ch = curl_init();
@@ -230,10 +317,13 @@ class JiraClient
     }
 
     /**
-     * file upload.
+     * File upload
      *
-     * @param context url context
-     * @param filePathArray upload file path.
+     * @param string $context       url context
+     * @param array  $filePathArray upload file path.
+     *
+     * @return array
+     * @throws JiraException
      */
     public function upload($context, $filePathArray)
     {
@@ -291,7 +381,7 @@ class JiraClient
                 if ($this->http_response != 200 && $this->http_response != 201) {
                     $body = 'CURL HTTP Request Failed: Status Code : '
                      .$this->http_response.', URL:'.$url
-                     ."\nError Message : ".$response;
+                     ."\nError Message : ".$response; // @TODO undefined variable $response
                     $this->log->addError($body);
                 }
             }

@@ -9,13 +9,14 @@ vendor/
 # composer.lock
 
 
-### Vim ###
+### Editor (Vim, PhpStorm) ###
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist
 *~
+.idea/
 
 composer.lock
 config.php
