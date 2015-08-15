@@ -176,7 +176,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $status;
 
-    /** @var object[] */
+    /** @var array */
     public $labels;
 
     /** @var \JiraRestApi\Project\Project */
@@ -185,7 +185,7 @@ class IssueField implements \JsonSerializable
     /** @var string */
     public $environment;
 
-    /** @var string[] */
+    /** @var array */
     public $components;
 
     /** @var Comments */
@@ -197,7 +197,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $resolution;
 
-    /** @var string[] */
+    /** @var array */
     public $fixVersions;
 
     /** @var Reporter */
@@ -230,13 +230,13 @@ class IssueField implements \JsonSerializable
     /** @var  string */
     public $resolutiondate;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $duedate;
 
-    /** @var object[] */
+    /** @var array */
     public $issuelinks;
 
-    /** @var object[] */
+    /** @var array */
     public $subtasks;
 
     /** @var int */
