@@ -19,9 +19,6 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             print_r($issue->fields->versions[0]);
 
-            //foreach ($issue->fields->comment->comments as $c) {
-            //	echo ("comment : " . $c->body . "\n");
-            //}
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());
         }
@@ -154,7 +151,6 @@ COMMENT;
             $this->assertTrue(false, 'testTransition Failed : '.$e->getMessage());
         }
     }
-    //
 
     public function testSearch()
     {
@@ -168,5 +164,4 @@ COMMENT;
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }
-
 }
