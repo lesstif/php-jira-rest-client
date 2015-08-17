@@ -1,9 +1,10 @@
 <?php
 namespace JiraRestApi;
 
+use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
-use Dotenv;
 
 /**
  * Interact jira server with REST API.
@@ -39,27 +40,6 @@ class JiraClient
     protected $curl;
 
     /**
-     * Jira host
-     *
-     * @var string
-     */
-    protected $host;
-
-    /**
-     * Jira username
-     *
-     * @var string
-     */
-    protected $username;
-
-    /**
-     * Jira password
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
      * Monolog instance
      *
      * @var \Monolog\Logger
@@ -67,70 +47,32 @@ class JiraClient
     protected $log;
 
     /**
-     * Disable SSL Certification validation
+     * Jira Rest API Configuration
      *
-     * @var bool
+     * @var ConfigurationInterface
      */
-    protected $CURLOPT_SSL_VERIFYHOST = false;
-
-    /**
-     * FALSE to stop CURL from verifying the peer's certificate.
-     *
-     * @var bool
-     */
-    protected $CURLOPT_SSL_VERIFYPEER = false;
-
-    /**
-     * debug curl
-     *
-     * @var bool
-     */
-    protected $CURLOPT_VERBOSE = false;
-
-    /**
-     * Log filename
-     *
-     * @var string
-     */
-    protected $LOG_FILE;
-
-    /**
-     * Log level
-     *
-     * @var int
-     */
-    protected $LOG_LEVEL;
+    protected $configuration;
 
     /**
      * Constructor
      *
-     * @param string $path Path with dotenv file
+     * @param ConfigurationInterface $configuration
      */
-    public function __construct($path = '.')
+    public function __construct(ConfigurationInterface $configuration = null)
     {
-        Dotenv::load($path);
+        if ($configuration === null) {
+            $configuration = new DotEnvConfiguration('.');
+        }
 
-        // not available in dotenv 1.1
-        // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-
+        $this->configuration = $configuration;
         $this->json_mapper = new \JsonMapper();
-
-        $this->host = $this->env('JIRA_HOST');
-        $this->username = $this->env('JIRA_USER');
-        $this->password = $this->env('JIRA_PASS');
-
-        $this->CURLOPT_SSL_VERIFYHOST = $this->env('CURLOPT_SSL_VERIFYHOST', false);
-
-        $this->CURLOPT_SSL_VERIFYPEER = $this->env('CURLOPT_SSL_VERIFYPEER', false);
-        $this->CURLOPT_VERBOSE = $this->env('CURLOPT_VERBOSE', false);
-
-        $this->LOG_FILE = $this->env('JIRA_LOG_FILE', 'jira-rest-client.log');
-        $this->LOG_LEVEL = $this->convertLogLevel($this->env('JIRA_LOG_LEVEL', 'WARNING'));
 
         // create logger
         $this->log = new Logger('JiraClient');
-        $this->log->pushHandler(new StreamHandler($this->LOG_FILE,
-            $this->LOG_LEVEL));
+        $this->log->pushHandler(new StreamHandler(
+            $configuration->getJiraLogFile(),
+            $this->convertLogLevel($configuration->getJiraLogLevel())
+        ));
 
         $this->http_response = 200;
     }
@@ -192,9 +134,9 @@ class JiraClient
      */
     public function exec($context, $post_data = null, $custom_request = null)
     {
-        $url = $this->host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
+        $url = $this->createUrlByContext($context);
 
-        $this->log->addDebug("Curl $url JsonData=".$post_data);
+        $this->log->addDebug("Curl $url JsonData=" . $post_data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -215,16 +157,16 @@ class JiraClient
             }
         }
 
-        curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
+        $this->authorization($ch);
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->CURLOPT_SSL_VERIFYHOST);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->CURLOPT_SSL_VERIFYPEER);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array('Accept: */*', 'Content-Type: application/json'));
 
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
         $this->log->addDebug('Curl exec='.$url);
         $response = curl_exec($ch);
@@ -296,10 +238,10 @@ class JiraClient
             $this->log->addDebug('using CURLFile='.var_export($attachments, true));
         }
 
-        curl_setopt($ch, CURLOPT_USERPWD, "$this->username:$this->password");
+        $this->authorization($ch);
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->CURLOPT_SSL_VERIFYHOST);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->CURLOPT_SSL_VERIFYPEER);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER,
@@ -309,7 +251,7 @@ class JiraClient
                 'X-Atlassian-Token: nocheck',
                 ));
 
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->CURLOPT_VERBOSE);
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
         $this->log->addDebug('Curl exec='.$url);
 
@@ -327,7 +269,7 @@ class JiraClient
      */
     public function upload($context, $filePathArray)
     {
-        $url = $this->host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
+        $url = $this->createUrlByContext($context);
 
         // return value
         $result_code = 200;
@@ -397,90 +339,47 @@ end:
         $this->log->addDebug('CURL Multi Close handle..');
         curl_multi_close($mh);
         if ($result_code != 200) {
+            // @TODO $body might have not been defined
             throw new JIRAException('CURL Error: = '.$body, $result_code);
         }
 
         return $results;
     }
 
-    // excerpt from laravel core.
-
     /**
-     * Gets the value of an environment variable. Supports boolean, empty and null.
+     * Get URL by context
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param string $context
      *
-     * @return mixed
+     * @return string
      */
-    private function env($key, $default = null)
+    protected function createUrlByContext($context)
     {
-        $value = getenv($key);
-
-        if ($value === false) {
-            return $default;
-        }
-
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-
-            case 'false':
-            case '(false)':
-                return false;
-
-            case 'empty':
-            case '(empty)':
-                return '';
-
-            case 'null':
-            case '(null)':
-                return;
-        }
-
-        if ($this->startsWith($value, '"') && endsWith($value, '"')) {
-            return substr($value, 1, -1);
-        }
-
-        return $value;
+        $host = $this->getConfiguration()->getJiraHost();
+        return $host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
     }
 
     /**
-     * Determine if a given string starts with a given substring.
+     * Add authorize to curl request
      *
-     * @param string       $haystack
-     * @param string|array $needles
+     * @TODO session/oauth methods
      *
-     * @return bool
+     * @param resource $ch
      */
-    public function startsWith($haystack, $needles)
+    protected function authorization($ch)
     {
-        foreach ((array) $needles as $needle) {
-            if ($needle != '' && strpos($haystack, $needle) === 0) {
-                return true;
-            }
-        }
-
-        return false;
+        $username = $this->getConfiguration()->getJiraUser();
+        $password = $this->getConfiguration()->getJiraPassword();
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
     }
 
     /**
-     * Determine if a given string ends with a given substring.
+     * Jira Rest API Configuration
      *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
+     * @return ConfigurationInterface
      */
-    public function endsWith($haystack, $needles)
+    public function getConfiguration()
     {
-        foreach ((array) $needles as $needle) {
-            if ((string) $needle === substr($haystack, -strlen($needle))) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->configuration;
     }
 }
