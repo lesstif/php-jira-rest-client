@@ -19,12 +19,12 @@
 	    }
 	}
 	```
-3. Then run Composer's install or update commands to complete installation. 
+3. Then run Composer's install or update commands to complete installation.
 
 	```sh
 	php composer.phar install
 	```
-	
+
 4. After installing, you need to require Composer's autoloader:
 
 	```php
@@ -33,13 +33,13 @@
 
 # Configuration
 
-copy .env.example file to .env on your project root.	
-	
+copy .env.example file to .env on your project root.
+
 	JIRA_HOST="https://your-jira.host.com"
 	JIRA_USER="jira-username"
 	JIRA_PASS="jira-password"
 
-**important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
+**important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it.
 
 # Usage
 
@@ -67,8 +67,8 @@ try {
 	$proj = new ProjectService();
 
 	$p = $proj->get('TEST');
-	
-	print_r($p);			
+
+	print_r($p);
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -91,8 +91,8 @@ try {
 		echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
 			$p->key, $p->id, $p->name, $p->projectCategory['name']
 			);
-			
-	}			
+
+	}
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -110,8 +110,8 @@ try {
 	$issueService = new IssueService();
 
 	$issue = $issueService->get('TEST-867');
-	
-	print_r($issue->fields);	
+
+	print_r($issue->fields);
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -137,11 +137,11 @@ try {
 				->setDescription("Full description for issue")
 				->addVersion("1.0.1")
 				->addVersion("1.0.3");
-	
+
 	$issueService = new IssueService();
 
 	$ret = $issueService->create($issueField);
-	
+
 	//If success, Returns a link to the created issue.
 	print_r($ret);
 } catch (JIRAException $e) {
@@ -166,7 +166,7 @@ try {
     $issueService = new IssueService();
 
     // multiple file upload support.
-    $ret = $issueService->addAttachments($issueKey, 
+    $ret = $issueService->addAttachments($issueKey,
     	array('screen_capture.png', 'bug-description.pdf', 'README.md'));
 
     print_r($ret);
@@ -188,7 +188,7 @@ use JiraRestApi\Issue\IssueField;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
 	$issueField = new IssueField(true);
 
 	$issueField->setAssigneeName("admin")
@@ -223,7 +223,7 @@ use JiraRestApi\Issue\Comment;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
 	$comment = new Comment();
 
 	$body = <<<COMMENT
@@ -260,7 +260,7 @@ use JiraRestApi\Issue\Transition;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
 	$transition = new Transition();
 	$transition->setTransitionName('Resolved');
 	$transition->setCommentBody('performing the transition via REST API.');
@@ -303,24 +303,24 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\TimeTracking;
+use JiraRestApi\Issue\Timetracking;
 
 $issueKey = 'TEST-961';
 
 try {
     $issueService = new IssueService();
-    
+
     // get issue's time tracking info
     $ret = $issueService->getWorklog($this->issueKey);
     var_dump($ret);
-    
-    $timeTracking = new TimeTracking;
 
-    $timeTracking->setOriginalEstimate('3w 4d 6h');
-    $timeTracking->setRemainingEstimate('1w 2d 3h');
-    
+    $timetracking = new Timetracking;
+
+    $timetracking->setOriginalEstimate('3w 4d 6h');
+    $timetracking->setRemainingEstimate('1w 2d 3h');
+
     // add time tracking
-    $ret = $issueService->worklog($this->issueKey, $timeTracking);
+    $ret = $issueService->worklog($this->issueKey, $timetracking);
     var_dump($ret);
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());

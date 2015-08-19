@@ -149,7 +149,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $progress;
 
-    /** @var TimeTracking */
+    /** @var Timetracking */
     public $timetracking;
 
     /** @var IssueType */
