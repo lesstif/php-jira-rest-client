@@ -224,9 +224,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * get worklog info
-     *
-     * @param type $issueIdOrKey
-     * @return type @Timetracking
+     * 
+     * @param type $issueIdOrKey 
+     * @return type @TimeTracking
      */
     public function getWorklog($issueIdOrKey)
     {
@@ -244,16 +244,16 @@ class IssueService extends \JiraRestApi\JiraClient
      * worklog issues
      *
      * @param issueIdOrKey Issue id or key
-     * @param timetracking   Timetracking
+     * @param timeTracking   TimeTracking
      *
-     * @return Timetracking
+     * @return TimeTracking
      */
-    public function worklog($issueIdOrKey, $timetracking)
-    {
+    public function worklog($issueIdOrKey, $timeTracking)
+    {   
         $array = ["update" =>
             [
                 "timetracking" => [
-                    ["edit" => $timetracking]
+                    ["edit" => $timeTracking]
                 ]
             ]
         ];
@@ -262,11 +262,11 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addDebug("worklog req=$data\n");
 
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');   
 
-        // FIXME
+        // FIXME 
         $result = $this->json_mapper->map(
-            json_decode($ret), new Timetracking()
+            json_decode($ret), new TimeTracking()
         );
 
         return $result;
@@ -274,3 +274,4 @@ class IssueService extends \JiraRestApi\JiraClient
 }
 
 ?>
+

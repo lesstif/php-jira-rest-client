@@ -3,38 +3,38 @@
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Timetracking;
+use JiraRestApi\Issue\TimeTracking;
 
-class TimetrackingTest extends PHPUnit_Framework_TestCase
-{
+class TimeTrackingTest extends PHPUnit_Framework_TestCase
+{    
     private $issueKey = 'TEST-961';
 
-    public function testGetTimetracking()
-    {
+    public function testGetTimeTracking()
+    {   
         try {
             $issueService = new IssueService();
 
             $ret = $issueService->getWorklog($this->issueKey);
             var_dump($ret);
         } catch (JIRAException $e) {
-            $this->assertTrue(false, 'testGetTimetracking Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testGetTimeTracking Failed : '.$e->getMessage());
         }
     }
 
-    public function testPostTimetracking()
-    {
-        $timeTracking = new Timetracking;
+    public function testPostTimeTracking()
+    {   
+        $timeTracking = new TimeTracking;
 
         $timeTracking->setOriginalEstimate('3w 4d 6h');
         $timeTracking->setRemainingEstimate('1w 2d 3h');
 
         try {
             $issueService = new IssueService();
-
+            
             $ret = $issueService->worklog($this->issueKey, $timeTracking);
             var_dump($ret);
         } catch (JIRAException $e) {
-            $this->assertTrue(false, 'testPostTimetracking Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testPostTimeTracking Failed : '.$e->getMessage());
         }
     }
 }

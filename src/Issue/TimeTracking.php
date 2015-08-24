@@ -8,11 +8,11 @@
 namespace JiraRestApi\Issue;
 
 /**
- * Class Timetracking
+ * Class TimeTracking
  *
  * @package JiraRestApi\Issue
  */
-class Timetracking implements \JsonSerializable
+class TimeTracking implements \JsonSerializable
 {
     /**
      * Original estimate
