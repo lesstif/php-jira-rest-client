@@ -330,6 +330,7 @@ class JiraClient
         }
 
         // clean up
+end:
         foreach ($chArr as $ch) {
             $this->log->addDebug('CURL Close handle..');
             curl_close($ch);
