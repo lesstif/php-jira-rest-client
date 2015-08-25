@@ -311,7 +311,7 @@ try {
     $issueService = new IssueService();
     
     // get issue's time tracking info
-    $ret = $issueService->getWorklog($this->issueKey);
+    $ret = $issueService->getTimeTracking($this->issueKey);
     var_dump($ret);
     
     $timeTracking = new TimeTracking;
@@ -320,7 +320,7 @@ try {
     $timeTracking->setRemainingEstimate('1w 2d 3h');
     
     // add time tracking
-    $ret = $issueService->worklog($this->issueKey, $timeTracking);
+    $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
     var_dump($ret);
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());

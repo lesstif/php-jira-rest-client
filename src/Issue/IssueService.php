@@ -223,32 +223,32 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get worklog info
+     * get TimeTracking info
      * 
      * @param type $issueIdOrKey 
      * @return type @TimeTracking
      */
-    public function getWorklog($issueIdOrKey)
+    public function getTimeTracking($issueIdOrKey)
     {
         $ret = $this->exec($this->uri . "/$issueIdOrKey", null);
-        $this->log->addDebug("getWorklog res=$ret\n");
+        $this->log->addDebug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
         );
 
-        return $issue->fields->timetracking;
+        return $issue->fields->timeTracking;
     }
 
      /**
-     * worklog issues
+     * TimeTracking issues
      *
      * @param issueIdOrKey Issue id or key
      * @param timeTracking   TimeTracking
      *
-     * @return TimeTracking
+     * @return type @TimeTracking
      */
-    public function worklog($issueIdOrKey, $timeTracking)
+    public function timeTracking($issueIdOrKey, $timeTracking)
     {   
         $array = ["update" =>
             [
@@ -260,16 +260,12 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $data = json_encode($array);
 
-        $this->log->addDebug("worklog req=$data\n");
+        $this->log->addDebug("TimeTracking req=$data\n");
 
+        // if success, just return HTTP 201.
         $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');   
 
-        // FIXME 
-        $result = $this->json_mapper->map(
-            json_decode($ret), new TimeTracking()
-        );
-
-        return $result;
+        return $ret;
     }
 }
 

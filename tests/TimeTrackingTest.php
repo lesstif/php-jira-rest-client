@@ -7,14 +7,14 @@ use JiraRestApi\Issue\TimeTracking;
 
 class TimeTrackingTest extends PHPUnit_Framework_TestCase
 {    
-    private $issueKey = 'TEST-961';
+    private $issueKey = 'TEST-76';
 
     public function testGetTimeTracking()
     {   
         try {
             $issueService = new IssueService();
 
-            $ret = $issueService->getWorklog($this->issueKey);
+            $ret = $issueService->getTimeTracking($this->issueKey);
             var_dump($ret);
         } catch (JIRAException $e) {
             $this->assertTrue(false, 'testGetTimeTracking Failed : '.$e->getMessage());
@@ -31,7 +31,7 @@ class TimeTrackingTest extends PHPUnit_Framework_TestCase
         try {
             $issueService = new IssueService();
             
-            $ret = $issueService->worklog($this->issueKey, $timeTracking);
+            $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
             var_dump($ret);
         } catch (JIRAException $e) {
             $this->assertTrue(false, 'testPostTimeTracking Failed : '.$e->getMessage());
