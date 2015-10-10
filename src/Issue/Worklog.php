@@ -7,20 +7,90 @@ namespace JiraRestApi\Issue;
  *
  * @package JiraRestApi\Issue
  */
-class Worklog implements \JsonSerializable
+class Worklog
 {
+    /**
+     * @var int Start at position
+     */
+    protected $startAt;
 
     /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *       which is a value of any type other than a resource.
+     * @var int Maximum results
      */
-    function jsonSerialize()
+    protected $maxResults;
+
+    /**
+     * @var int Total results
+     */
+    protected $total;
+
+    /**
+     * @var array Worklogs
+     */
+    protected $worklogs;
+
+    /**
+     * @return int
+     */
+    public function getStartAt()
     {
-        return array_filter(get_object_vars($this));
+        return $this->startAt;
+    }
+
+    /**
+     * @param int $startAt
+     */
+    public function setStartAt($startAt)
+    {
+        $this->startAt = $startAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxResults()
+    {
+        return $this->maxResults;
+    }
+
+    /**
+     * @param int $maxResults
+     */
+    public function setMaxResults($maxResults)
+    {
+        $this->maxResults = $maxResults;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param int $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+    /**
+     * @return array Worklogs
+     */
+    public function getWorklogs()
+    {
+        return $this->worklogs;
+    }
+
+    /**
+     * @param array $worklogs Worklogs
+     */
+    public function setWorklogs($worklogs)
+    {
+        $this->worklogs = $worklogs;
     }
 
 }
