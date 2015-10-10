@@ -224,8 +224,8 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * get TimeTracking info
-     * 
-     * @param type $issueIdOrKey 
+     *
+     * @param type $issueIdOrKey
      * @return type @TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
@@ -249,7 +249,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @return type @TimeTracking
      */
     public function timeTracking($issueIdOrKey, $timeTracking)
-    {   
+    {
         $array = ["update" =>
             [
                 "timetracking" => [
@@ -263,11 +263,27 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->addDebug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');   
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
+
+    /**
+     * get getWorklog
+     *
+     * @param mixed $issueIdOrKey
+     * @return Worklog
+     */
+    public function getWorklog($issueIdOrKey)
+    {
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog", null);
+        $this->log->addDebug("getWorklog res=$ret\n");
+
+        $issue = $this->json_mapper->map(
+            json_decode($ret), new Issue()
+        );
+
+        return $issue->fields->worklog;
+    }
+
 }
-
-?>
-

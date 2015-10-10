@@ -2,7 +2,7 @@
     "name": "lesstif/php-jira-rest-client",
     "description": "JIRA REST API Client for PHP Users.",
     "type": "library",
-    "keywords": ["jira", "jira-php", "jira-rest"],
+    "keywords": ["jira", "rest", "jira-php", "jira-rest"],
     "require": {
         "php": ">=5.4.0",
         "netresearch/jsonmapper": "~0.5",
