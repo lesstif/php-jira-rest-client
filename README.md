@@ -344,7 +344,7 @@ try {
     
     // get issue's worklog
     $worklogs = $issueService->getWorklog($issueKey)->getWorklogs();
-    var_dump($ret);    
+    var_dump($worklogs);    
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
