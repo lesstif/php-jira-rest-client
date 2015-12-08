@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\JiraException;
+
 class IssueService extends \JiraRestApi\JiraClient
 {
     private $uri = '/issue';
@@ -167,7 +169,8 @@ class IssueService extends \JiraRestApi\JiraClient
             }
         }
 
-        return;
+        // transition keyword not found
+        throw new JiraException('Transition name \'' . $transitionToName . '\' not found on JIRA Server.');
     }
 
     /**
