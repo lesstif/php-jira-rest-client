@@ -61,7 +61,12 @@ class JiraClient
     public function __construct(ConfigurationInterface $configuration = null)
     {
         if ($configuration === null) {
-            $configuration = new DotEnvConfiguration('.');
+            $path = "./";
+            if (!file_exists(".env")){
+                // If calling the getcwd() on laravel it will returning the 'public' directory.
+                $path = "../";
+            }
+            $configuration = new DotEnvConfiguration($path);
         }
 
         $this->configuration = $configuration;

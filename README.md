@@ -41,6 +41,8 @@ copy .env.example file to .env on your project root.
 
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
 
+If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+
 # Usage
 
 ## Table of Contents
