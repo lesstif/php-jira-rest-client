@@ -18,10 +18,16 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey", null);
 
         $this->log->addInfo("Result=\n".$ret);
-
+        $json = json_decode($ret);
         $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+            $json , new Issue()
         );
+        // Copy custom fields per hand.
+        foreach ($json->fields as $key => $value) {
+            if (substr($key, 0, 12) == 'customfield_') {
+                $issue->fields->{$key} = $value;
+            }
+        }
 
         return $issue;
     }
