@@ -129,11 +129,16 @@ class IssueField implements \JsonSerializable
 
     public function setIssueType($name)
     {
-        if (is_null($this->issuetype)) {
-            $this->issuetype = new \JiraRestApi\Issue\IssueType();
-        }
+        if (is_string($name)) {
+            if (is_null($this->issuetype)) {
+                $this->issuetype = new \JiraRestApi\Issue\IssueType();
+            }
 
-        $this->issuetype->name = $name;
+            $this->issuetype->name = $name;
+        }
+        else {
+          $this->issuetype = $name;
+        }
 
         return $this;
     }
