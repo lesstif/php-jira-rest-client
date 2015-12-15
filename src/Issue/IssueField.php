@@ -107,8 +107,8 @@ class IssueField implements \JsonSerializable
 
     public function addComment($comment)
     {
-        if (is_null($this->comments)) {
-            $this->comments = new \JiraRestApi\Issue\Comments();
+        if (is_null($this->comment)) {
+            $this->comment = new \JiraRestApi\Issue\Comments();
         }
 
         array_push($this->versions, $v);
@@ -129,11 +129,16 @@ class IssueField implements \JsonSerializable
 
     public function setIssueType($name)
     {
-        if (is_null($this->issuetype)) {
-            $this->issuetype = new \JiraRestApi\Issue\IssueType();
-        }
+        if (is_string($name)) {
+            if (is_null($this->issuetype)) {
+                $this->issuetype = new \JiraRestApi\Issue\IssueType();
+            }
 
-        $this->issuetype->name = $name;
+            $this->issuetype->name = $name;
+        }
+        else {
+          $this->issuetype = $name;
+        }
 
         return $this;
     }
@@ -189,7 +194,7 @@ class IssueField implements \JsonSerializable
     public $components;
 
     /** @var Comments */
-    public $comments;
+    public $comment;
 
     /** @var object */
     public $votes;
