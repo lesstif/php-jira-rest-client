@@ -241,7 +241,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $issuelinks;
 
-    /** @var array */
+    /** @var Issue[] */
     public $subtasks;
 
     /** @var int */
@@ -258,5 +258,8 @@ class IssueField implements \JsonSerializable
 
     /** @var object */
     public $timeoriginalestimate;
+
+    /** @var object */
+    public $parent;
 
 }
