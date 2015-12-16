@@ -8,6 +8,16 @@ class IssueService extends \JiraRestApi\JiraClient
 {
     private $uri = '/issue';
 
+
+    private function getIssueFromJSON($json) {
+        $issue = $this->json_mapper->map(
+            $json , new Issue()
+        );
+        $issue->addCustomFields($json->fields);
+
+        return $issue;
+    }
+
     /**
      * get all project list.
      *
@@ -18,18 +28,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey", null);
 
         $this->log->addInfo("Result=\n".$ret);
-        $json = json_decode($ret);
-        $issue = $this->json_mapper->map(
-            $json , new Issue()
-        );
-        // Copy custom fields per hand.
-        foreach ($json->fields as $key => $value) {
-            if (substr($key, 0, 12) == 'customfield_') {
-                $issue->fields->{$key} = $value;
-            }
-        }
-
-        return $issue;
+        return $this->getIssueFromJSON(json_decode($ret));
     }
 
     /**
@@ -52,11 +51,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
-        $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
-        );
-
-        return $issue;
+        return $this->getIssueFromJSON(json_decode($ret));
     }
 
     /**
@@ -223,10 +218,15 @@ class IssueService extends \JiraRestApi\JiraClient
         ));
 
         $ret = $this->exec("search", $data, 'POST');
+        $json = json_decode($ret);
 
         $result = $this->json_mapper->map(
-            json_decode($ret), new IssueSearchResult()
+            $json, new IssueSearchResult()
         );
+
+        foreach ($json->issues as $ndx => $issue_json) {
+            $result->getIssue($ndx)->addCustomFields($issue_json->fields);
+        }
 
         return $result;
     }
