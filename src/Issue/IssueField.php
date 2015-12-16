@@ -149,7 +149,7 @@ class IssueField implements \JsonSerializable
     }
 
 
-    public function addCustomFields(array $data) {
+    public function addCustomFields($data) {
         foreach ($data as $key => $value) {
             if (substr($key, 0, 12) == 'customfield_') {
                 $this->{$key} = $value;
