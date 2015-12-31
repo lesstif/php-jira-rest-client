@@ -1,4 +1,10 @@
 
+# Requirements
+
+- PHP >= 5.4.9
+- [php JsonMapper](https://github.com/netresearch/jsonmapper)
+- [phpdotenv](https://github.com/vlucas/phpdotenv)
+
 # Installation
 
 1. Download and Install PHP Composer.
@@ -19,6 +25,9 @@
 	    }
 	}
 	```
+	**Note:**
+	If you are using **laravel 5.0 or 5.1**(this version dependent on phpdotenv 1.x), then use **"1.5.\*"** version instead.
+
 3. Then run Composer's install or update commands to complete installation. 
 
 	```sh
