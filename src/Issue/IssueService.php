@@ -293,4 +293,42 @@ class IssueService extends \JiraRestApi\JiraClient
         return $worklog;
     }
 
+    /**
+     * Get all priorities.
+     *
+     * @return array of priority class
+     */
+    public function getAllPriorities()
+    {
+        $ret = $this->exec("priority", null);
+
+        $priorities = $this->json_mapper->mapArray(
+             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Priority'
+        );
+
+        return $priorities;
+    }
+
+    /**
+     * Get priority by id.
+     *
+     * @param priorityId Id of priority.
+     *
+     * @throws HTTPException if the priority is not found, or the calling user does not have permission or view it.
+     *
+     * @return string priority id
+     */
+    public function getPriority($priorityId)
+    {
+        $ret = $this->exec("priority/$priorityId", null);
+
+        $this->log->addInfo('Result='.$ret);
+
+        $prio = $this->json_mapper->map(
+             json_decode($ret), new Priority()
+        );
+
+        return $prio;
+    }
+
 }
