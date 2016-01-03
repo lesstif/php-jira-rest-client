@@ -29,6 +29,8 @@ class Issue implements \JsonSerializable
     }
 
     public function addCustomFields($data) {
+      if ($this->fields) {
         $this->fields->addCustomFields($data);
+      }
     }
 }
