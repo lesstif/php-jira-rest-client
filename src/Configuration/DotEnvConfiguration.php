@@ -7,8 +7,6 @@
  */
 namespace JiraRestApi\Configuration;
 
-use Dotenv;
-
 /**
  * Class DotEnvConfiguration
  *
@@ -21,10 +19,9 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     public function __construct($path = '.')
     {
-        Dotenv::load($path);
-
-        // not available in dotenv 1.1
-        // $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
+        $dotenv = new \Dotenv\Dotenv($path);
+        $dotenv->load();
+        $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
 
         $this->jiraHost = $this->env('JIRA_HOST');
         $this->jiraUser = $this->env('JIRA_USER');
