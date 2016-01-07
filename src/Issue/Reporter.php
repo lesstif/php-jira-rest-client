@@ -32,6 +32,9 @@ class Reporter implements \JsonSerializable
                 unset($vars[$key]);
             }
         }
-        return $vars;
+		if(empty($vars)) {
+			return null;
+		}
+		return $vars;
     }
 }
