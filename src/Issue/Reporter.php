@@ -24,12 +24,17 @@ class Reporter implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this), function ($value, $key) {
-            // allow empty assignee. See https://github.com/lesstif/php-jira-rest-client/issues/18
+        $vars = (get_object_vars($this));
+        foreach($vars as $key => $value) {
             if ($key === 'name' && !is_null($value)) {
-                return true;
+                continue;
+            }elseif(is_null($value) || $value === '') {
+                unset($vars[$key]);
             }
-            return !empty($value);
-        }, ARRAY_FILTER_USE_BOTH);
+        }
+		if(empty($vars)) {
+			return null;
+		}
+		return $vars;
     }
 }
