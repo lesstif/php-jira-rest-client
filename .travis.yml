@@ -12,6 +12,7 @@ before_install:
   - travis_retry composer install --no-interaction --prefer-dist
 script:
   - phpunit --verbose tests/MockTest
+  - phpunit --verbose tests/SerializeTest
 
 matrix:
   allow_failures:
