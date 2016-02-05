@@ -9,7 +9,7 @@ class IssueService extends \JiraRestApi\JiraClient
     private $uri = '/issue';
 
 
-    private function getIssueFromJSON($json) {
+    public function getIssueFromJSON($json) {
         $issue = $this->json_mapper->map(
             $json , new Issue()
         );
