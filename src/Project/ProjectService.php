@@ -79,6 +79,3 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
 }
-
-?>
-
