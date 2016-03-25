@@ -230,7 +230,7 @@ class IssueField implements \JsonSerializable
     public $versions;
 
     /** @var \JiraRestApi\Issue\Attachment[] */
-    public $attachments;
+    public $attachment;
 
     /** @var  string */
     public $aggregatetimespent;
