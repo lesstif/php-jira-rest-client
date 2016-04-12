@@ -135,7 +135,7 @@ class JiraClient
      * @param null $custom_request
      *
      * @return string
-     * @throws JIRAException
+     * @throws JiraException
      */
     public function exec($context, $post_data = null, $custom_request = null)
     {
@@ -345,7 +345,7 @@ end:
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
-            throw new JIRAException('CURL Error: = '.$body, $result_code);
+            throw new JiraException('CURL Error: = '.$body, $result_code);
         }
 
         return $results;
