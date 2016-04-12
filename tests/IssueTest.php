@@ -18,7 +18,6 @@ class IssueTest extends PHPUnit_Framework_TestCase
             file_put_contents('jira-issue.json', json_encode($issue, JSON_PRETTY_PRINT));
 
             print_r($issue->fields->versions[0]);
-
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());
         }

@@ -1,10 +1,6 @@
 <?php
 
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueField;
-use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Reporter;
-use JiraRestApi\Issue\Transition;
 
 class SerializeTest extends PHPUnit_Framework_TestCase
 {

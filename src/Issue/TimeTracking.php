@@ -3,33 +3,32 @@
  * Created by PhpStorm.
  * User: keanor
  * Date: 29.07.15
- * Time: 21:27
+ * Time: 21:27.
  */
+
 namespace JiraRestApi\Issue;
 
 /**
- * Class TimeTracking
- *
- * @package JiraRestApi\Issue
+ * Class TimeTracking.
  */
 class TimeTracking implements \JsonSerializable
 {
     /**
-     * Original estimate
+     * Original estimate.
      *
      * @var string (ex 90m, 2h, 1d 2h 30m)
      */
     public $originalEstimate;
 
     /**
-     * Remaining estimate
+     * Remaining estimate.
      *
      * @var string (ex 90m, 2h, 1d 2h 30m)
      */
     public $remainingEstimate;
 
     /**
-     * Time spent
+     * Time spent.
      *
      * @var string (ex 90m, 2h, 1d 2h 30m)
      */
@@ -37,7 +36,7 @@ class TimeTracking implements \JsonSerializable
 
     /**
      * Original estimate in seconds, generated in jira
-     * for create/update issue set $this->originalEstimate
+     * for create/update issue set $this->originalEstimate.
      *
      * @var int
      */
@@ -45,7 +44,7 @@ class TimeTracking implements \JsonSerializable
 
     /**
      * Remaining estimate in seconds, generated in jira
-     * for create/update issue set $this->remainingEstimate
+     * for create/update issue set $this->remainingEstimate.
      *
      * @var int
      */
@@ -53,7 +52,7 @@ class TimeTracking implements \JsonSerializable
 
     /**
      * Time spent in seconds, generated in jira
-     * for create/update issue set $this->timeSpent
+     * for create/update issue set $this->timeSpent.
      *
      * @var int
      */
@@ -157,13 +156,14 @@ class TimeTracking implements \JsonSerializable
 
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
+     * Specify data which should be serialized to JSON.
      *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     *       which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }

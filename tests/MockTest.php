@@ -1,7 +1,5 @@
 <?php
 
-use JiraRestApi\Project\ProjectService;
-
 use \Mockery as m;
 
 class Temperature
@@ -14,10 +12,11 @@ class Temperature
     public function average()
     {
         $total = 0;
-        for ($i=0;$i<3;$i++) {
+        for ($i = 0;$i < 3;++$i) {
             $total += $this->_service->readTemp();
         }
-        return $total/3;
+
+        return $total / 3;
     }
 }
 

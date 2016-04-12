@@ -135,9 +135,8 @@ class IssueField implements \JsonSerializable
             }
 
             $this->issuetype->name = $name;
-        }
-        else {
-          $this->issuetype = $name;
+        } else {
+            $this->issuetype = $name;
         }
 
         return $this;
@@ -258,5 +257,4 @@ class IssueField implements \JsonSerializable
 
     /** @var object */
     public $timeoriginalestimate;
-
 }

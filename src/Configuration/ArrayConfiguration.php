@@ -3,15 +3,13 @@
  * Created by PhpStorm.
  * User: keanor
  * Date: 17.08.15
- * Time: 22:40
+ * Time: 22:40.
  */
 
 namespace JiraRestApi\Configuration;
 
 /**
- * Class ArrayConfiguration
- *
- * @package JiraRestApi\Configuration
+ * Class ArrayConfiguration.
  */
 class ArrayConfiguration extends AbstractConfiguration
 {

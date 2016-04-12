@@ -170,7 +170,7 @@ class IssueService extends \JiraRestApi\JiraClient
         }
 
         // transition keyword not found
-        throw new JiraException('Transition name \'' . $transitionToName . '\' not found on JIRA Server.');
+        throw new JiraException('Transition name \''.$transitionToName.'\' not found on JIRA Server.');
     }
 
     /**
@@ -198,7 +198,7 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Search issues
+     * Search issues.
      *
      * @param       $jql
      * @param int   $startAt
@@ -207,16 +207,16 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt=0, $maxResults=15, $fields=[])
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [])
     {
         $data = json_encode(array(
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
-            'fields' => $fields
+            'fields' => $fields,
         ));
 
-        $ret = $this->exec("search", $data, 'POST');
+        $ret = $this->exec('search', $data, 'POST');
 
         $result = $this->json_mapper->map(
             json_decode($ret), new IssueSearchResult()
@@ -226,14 +226,15 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get TimeTracking info
+     * get TimeTracking info.
      *
      * @param type $issueIdOrKey
+     *
      * @return type @TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", null);
+        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
         $this->log->addDebug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
@@ -243,8 +244,8 @@ class IssueService extends \JiraRestApi\JiraClient
         return $issue->fields->timeTracking;
     }
 
-     /**
-     * TimeTracking issues
+    /**
+     * TimeTracking issues.
      *
      * @param issueIdOrKey Issue id or key
      * @param timeTracking   TimeTracking
@@ -253,12 +254,11 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function timeTracking($issueIdOrKey, $timeTracking)
     {
-        $array = ["update" =>
-            [
-                "timetracking" => [
-                    ["edit" => $timeTracking]
-                ]
-            ]
+        $array = ['update' => [
+                'timetracking' => [
+                    ['edit' => $timeTracking],
+                ],
+            ],
         ];
 
         $data = json_encode($array);
@@ -266,25 +266,26 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->addDebug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
+        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
 
     /**
-     * get getWorklog
+     * get getWorklog.
      *
      * @param mixed $issueIdOrKey
+     *
      * @return Worklog Return Worklog object
      */
     public function getWorklog($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog");
+        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
         $this->log->addDebug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
             json_decode($ret), new Worklog()
         );
+
         return $worklog;
     }
-
 }

@@ -6,11 +6,11 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
 
 class TimeTrackingTest extends PHPUnit_Framework_TestCase
-{    
+{
     private $issueKey = 'TEST-76';
 
     public function testGetTimeTracking()
-    {   
+    {
         try {
             $issueService = new IssueService();
 
@@ -22,15 +22,15 @@ class TimeTrackingTest extends PHPUnit_Framework_TestCase
     }
 
     public function testPostTimeTracking()
-    {   
-        $timeTracking = new TimeTracking;
+    {
+        $timeTracking = new TimeTracking();
 
         $timeTracking->setOriginalEstimate('3w 4d 6h');
         $timeTracking->setRemainingEstimate('1w 2d 3h');
 
         try {
             $issueService = new IssueService();
-            
+
             $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
             var_dump($ret);
         } catch (JIRAException $e) {

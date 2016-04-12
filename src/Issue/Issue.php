@@ -20,7 +20,7 @@ class Issue implements \JsonSerializable
    /* @var string */
    public $key;
 
-    /** @var IssueField */
+   /** @var IssueField */
    public $fields;
 
     public function jsonSerialize()

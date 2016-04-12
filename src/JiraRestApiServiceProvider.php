@@ -1,9 +1,8 @@
 <?php
+
 namespace JiraRestApi;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
-
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 
@@ -18,8 +17,6 @@ class JiraRestApiServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -27,12 +24,10 @@ class JiraRestApiServiceProvider extends ServiceProvider
 
     /**
      * Register bindings in the container.
-     *
-     * @return void
      */
-    public function register() {
-
-        $this->app->bind(ConfigurationInterface::class, function(){
+    public function register()
+    {
+        $this->app->bind(ConfigurationInterface::class, function () {
             return new DotEnvConfiguration(base_path());
         });
     }
