@@ -3,70 +3,69 @@
  * Created by PhpStorm.
  * User: keanor
  * Date: 17.08.15
- * Time: 21:58
+ * Time: 21:58.
  */
+
 namespace JiraRestApi\Configuration;
 
 /**
- * Interface ConfigurationInterface
- *
- * @package JiraRestApi\Configuration
+ * Interface ConfigurationInterface.
  */
 interface ConfigurationInterface
 {
     /**
-     * Jira host
+     * Jira host.
      *
      * @return string
      */
     public function getJiraHost();
 
     /**
-     * Jira login
+     * Jira login.
      *
      * @return string
      */
     public function getJiraUser();
 
     /**
-     * Jira password
+     * Jira password.
      *
      * @return string
      */
     public function getJiraPassword();
 
     /**
-     * Path to log file
+     * Path to log file.
      *
      * @return string
      */
     public function getJiraLogFile();
 
     /**
-     * Log level (DEBUG, INFO, ERROR, WARNING)
+     * Log level (DEBUG, INFO, ERROR, WARNING).
      *
      * @return string
      */
     public function getJiraLogLevel();
 
     /**
-     * Curl options CURLOPT_SSL_VERIFYHOST
+     * Curl options CURLOPT_SSL_VERIFYHOST.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptSslVerifyHost();
 
     /**
-     * Curl options CURLOPT_SSL_VERIFYPEER
+     * Curl options CURLOPT_SSL_VERIFYPEER.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptSslVerifyPeer();
 
     /**
-     * Curl options CURLOPT_VERBOSE
+     * Curl options CURLOPT_VERBOSE.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptVerbose();
 }

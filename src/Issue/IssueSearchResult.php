@@ -3,15 +3,13 @@
  * Created by PhpStorm.
  * User: keanor
  * Date: 29.07.15
- * Time: 13:12
+ * Time: 13:12.
  */
 
 namespace JiraRestApi\Issue;
 
 /**
- * Issue search result
- *
- * @package JiraRestApi\Issue
+ * Issue search result.
  */
 class IssueSearchResult
 {

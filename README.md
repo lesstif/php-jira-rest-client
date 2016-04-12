@@ -15,13 +15,13 @@
 
 2. Next, run the Composer command to install the latest version of php jira rest client.
 	``` sh
-	php composer.phar require lesstif/php-jira-rest-client dev-master
+	php composer.phar require lesstif/php-jira-rest-client "~1.6"
 	```
     or add the following to your composer.json file.
 	```json
 	{
 	    "require": {
-	        "lesstif/php-jira-rest-client": "dev-master"
+	        "lesstif/php-jira-rest-client": "~1.6"
 	    }
 	}
 	```
@@ -84,7 +84,7 @@ try {
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-?>
+
 ````
 
 ## Get All Project list
@@ -108,7 +108,7 @@ try {
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-?>
+
 ````
 
 ## Get Issue Info
@@ -128,7 +128,6 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Create Issue
@@ -160,7 +159,6 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Add Attachment
@@ -186,7 +184,6 @@ try {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Update issue
@@ -221,7 +218,6 @@ try {
 	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Add comment
@@ -258,7 +254,6 @@ COMMENT;
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Perform a transition on an issue
@@ -284,7 +279,6 @@ try {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
-?>
 ````
 
 ## Perform an advanced search
@@ -305,7 +299,7 @@ try {
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
-?>
+
 ````
 
 ## Issue time tracking
@@ -337,7 +331,7 @@ try {
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
-?>
+
 ````
 
 ## Issue worklog
@@ -359,7 +353,7 @@ try {
 } catch (JIRAException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
-?>
+
 ````
 
 # License

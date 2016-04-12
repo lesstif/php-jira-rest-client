@@ -1,4 +1,5 @@
 <?php
+
 namespace JiraRestApi;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
@@ -12,59 +13,59 @@ use Monolog\Handler\StreamHandler;
 class JiraClient
 {
     /**
-     * Json Mapper
+     * Json Mapper.
      *
      * @var \JsonMapper
      */
     protected $json_mapper;
 
     /**
-     * HTTP response code
+     * HTTP response code.
      *
      * @var string
      */
     protected $http_response;
 
     /**
-     * JIRA REST API URI
+     * JIRA REST API URI.
      *
      * @var string
      */
     private $api_uri = '/rest/api/2';
 
     /**
-     * CURL instance
+     * CURL instance.
      *
      * @var resource
      */
     protected $curl;
 
     /**
-     * Monolog instance
+     * Monolog instance.
      *
      * @var \Monolog\Logger
      */
     protected $log;
 
     /**
-     * Jira Rest API Configuration
+     * Jira Rest API Configuration.
      *
      * @var ConfigurationInterface
      */
     protected $configuration;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ConfigurationInterface $configuration
      */
     public function __construct(ConfigurationInterface $configuration = null)
     {
         if ($configuration === null) {
-            $path = "./";
-            if (!file_exists(".env")){
+            $path = './';
+            if (!file_exists('.env')) {
                 // If calling the getcwd() on laravel it will returning the 'public' directory.
-                $path = "../";
+                $path = '../';
             }
             $configuration = new DotEnvConfiguration($path);
         }
@@ -83,7 +84,7 @@ class JiraClient
     }
 
     /**
-     * Convert log level
+     * Convert log level.
      *
      * @param $log_level
      *
@@ -104,7 +105,7 @@ class JiraClient
     }
 
     /**
-     * Serilize only not null field
+     * Serilize only not null field.
      *
      * @param array $haystack
      *
@@ -128,20 +129,21 @@ class JiraClient
     }
 
     /**
-     * Execute REST request
+     * Execute REST request.
      *
-     * @param string $context Rest API context (ex.:issue, search, etc..)
-     * @param null $post_data
-     * @param null $custom_request
+     * @param string $context        Rest API context (ex.:issue, search, etc..)
+     * @param null   $post_data
+     * @param null   $custom_request
      *
      * @return string
-     * @throws JIRAException
+     *
+     * @throws JiraException
      */
     public function exec($context, $post_data = null, $custom_request = null)
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addDebug("Curl $url JsonData=" . $post_data);
+        $this->log->addDebug("Curl $url JsonData=".$post_data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -208,9 +210,9 @@ class JiraClient
     }
 
     /**
-     * Create upload handle
+     * Create upload handle.
      *
-     * @param string $url Request URL
+     * @param string $url         Request URL
      * @param string $upload_file Filename
      *
      * @return resource
@@ -264,12 +266,13 @@ class JiraClient
     }
 
     /**
-     * File upload
+     * File upload.
      *
      * @param string $context       url context
      * @param array  $filePathArray upload file path.
      *
      * @return array
+     *
      * @throws JiraException
      */
     public function upload($context, $filePathArray)
@@ -283,7 +286,7 @@ class JiraClient
         $results = array();
         $mh = curl_multi_init();
 
-        for ($idx = 0; $idx < count($filePathArray); $idx++) {
+        for ($idx = 0; $idx < count($filePathArray); ++$idx) {
             $file = $filePathArray[$idx];
             if (file_exists($file) == false) {
                 $body = "File $file not found";
@@ -301,7 +304,7 @@ class JiraClient
         } while ($running > 0);
 
          // Get content and remove handles.
-        for ($idx = 0; $idx < count($chArr); $idx++) {
+        for ($idx = 0; $idx < count($chArr); ++$idx) {
             $ch = $chArr[$idx];
 
             $results[$idx] = curl_multi_getcontent($ch);
@@ -345,14 +348,14 @@ end:
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
-            throw new JIRAException('CURL Error: = '.$body, $result_code);
+            throw new JiraException('CURL Error: = '.$body, $result_code);
         }
 
         return $results;
     }
 
     /**
-     * Get URL by context
+     * Get URL by context.
      *
      * @param string $context
      *
@@ -361,11 +364,12 @@ end:
     protected function createUrlByContext($context)
     {
         $host = $this->getConfiguration()->getJiraHost();
-        return $host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
+
+        return $host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
     }
 
     /**
-     * Add authorize to curl request
+     * Add authorize to curl request.
      *
      * @TODO session/oauth methods
      *
@@ -379,7 +383,7 @@ end:
     }
 
     /**
-     * Jira Rest API Configuration
+     * Jira Rest API Configuration.
      *
      * @return ConfigurationInterface
      */

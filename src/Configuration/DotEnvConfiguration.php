@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 17.08.15
- * Time: 22:01
- */
+
 namespace JiraRestApi\Configuration;
 
 /**
- * Class DotEnvConfiguration
- *
- * @package JiraRestApi\Configuration
+ * Class DotEnvConfiguration.
  */
 class DotEnvConfiguration extends AbstractConfiguration
 {
@@ -64,7 +57,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
             case 'null':
             case '(null)':
-                return null;
+                return;
         }
 
         if ($this->startsWith($value, '"') && endsWith($value, '"')) {

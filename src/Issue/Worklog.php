@@ -3,9 +3,7 @@
 namespace JiraRestApi\Issue;
 
 /**
- * Class Worklog
- *
- * @package JiraRestApi\Issue
+ * Class Worklog.
  */
 class Worklog
 {
@@ -92,5 +90,4 @@ class Worklog
     {
         $this->worklogs = $worklogs;
     }
-
 }

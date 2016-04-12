@@ -2,8 +2,6 @@
 
 namespace JiraRestApi\Issue;
 
-use JiraRestApi\Issue\IssueField;
-
 class TransitionTo
 {
     /* @var string */

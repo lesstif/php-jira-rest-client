@@ -14,7 +14,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
 
             print_r($p->lead);
             foreach ($p->components as $c) {
-                echo('COM : '.$c->name."\n");
+                echo 'COM : '.$c->name."\n";
             }
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());

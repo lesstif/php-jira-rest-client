@@ -1,73 +1,65 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 17.08.15
- * Time: 22:23
- */
 
 namespace JiraRestApi\Configuration;
 
 /**
- * Class AbstractConfiguration
- *
- * @package JiraRestApi\Configuration
+ * Class AbstractConfiguration.
  */
 abstract class AbstractConfiguration implements ConfigurationInterface
 {
     /**
-     * Jira host
+     * Jira host.
      *
      * @var string
      */
     protected $jiraHost;
 
     /**
-     * Jira login
+     * Jira login.
      *
      * @var string
      */
     protected $jiraUser;
 
     /**
-     * Jira password
+     * Jira password.
      *
      * @var string
      */
     protected $jiraPassword;
 
     /**
-     * Path to log file
+     * Path to log file.
      *
      * @var string
      */
     protected $jiraLogFile;
 
     /**
-     * Log level (DEBUG, INFO, ERROR, WARNING)
+     * Log level (DEBUG, INFO, ERROR, WARNING).
      *
      * @var string
      */
     protected $jiraLogLevel;
 
     /**
-     * Curl options CURLOPT_SSL_VERIFYHOST
+     * Curl options CURLOPT_SSL_VERIFYHOST.
      *
-     * @var boolean
+     * @var bool
      */
     protected $curlOptSslVerifyHost;
 
     /**
-     * Curl options CURLOPT_SSL_VERIFYPEER
+     * Curl options CURLOPT_SSL_VERIFYPEER.
      *
-     * @var boolean
+     * @var bool
      */
     protected $curlOptSslVerifyPeer;
 
     /**
-     * Curl options CURLOPT_VERBOSE
+     * Curl options CURLOPT_VERBOSE.
      *
-     * @var boolean
+     * @var bool
      */
     protected $curlOptVerbose;
 
@@ -112,7 +104,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptSslVerifyHost()
     {
@@ -120,7 +112,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptSslVerifyPeer()
     {
@@ -128,7 +120,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCurlOptVerbose()
     {

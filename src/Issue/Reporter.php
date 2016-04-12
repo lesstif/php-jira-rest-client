@@ -25,16 +25,17 @@ class Reporter implements \JsonSerializable
     public function jsonSerialize()
     {
         $vars = (get_object_vars($this));
-        foreach($vars as $key => $value) {
+        foreach ($vars as $key => $value) {
             if ($key === 'name' && !is_null($value)) {
                 continue;
-            }elseif(is_null($value) || $value === '') {
+            } elseif (is_null($value) || $value === '') {
                 unset($vars[$key]);
             }
         }
-		if(empty($vars)) {
-			return null;
-		}
-		return $vars;
+        if (empty($vars)) {
+            return;
+        }
+
+        return $vars;
     }
 }
