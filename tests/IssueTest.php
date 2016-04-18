@@ -1,9 +1,11 @@
 <?php
 
+use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Transition;
+use JiraRestApi\JiraException;
 
 class IssueTest extends PHPUnit_Framework_TestCase
 {
@@ -48,7 +50,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $issueKey = $ret->{'key'};
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
@@ -68,7 +70,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             print_r($ret);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'Attach Failed : '.$e->getMessage());
         }
     }
@@ -97,7 +99,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $issueService->update($issueKey, $issueField);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'update Failed : '.$e->getMessage());
         }
     }
@@ -127,7 +129,7 @@ COMMENT;
             print_r($ret);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'add Comment Failed : '.$e->getMessage());
         }
     }
@@ -146,7 +148,7 @@ COMMENT;
             $ret = $issueService->transition($issueKey, $transition);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testTransition Failed : '.$e->getMessage());
         }
     }
@@ -158,8 +160,8 @@ COMMENT;
             $issueService = new IssueService();
 
             $ret = $issueService->search($jql);
-            var_dump($ret);
-        } catch (JIRAException $e) {
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }

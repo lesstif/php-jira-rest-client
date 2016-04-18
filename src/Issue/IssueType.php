@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
+
 class IssueType implements \JsonSerializable
 {
     /* @var string */
@@ -10,7 +11,7 @@ class IssueType implements \JsonSerializable
     /* @var string */
     public $id;
 
-    /* @var string */
+    /* @var string|null */
     public $description;
 
     /* @var string */
@@ -21,6 +22,9 @@ class IssueType implements \JsonSerializable
 
      /* @var bool */
     public $subtask;
+
+    /* @var \JiraRestApi\Issue\IssueStatus[] */
+    public $statuses;
 
     public function jsonSerialize()
     {

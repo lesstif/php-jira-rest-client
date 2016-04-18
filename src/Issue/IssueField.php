@@ -135,8 +135,9 @@ class IssueField implements \JsonSerializable
             }
 
             $this->issuetype->name = $name;
-        } else {
-            $this->issuetype = $name;
+        }
+        else {
+          $this->issuetype = $name;
         }
 
         return $this;
@@ -145,6 +146,15 @@ class IssueField implements \JsonSerializable
     public function getIssueType()
     {
         return $this->issuetype;
+    }
+
+
+    public function addCustomFields($data) {
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 12) == 'customfield_') {
+                $this->{$key} = $value;
+            }
+        }
     }
 
     /** @var string */
@@ -177,7 +187,7 @@ class IssueField implements \JsonSerializable
     /** @var Priority */
     public $priority;
 
-    /** @var object */
+    /** @var IssueStatus */
     public $status;
 
     /** @var array */
@@ -220,7 +230,7 @@ class IssueField implements \JsonSerializable
     public $versions;
 
     /** @var \JiraRestApi\Issue\Attachment[] */
-    public $attachments;
+    public $attachment;
 
     /** @var  string */
     public $aggregatetimespent;
@@ -240,7 +250,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $issuelinks;
 
-    /** @var array */
+    /** @var Issue[] */
     public $subtasks;
 
     /** @var int */
@@ -257,4 +267,8 @@ class IssueField implements \JsonSerializable
 
     /** @var object */
     public $timeoriginalestimate;
+
+    /** @var object */
+    public $parent;
+
 }

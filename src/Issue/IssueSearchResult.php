@@ -103,6 +103,13 @@ class IssueSearchResult
     }
 
     /**
+     * @param int $ndx
+     */
+    public function getIssue($ndx) {
+        return $this->issues[$ndx];
+    }
+
+    /**
      * @return string
      */
     public function getExpand()
