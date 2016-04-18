@@ -138,8 +138,10 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+
 try {
 	$issueField = new IssueField();
+
 	$issueField->setProjectKey("TEST")
 				->setSummary("something's wrong")
 				->setAssigneeName("lesstif")
@@ -154,6 +156,41 @@ try {
 	$ret = $issueService->create($issueField);
 	
 	//If success, Returns a link to the created issue.
+	print_r($ret);
+} catch (JIRAException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+````
+
+## Create Sub Task
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+
+try {
+	$issueField = new IssueField();
+
+	$issueField->setProjectKey("TEST")
+				->setSummary("something's wrong")
+				->setAssigneeName("lesstif")
+				->setPriorityName("Critical")
+				->setIssueType("Sub-task")  //issue type must be Sub-task
+				->setDescription("Full description for issue")
+				->addVersion("1.0.1")
+				->addVersion("1.0.3")
+				->setParentKey('TEST-143')  //Issue Key
+				;
+
+	$issueService = new IssueService();
+
+	$ret = $issueService->create($issueField);
+
+	//If success, Returns a link to the created sub task.
 	print_r($ret);
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());

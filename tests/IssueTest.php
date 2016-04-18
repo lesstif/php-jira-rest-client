@@ -54,7 +54,40 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
-    //
+
+    /**
+     * @depends testCreateIssue
+     */
+    public function testCreateSubTask($issueKey)
+    {
+        try {
+            $issueField = new IssueField();
+
+            $issueField->setProjectKey('TEST')
+                ->setSummary("Subtask - something's wrong")
+                ->setAssigneeName('lesstif')
+                ->setPriorityName('Critical')
+                ->setIssueType('Sub-task')
+                ->setDescription('Subtask - Full description for issue')
+                ->addVersion('1.0.1')
+                ->addVersion('1.0.3')
+                ->setParentKey($issueKey)
+            ;
+
+            $issueService = new IssueService();
+
+            $ret = $issueService->create($issueField);
+
+            //If success, Returns a link to the created issue.
+            print_r($ret);
+
+            $issueKey = $ret->{'key'};
+
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+        }
+    }
 
     /**
      * @depends testCreateIssue

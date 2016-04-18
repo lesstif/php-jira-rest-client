@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\Dumper;
+
 class IssueField implements \JsonSerializable
 {
     public function __construct($updateIssue = false)
@@ -85,9 +87,15 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @param string|null
+     * @return $this
+     */
     public function setDescription($description)
     {
-        $this->description = $description;
+        if (!empty($description)) {
+            $this->description = $description;
+        }
 
         return $this;
     }
@@ -130,6 +138,7 @@ class IssueField implements \JsonSerializable
     public function setIssueType($name)
     {
         if (is_string($name)) {
+
             if (is_null($this->issuetype)) {
                 $this->issuetype = new \JiraRestApi\Issue\IssueType();
             }
@@ -157,6 +166,24 @@ class IssueField implements \JsonSerializable
         }
     }
 
+    /**
+     * set parent issue id
+     *
+     * @param object|null
+     */
+    public function setParentId($id) {
+        $this->parent['id'] = $id;
+    }
+
+    /**
+     * set parent issue id
+     *
+     * @param object|null
+     */
+    public function setParentKey($key) {
+        $this->parent['key'] = $key;
+    }
+
     /** @var string */
     public $summary;
 
@@ -169,7 +196,7 @@ class IssueField implements \JsonSerializable
     /** @var IssueType */
     public $issuetype;
 
-    /** @var string */
+    /** @var string|null */
     public $timespent;
 
     /** @var Reporter */
@@ -181,7 +208,7 @@ class IssueField implements \JsonSerializable
     /** @var \DateTime */
     public $updated;
 
-    /** @var string */
+    /** @var string|null */
     public $description;
 
     /** @var Priority */
@@ -196,7 +223,7 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Project\Project */
     public $project;
 
-    /** @var string */
+    /** @var string|null */
     public $environment;
 
     /** @var array */
@@ -232,19 +259,19 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
 
-    /** @var  string */
+    /** @var  string|null */
     public $aggregatetimespent;
 
-    /** @var  string */
+    /** @var  string|null */
     public $timeestimate;
 
-    /** @var  string */
+    /** @var  string|null */
     public $aggregatetimeoriginalestimate;
 
     /** @var  string */
     public $resolutiondate;
 
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     public $duedate;
 
     /** @var array */
@@ -256,19 +283,19 @@ class IssueField implements \JsonSerializable
     /** @var int */
     public $workratio;
 
-    /** @var object */
+    /** @var object|null */
     public $aggregatetimeestimate;
 
-    /** @var object */
+    /** @var object|null */
     public $aggregateprogress;
 
-    /** @var object */
+    /** @var object|null */
     public $lastViewed;
 
-    /** @var object */
+    /** @var object|null */
     public $timeoriginalestimate;
 
-    /** @var object */
+    /** @var object|null */
     public $parent;
 
 }
