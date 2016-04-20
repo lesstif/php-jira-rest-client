@@ -67,11 +67,11 @@ class IssueTest extends PHPUnit_Framework_TestCase
                 ->setSummary("Subtask - something's wrong")
                 ->setAssigneeName('lesstif')
                 ->setPriorityName('Critical')
-                ->setIssueType('Sub-task')
                 ->setDescription('Subtask - Full description for issue')
                 ->addVersion('1.0.1')
                 ->addVersion('1.0.3')
-                ->setParentKey($issueKey)
+                ->setIssueType('Sub-task')
+                ->setParent($issueKey)
             ;
 
             $issueService = new IssueService();
@@ -186,7 +186,26 @@ COMMENT;
         }
     }
 
+    /**
+     * @depends testTransition
+     */
     public function testSearch()
+    {
+        $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->search($jql);
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testSearch
+     */
+    public function testCustomField()
     {
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
         try {

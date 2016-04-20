@@ -158,6 +158,11 @@ class IssueField implements \JsonSerializable
     }
 
 
+    /**
+     * add custom field
+     *
+     * @param $data array of custom field
+     */
     public function addCustomFields($data) {
         foreach ($data as $key => $value) {
             if (substr($key, 0, 12) == 'customfield_') {
@@ -167,21 +172,18 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set parent issue id
+     *  set parent issue
      *
-     * @param object|null
+     * @param $keyOrId parent issue key or id
      */
-    public function setParentId($id) {
-        $this->parent['id'] = $id;
-    }
+    public function setParent($keyOrId) {
+        if (is_numeric($keyOrId)) {
+            $this->parent['id'] = $keyOrId;
+        }
+        elseif (is_string($keyOrId)) {
+            $this->parent['key'] = $keyOrId;
+        }
 
-    /**
-     * set parent issue id
-     *
-     * @param object|null
-     */
-    public function setParentKey($key) {
-        $this->parent['key'] = $key;
     }
 
     /** @var string */

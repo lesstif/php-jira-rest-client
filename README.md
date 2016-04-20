@@ -59,6 +59,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Get All Project list](#get-all-project-list)
 - [Get Issue Info](#get-issue-info)
 - [Create Issue](#create-issue)
+- [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
 - [Add comment](#add-comment)
@@ -165,6 +166,15 @@ try {
 
 ## Create Sub Task
 
+Creating a sub-task is similar to creating a regular issue, with two important method calls:
+
+```php
+->setIssueType('Sub-task')
+->setParent($issueKeyOrId)
+```
+
+for example
+                
 ````php
 <?php
 require 'vendor/autoload.php';
@@ -179,10 +189,10 @@ try {
 				->setSummary("something's wrong")
 				->setAssigneeName("lesstif")
 				->setPriorityName("Critical")
-				->setIssueType("Sub-task")  //issue type must be Sub-task
 				->setDescription("Full description for issue")
 				->addVersion("1.0.1")
 				->addVersion("1.0.3")
+				->setIssueType("Sub-task")  //issue type must be Sub-task
 				->setParentKey('TEST-143')  //Issue Key
 				;
 
