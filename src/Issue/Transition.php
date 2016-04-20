@@ -7,7 +7,7 @@ class TransitionTo
     /* @var string */
     public $self;
 
-    /* @var string */
+    /* @var string|null */
     public $description;
 
     /* @var string */

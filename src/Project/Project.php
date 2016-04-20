@@ -53,7 +53,7 @@ class Project
       */
      public $projectCategory;
 
-     /* @var string */
+     /* @var string|null */
      public $description;
 
      /* Project leader info @var array */

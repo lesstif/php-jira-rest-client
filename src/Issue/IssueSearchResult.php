@@ -16,27 +16,27 @@ class IssueSearchResult
     /**
      * @var string
      */
-    protected $expand;
+    public $expand;
 
     /**
      * @var int
      */
-    protected $startAt;
+    public $startAt;
 
     /**
      * @var int
      */
-    protected $maxResults;
+    public $maxResults;
 
     /**
      * @var int
      */
-    protected $total;
+    public $total;
 
     /**
      * @var Issue[]
      */
-    protected $issues;
+    public $issues;
 
     /**
      * @return int
@@ -100,6 +100,13 @@ class IssueSearchResult
     public function setIssues($issues)
     {
         $this->issues = $issues;
+    }
+
+    /**
+     * @param int $ndx
+     */
+    public function getIssue($ndx) {
+        return $this->issues[$ndx];
     }
 
     /**

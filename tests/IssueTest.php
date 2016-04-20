@@ -1,9 +1,11 @@
 <?php
 
+use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Transition;
+use JiraRestApi\JiraException;
 
 class IssueTest extends PHPUnit_Framework_TestCase
 {
@@ -48,11 +50,44 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $issueKey = $ret->{'key'};
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
-    //
+
+    /**
+     * @depends testCreateIssue
+     */
+    public function testCreateSubTask($issueKey)
+    {
+        try {
+            $issueField = new IssueField();
+
+            $issueField->setProjectKey('TEST')
+                ->setSummary("Subtask - something's wrong")
+                ->setAssigneeName('lesstif')
+                ->setPriorityName('Critical')
+                ->setDescription('Subtask - Full description for issue')
+                ->addVersion('1.0.1')
+                ->addVersion('1.0.3')
+                ->setIssueType('Sub-task')
+                ->setParent($issueKey)
+            ;
+
+            $issueService = new IssueService();
+
+            $ret = $issueService->create($issueField);
+
+            //If success, Returns a link to the created issue.
+            print_r($ret);
+
+            $issueKey = $ret->{'key'};
+
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+        }
+    }
 
     /**
      * @depends testCreateIssue
@@ -68,7 +103,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             print_r($ret);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'Attach Failed : '.$e->getMessage());
         }
     }
@@ -97,7 +132,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $issueService->update($issueKey, $issueField);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'update Failed : '.$e->getMessage());
         }
     }
@@ -127,7 +162,7 @@ COMMENT;
             print_r($ret);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'add Comment Failed : '.$e->getMessage());
         }
     }
@@ -146,11 +181,14 @@ COMMENT;
             $ret = $issueService->transition($issueKey, $transition);
 
             return $issueKey;
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testTransition Failed : '.$e->getMessage());
         }
     }
 
+    /**
+     * @depends testTransition
+     */
     public function testSearch()
     {
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
@@ -158,8 +196,24 @@ COMMENT;
             $issueService = new IssueService();
 
             $ret = $issueService->search($jql);
-            var_dump($ret);
-        } catch (JIRAException $e) {
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testSearch
+     */
+    public function testCustomField()
+    {
+        $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->search($jql);
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }

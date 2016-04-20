@@ -59,6 +59,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Get All Project list](#get-all-project-list)
 - [Get Issue Info](#get-issue-info)
 - [Create Issue](#create-issue)
+- [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
 - [Add comment](#add-comment)
@@ -138,8 +139,10 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+
 try {
 	$issueField = new IssueField();
+
 	$issueField->setProjectKey("TEST")
 				->setSummary("something's wrong")
 				->setAssigneeName("lesstif")
@@ -154,6 +157,50 @@ try {
 	$ret = $issueService->create($issueField);
 	
 	//If success, Returns a link to the created issue.
+	print_r($ret);
+} catch (JIRAException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+````
+
+## Create Sub Task
+
+Creating a sub-task is similar to creating a regular issue, with two important method calls:
+
+```php
+->setIssueType('Sub-task')
+->setParent($issueKeyOrId)
+```
+
+for example
+                
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+
+try {
+	$issueField = new IssueField();
+
+	$issueField->setProjectKey("TEST")
+				->setSummary("something's wrong")
+				->setAssigneeName("lesstif")
+				->setPriorityName("Critical")
+				->setDescription("Full description for issue")
+				->addVersion("1.0.1")
+				->addVersion("1.0.3")
+				->setIssueType("Sub-task")  //issue type must be Sub-task
+				->setParentKey('TEST-143')  //Issue Key
+				;
+
+	$issueService = new IssueService();
+
+	$ret = $issueService->create($issueField);
+
+	//If success, Returns a link to the created sub task.
 	print_r($ret);
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());

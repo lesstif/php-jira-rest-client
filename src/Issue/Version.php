@@ -10,7 +10,7 @@ class Version implements \JsonSerializable
     /* @var string */
     public $id;
 
-    /* @var string */
+    /* @var string|null */
     public $description;
 
     /* @var string */

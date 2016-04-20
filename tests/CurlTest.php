@@ -6,6 +6,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 {
     public function testCurlPost()
     {
+        $this->markTestIncomplete();
         try {
             $config = getHostConfig();
 

@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
+use JiraRestApi\JiraException;
 
 class TimeTrackingTest extends PHPUnit_Framework_TestCase
 {
@@ -16,7 +17,7 @@ class TimeTrackingTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->getTimeTracking($this->issueKey);
             var_dump($ret);
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testGetTimeTracking Failed : '.$e->getMessage());
         }
     }
@@ -33,7 +34,7 @@ class TimeTrackingTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
             var_dump($ret);
-        } catch (JIRAException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, 'testPostTimeTracking Failed : '.$e->getMessage());
         }
     }
