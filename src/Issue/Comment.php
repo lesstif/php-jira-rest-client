@@ -4,13 +4,14 @@ namespace JiraRestApi\Issue;
 
 class Visibility
 {
-    private $type;
-    private $value;
+    public $type;
+    public $value;
 
     public function setType($type)
     {
         $this->type = $type;
     }
+
     public function setValue($value)
     {
         $this->value = $value;
@@ -20,6 +21,7 @@ class Visibility
     {
         return $this->type;
     }
+
     public function getValue()
     {
         return $this->value;
@@ -28,47 +30,72 @@ class Visibility
 
 class Comment implements \JsonSerializable
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $id;
 
-    /* @var Reporter */
+    /**
+     * @var \JiraRestApi\Issue\Reporter
+     */
     public $author;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $body;
 
-    /* @var Reporter */
+    /**
+     * @var \JiraRestApi\Issue\Reporter
+     */
     public $updateAuthor;
 
-    /* @var DateTime */
+    /**
+     * @var \DateTime
+     */
     public $created;
 
-    /* @var DateTime */
+    /**
+     * @var \DateTime
+     */
     public $updated;
 
     /**
-     * @var Visibility
+     * @var \JiraRestApi\Issue\Visibility
      */
     public $visibility;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     public function setBody($body)
     {
         $this->body = $body;
-
         return $this;
     }
 
-    public function setVisibility($type, $vvalue)
+    public function setVisibility($visibility, $value = null)
     {
+        if(is_string($visibility) && is_string($value)) {
+            $visibility = ['type' => $visibility, 'value' => $value];
+        }
+
         if (is_null($this->visibility)) {
             $this->visibility = new Visibility();
         }
 
-        $this->visibility->setType($type);
-        $this->visibility->setValue($vvalue);
+        $visibility = (array) $visibility;
+
+        $this->visibility->setType($visibility['type']);
+        $this->visibility->setValue($visibility['value']);
 
         return $this;
     }

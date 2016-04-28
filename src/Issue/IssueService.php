@@ -2,199 +2,33 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\JiraClient;
+use JiraRestApi\JiraClientResponse;
 use JiraRestApi\JiraException;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-class IssueService extends \JiraRestApi\JiraClient
+class IssueService extends JiraClient
 {
     private $uri = '/issue';
+    private $searchUri = '/search';
 
     /**
-     * get all project list.
+     * Get issue
      *
-     * @return Issue class
+     * @param $issueIdOrKey Issue id or key
+     *
+     * @return mixed
      */
     public function get($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey);
 
-        $this->log->addInfo("Result=\n".$ret);
-
-        $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
-        );
-
-        return $issue;
-    }
-
-    /**
-     * create new issue.
-     *
-     * @param   $issue object of Issue class
-     *
-     * @return created issue key
-     */
-    public function create($issueField)
-    {
-        $issue = new Issue();
-
-        // serilize only not null field.
-        $issue->fields = $issueField;
-
-        $data = json_encode($issue);
-
-        $this->log->addInfo("Create Issue=\n".$data);
-
-        $ret = $this->exec($this->uri, $data, 'POST');
-
-        $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
-        );
-
-        return $issue;
-    }
-
-    /**
-     * Add one or more file to an issue.
-     *
-     * @param issueIdOrKey Issue id or key
-     * @param filePathArray attachment file path.
-     *
-     * @return
-     */
-    public function addAttachments($issueIdOrKey, $filePathArray)
-    {
-        $results = $this->upload($this->uri."/$issueIdOrKey/attachments", $filePathArray);
-
-        $this->log->addInfo('addAttachments result='.var_export($results, true));
-
-        $resArr = array();
-        foreach ($results as $ret) {
-            array_push($resArr, $this->json_mapper->mapArray(
-               json_decode($ret), new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
-                )
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Issue()
             );
-        }
-
-        return $resArr;
-    }
-
-    /**
-     * update issue.
-     *
-     * @param   $issueIdOrKey Issue Key
-     * @param   $issueField   object of Issue class
-     *
-     * @return created issue key
-     */
-    public function update($issueIdOrKey, $issueField)
-    {
-        $issue = new Issue();
-
-        // serilize only not null field.
-        $issue->fields = $issueField;
-
-        //$issue = $this->filterNullVariable((array)$issue);
-
-        $data = json_encode($issue);
-
-        $this->log->addInfo("Update Issue=\n".$data);
-
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
-
-        return $ret;
-    }
-
-    /**
-     * Adds a new comment to an issue.
-     *
-     * @param issueIdOrKey Issue id or key
-     * @param comment .
-     *
-     * @return Comment class
-     */
-    public function addComment($issueIdOrKey, $comment)
-    {
-        $this->log->addInfo("addComment=\n");
-
-        $data = json_encode($comment);
-
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
-
-        $this->log->addDebug('add comment result='.var_export($ret, true));
-        $comment = $this->json_mapper->map(
-           json_decode($ret), new Comment()
-        );
-
-        return $comment;
-    }
-
-    /**
-     * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
-     *
-     * @param issueIdOrKey Issue id or key
-     *
-     * @return array of Transition class
-     */
-    public function getTransition($issueIdOrKey)
-    {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions");
-
-        $this->log->addDebug('getTransitions result='.var_export($ret, true));
-
-        $data = json_encode(json_decode($ret)->transitions);
-
-        $transitions = $this->json_mapper->mapArray(
-           json_decode($data), new \ArrayObject(), '\JiraRestApi\Issue\Transition'
-        );
-
-        return $transitions;
-    }
-
-    /**
-     * find transition id by transition's to field name(aka 'Resolved').
-     */
-    public function findTransitonId($issueIdOrKey, $transitionToName)
-    {
-        $this->log->addDebug('findTransitonId=');
-
-        $ret = $this->getTransition($issueIdOrKey);
-
-        foreach ($ret as $trans) {
-            $toName = $trans->to->name;
-
-            $this->log->addDebug('getTransitions result='.var_export($ret, true));
-
-            if (strcmp($toName, $transitionToName) == 0) {
-                return $trans->id;
-            }
-        }
-
-        // transition keyword not found
-        throw new JiraException('Transition name \''.$transitionToName.'\' not found on JIRA Server.');
-    }
-
-    /**
-     * Perform a transition on an issue.
-     *
-     * @param issueIdOrKey Issue id or key
-     *
-     * @return nothing - if transition was successful return http 204(no contents)
-     */
-    public function transition($issueIdOrKey, $transition)
-    {
-        $this->log->addDebug('transition='.var_export($transition, true));
-
-        if (!isset($transition->transition['id'])) {
-            $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
-        }
-
-        $data = json_encode($transition);
-
-        $this->log->addDebug("transition req=$data\n");
-
-        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions", $data, 'POST');
-
-        $this->log->addDebug('getTransitions result='.var_export($ret, true));
+        });
     }
 
     /**
@@ -205,74 +39,257 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param int   $maxResults
      * @param array $fields
      *
-     * @return IssueSearchResult
+     * @return mixed
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [])
     {
-        $data = json_encode(array(
+        $data = [
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
             'fields' => $fields,
-        ));
+        ];
 
-        $ret = $this->exec('search', $data, 'POST');
+        /** @var JiraClientResponse $result */
+        $result = $this->exec($this->searchUri, $data, Request::METHOD_POST);
 
-        $result = $this->json_mapper->map(
-            json_decode($ret), new IssueSearchResult()
-        );
-
-        return $result;
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new IssueSearchResult()
+            );
+        });
     }
 
     /**
-     * get TimeTracking info.
+     * Create new issue.
      *
-     * @param type $issueIdOrKey
+     * @param IssueField $issueField
      *
-     * @return type @TimeTracking
+     * @return mixed
+     */
+    public function create(IssueField $issueField)
+    {
+        $issue = new Issue();
+        $issue->fields = $issueField;
+        $data = $this->filterNullVariable($issue);
+
+        $result = $this->exec($this->uri, $data, Request::METHOD_POST);
+
+        return $this->extractErrors($result, [201], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Issue()
+            );
+        });
+    }
+
+    /**
+     * Update issue.
+     *
+     * @param            $issueIdOrKey Issue id or key
+     * @param IssueField $issueField
+     *
+     * @return string
+     */
+    public function update($issueIdOrKey, IssueField $issueField)
+    {
+        $issue = new Issue();
+        $issue->fields = $issueField;
+
+        // ToDO: Do we need to filter null variables?
+        $data = $this->filterNullVariable($issue);
+
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey, $data, Request::METHOD_PUT);
+
+        return $this->extractErrors($result, [204], function () use ($result) {
+            return $result;
+        });
+    }
+
+    /**
+     * Add one or more file to an issue.
+     *
+     * @param       $issueIdOrKey  Issue id or key
+     * @param array $filePathArray attachment file path.
+     *
+     * @return array
+     */
+    public function addAttachments($issueIdOrKey, array $filePathArray)
+    {
+        $results = $this->upload($this->uri . '/' . $issueIdOrKey .'/attachments', $filePathArray);
+
+        $resArr = [];
+        foreach ($results as $result) {
+            $extracted = $this->extractErrors($result, [200], function () use ($result) {
+                return $this->json_mapper->mapArray(
+                    $result->getRawData(), new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
+                );
+            });
+
+            array_push($resArr, $extracted);
+        }
+
+        return $resArr;
+    }
+
+    /**
+     * Adds a new comment to an issue.
+     *
+     * @param         $issueIdOrKey Issue id or key
+     * @param Comment $comment
+     *
+     * @return mixed
+     */
+    public function addComment($issueIdOrKey, Comment $comment)
+    {
+        $data = $this->filterNullVariable($comment);
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey . '/comment', $data, Request::METHOD_POST);
+
+        return $this->extractErrors($result, [201], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Comment()
+            );
+        });
+    }
+
+    /**
+     * Update comment to an issue.
+     *
+     * @param         $issueIdOrKey Issue id or key
+     * @param Comment $comment
+     *
+     * @return mixed
+     * @throws JiraException
+     */
+    public function updateComment($issueIdOrKey, Comment $comment)
+    {
+        $data = $this->filterNullVariable($comment);
+
+        if (!isset($data['id'])) {
+            throw new JiraException('CommentId not found in Comment object.');
+        }
+
+        $commentId = $data['id'];
+        unset($data['id']);
+
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey . '/comment/' . $commentId, $data, Request::METHOD_PUT);
+
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Comment()
+            );
+        });
+    }
+
+    /**
+     * Get a list of the transitions possible for this
+     * issue by the current user, along with fields that
+     * are required and their types.
+     *
+     * @param $issueIdOrKey
+     *
+     * @return mixed|string
+     */
+    public function getTransition($issueIdOrKey)
+    {
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey . '/transitions');
+
+        return $this->extractErrors($result, [200], function () use ($result) {
+            $data = $result->getRawData();
+            return $this->json_mapper->mapArray(
+                $data['transitions'], new \ArrayObject(), '\JiraRestApi\Issue\Transition'
+            );
+        });
+    }
+
+    /**
+     * Find transition id by transition's to field name(aka 'Resolved').
+     *
+     * @param $issueIdOrKey
+     * @param $transitionToName
+     *
+     * @return mixed
+     * @throws JiraException
+     */
+    public function findTransitionId($issueIdOrKey, $transitionToName)
+    {
+        $ret = $this->getTransition($issueIdOrKey);
+
+        foreach ($ret as $trans) {
+            $toName = $trans->to->name;
+
+            if (strcmp($toName, $transitionToName) == 0) {
+                return $trans->id;
+            }
+        }
+
+        // transition keyword not found
+        throw new JiraException('Transition name \'' . $transitionToName . '\' not found on JIRA Server.');
+    }
+
+    /**
+     * Perform a transition on an issue.
+     *
+     * @param            $issueIdOrKey Issue id or key
+     * @param Transition $transition
+     *
+     * @return mixed - if transition was successful return http 204(no contents)
+     * @throws JiraException
+     */
+    public function doTransition($issueIdOrKey, Transition $transition)
+    {
+        if (!isset($transition->transition['id'])) {
+            $transition->transition['id'] = $this->findTransitionId($issueIdOrKey, $transition->transition['name']);
+        }
+
+        $data = $this->filterNullVariable($transition);
+
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey . '/transitions', $data, Request::METHOD_POST);
+
+        return $this->extractErrors($result, [204], function () use ($result) {
+            return $result;
+        });
+    }
+
+    /**
+     * Get TimeTracking info.
+     *
+     * @param $issueIdOrKey
+     *
+     * @return bool|TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
-        $this->log->addDebug("getTimeTracking res=$ret\n");
+        $result = $this->get($issueIdOrKey);
 
-        $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
-        );
+        if ($result instanceof Issue) {
+            return $result->fields->timeTracking;
+        }
 
-        return $issue->fields->timeTracking;
+        return false;
     }
 
     /**
      * TimeTracking issues.
      *
-     * @param issueIdOrKey Issue id or key
-     * @param timeTracking   TimeTracking
+     * @param $issueIdOrKey
+     * @param $timeTracking
      *
-     * @return type @TimeTracking
+     * @return string
      */
-    public function timeTracking($issueIdOrKey, $timeTracking)
+    public function setTimeTracking($issueIdOrKey, TimeTracking $timeTracking)
     {
-        $array = ['update' => [
-                'timetracking' => [
-                    ['edit' => $timeTracking],
-                ],
-            ],
-        ];
+        $data['update']['timetracking']['edit'] = $timeTracking;
+        $data = $this->filterNullVariable($data);
 
-        $data = json_encode($array);
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey, $data, Request::METHOD_PUT);
 
-        $this->log->addDebug("TimeTracking req=$data\n");
-
-        // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
-
-        return $ret;
+        return $this->extractErrors($result, [204], function () use ($result) {
+            return $result;
+        });
     }
 
     /**
-     * get getWorklog.
+     * Get getWorklog.
      *
      * @param mixed $issueIdOrKey
      *
@@ -280,12 +297,48 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getWorklog($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
-        $this->log->addDebug("getWorklog res=$ret\n");
-        $worklog = $this->json_mapper->map(
-            json_decode($ret), new Worklog()
-        );
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey . '/worklog');
 
-        return $worklog;
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Worklog()
+            );
+        });
+    }
+
+    /**
+     * @param $issueIdOrKey
+     * @param $label
+     *
+     * @return mixed
+     */
+    public function setLabel($issueIdOrKey, $label)
+    {
+        $labels = is_array($label) ? $label : [$label];
+
+        $data['update']['labels'][]['set'] = $labels;
+
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey, $data, Request::METHOD_PUT);
+        return $this->extractErrors($result, [204], function () use ($result) {
+            return $result;
+        });
+    }
+
+    /**
+     * @param $issueIdOrKey
+     * @param $label
+     *
+     * @return mixed
+     */
+    public function removeLabel($issueIdOrKey, $label)
+    {
+        $labels = is_array($label) ? $label : [$label];
+
+        $data['update']['labels'][]['remove'] = $labels;
+
+        $result = $this->exec($this->uri . '/' . $issueIdOrKey, $data, Request::METHOD_PUT);
+        return $this->extractErrors($result, [204], function () use ($result) {
+            return $result;
+        });
     }
 }

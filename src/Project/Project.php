@@ -25,52 +25,64 @@ class Project
      */
     public $id;
 
-     /**
-      * Project key.
-      *
-      * @var string
-      */
-     public $key;
+    /**
+     * Project key.
+     *
+     * @var string
+     */
+    public $key;
 
-     /**
-      * Project name.
-      *
-      * @var string
-      */
-     public $name;
+    /**
+     * Project name.
+     *
+     * @var string
+     */
+    public $name;
 
-     /**
-      * avatar URL.
-      *
-      * @var array
-      */
-     public $avatarUrls;
+    /**
+     * avatar URL.
+     *
+     * @var array
+     */
+    public $avatarUrls;
 
-     /**
-      * Project category.
-      *
-      * @var array
-      */
-     public $projectCategory;
+    /**
+     * Project category.
+     *
+     * @var array
+     */
+    public $projectCategory;
 
-     /* @var string */
-     public $description;
+    /**
+     * @var string
+     */
+    public $description;
 
-     /* Project leader info @var array */
-     public $lead;
+    /**
+     * Project leader info
+     *
+     * @var array 
+     */
+    public $lead;
 
-     /* @var ComponentList[\JiraRestApi\Project\Component] */
-     public $components;
+    /* @var ComponentList[\JiraRestApi\Project\Component] */
+    public $components;
 
-     /* @var IssueTypeList[\JiraRestApi\Issue\IssueType] */
-     public $issueTypes;
+    /* @var IssueTypeList[\JiraRestApi\Issue\IssueType] */
+    public $issueTypes;
 
-     /* @var string */
-     public $assigneeType;
+    /* @var string */
+    public $assigneeType;
 
-     /* @var array */
-     public $versions;
+    /* @var array */
+    public $versions;
 
-      /* @var array */
-     public $roles;
+    /* @var array */
+    public $roles;
+
+    /* @var string */
+    public $url;
+
+    /* @var string */
+    public $email;
 }

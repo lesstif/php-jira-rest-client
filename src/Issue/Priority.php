@@ -4,16 +4,24 @@ namespace JiraRestApi\Issue;
 
 class Priority implements \JsonSerializable
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $iconUrl;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $id;
 
     public function jsonSerialize()

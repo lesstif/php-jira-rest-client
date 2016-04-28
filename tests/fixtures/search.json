@@ -1,0 +1,140 @@
+{
+  "expand": "names,schema",
+  "startAt": 0,
+  "maxResults": 50,
+  "total": 1,
+  "issues": [
+    {
+      "expand": "renderedFields,names,schema,transitions,operations,editmeta,changelog,versionedRepresentations",
+      "id": "10002",
+      "self": "http://www.example.com/jira/rest/api/2/issue/10002",
+      "key": "EX-1",
+      "fields": {
+        "watcher": {
+          "self": "http://www.example.com/jira/rest/api/2/issue/EX-1/watchers",
+          "isWatching": false,
+          "watchCount": 1,
+          "watchers": [
+            {
+              "self": "http://www.example.com/jira/rest/api/2/user?username=fred",
+              "name": "fred",
+              "displayName": "Fred F. User",
+              "active": false
+            }
+          ]
+        },
+        "description": "example bug report",
+        "project": {
+          "self": "http://www.example.com/jira/rest/api/2/project/EX",
+          "id": "10000",
+          "key": "EX",
+          "name": "Example",
+          "avatarUrls": {
+            "48x48": "http://www.example.com/jira/secure/projectavatar?size=large&pid=10000",
+            "24x24": "http://www.example.com/jira/secure/projectavatar?size=small&pid=10000",
+            "16x16": "http://www.example.com/jira/secure/projectavatar?size=xsmall&pid=10000",
+            "32x32": "http://www.example.com/jira/secure/projectavatar?size=medium&pid=10000"
+          },
+          "projectCategory": {
+            "self": "http://www.example.com/jira/rest/api/2/projectCategory/10000",
+            "id": "10000",
+            "name": "FIRST",
+            "description": "First Project Category"
+          }
+        },
+        "issuelinks": [
+          {
+            "id": "10001",
+            "type": {
+              "id": "10000",
+              "name": "Dependent",
+              "inward": "depends on",
+              "outward": "is depended by"
+            },
+            "outwardIssue": {
+              "id": "10004L",
+              "key": "PRJ-2",
+              "self": "http://www.example.com/jira/rest/api/2/issue/PRJ-2",
+              "fields": {
+                "status": {
+                  "iconUrl": "http://www.example.com/jira//images/icons/statuses/open.png",
+                  "name": "Open"
+                }
+              }
+            }
+          },
+          {
+            "id": "10002",
+            "type": {
+              "id": "10000",
+              "name": "Dependent",
+              "inward": "depends on",
+              "outward": "is depended by"
+            },
+            "inwardIssue": {
+              "id": "10004",
+              "key": "PRJ-3",
+              "self": "http://www.example.com/jira/rest/api/2/issue/PRJ-3",
+              "fields": {
+                "status": {
+                  "iconUrl": "http://www.example.com/jira//images/icons/statuses/open.png",
+                  "name": "Open"
+                }
+              }
+            }
+          }
+        ],
+        "worklog": [
+          {
+            "self": "http://www.example.com/jira/rest/api/2/issue/10010/worklog/10000",
+            "author": {
+              "self": "http://www.example.com/jira/rest/api/2/user?username=fred",
+              "name": "fred",
+              "displayName": "Fred F. User",
+              "active": false
+            },
+            "updateAuthor": {
+              "self": "http://www.example.com/jira/rest/api/2/user?username=fred",
+              "name": "fred",
+              "displayName": "Fred F. User",
+              "active": false
+            },
+            "comment": "I did some work here.",
+            "updated": "2016-04-06T07:19:43.728+0000",
+            "visibility": {
+              "type": "group",
+              "value": "jira-developers"
+            },
+            "started": "2016-04-06T07:19:43.726+0000",
+            "timeSpent": "3h 20m",
+            "timeSpentSeconds": 12000,
+            "id": "100028",
+            "issueId": "10002"
+          }
+        ],
+        "updated": 1,
+        "timetracking": {
+          "originalEstimate": "10m",
+          "remainingEstimate": "3m",
+          "timeSpent": "6m",
+          "originalEstimateSeconds": 600,
+          "remainingEstimateSeconds": 200,
+          "timeSpentSeconds": 400
+        }
+      },
+      "names": {
+        "watcher": "watcher",
+        "attachment": "attachment",
+        "sub-tasks": "sub-tasks",
+        "description": "description",
+        "project": "project",
+        "comment": "comment",
+        "issuelinks": "issuelinks",
+        "worklog": "worklog",
+        "updated": "updated",
+        "timetracking": "timetracking"
+      },
+      "schema": {}
+    }
+  ]
+}
