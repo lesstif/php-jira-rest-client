@@ -1,6 +1,8 @@
 # Installation
 ## Version 0.1.0
 
+[![Build Status](https://travis-ci.org/Dragonqos/php-jira-rest-client.svg?branch=master)](https://travis-ci.org/Dragonqos/php-jira-rest-client)
+
 Based on https://github.com/lesstif/php-jira-rest-client - modified by Dragonqos.
 Documentation in progress but most usability is left intact.
 
