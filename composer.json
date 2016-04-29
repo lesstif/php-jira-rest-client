@@ -41,7 +41,5 @@
     "psr-4": {
       "JiraRestApi\\Tests\\": "tests/unit/"
     }
-  },
-  "minimum-stability": "stable",
-  "prefer-stable" : true
+  }
 }
