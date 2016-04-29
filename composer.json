@@ -1,5 +1,5 @@
 {
-  "name": "Dragonqos/php-jira-rest-client",
+  "name": "drago/php-jira-rest-client",
   "description": "JIRA REST API Client for PHP Users.",
   "type": "library",
   "keywords": [
