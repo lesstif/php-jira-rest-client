@@ -42,5 +42,6 @@
       "JiraRestApi\\Tests\\": "tests/unit/"
     }
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "prefer-stable" : true
 }
