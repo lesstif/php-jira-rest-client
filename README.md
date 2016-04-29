@@ -13,6 +13,7 @@ Documentation in progress but most usability is left intact.
 * Added unit test for base functionality
 
 # TODO
+* Remove Silex from dependency
 * Cleaning the Code
 * More Services
 * More tests
