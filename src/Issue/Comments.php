@@ -4,18 +4,29 @@ namespace JiraRestApi\Issue;
 
 class Comments implements \JsonSerializable
 {
-    /* @var int */
+    /**
+     * @var int
+     */
     public $startAt;
 
-    /* @var int */
+    /**
+     * @var int
+     */
     public $maxResults;
 
-    /* @var int */
+    /**
+     * @var int
+     */
     public $total;
 
-    /* @var CommentList[\JiraRestApi\Issue\Comment] */
+    /**
+     * @var CommentList[\JiraRestApi\Issue\Comment]
+     */
     public $comments;
 
+    /**
+     * @return mixed
+     */
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

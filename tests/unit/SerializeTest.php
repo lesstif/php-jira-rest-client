@@ -1,6 +1,6 @@
 <?php
 
-use JiraRestApi\Issue\Reporter;
+use JiraRestApi\Tests;
 
 class SerializeTest extends PHPUnit_Framework_TestCase
 {
@@ -9,7 +9,7 @@ class SerializeTest extends PHPUnit_Framework_TestCase
      */
     public function testEmptyAssignee()
     {
-        $r = new Reporter();
+        $r = new \JiraRestApi\Issue\Reporter();
 
         $r->name = '';
         $r->emailAddress = 'user@example.com';

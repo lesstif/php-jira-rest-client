@@ -4,25 +4,39 @@ namespace JiraRestApi\Issue;
 
 class Version implements \JsonSerializable
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $id;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $description;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-     /* @var bool */
+    /**
+     * @var string
+     */
     public $archived;
 
-    /* @var bool */
+    /**
+     * @var bool
+     */
     public $released;
 
-    /* @var DateTime */
+    /**
+     * @var \DateTime
+     */
     public $releaseDate;
 
     public function jsonSerialize()

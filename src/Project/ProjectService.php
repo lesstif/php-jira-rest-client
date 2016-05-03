@@ -2,48 +2,54 @@
 
 namespace JiraRestApi\Project;
 
-class ProjectService extends \JiraRestApi\JiraClient
+use JiraRestApi\JiraClient;
+
+class ProjectService extends JiraClient
 {
     private $uri = '/project';
+    private $expand = 'id,name,key,url,description,email';
 
     /**
      * get all project list.
-     *
-     * @return array of Project class
+     * @return bool|mixed
      */
     public function getAllProjects()
     {
-        $ret = $this->exec($this->uri, null);
+        $result = $this->exec($this->uri, ['expand' => $this->expand]);
 
-        $prjs = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
-        );
-
-        return $prjs;
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->mapArray(
+                $result->getRawData(), new \ArrayObject(), '\JiraRestApi\Project\Project'
+            );
+        });
     }
 
     /**
-     * get Project id By Project Key.
+     * @param $projectIdOrKey
      *
-     * @param projectName Project Key(Ex: Test, MyProj)
-     *
-     * @throws HTTPException if the project is not found, or the calling user does not have permission or view it.
-     *
-     * @return string project id
+     * @return bool|object
+     * @throws \JsonMapper_Exception
      */
     public function get($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey", null);
+        $result = $this->exec($this->uri . '/' . $projectIdOrKey);
 
-        $this->log->addInfo('Result='.$ret);
+        return $this->extractErrors($result, [200], function () use ($result) {
+            return $this->json_mapper->map(
+                $result->getRawData(), new Project()
+            );
+        });
+    }
 
-        $prj = $this->json_mapper->map(
-             json_decode($ret), new Project()
-        );
-
-        return $prj;
+    /**
+     * @param null $expand
+     *
+     * @return $this
+     */
+    public function setExpand($expand = null)
+    {
+        $this->expand = $expand;
+        return $this;
     }
 }
-
-?>
 

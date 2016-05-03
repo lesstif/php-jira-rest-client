@@ -28,7 +28,7 @@ class Component
     /**
      * Component description.
      *
-     * @var description
+     * @var string
      */
     public $description;
 }

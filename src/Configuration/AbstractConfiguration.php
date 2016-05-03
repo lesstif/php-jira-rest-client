@@ -2,8 +2,11 @@
 
 namespace JiraRestApi\Configuration;
 
+use JiraRestApi\Interfaces\ConfigurationInterface;
+
 /**
- * Class AbstractConfiguration.
+ * Class AbstractConfiguration
+ * @package JiraRestApi\Configuration
  */
 abstract class AbstractConfiguration implements ConfigurationInterface
 {
@@ -29,41 +32,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $jiraPassword;
 
     /**
-     * Path to log file.
-     *
-     * @var string
-     */
-    protected $jiraLogFile;
-
-    /**
-     * Log level (DEBUG, INFO, ERROR, WARNING).
-     *
-     * @var string
-     */
-    protected $jiraLogLevel;
-
-    /**
-     * Curl options CURLOPT_SSL_VERIFYHOST.
-     *
-     * @var bool
-     */
-    protected $curlOptSslVerifyHost;
-
-    /**
-     * Curl options CURLOPT_SSL_VERIFYPEER.
-     *
-     * @var bool
-     */
-    protected $curlOptSslVerifyPeer;
-
-    /**
-     * Curl options CURLOPT_VERBOSE.
-     *
-     * @var bool
-     */
-    protected $curlOptVerbose;
-
-    /**
      * @return string
      */
     public function getJiraHost()
@@ -85,45 +53,5 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getJiraPassword()
     {
         return $this->jiraPassword;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJiraLogFile()
-    {
-        return $this->jiraLogFile;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJiraLogLevel()
-    {
-        return $this->jiraLogLevel;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCurlOptSslVerifyHost()
-    {
-        return $this->curlOptSslVerifyHost;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCurlOptSslVerifyPeer()
-    {
-        return $this->curlOptSslVerifyPeer;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCurlOptVerbose()
-    {
-        return $this->curlOptVerbose;
     }
 }

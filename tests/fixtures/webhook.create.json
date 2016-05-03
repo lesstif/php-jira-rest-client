@@ -1,0 +1,19 @@
+{
+  "name": "test webhook",
+  "url": "http://192.168.33.10/webhook",
+  "excludeBody": false,
+  "filters": {
+    "issue-related-events-section": ""
+  },
+  "events": [
+    "jira:issue_updated",
+    "jira:issue_created",
+    "jira:issue_deleted",
+    "jira:worklog_updated"
+  ],
+  "enabled": true,
+  "self": "https://youjira.atlassian.net/rest/webhooks/1.0/webhook/12",
+  "lastUpdatedUser": "username",
+  "lastUpdatedDisplayName": "User Name",
+  "lastUpdated": 1462272187631
+}

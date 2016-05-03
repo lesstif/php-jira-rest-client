@@ -4,22 +4,34 @@ namespace JiraRestApi\Issue;
 
 class Reporter implements \JsonSerializable
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $emailAddress;
 
-    /* @var string */
+    /**
+     * @var array
+     */
     public $avatarUrls;
 
-     /* @var string */
+    /**
+     * @var string
+     */
     public $displayName;
 
-     /* @var string */
+    /**
+     * @var bool
+     */
     public $active;
 
     public function jsonSerialize()

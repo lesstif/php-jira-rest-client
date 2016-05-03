@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 29.07.15
- * Time: 13:12.
- */
 
 namespace JiraRestApi\Issue;
 

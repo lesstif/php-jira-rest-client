@@ -11,17 +11,28 @@ class Issue implements \JsonSerializable
      */
     public $expand;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $id;
 
-   /* @var string */
-   public $key;
+    /**
+     * @var string
+     */
+    public $key;
 
-   /** @var IssueField */
-   public $fields;
+    /**
+     * @var IssueField
+     */
+    public $fields;
+
+    /** @var string[] */
+    public $names;
 
     public function jsonSerialize()
     {

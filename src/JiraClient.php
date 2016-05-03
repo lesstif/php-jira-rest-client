@@ -2,10 +2,13 @@
 
 namespace JiraRestApi;
 
-use JiraRestApi\Configuration\ConfigurationInterface;
-use JiraRestApi\Configuration\DotEnvConfiguration;
-use Monolog\Logger as Logger;
-use Monolog\Handler\StreamHandler;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\RequestOptions;
+use JiraRestApi\Interfaces\ConfigurationInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Interact jira server with REST API.
@@ -20,32 +23,23 @@ class JiraClient
     protected $json_mapper;
 
     /**
-     * HTTP response code.
-     *
-     * @var string
-     */
-    protected $http_response;
-
-    /**
      * JIRA REST API URI.
      *
      * @var string
      */
-    private $api_uri = '/rest/api/2';
+    protected $api_uri = '/rest/api/2';
 
     /**
-     * CURL instance.
+     * Logger instance.
      *
-     * @var resource
-     */
-    protected $curl;
-
-    /**
-     * Monolog instance.
-     *
-     * @var \Monolog\Logger
+     * @var \Psr\Log\LoggerInterface
      */
     protected $log;
+
+    /**
+     * @var ClientInterface string
+     */
+    protected $transport;
 
     /**
      * Jira Rest API Configuration.
@@ -55,214 +49,68 @@ class JiraClient
     protected $configuration;
 
     /**
-     * Constructor.
+     * JiraClient constructor.
      *
-     * @param ConfigurationInterface $configuration
+     * @param ConfigurationInterface|null $configuration
+     * @param ClientInterface             $transport
+     * @param LoggerInterface             $log
      */
-    public function __construct(ConfigurationInterface $configuration = null)
+    public function __construct(ConfigurationInterface $configuration = null, ClientInterface $transport, LoggerInterface $log)
     {
-        if ($configuration === null) {
-            $path = './';
-            if (!file_exists('.env')) {
-                // If calling the getcwd() on laravel it will returning the 'public' directory.
-                $path = '../';
-            }
-            $configuration = new DotEnvConfiguration($path);
-        }
-
         $this->configuration = $configuration;
+
         $this->json_mapper = new \JsonMapper();
+        $this->json_mapper->bEnforceMapType = false;
+        $this->json_mapper->setLogger($log);
+        $this->json_mapper->undefinedPropertyHandler = function ($obj, $val) {
+            $this->log->info('Handle undefined property', [$val, $obj]);
+        };
 
-        // create logger
-        $this->log = new Logger('JiraClient');
-        $this->log->pushHandler(new StreamHandler(
-            $configuration->getJiraLogFile(),
-            $this->convertLogLevel($configuration->getJiraLogLevel())
-        ));
-
-        $this->http_response = 200;
-    }
-
-    /**
-     * Convert log level.
-     *
-     * @param $log_level
-     *
-     * @return int
-     */
-    private function convertLogLevel($log_level)
-    {
-        switch ($log_level) {
-            case 'DEBUG':
-                return Logger::DEBUG;
-            case 'INFO':
-                return Logger::INFO;
-            case 'ERROR':
-                return Logger::ERROR;
-            default:
-                return Logger::WARNING;
-        }
-    }
-
-    /**
-     * Serilize only not null field.
-     *
-     * @param array $haystack
-     *
-     * @return array
-     */
-    protected function filterNullVariable($haystack)
-    {
-        foreach ($haystack as $key => $value) {
-            if (is_array($value)) {
-                $haystack[$key] = $this->filterNullVariable($haystack[$key]);
-            } elseif (is_object($value)) {
-                $haystack[$key] = $this->filterNullVariable(get_class_vars(get_class($value)));
-            }
-
-            if (is_null($haystack[$key]) || empty($haystack[$key])) {
-                unset($haystack[$key]);
-            }
-        }
-
-        return $haystack;
+        $this->log = $log;
+        $this->transport = $transport;
     }
 
     /**
      * Execute REST request.
      *
-     * @param string $context        Rest API context (ex.:issue, search, etc..)
+     * @param string $context RestAPI context (ex.:issue, search, etc..)
      * @param null   $post_data
-     * @param null   $custom_request
+     * @param string $httpMethod
      *
      * @return string
      *
      * @throws JiraException
      */
-    public function exec($context, $post_data = null, $custom_request = null)
+    public function exec($context, $post_data = null, $httpMethod = Request::METHOD_GET)
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addDebug("Curl $url JsonData=".$post_data);
+        $options = [
+            RequestOptions::HEADERS => [
+                'Accept' => '*/*',
+                'Content-Type' => 'application/json',
+                'charset' => 'UTF-8'
+            ]
+        ];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        // post_data
-        if (!is_null($post_data)) {
-            // PUT REQUEST
-            if (!is_null($custom_request) && $custom_request == 'PUT') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
-            if (!is_null($custom_request) && $custom_request == 'DELETE') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            } else {
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
+        if ($httpMethod == Request::METHOD_GET) {
+            $options[RequestOptions::QUERY] = $post_data;
         }
 
-        $this->authorization($ch);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array('Accept: */*', 'Content-Type: application/json'));
-
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        $this->log->addDebug('Curl exec='.$url);
-        $response = curl_exec($ch);
-
-        // if request failed.
-        if (!$response) {
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $body = curl_error($ch);
-            curl_close($ch);
-
-            //The server successfully processed the request, but is not returning any content.
-            if ($this->http_response == 204) {
-                return '';
-            }
-
-            // HostNotFound, No route to Host, etc Network error
-            $this->log->addError('CURL Error: = '.$body);
-            throw new JiraException('CURL Error: = '.$body);
-        } else {
-            // if request was ok, parsing http response code.
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            curl_close($ch);
-
-            // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
-            if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                 .$this->http_response.', URL:'.$url
-                 ."\nError Message : ".$response, $this->http_response);
-            }
+        if (in_array($httpMethod, [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_DELETE])) {
+            $options[RequestOptions::JSON] = $post_data;
         }
 
-        return $response;
-    }
-
-    /**
-     * Create upload handle.
-     *
-     * @param string $url         Request URL
-     * @param string $upload_file Filename
-     *
-     * @return resource
-     */
-    private function createUploadHandle($url, $upload_file)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        // send file
-        curl_setopt($ch, CURLOPT_POST, true);
-
-        if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION  < 5) {
-            $attachments = realpath($upload_file);
-            $filename = basename($upload_file);
-
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                array('file' => '@'.$attachments.';filename='.$filename));
-
-            $this->log->addDebug('using legacy file upload');
-        } else {
-            // CURLFile require PHP > 5.5
-            $attachments = new \CURLFile(realpath($upload_file));
-            $attachments->setPostFilename(basename($upload_file));
-
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    array('file' => $attachments));
-
-            $this->log->addDebug('using CURLFile='.var_export($attachments, true));
+        try {
+            $this->log->info('JiraRestApi request: ', [$httpMethod, $url, $options]);
+            $response = $this->transport->request($httpMethod, $url, $options);
+            $this->log->info('JiraRestApi response: ', [$response->getHeaders(), (string) $response->getBody()]);
+        } catch (RequestException $e) {
+            $this->log->error('JiraRestApi response fail with code : ' . $e->getCode(), []);
+            $response = $e->getResponse();
         }
 
-        $this->authorization($ch);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
-                'Accept: */*',
-                'Content-Type: multipart/form-data',
-                'X-Atlassian-Token: nocheck',
-                ));
-
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        $this->log->addDebug('Curl exec='.$url);
-
-        return $ch;
+        return $this->parseResponse($response);
     }
 
     /**
@@ -275,83 +123,105 @@ class JiraClient
      *
      * @throws JiraException
      */
-    public function upload($context, $filePathArray)
+    public function upload($context, array $filePathArray)
     {
         $url = $this->createUrlByContext($context);
 
-        // return value
-        $result_code = 200;
+        $options = [
+            RequestOptions::HEADERS => [
+                'Accept' => '*/*',
+                'Content-Type' => 'multipart/form-data',
+                'X-Atlassian-Token' => 'nocheck'
+            ]
+        ];
 
-        $chArr = array();
-        $results = array();
-        $mh = curl_multi_init();
+        $promises = [];
 
-        for ($idx = 0; $idx < count($filePathArray); ++$idx) {
-            $file = $filePathArray[$idx];
-            if (file_exists($file) == false) {
-                $body = "File $file not found";
-                $result_code = -1;
-                goto end;
+        foreach ($filePathArray as $filePath) {
+            // load each files separately
+            if (file_exists($filePath) == false) {
+                // Ignore if file not found
+                $this->log->error('JiraRestApi: Unable to upload file "' . $filePath . '". File not Found');
+                continue;
             }
-            $chArr[$idx] = $this->createUploadHandle($url, $filePathArray[$idx]);
 
-            curl_multi_add_handle($mh, $chArr[$idx]);
+            $options[RequestOptions::SINK] = $filePath;
+
+            $this->log->info('JiraRestApi requestAsync: ', [Request::METHOD_POST, $url, $options]);
+            $promises[] = $this->transport
+                ->requestAsync(Request::METHOD_POST, $url, $options)
+                ->then(function (ResponseInterface $response) {
+                    $this->log->info('JiraRestApi responseAsync: ', [$response->getHeaders(), (string) $response->getBody()]);
+                    return $response;
+                }, function (RequestException $e) {
+                    $this->log->error('JiraRestApi responseAsync fail with code : ' . $e->getCode(), []);
+                    return $e->getResponse();
+                });
         }
 
-        $running = null;
-        do {
-            curl_multi_exec($mh, $running);
-        } while ($running > 0);
+        $responses = \GuzzleHttp\Promise\settle($promises)->wait();
 
-         // Get content and remove handles.
-        for ($idx = 0; $idx < count($chArr); ++$idx) {
-            $ch = $chArr[$idx];
-
-            $results[$idx] = curl_multi_getcontent($ch);
-
-            // if request failed.
-            if (!$results[$idx]) {
-                $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $body = curl_error($ch);
-
-                //The server successfully processed the request, but is not returning any content.
-                if ($this->http_response == 204) {
-                    continue;
-                }
-
-                // HostNotFound, No route to Host, etc Network error
-                $result_code = -1;
-                $body = 'CURL Error: = '.$body;
-                $this->log->addError($body);
-            } else {
-                // if request was ok, parsing http response code.
-                $result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-                // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
-                if ($this->http_response != 200 && $this->http_response != 201) {
-                    $body = 'CURL HTTP Request Failed: Status Code : '
-                     .$this->http_response.', URL:'.$url
-                     ."\nError Message : ".$response; // @TODO undefined variable $response
-                    $this->log->addError($body);
-                }
+        $result = [];
+        foreach ($responses as $response) {
+            if (isset($response['value']) && $response['value'] instanceof ResponseInterface) {
+                $result[] = $this->parseResponse($response['value']);
             }
         }
 
-        // clean up
-end:
-        foreach ($chArr as $ch) {
-            $this->log->addDebug('CURL Close handle..');
-            curl_close($ch);
-            curl_multi_remove_handle($mh, $ch);
-        }
-        $this->log->addDebug('CURL Multi Close handle..');
-        curl_multi_close($mh);
-        if ($result_code != 200) {
-            // @TODO $body might have not been defined
-            throw new JiraException('CURL Error: = '.$body, $result_code);
+        return $result;
+    }
+
+    /**
+     * @param               $array
+     * @param callable|null $callback
+     *
+     * @return mixed
+     */
+    protected function filterNullVariable($array, callable $callback = null)
+    {
+        $array = json_decode(json_encode($array), true); // toArray
+
+        $array = is_callable($callback) ? array_filter($array, $callback) : array_filter((array)$array);
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $value = call_user_func([$this, 'filterNullVariable'], $value, $callback);
+            }
         }
 
-        return $results;
+        return $array;
+    }
+
+    /**
+     * @param $rawResponse
+     *
+     * @return mixed
+     */
+    public function parseResponse(ResponseInterface $rawResponse)
+    {
+        return (new JiraClientResponse($rawResponse, $this->log))->parse();
+    }
+
+    /**
+     * @param          $result
+     * @param array    $responseCodes
+     * @param \Closure $callback
+     *
+     * @return mixed
+     */
+    protected function extractErrors($result, array $responseCodes = [200], \Closure $callback)
+    {
+        if ($result instanceof JiraClientResponse &&
+            !$result->hasErrors() &&
+            in_array($result->getCode(), $responseCodes)
+        ) {
+            return $callback();
+        }
+
+        if (!in_array($result->getCode(), $responseCodes)) {
+            $result->setError('Unexpected response code, expected "' . implode(', ', $responseCodes) . '", ' . $result->getCode() . ' given');
+        }
+
+        return $result;
     }
 
     /**
@@ -363,23 +233,7 @@ end:
      */
     protected function createUrlByContext($context)
     {
-        $host = $this->getConfiguration()->getJiraHost();
-
-        return $host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
-    }
-
-    /**
-     * Add authorize to curl request.
-     *
-     * @TODO session/oauth methods
-     *
-     * @param resource $ch
-     */
-    protected function authorization($ch)
-    {
-        $username = $this->getConfiguration()->getJiraUser();
-        $password = $this->getConfiguration()->getJiraPassword();
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        return $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
     }
 
     /**

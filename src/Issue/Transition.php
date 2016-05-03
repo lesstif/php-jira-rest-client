@@ -4,24 +4,34 @@ namespace JiraRestApi\Issue;
 
 class TransitionTo
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     public $self;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $description;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $iconUrl;
 
-    /** Closed, Resolved, etc..
+    /**
      * @var string
      */
     public $name;
 
-    /* @var string */
+    /**
+     * @var string
+     */
     public $id;
 
-    /* @var array */
+    /**
+     * @var array
+     */
     public $statusCategory;
 }
 
@@ -30,30 +40,42 @@ class TransitionTo
  */
 class Transition implements \JsonSerializable
 {
-    /* @var string */
-   public $id;
+    /**
+     * @var string
+     */
+    public $id;
 
-   /* @var string */
-   public $name;
+    /**
+     * @var string
+     */
+    public $name;
 
-   /* @var TransitionTo */
-   public $to;
+    /**
+     * @var TransitionTo
+     */
+    public $to;
 
-   /* @var array */
-   public $fields;
+    /**
+     * @var array
+     */
+    public $fields;
 
-    /* @var IssueField */
-   public $issueFields;
+    /**
+     * @var IssueField
+     */
+    public $issueFields;
 
-   /* @var array */
-   public $transition;
+    /**
+     * @var array
+     */
+    public $transition;
 
     public $update;
 
     public function setTransitionName($name)
     {
         if (is_null($this->transition)) {
-            $this->transition = array();
+            $this->transition = [];
         }
 
         $this->transition['name'] = $name;
@@ -62,7 +84,7 @@ class Transition implements \JsonSerializable
     public function setTransitionId($id)
     {
         if (is_null($this->transition)) {
-            $this->transition = array();
+            $this->transition = [];
         }
 
         $this->transition['id'] = $id;
@@ -71,11 +93,11 @@ class Transition implements \JsonSerializable
     public function setCommentBody($commentBody)
     {
         if (is_null($this->update)) {
-            $this->update = array();
-            $this->update['comment'] = array();
+            $this->update = [];
+            $this->update['comment'] = [];
         }
 
-        $ar = array();
+        $ar = [];
         $ar['add']['body'] = $commentBody;
         array_push($this->update['comment'], $ar);
     }
