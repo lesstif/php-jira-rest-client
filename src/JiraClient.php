@@ -27,7 +27,7 @@ class JiraClient
      *
      * @var string
      */
-    private $api_uri = '/rest/api/2';
+    protected $api_uri = '/rest/api/2';
 
     /**
      * Logger instance.
@@ -63,7 +63,7 @@ class JiraClient
         $this->json_mapper->bEnforceMapType = false;
         $this->json_mapper->setLogger($log);
         $this->json_mapper->undefinedPropertyHandler = function ($obj, $val) {
-            $this->log->notice('Handle undefined property', [$val, $obj]);
+            $this->log->info('Handle undefined property', [$val, $obj]);
         };
 
         $this->log = $log;
@@ -102,10 +102,11 @@ class JiraClient
         }
 
         try {
-            $this->log->notice('JiraRestApi request: ', [$httpMethod, $url, $options]);
+            $this->log->info('JiraRestApi request: ', [$httpMethod, $url, $options]);
             $response = $this->transport->request($httpMethod, $url, $options);
+            $this->log->info('JiraRestApi response: ', [$response->getHeaders(), (string) $response->getBody()]);
         } catch (RequestException $e) {
-            $this->log->notice('JiraRestApi response fail with code : ' . $e->getCode(), []);
+            $this->log->error('JiraRestApi response fail with code : ' . $e->getCode(), []);
             $response = $e->getResponse();
         }
 
@@ -146,13 +147,14 @@ class JiraClient
 
             $options[RequestOptions::SINK] = $filePath;
 
-            $this->log->notice('JiraRestApi requestAsync: ', [Request::METHOD_POST, $url, $options]);
+            $this->log->info('JiraRestApi requestAsync: ', [Request::METHOD_POST, $url, $options]);
             $promises[] = $this->transport
                 ->requestAsync(Request::METHOD_POST, $url, $options)
                 ->then(function (ResponseInterface $response) {
+                    $this->log->info('JiraRestApi responseAsync: ', [$response->getHeaders(), (string) $response->getBody()]);
                     return $response;
                 }, function (RequestException $e) {
-                    $this->log->notice('JiraRestApi responseAsync fail with code : ' . $e->getCode(), []);
+                    $this->log->error('JiraRestApi responseAsync fail with code : ' . $e->getCode(), []);
                     return $e->getResponse();
                 });
         }

@@ -1,0 +1,53 @@
+[
+  {
+    "name": "test webhook 1",
+    "url": "http://192.168.33.10/webhook",
+    "excludeBody": false,
+    "filters": {
+      "issue-related-events-section": ""
+    },
+    "events": [
+      "jira:issue_updated"
+    ],
+    "enabled": true,
+    "self": "https://youjira.atlassian.net/rest/webhooks/1.0/webhook/1",
+    "lastUpdatedUser": "username",
+    "lastUpdatedDisplayName": "User Name",
+    "lastUpdated": 1462272187631
+  },
+  {
+    "name": "test webhook 2",
+    "url": "http://192.168.33.10/webhook",
+    "excludeBody": false,
+    "filters": {
+      "issue-related-events-section": ""
+    },
+    "events": [
+      "jira:worklog_updated"
+    ],
+    "enabled": true,
+    "self": "https://youjira.atlassian.net/rest/webhooks/1.0/webhook/2",
+    "lastUpdatedUser": "username",
+    "lastUpdatedDisplayName": "User Name",
+    "lastUpdated": 1462262810200
+  },
+  {
+    "name": "test webhook 3",
+    "url": "http://192.168.33.10/webhook",
+    "excludeBody": false,
+    "filters": {
+      "issue-related-events-section": ""
+    },
+    "events": [
+      "jira:issue_updated",
+      "jira:issue_created",
+      "jira:issue_deleted",
+      "jira:worklog_updated"
+    ],
+    "enabled": true,
+    "self": "https://youjira.atlassian.net/rest/webhooks/1.0/webhook/3",
+    "lastUpdatedUser": "username",
+    "lastUpdatedDisplayName": "User Name",
+    "lastUpdated": 1462271621653
+  }
+]

@@ -47,6 +47,11 @@ class JiraRestApiSilexServiceProvider implements ServiceProviderInterface
             $className = '\JiraRestApi\Project\ProjectService';
             return $app['jira.rest.service.builder']($className);
         });
+
+        $app['jira.rest.webhook'] = $app->share(function() use ($app) {
+            $className = '\JiraRestApi\Webhook\WebhookService';
+            return $app['jira.rest.service.builder']($className);
+        });
     }
 
     /**

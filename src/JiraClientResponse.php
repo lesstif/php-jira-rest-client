@@ -62,8 +62,7 @@ class JiraClientResponse
             $this->rawData = $content;
         } else {
             $this->error = $content;
-            // ToDO: Change to $this->logger
-            $this->log->notice('JiraApi response error: ', [$this->error]);
+            $this->log->error('JiraRestApi parse response error: ', [$this->error]);
         }
 
         return $this;

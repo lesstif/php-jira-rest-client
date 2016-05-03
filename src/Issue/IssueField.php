@@ -109,7 +109,7 @@ class IssueField implements \JsonSerializable
     /**
      * @var object
      */
-    public $watcher;
+    public $watches;
 
     /**
      * @var object
@@ -132,7 +132,7 @@ class IssueField implements \JsonSerializable
     public $attachment;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $aggregatetimespent;
 
@@ -167,27 +167,27 @@ class IssueField implements \JsonSerializable
     public $subtasks;
 
     /**
-     * @var int
+     * @var int|null
      */
     public $workratio;
 
     /**
-     * @var object
+     * @var object|null
      */
     public $aggregatetimeestimate;
 
     /**
-     * @var object
+     * @var object|null
      */
     public $aggregateprogress;
 
     /**
-     * @var object
+     * @var object|null
      */
     public $lastViewed;
 
     /**
-     * @var object
+     * @var object|null
      */
     public $timeoriginalestimate;
 
