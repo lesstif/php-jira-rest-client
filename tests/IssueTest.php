@@ -71,7 +71,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
                 ->addVersion('1.0.1')
                 ->addVersion('1.0.3')
                 ->setIssueType('Sub-task')
-                ->setParent($issueKey)
+                ->setParentKeyOrId($issueKey)
             ;
 
             $issueService = new IssueService();

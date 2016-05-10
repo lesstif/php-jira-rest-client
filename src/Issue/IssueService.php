@@ -27,10 +27,14 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function get($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
+        $ret = $this->exec($this->uri . "/" . $issueIdOrKey, null);
 
         $this->log->addInfo("Result=\n".$ret);
-        return $this->getIssueFromJSON(json_decode($ret));
+
+        Dumper::dump($ret);
+        return $issue = $this->json_mapper->map(
+            json_decode($ret) , new Issue()
+        );
     }
 
     /**
@@ -333,4 +337,25 @@ class IssueService extends \JiraRestApi\JiraClient
         return $prio;
     }
 
+    /**
+     * Get priority by id.
+     *
+     * @param priorityId Id of priority.
+     *
+     * @throws HTTPException if the priority is not found, or the calling user does not have permission or view it.
+     *
+     * @return string priority id
+     */
+    public function getCustomFields($priorityId)
+    {
+        $ret = $this->exec("priority/$priorityId", null);
+
+        $this->log->addInfo('Result='.$ret);
+
+        $prio = $this->json_mapper->map(
+            json_decode($ret), new Priority()
+        );
+
+        return $prio;
+    }
 }

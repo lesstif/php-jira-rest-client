@@ -157,7 +157,6 @@ class IssueField implements \JsonSerializable
         return $this->issuetype;
     }
 
-
     /**
      * add custom field
      *
@@ -176,14 +175,17 @@ class IssueField implements \JsonSerializable
      *
      * @param $keyOrId parent issue key or id
      */
-    public function setParent($keyOrId) {
+    public function setParentKeyOrId($keyOrId) {
         if (is_numeric($keyOrId)) {
             $this->parent['id'] = $keyOrId;
         }
         elseif (is_string($keyOrId)) {
             $this->parent['key'] = $keyOrId;
         }
+    }
 
+    public function setParent(Issue $parent) {
+       $this->parent = $parent;
     }
 
     /** @var string */
@@ -237,7 +239,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $votes;
 
-    /** @var object */
+    /** @var object|null */
     public $resolution;
 
     /** @var array */
@@ -270,7 +272,7 @@ class IssueField implements \JsonSerializable
     /** @var  string|null */
     public $aggregatetimeoriginalestimate;
 
-    /** @var  string */
+    /** @var  string|null */
     public $resolutiondate;
 
     /** @var \DateTime|null */

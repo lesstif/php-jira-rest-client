@@ -58,6 +58,8 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
 - [Get Issue Info](#get-issue-info)
+- [Get All Field list](#get-all-field-list)
+- [Create Custom Field](#create-custom-field)
 - [Create Issue](#create-issue)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
@@ -131,6 +133,55 @@ try {
 
 ````
 
+## Get All Field List
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Field\Field;
+use JiraRestApi\Field\FieldService;
+
+try {
+    $fieldService = new FieldService();
+
+	 // return custom field only. 
+    $ret = $fieldService->getAllFields(Field::CUSTOM); 
+    	
+    Dumper::dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+
+````
+
+## Create Custom Field
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Field\Field;
+use JiraRestApi\Field\FieldService;
+
+try {
+    $field = new Field();
+    
+    $field->setName("New custom field")
+            ->setDescription("Custom field for picking groups")
+            ->setType("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
+            ->setSearcherKey("com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher");
+
+    $fieldService = new FieldService();
+
+    $ret = $fieldService->create($field);
+    Dumper::dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
+}
+
+````
+
 ## Create Issue
 
 ````php
@@ -170,7 +221,7 @@ Creating a sub-task is similar to creating a regular issue, with two important m
 
 ```php
 ->setIssueType('Sub-task')
-->setParent($issueKeyOrId)
+->setParentKeyOrId($issueKeyOrId)
 ```
 
 for example
@@ -193,7 +244,7 @@ try {
 				->addVersion("1.0.1")
 				->addVersion("1.0.3")
 				->setIssueType("Sub-task")  //issue type must be Sub-task
-				->setParentKey('TEST-143')  //Issue Key
+				->setParentKeyOrId('TEST-143')  //Issue Key
 				;
 
 	$issueService = new IssueService();
