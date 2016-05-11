@@ -55,11 +55,17 @@ If you are developing with laravel framework(5.x), you must append above configu
 # Usage
 
 ## Table of Contents
+
+### Project
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
-- [Get Issue Info](#get-issue-info)
+
+### Custom Field
 - [Get All Field list](#get-all-field-list)
 - [Create Custom Field](#create-custom-field)
+
+### Issue
+- [Get Issue Info](#get-issue-info)  
 - [Create Issue](#create-issue)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
@@ -70,7 +76,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Issue time tracking](#issue-time-tracking)
 - [Issue worklog](#issue-worklog)
 
-## Get Project Info
+#### Get Project Info
 
 ````php
 <?php
@@ -90,7 +96,8 @@ try {
 
 ````
 
-## Get All Project list
+#### Get All Project list
+
 ````php
 <?php
 require 'vendor/autoload.php';
@@ -114,26 +121,7 @@ try {
 
 ````
 
-## Get Issue Info
-
-````php
-<?php
-require 'vendor/autoload.php';
-
-use JiraRestApi\Issue\IssueService;
-try {
-	$issueService = new IssueService();
-
-	$issue = $issueService->get('TEST-867');
-	
-	print_r($issue->fields);	
-} catch (JIRAException $e) {
-	print("Error Occured! " . $e->getMessage());
-}
-
-````
-
-## Get All Field List
+#### Get All Field List
 
 ````php
 <?php
@@ -155,7 +143,7 @@ try {
 
 ````
 
-## Create Custom Field
+#### Create Custom Field
 
 ````php
 <?php
@@ -182,7 +170,45 @@ try {
 
 ````
 
-## Create Issue
+
+#### Get Issue Info
+
+Returns a full representation of the issue for the given issue key.
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+try {
+	$issueService = new IssueService();
+	
+   $queryParam = [
+            'fields' => [  // default: '*all'
+                'summary',
+                'comment',
+            ],
+            'expand' => [
+                'renderedFields',
+                'names',
+                'schema',
+                'transitions',
+                'operations',
+                'editmeta',
+                'changelog',
+            ]
+        ];
+            
+	$issue = $issueService->get('TEST-867', $queryParam);
+	
+	print_r($issue->fields);	
+} catch (JIRAException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+````
+
+#### Create Issue
 
 ````php
 <?php
@@ -215,7 +241,7 @@ try {
 
 ````
 
-## Create Sub Task
+#### Create Sub Task
 
 Creating a sub-task is similar to creating a regular issue, with two important method calls:
 
@@ -259,7 +285,7 @@ try {
 
 ````
 
-## Add Attachment
+#### Add Attachment
 
 ````php
 <?php
@@ -284,7 +310,7 @@ try {
 
 ````
 
-## Update issue
+#### Update issue
 
 ````php
 <?php
@@ -318,7 +344,7 @@ try {
 
 ````
 
-## Add comment
+#### Add comment
 
 ````php
 <?php
@@ -354,7 +380,7 @@ COMMENT;
 
 ````
 
-## Perform a transition on an issue
+#### Perform a transition on an issue
 
 ````php
 <?php
@@ -379,7 +405,7 @@ try {
 
 ````
 
-## Perform an advanced search
+#### Perform an advanced search
 
 ````php
 <?php
@@ -400,7 +426,7 @@ try {
 
 ````
 
-## Issue time tracking
+#### Issue time tracking
 
 ````php
 <?php
@@ -432,7 +458,7 @@ try {
 
 ````
 
-## Issue worklog
+#### Issue worklog
 
 ````php
 <?php

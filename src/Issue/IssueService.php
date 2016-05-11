@@ -21,17 +21,24 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get all project list.
+     *  get all project list.
+     *
+     * @param $issueIdOrKey
+     * @param array $paramArray Query Parameter key-value Array.
      *
      * @return Issue class
+     *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
      */
-    public function get($issueIdOrKey)
+    public function get($issueIdOrKey, $paramArray = [])
     {
-        $ret = $this->exec($this->uri . "/" . $issueIdOrKey, null);
+        $queryParam = '?' . http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri . "/" . $issueIdOrKey . $queryParam, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
-        Dumper::dump($ret);
         return $issue = $this->json_mapper->map(
             json_decode($ret) , new Issue()
         );
