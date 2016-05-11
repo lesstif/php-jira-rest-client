@@ -55,9 +55,17 @@ If you are developing with laravel framework(5.x), you must append above configu
 # Usage
 
 ## Table of Contents
+
+### Project
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
-- [Get Issue Info](#get-issue-info)
+
+### Custom Field
+- [Get All Field list](#get-all-field-list)
+- [Create Custom Field](#create-custom-field)
+
+### Issue
+- [Get Issue Info](#get-issue-info)  
 - [Create Issue](#create-issue)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
@@ -68,7 +76,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Issue time tracking](#issue-time-tracking)
 - [Issue worklog](#issue-worklog)
 
-## Get Project Info
+#### Get Project Info
 
 ````php
 <?php
@@ -88,7 +96,8 @@ try {
 
 ````
 
-## Get All Project list
+#### Get All Project list
+
 ````php
 <?php
 require 'vendor/autoload.php';
@@ -112,7 +121,59 @@ try {
 
 ````
 
-## Get Issue Info
+#### Get All Field List
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Field\Field;
+use JiraRestApi\Field\FieldService;
+
+try {
+    $fieldService = new FieldService();
+
+	 // return custom field only. 
+    $ret = $fieldService->getAllFields(Field::CUSTOM); 
+    	
+    Dumper::dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+
+````
+
+#### Create Custom Field
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Field\Field;
+use JiraRestApi\Field\FieldService;
+
+try {
+    $field = new Field();
+    
+    $field->setName("New custom field")
+            ->setDescription("Custom field for picking groups")
+            ->setType("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
+            ->setSearcherKey("com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher");
+
+    $fieldService = new FieldService();
+
+    $ret = $fieldService->create($field);
+    Dumper::dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
+}
+
+````
+
+
+#### Get Issue Info
+
+Returns a full representation of the issue for the given issue key.
 
 ````php
 <?php
@@ -121,8 +182,24 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\IssueService;
 try {
 	$issueService = new IssueService();
-
-	$issue = $issueService->get('TEST-867');
+	
+   $queryParam = [
+            'fields' => [  // default: '*all'
+                'summary',
+                'comment',
+            ],
+            'expand' => [
+                'renderedFields',
+                'names',
+                'schema',
+                'transitions',
+                'operations',
+                'editmeta',
+                'changelog',
+            ]
+        ];
+            
+	$issue = $issueService->get('TEST-867', $queryParam);
 	
 	print_r($issue->fields);	
 } catch (JIRAException $e) {
@@ -131,7 +208,7 @@ try {
 
 ````
 
-## Create Issue
+#### Create Issue
 
 ````php
 <?php
@@ -164,13 +241,13 @@ try {
 
 ````
 
-## Create Sub Task
+#### Create Sub Task
 
 Creating a sub-task is similar to creating a regular issue, with two important method calls:
 
 ```php
 ->setIssueType('Sub-task')
-->setParent($issueKeyOrId)
+->setParentKeyOrId($issueKeyOrId)
 ```
 
 for example
@@ -193,7 +270,7 @@ try {
 				->addVersion("1.0.1")
 				->addVersion("1.0.3")
 				->setIssueType("Sub-task")  //issue type must be Sub-task
-				->setParentKey('TEST-143')  //Issue Key
+				->setParentKeyOrId('TEST-143')  //Issue Key
 				;
 
 	$issueService = new IssueService();
@@ -208,7 +285,7 @@ try {
 
 ````
 
-## Add Attachment
+#### Add Attachment
 
 ````php
 <?php
@@ -233,7 +310,7 @@ try {
 
 ````
 
-## Update issue
+#### Update issue
 
 ````php
 <?php
@@ -267,7 +344,7 @@ try {
 
 ````
 
-## Add comment
+#### Add comment
 
 ````php
 <?php
@@ -303,7 +380,7 @@ COMMENT;
 
 ````
 
-## Perform a transition on an issue
+#### Perform a transition on an issue
 
 ````php
 <?php
@@ -328,7 +405,7 @@ try {
 
 ````
 
-## Perform an advanced search
+#### Perform an advanced search
 
 ````php
 <?php
@@ -349,7 +426,7 @@ try {
 
 ````
 
-## Issue time tracking
+#### Issue time tracking
 
 ````php
 <?php
@@ -381,7 +458,7 @@ try {
 
 ````
 
-## Issue worklog
+#### Issue worklog
 
 ````php
 <?php
