@@ -91,7 +91,7 @@ try {
 	$p = $proj->get('TEST');
 	
 	print_r($p);			
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -116,7 +116,7 @@ try {
 			);
 			
 	}			
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -203,7 +203,7 @@ try {
 	$issue = $issueService->get('TEST-867', $queryParam);
 	
 	print_r($issue->fields);	
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -236,7 +236,7 @@ try {
 	
 	//If success, Returns a link to the created issue.
 	print_r($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -274,7 +274,7 @@ try {
     
     //If success, returns an array of the created issues
     print_r($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -318,7 +318,7 @@ try {
 
 	//If success, Returns a link to the created sub task.
 	print_r($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -343,7 +343,7 @@ try {
     	array('screen_capture.png', 'bug-description.pdf', 'README.md'));
 
     print_r($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
 }
 
@@ -377,7 +377,7 @@ try {
 
 	$ret = $issueService->update($issueKey, $issueField);
 
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 
@@ -413,7 +413,7 @@ COMMENT;
 	$issueService = new IssueService();
 	$ret = $issueService->addComment($issueKey, $comment);
 	print_r($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
@@ -438,7 +438,7 @@ try {
 	$issueService = new IssueService();
 
 	$issueService->transition($issueKey, $transition);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
@@ -459,7 +459,7 @@ try {
 
     $ret = $issueService->search($jql);
     var_dump($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -491,7 +491,7 @@ try {
     // add time tracking
     $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
     var_dump($ret);
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -513,7 +513,7 @@ try {
     // get issue's worklog
     $worklogs = $issueService->getWorklog($issueKey)->getWorklogs();
     var_dump($worklogs);    
-} catch (JIRAException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
