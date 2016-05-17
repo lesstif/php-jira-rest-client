@@ -67,7 +67,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 ### Issue
 - [Get Issue Info](#get-issue-info)  
 - [Create Issue](#create-issue)
-- [Create Issue](#create-multiple-issue)
+- [Create Issue - bulk](#create-multiple-issue)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
