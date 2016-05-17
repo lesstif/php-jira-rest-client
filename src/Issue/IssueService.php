@@ -68,6 +68,56 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Create multiple issues using bulk insert
+     * 
+     * @param  IssueField[] $issueFields Array of IssueField objects
+     * @param  Int $batchSize Maximum number of issues to send in each request
+     * 
+     * @return [] Array of results, where each result represents one batch of insertions
+     */
+    public function createMultiple($issueFields, $batchSize = 50)
+    {
+        $issues = [];
+
+        foreach ($issueFields as $issueField) {
+            $issue = new Issue();
+            $issue->fields = $issueField;
+            $issues[] = $issue;
+        }
+
+        $batches = array_chunk($issues, $batchSize);
+
+        $results = [];
+        foreach ($batches as $batch) {
+            $results = array_merge($results, $this->bulkInsert($batch));
+        }
+
+        return $results;        
+    }
+
+    /**
+     * Makes API call to bulk insert issues
+     * 
+     * @param  [] $issues Array of issue arrays that are sent to Jira one by one in single create
+     * 
+     * @return [] Result of API call to insert many issues
+     */
+    private function bulkInsert($issues)
+    {
+        $data = json_encode(["issueUpdates" => $issues]);
+
+        $this->log->addInfo("Create Issues=\n" . $data);
+        $results = $this->exec($this->uri . '/bulk', $data, 'POST');
+        
+        $issues = [];
+        foreach(json_decode($results)->issues as $result) {
+            $issues[] = $this->getIssueFromJSON($result);
+        }
+
+        return $issues;
+    }
+
+    /**
      * Add one or more file to an issue.
      *
      * @param issueIdOrKey Issue id or key
