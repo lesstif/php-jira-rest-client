@@ -254,7 +254,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $worklog;
 
-    /** @var Reporter */
+    /** @var Reporter|null */
     public $assignee;
 
     /** @var \JiraRestApi\Issue\Version[] */

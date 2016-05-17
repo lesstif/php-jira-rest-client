@@ -67,6 +67,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 ### Issue
 - [Get Issue Info](#get-issue-info)  
 - [Create Issue](#create-issue)
+- [Create Issue](#create-multiple-issue)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
@@ -237,6 +238,44 @@ try {
 	print_r($ret);
 } catch (JIRAException $e) {
 	print("Error Occured! " . $e->getMessage());
+}
+
+````
+
+#### Create Multiple Issue
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+
+try {
+    $issueFieldOne = new IssueField();
+
+    $issueFieldOne->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->setDescription("Full description for issue");
+
+    $issueFieldTwo = new IssueField();
+
+    $issueFieldTwo->setProjectKey("TEST")
+                ->setSummary("something else is wrong")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->setDescription("Full description for second issue");
+    
+    $issueService = new IssueService();
+
+    $ret = $issueService->createMultiple([$issueFieldOne, $issueFieldTwo]);
+    
+    //If success, returns an array of the created issues
+    print_r($ret);
+} catch (JIRAException $e) {
+    print("Error Occured! " . $e->getMessage());
 }
 
 ````
