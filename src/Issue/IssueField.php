@@ -54,6 +54,12 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * set issue reporter name
+     *
+     * @param $name name string
+     * @return $this
+     */
     public function setReporterName($name)
     {
         if (is_null($this->reporter)) {
@@ -65,6 +71,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * set issue assignee name
+     *
+     * @param $name
+     *
+     * @return $this
+     */
     public function setAssigneeName($name)
     {
         if (is_null($this->assignee)) {
@@ -76,6 +89,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * set issue priority name
+     *
+     * @param $name string
+     *
+     * @return $this
+     */
     public function setPriorityName($name)
     {
         if (is_null($this->priority)) {
@@ -100,6 +120,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * add a Affects version
+     *
+     * @param $name version name string
+     *
+     * @return $this
+     */
     public function addVersion($name)
     {
         if (is_null($this->versions)) {
@@ -113,17 +140,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function addComment($comment)
-    {
-        if (is_null($this->comment)) {
-            $this->comment = new \JiraRestApi\Issue\Comments();
-        }
-
-        array_push($this->versions, $v);
-
-        return $this;
-    }
-
+    /**
+     * add issue label
+     *
+     * @param $label string
+     *
+     * @return $this
+     */
     public function addLabel($label)
     {
         if (is_null($this->labels)) {
@@ -135,6 +158,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * set issue type
+     *
+     * @param $name string
+     *
+     * @return $this
+     */
     public function setIssueType($name)
     {
         if (is_string($name)) {

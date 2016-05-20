@@ -524,5 +524,5 @@ try {
 Apache V2 License
 
 # JIRA Rest API Documents
-* 6.2 - https://docs.atlassian.com/jira/REST/6.2/
+* 6.4 - https://docs.atlassian.com/jira/REST/6.4/
 * latest - https://docs.atlassian.com/jira/REST/latest/
