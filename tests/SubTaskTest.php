@@ -7,7 +7,7 @@ use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
-class IssueTest extends PHPUnit_Framework_TestCase
+class SubTaskTest extends PHPUnit_Framework_TestCase
 {
     public $issueKey = 'TEST-143';
 

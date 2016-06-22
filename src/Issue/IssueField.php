@@ -57,7 +57,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue reporter name
      *
-     * @param $name name string
+     * @param string $name
      * @return $this
      */
     public function setReporterName($name)
@@ -74,7 +74,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue assignee name
      *
-     * @param $name
+     * @param string $name
      *
      * @return $this
      */
@@ -92,7 +92,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue priority name
      *
-     * @param $name string
+     * @param string $name
      *
      * @return $this
      */
@@ -108,7 +108,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * @param string|null
+     * @param string|null $description
      * @return $this
      */
     public function setDescription($description)
@@ -123,7 +123,7 @@ class IssueField implements \JsonSerializable
     /**
      * add a Affects version
      *
-     * @param $name version name string
+     * @param string $name
      *
      * @return $this
      */
@@ -143,7 +143,7 @@ class IssueField implements \JsonSerializable
     /**
      * add issue label
      *
-     * @param $label string
+     * @param string $label
      *
      * @return $this
      */
@@ -161,7 +161,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type
      *
-     * @param $name string
+     * @param IssueType $name
      *
      * @return $this
      */
@@ -190,7 +190,7 @@ class IssueField implements \JsonSerializable
     /**
      * add custom field
      *
-     * @param $data array of custom field
+     * @param array $data
      */
     public function addCustomFields($data) {
         foreach ($data as $key => $value) {
@@ -203,7 +203,7 @@ class IssueField implements \JsonSerializable
     /**
      *  set parent issue
      *
-     * @param $keyOrId parent issue key or id
+     * @param string $keyOrId
      */
     public function setParentKeyOrId($keyOrId) {
         if (is_numeric($keyOrId)) {
