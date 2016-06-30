@@ -5,89 +5,105 @@ namespace JiraRestApi\Issue;
 /**
  * Class Worklog.
  */
-class Worklog
-{
-    /**
-     * @var int Start at position
-     */
-    protected $startAt;
+class Worklog {
 
     /**
-     * @var int Maximum results
+     * @var int id of worklog 
      */
-    protected $maxResults;
+    public $id;
 
     /**
-     * @var int Total results
+     * @var string api link of worklog
      */
-    protected $total;
+    public $self;
 
     /**
-     * @var array Worklogs
+     * @var array details about author
      */
-    protected $worklogs;
+    public $author;
 
     /**
-     * @return int
+     * @var array 
      */
-    public function getStartAt()
-    {
-        return $this->startAt;
+    public $updateAuthor;
+
+    /**
+     * @var string 
+     */
+    public $updated;
+
+    /**
+     * @var string 
+     */
+    public $timeSpent;
+
+    /**
+     * @var string 
+     */
+    public $issueId;
+
+    /**
+     * @var string 
+     */
+    public $comment;
+
+    /**
+     * @var string 
+     */
+    public $started;
+
+    /**
+     * @var int 
+     */
+    public $timeSpentSeconds;
+
+    /**
+     * @var array 
+     */
+    public $visibility;
+
+    /**
+     * Function to serialize obj vars
+     * @return array
+     */
+    public function jsonSerialize() {
+        return array_filter(get_object_vars($this));
     }
 
     /**
-     * @param int $startAt
+     * Function to set comments
+     * @param string $comment
      */
-    public function setStartAt($startAt)
-    {
-        $this->startAt = $startAt;
+    public function setComment($comment) {
+        $this->comment = $comment;
     }
 
     /**
-     * @return int
+     * Function to set start time of worklog
+     * @param string $started e.g. -  "2016-06-20T15:37:17.211+0000"
      */
-    public function getMaxResults()
-    {
-        return $this->maxResults;
+    public function setStarted($started) {
+        $this->started = $started;
     }
 
     /**
-     * @param int $maxResults
+     * Function to set worklog time in seconds
+     * @param int $timeSpentSeconds
      */
-    public function setMaxResults($maxResults)
-    {
-        $this->maxResults = $maxResults;
+    public function setTimeSpentSeconds($timeSpentSeconds) {
+        $this->timeSpentSeconds = $timeSpentSeconds;
     }
 
     /**
-     * @return int
+     * Function to set visibility of worklog
+     * @param string $type value can be group or role
+     * @param string $value
      */
-    public function getTotal()
-    {
-        return $this->total;
+    public function setVisibility($type, $value) {
+        $this->visibility = [
+            'type' => $type,
+            'value' => $value,
+        ];
     }
 
-    /**
-     * @param int $total
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-    }
-
-    /**
-     * @return array Worklogs
-     */
-    public function getWorklogs()
-    {
-        return $this->worklogs;
-    }
-
-    /**
-     * @param array $worklogs Worklogs
-     */
-    public function setWorklogs($worklogs)
-    {
-        $this->worklogs = $worklogs;
-    }
 }
