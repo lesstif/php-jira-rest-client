@@ -2,14 +2,11 @@
 
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Comment;
-use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
 class IssueTest extends PHPUnit_Framework_TestCase
 {
-
     public function testSearch()
     {
         $this->markTestSkipped();
@@ -20,7 +17,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->search($jql);
 
-            foreach($ret as $issue) {
+            foreach ($ret as $issue) {
                 Dumper::dump($issue);
             }
         } catch (JiraException $e) {
@@ -47,13 +44,12 @@ class IssueTest extends PHPUnit_Framework_TestCase
                     'operations',
                     'editmeta',
                     'changelog',
-                ]
+                ],
             ];
 
             $issue = $issueService->get($issueKey, $queryParam);
 
             Dumper::dump($issue);
-
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }

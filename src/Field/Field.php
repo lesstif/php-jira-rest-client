@@ -3,10 +3,9 @@
 namespace JiraRestApi\Field;
 
 /**
- * Custom filed schema
+ * Custom filed schema.
  *
  * Class Schema
- * @package JiraRestApi\Field
  */
 class Schema
 {
@@ -20,7 +19,6 @@ class Schema
     public $type;
 
     /** i don't know what this means.
-     *
      * @var string
      */
     public $items;
@@ -41,38 +39,38 @@ class Schema
 }
 
 /**
- * Class Field
+ * Class Field.
  *
  * Jira Field Object mapper
- *
- * @package JiraRestApi\Field
  */
 class Field implements \JsonSerializable
 {
     /**
-     * only custom field
+     * only custom field.
      */
     const CUSTOM = 1;
 
     /**
-     * only system field
+     * only system field.
      */
     const SYSTEM = 2;
 
     /**
-     * both System and Custom
+     * both System and Custom.
      */
     const BOTH = 3;
 
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -82,11 +80,13 @@ class Field implements \JsonSerializable
      * @see https://confluence.atlassian.com/jira064/changing-custom-field-types-720415917.html
      *
      * @param $type
+     *
      * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -94,11 +94,13 @@ class Field implements \JsonSerializable
      * atlassian supplied poor documentation.
      *
      * @param $searcherKey
+     *
      * @return $this
      */
     public function setSearcherKey($searcherKey)
     {
         $this->searcherKey = $searcherKey;
+
         return $this;
     }
 

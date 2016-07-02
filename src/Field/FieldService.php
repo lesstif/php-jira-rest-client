@@ -24,14 +24,14 @@ class FieldService extends \JiraRestApi\JiraClient
         // temp array
         $ar = [];
         if ($fieldType === Field::CUSTOM) {
-            foreach($fields as $f) {
+            foreach ($fields as $f) {
                 if ($f->custom === true) {
                     array_push($ar, $f);
                 }
             }
             $fields = &$ar;
         } elseif ($fieldType === Field::SYSTEM) {
-            foreach($fields as $f) {
+            foreach ($fields as $f) {
                 if ($f->custom === false) {
                     array_push($ar, $f);
                 }
@@ -65,10 +65,9 @@ class FieldService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data, 'POST');
 
         $cf = $this->json_mapper->map(
-            json_decode($ret) , new Field()
+            json_decode($ret), new Field()
         );
 
         return $cf;
     }
-
 }

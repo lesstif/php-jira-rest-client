@@ -2,8 +2,6 @@
 
 namespace JiraRestApi\Issue;
 
-use JiraRestApi\Dumper;
-
 class IssueField implements \JsonSerializable
 {
     public function __construct($updateIssue = false)
@@ -55,9 +53,10 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set issue reporter name
+     * set issue reporter name.
      *
      * @param string $name
+     *
      * @return $this
      */
     public function setReporterName($name)
@@ -72,7 +71,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set issue assignee name
+     * set issue assignee name.
      *
      * @param string $name
      *
@@ -90,7 +89,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set issue priority name
+     * set issue priority name.
      *
      * @param string $name
      *
@@ -109,6 +108,7 @@ class IssueField implements \JsonSerializable
 
     /**
      * @param string|null $description
+     *
      * @return $this
      */
     public function setDescription($description)
@@ -121,7 +121,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * add a Affects version
+     * add a Affects version.
      *
      * @param string $name
      *
@@ -141,7 +141,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * add issue label
+     * add issue label.
      *
      * @param string $label
      *
@@ -159,7 +159,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set issue type
+     * set issue type.
      *
      * @param IssueType $name
      *
@@ -168,15 +168,13 @@ class IssueField implements \JsonSerializable
     public function setIssueType($name)
     {
         if (is_string($name)) {
-
             if (is_null($this->issuetype)) {
                 $this->issuetype = new \JiraRestApi\Issue\IssueType();
             }
 
             $this->issuetype->name = $name;
-        }
-        else {
-          $this->issuetype = $name;
+        } else {
+            $this->issuetype = $name;
         }
 
         return $this;
@@ -188,11 +186,12 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * add custom field
+     * add custom field.
      *
      * @param array $data
      */
-    public function addCustomFields($data) {
+    public function addCustomFields($data)
+    {
         foreach ($data as $key => $value) {
             if (substr($key, 0, 12) == 'customfield_') {
                 $this->{$key} = $value;
@@ -201,21 +200,22 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     *  set parent issue
+     *  set parent issue.
      *
      * @param string $keyOrId
      */
-    public function setParentKeyOrId($keyOrId) {
+    public function setParentKeyOrId($keyOrId)
+    {
         if (is_numeric($keyOrId)) {
             $this->parent['id'] = $keyOrId;
-        }
-        elseif (is_string($keyOrId)) {
+        } elseif (is_string($keyOrId)) {
             $this->parent['key'] = $keyOrId;
         }
     }
 
-    public function setParent(Issue $parent) {
-       $this->parent = $parent;
+    public function setParent(Issue $parent)
+    {
+        $this->parent = $parent;
     }
 
     /** @var string */
@@ -331,5 +331,4 @@ class IssueField implements \JsonSerializable
 
     /** @var object|null */
     public $parent;
-
 }

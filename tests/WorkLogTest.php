@@ -32,7 +32,7 @@ class WorkLogTest extends PHPUnit_Framework_TestCase
             $workLog = new Worklog();
 
             $workLog->setComment('I did some work here.')
-                ->setStarted("2016-05-28 12:35:54")
+                ->setStarted('2016-05-28 12:35:54')
                 ->setTimeSpent('1d 2h 3m');
 
             $issueService = new IssueService();
@@ -64,5 +64,4 @@ class WorkLogTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'testGetWorkLogById Failed : '.$e->getMessage());
         }
     }
-
 }

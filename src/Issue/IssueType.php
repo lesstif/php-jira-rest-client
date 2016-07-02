@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Issue;
 
-
 class IssueType implements \JsonSerializable
 {
     /* @var string */
