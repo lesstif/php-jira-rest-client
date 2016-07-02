@@ -1,6 +1,7 @@
 <?php
 
 namespace JiraRestApi\Field;
+use JiraRestApi\ClassSerialize;
 
 /**
  * Custom filed schema.
@@ -45,6 +46,8 @@ class Schema
  */
 class Field implements \JsonSerializable
 {
+    use ClassSerialize;
+
     /**
      * only custom field.
      */

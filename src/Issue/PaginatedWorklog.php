@@ -1,12 +1,15 @@
 <?php
 
 namespace JiraRestApi\Issue;
+use JiraRestApi\ClassSerialize;
 
 /**
  * Class PaginatedWorklog.
  */
 class PaginatedWorklog
 {
+    use ClassSerialize;
+
     /**
      * @var int Start at position
      */

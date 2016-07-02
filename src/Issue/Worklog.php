@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\ClassSerialize;
 use JiraRestApi\JiraException;
 
 /**
@@ -9,6 +10,8 @@ use JiraRestApi\JiraException;
  */
 class Worklog
 {
+    use ClassSerialize;
+
     /**
      * @var int id of worklog 
      */

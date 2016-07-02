@@ -2,8 +2,12 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\ClassSerialize;
+
 class IssueField implements \JsonSerializable
 {
+    use ClassSerialize;
+
     public function __construct($updateIssue = false)
     {
         if ($updateIssue != true) {
