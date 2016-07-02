@@ -344,16 +344,37 @@ class IssueService extends \JiraRestApi\JiraClient
      * get getWorklog
      *
      * @param mixed $issueIdOrKey
-     * @return Worklog Return Worklog object
+     * @return PaginatedWorklog object
      */
     public function getWorklog($issueIdOrKey)
     {
         $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog");
         $this->log->addDebug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
-            json_decode($ret), new Worklog()
+            json_decode($ret), new PaginatedWorklog()
         );
         return $worklog;
+    }
+    
+    /**
+     * add work log to issue
+     * 
+     * @param mixed $issueIdOrKey
+     * @param object $worklog
+     * @return Worklog Object
+     */
+    public function addWorklog($issueIdOrKey, $worklog){
+        $this->log->addInfo("addWorklog=\n");
+
+        $data = json_encode($worklog);
+
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog", $data, 'POST');
+
+        $ret_worklog = $this->json_mapper->map(
+           json_decode($ret), new Worklog()
+        );
+
+        return $ret_worklog;
     }
 
     /**
