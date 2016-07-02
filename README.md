@@ -75,7 +75,8 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
 - [Issue time tracking](#issue-time-tracking)
-- [Issue worklog](#issue-worklog)
+- [Add worklog in Issue](#add-worklog-in-issue)
+- [Get Issue worklog](#get-issue-worklog)
 
 #### Get Project Info
 
@@ -497,22 +498,62 @@ try {
 
 ````
 
-#### Issue worklog
+#### Add worklog in issue
 
 ````php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Worklog;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $workLog = new Worklog();
+
+    $workLog->setComment('I did some work here.')
+        ->setStarted("2016-05-28 12:35:54")
+        ->setTimeSpent('1d 2h 3m');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->addWorklog($issueKey, $workLog);
+
+    $workLogid = $ret->{'id'};
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+}
+
+````
+
+#### Get issue worklog
+
+````php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Worklog;
+use JiraRestApi\JiraException;
 
 $issueKey = 'TEST-961';
 
 try {
     $issueService = new IssueService();
     
-    // get issue's worklog
+    // get issue's all worklog
     $worklogs = $issueService->getWorklog($issueKey)->getWorklogs();
-    var_dump($worklogs);    
+    var_dump($worklogs);
+    
+    // get worklog by id
+    $wlId = 12345;
+    $wl = $issueService->getWorklogById($issueKey, $wlId);
+    var_dump($wl);
+    
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }

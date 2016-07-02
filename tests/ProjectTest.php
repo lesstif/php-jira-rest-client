@@ -1,5 +1,6 @@
 <?php
 
+use JiraRestApi\Dumper;
 use JiraRestApi\Project\ProjectService;
 
 class ProjectTest extends PHPUnit_Framework_TestCase
@@ -12,7 +13,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
 
             $p = $proj->get('TEST');
 
-            print_r($p->lead);
+            Dumper::dump($p);
             foreach ($p->components as $c) {
                 echo 'COM : '.$c->name."\n";
             }
