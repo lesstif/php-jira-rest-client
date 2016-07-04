@@ -363,12 +363,18 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param object $worklog
      * @return Worklog Object
      */
-    public function addWorklog($issueIdOrKey, $worklog){
+    public function addWorklog($issueIdOrKey, $worklog, $worklogId = NULL){
         $this->log->addInfo("addWorklog=\n");
 
         $data = json_encode($worklog);
-
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog", $data, 'POST');
+        if($worklogId === NULL){
+            $url = $this->uri . "/$issueIdOrKey/worklog";
+            $type = 'POST';
+        }else{
+            $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
+            $type = 'PUT';
+        }
+        $ret = $this->exec($url, $data, $type);
 
         $ret_worklog = $this->json_mapper->map(
            json_decode($ret), new Worklog()
