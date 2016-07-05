@@ -17,5 +17,5 @@ script:
 matrix:
   allow_failures:
     - php: hhvm
-    - php: 7.0
+    - php: 5.4
   fast_finish: true
