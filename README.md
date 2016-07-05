@@ -65,7 +65,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Create Custom Field](#create-custom-field)
 
 ### Issue
-- [Get Issue Info](#get-issue-info)  
+- [Get Issue Info](#get-issue-info)
 - [Create Issue](#create-issue)
 - [Create Issue - bulk](#create-multiple-issue)
 - [Create Sub Task](#create-sub-task)
@@ -78,13 +78,17 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
 
+### User
+- [Get User Info](#get-user-info)
+
 #### Get Project Info
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
 
 try {
 	$proj = new ProjectService();
@@ -96,15 +100,16 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Get All Project list
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
 
 try {
 	$proj = new ProjectService();
@@ -121,16 +126,17 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Get All Field List
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
+use JiraRestApi\JiraException;
 
 try {
     $fieldService = new FieldService();
@@ -143,16 +149,17 @@ try {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
-````
+```
 
 #### Create Custom Field
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
+use JiraRestApi\JiraException;
 
 try {
     $field = new Field();
@@ -170,18 +177,20 @@ try {
     $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
 }
 
-````
+```
 
 
 #### Get Issue Info
 
 Returns a full representation of the issue for the given issue key.
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
 try {
 	$issueService = new IssueService();
 	
@@ -208,16 +217,17 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Create Issue
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\JiraException;
 
 try {
 	$issueField = new IssueField();
@@ -241,16 +251,17 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Create Multiple Issue
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\JiraException;
 
 try {
     $issueFieldOne = new IssueField();
@@ -279,7 +290,7 @@ try {
     print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Create Sub Task
 
@@ -292,12 +303,13 @@ Creating a sub-task is similar to creating a regular issue, with two important m
 
 for example
                 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\JiraException;
 
 try {
 	$issueField = new IssueField();
@@ -323,16 +335,17 @@ try {
 	print("Error Occured! " . $e->getMessage());
 }
 
-````
+```
 
 #### Add Attachment
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -348,16 +361,17 @@ try {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
 }
 
-````
+```
 
 #### Update issue
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -382,16 +396,17 @@ try {
 	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 
-````
+```
 
 #### Add comment
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Comment;
+use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -418,16 +433,17 @@ COMMENT;
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
-````
+```
 
 #### Perform a transition on an issue
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
+use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -443,15 +459,16 @@ try {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
-````
+```
 
 #### Perform an advanced search
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
 
 $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
 
@@ -464,16 +481,17 @@ try {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
-````
+```
 
 #### Issue time tracking
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
+use JiraRestApi\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -496,11 +514,11 @@ try {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
-````
+```
 
 #### Add worklog in issue
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
@@ -528,11 +546,11 @@ try {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 
-````
+```
 
 #### Get issue worklog
 
-````php
+```php
 <?php
 require 'vendor/autoload.php';
 
@@ -558,7 +576,30 @@ try {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
-````
+```
+
+#### Get User Info
+
+Returns a user.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+	$us = new UserService();
+
+	$user = $us->get(['username' => 'lesstif']);
+
+	var_dump($user);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
 
 # License
 

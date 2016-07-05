@@ -1,22 +1,26 @@
 <?php
 
 namespace JiraRestApi\User;
+use JiraRestApi\ClassSerialize;
 
 /**
- * Description of User
+ * Description of User.
  *
  * @author Anik
  */
-class User implements \JsonSerializable {
+class User implements \JsonSerializable
+{
+    use ClassSerialize;
 
     /**
-     * uri which was hit
-     * @var string 
+     * uri which was hit.
+     *
+     * @var string
      */
     public $self;
 
     /**
-     * @var string 
+     * @var string
      */
     public $key;
 
@@ -26,7 +30,7 @@ class User implements \JsonSerializable {
     public $name;
 
     /**
-     * @var string 
+     * @var string
      */
     public $emailAddress;
 
@@ -41,7 +45,7 @@ class User implements \JsonSerializable {
     public $displayName;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $active;
 
@@ -51,12 +55,12 @@ class User implements \JsonSerializable {
     public $timeZone;
 
     /**
-     * @var array  "#/definitions/simple-list-wrapper"
+     * @var array "#/definitions/simple-list-wrapper"
      */
     public $groups;
 
     /**
-     * @var array  "#/definitions/simple-list-wrapper"
+     * @var array "#/definitions/simple-list-wrapper"
      */
     public $applicationRoles;
 
@@ -65,8 +69,8 @@ class User implements \JsonSerializable {
      */
     public $expand;
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return array_filter(get_object_vars($this));
     }
-
 }
