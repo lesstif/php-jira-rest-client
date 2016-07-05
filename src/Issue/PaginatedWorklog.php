@@ -13,22 +13,22 @@ class PaginatedWorklog
     /**
      * @var int Start at position
      */
-    protected $startAt;
+    public $startAt;
 
     /**
      * @var int Maximum results
      */
-    protected $maxResults;
+    public $maxResults;
 
     /**
      * @var int Total results
      */
-    protected $total;
+    public $total;
 
     /**
-     * @var array Worklogs
+     * @var array Worklog
      */
-    protected $worklogs;
+    public $worklogs;
 
     /**
      * @return int

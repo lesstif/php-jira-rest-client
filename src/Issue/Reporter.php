@@ -2,8 +2,12 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\ClassSerialize;
+
 class Reporter implements \JsonSerializable
 {
+    use ClassSerialize;
+    
     /* @var string */
     public $self;
 
