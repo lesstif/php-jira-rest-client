@@ -105,7 +105,8 @@ class IssueSearchResult
     /**
      * @param int $ndx
      */
-    public function getIssue($ndx) {
+    public function getIssue($ndx)
+    {
         return $this->issues[$ndx];
     }
 

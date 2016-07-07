@@ -1,10 +1,7 @@
 <?php
 
-use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
-use JiraRestApi\Issue\Comment;
-use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
 class SubTaskTest extends PHPUnit_Framework_TestCase
@@ -41,5 +38,4 @@ class SubTaskTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
-
 }

@@ -3,16 +3,15 @@
 namespace JiraRestApi\Issue;
 
 use JiraRestApi\JiraException;
-use JiraRestApi\Dumper;
 
 class IssueService extends \JiraRestApi\JiraClient
 {
     private $uri = '/issue';
 
-
-    public function getIssueFromJSON($json) {
+    public function getIssueFromJSON($json)
+    {
         $issue = $this->json_mapper->map(
-            $json , new Issue()
+            $json, new Issue()
         );
 
         $issue->addCustomFields($issue->fields);
@@ -33,14 +32,14 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function get($issueIdOrKey, $paramArray = [])
     {
-        $queryParam = '?' . http_build_query($paramArray);
+        $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri . "/" . $issueIdOrKey . $queryParam, null);
+        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$queryParam, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
         return $issue = $this->json_mapper->map(
-            json_decode($ret) , new Issue()
+            json_decode($ret), new Issue()
         );
     }
 
@@ -68,10 +67,10 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Create multiple issues using bulk insert
+     * Create multiple issues using bulk insert.
      * 
-     * @param  IssueField[] $issueFields Array of IssueField objects
-     * @param  Int $batchSize Maximum number of issues to send in each request
+     * @param IssueField[] $issueFields Array of IssueField objects
+     * @param int          $batchSize   Maximum number of issues to send in each request
      * 
      * @return [] Array of results, where each result represents one batch of insertions
      */
@@ -92,25 +91,25 @@ class IssueService extends \JiraRestApi\JiraClient
             $results = array_merge($results, $this->bulkInsert($batch));
         }
 
-        return $results;        
+        return $results;
     }
 
     /**
-     * Makes API call to bulk insert issues
+     * Makes API call to bulk insert issues.
      * 
-     * @param  [] $issues Array of issue arrays that are sent to Jira one by one in single create
+     * @param [] $issues Array of issue arrays that are sent to Jira one by one in single create
      * 
      * @return [] Result of API call to insert many issues
      */
     private function bulkInsert($issues)
     {
-        $data = json_encode(["issueUpdates" => $issues]);
+        $data = json_encode(['issueUpdates' => $issues]);
 
-        $this->log->addInfo("Create Issues=\n" . $data);
-        $results = $this->exec($this->uri . '/bulk', $data, 'POST');
-        
+        $this->log->addInfo("Create Issues=\n".$data);
+        $results = $this->exec($this->uri.'/bulk', $data, 'POST');
+
         $issues = [];
-        foreach(json_decode($results)->issues as $result) {
+        foreach (json_decode($results)->issues as $result) {
             $issues[] = $this->getIssueFromJSON($result);
         }
 
@@ -234,7 +233,7 @@ class IssueService extends \JiraRestApi\JiraClient
         }
 
         // transition keyword not found
-        throw new JiraException('Transition name \'' . $transitionToName . '\' not found on JIRA Server.');
+        throw new JiraException('Transition name \''.$transitionToName.'\' not found on JIRA Server.');
     }
 
     /**
@@ -262,7 +261,7 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Search issues
+     * Search issues.
      *
      * @param       $jql
      * @param int   $startAt
@@ -271,16 +270,16 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt=0, $maxResults=15, $fields=[])
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [])
     {
         $data = json_encode(array(
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
-            'fields' => $fields
+            'fields' => $fields,
         ));
 
-        $ret = $this->exec("search", $data, 'POST');
+        $ret = $this->exec('search', $data, 'POST');
         $json = json_decode($ret);
 
         $result = $this->json_mapper->map(
@@ -295,14 +294,15 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get TimeTracking info
+     * get TimeTracking info.
      *
      * @param type $issueIdOrKey
+     *
      * @return type @TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", null);
+        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
         $this->log->addDebug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
@@ -312,8 +312,8 @@ class IssueService extends \JiraRestApi\JiraClient
         return $issue->fields->timeTracking;
     }
 
-     /**
-     * TimeTracking issues
+    /**
+     * TimeTracking issues.
      *
      * @param issueIdOrKey Issue id or key
      * @param timeTracking   TimeTracking
@@ -322,12 +322,11 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function timeTracking($issueIdOrKey, $timeTracking)
     {
-        $array = ["update" =>
-            [
-                "timetracking" => [
-                    ["edit" => $timeTracking]
-                ]
-            ]
+        $array = ['update' => [
+                'timetracking' => [
+                    ['edit' => $timeTracking],
+                ],
+            ],
         ];
 
         $data = json_encode($array);
@@ -335,46 +334,63 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->addDebug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
+        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
 
     /**
-     * get getWorklog
+     * get getWorklog.
      *
      * @param mixed $issueIdOrKey
+     *
      * @return PaginatedWorklog object
      */
     public function getWorklog($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog");
+        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
         $this->log->addDebug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
             json_decode($ret), new PaginatedWorklog()
         );
+
         return $worklog;
     }
-    
+
     /**
-     * add work log to issue
-     * 
+     * get getWorklog by Id.
+     *
      * @param mixed $issueIdOrKey
+     * @param int   $workLogId
+     *
+     * @return PaginatedWorklog object
+     */
+    public function getWorklogById($issueIdOrKey, $workLogId)
+    {
+        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog/$workLogId");
+        $this->log->addDebug("getWorklogById res=$ret\n");
+        $worklog = $this->json_mapper->map(
+            json_decode($ret), new Worklog()
+        );
+
+        return $worklog;
+    }
+
+    /**
+     * add work log to issue.
+     * 
+     * @param mixed  $issueIdOrKey
      * @param object $worklog
+     *
      * @return Worklog Object
      */
-    public function addWorklog($issueIdOrKey, $worklog, $worklogId = NULL){
+    public function addWorklog($issueIdOrKey, $worklog)
+    {
         $this->log->addInfo("addWorklog=\n");
 
         $data = json_encode($worklog);
-        if($worklogId === NULL){
-            $url = $this->uri . "/$issueIdOrKey/worklog";
-            $type = 'POST';
-        }else{
-            $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
-            $type = 'PUT';
-        }
-        $ret = $this->exec($url, $data, $type);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog", $data, 'POST');
 
         $ret_worklog = $this->json_mapper->map(
            json_decode($ret), new Worklog()
@@ -390,7 +406,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getAllPriorities()
     {
-        $ret = $this->exec("priority", null);
+        $ret = $this->exec('priority', null);
 
         $priorities = $this->json_mapper->mapArray(
              json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Priority'

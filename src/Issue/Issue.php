@@ -28,7 +28,8 @@ class Issue implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    public function addCustomFields($data) {
+    public function addCustomFields($data)
+    {
         if ($this->fields) {
             $this->fields->addCustomFields($data);
         }

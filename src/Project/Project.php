@@ -2,8 +2,12 @@
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\ClassSerialize;
+
 class Project
 {
+    use ClassSerialize;
+
     /**
      * return only if Project query by key(not id).
      *

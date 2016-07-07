@@ -132,8 +132,8 @@ class JiraClient
      * Execute REST request.
      *
      * @param string $context        Rest API context (ex.:issue, search, etc..)
-     * @param string   $post_data
-     * @param string   $custom_request  [PUT|DELETE]
+     * @param string $post_data
+     * @param string $custom_request [PUT|DELETE]
      *
      * @return string
      *

@@ -1,10 +1,6 @@
 <?php
 
 use JiraRestApi\Dumper;
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueField;
-use JiraRestApi\Issue\Comment;
-use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 use JiraRestApi\Field\FieldService;
 use JiraRestApi\Field\Field;
@@ -29,10 +25,10 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
         try {
             $field = new Field();
 
-            $field->setName("New custom field")
-                ->setDescription("Custom field for picking groups")
-                ->setType("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
-                ->setSearcherKey("com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher");
+            $field->setName('New custom field')
+                ->setDescription('Custom field for picking groups')
+                ->setType('com.atlassian.jira.plugin.system.customfieldtypes:grouppicker')
+                ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher');
 
             $fieldService = new FieldService();
 
@@ -42,5 +38,4 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
         }
     }
-
 }

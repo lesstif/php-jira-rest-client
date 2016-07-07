@@ -7,12 +7,15 @@
  */
 
 namespace JiraRestApi\Issue;
+use JiraRestApi\ClassSerialize;
 
 /**
  * Class TimeTracking.
  */
 class TimeTracking implements \JsonSerializable
 {
+    use ClassSerialize;
+
     /**
      * Original estimate.
      *
