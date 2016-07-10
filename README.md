@@ -76,6 +76,7 @@ If you are developing with laravel framework(5.x), you must append above configu
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
 - [Issue time tracking](#issue-time-tracking)
 - [Add worklog in Issue](#add-worklog-in-issue)
+- [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
 
 ### User
@@ -544,6 +545,37 @@ try {
     var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+}
+
+```
+
+#### edit worklog in issue
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Worklog;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+$workLogid = '12345';
+
+try {
+    $workLog = new Worklog();
+
+    $workLog->setComment('I did edit previous worklog here.')
+        ->setStarted("2016-05-29 13:15:34")
+        ->setTimeSpent('3d 4h 5m');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->updateWorklog($issueKey, $workLog, $workLogid);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Edit worklog Failed : '.$e->getMessage());
 }
 
 ```

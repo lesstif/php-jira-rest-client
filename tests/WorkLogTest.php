@@ -52,6 +52,32 @@ class WorkLogTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testAddWorkLogInIssue
      */
+    public function testEditWorkLogInIssue($workLogid)
+    {
+        try {
+            $workLog = new Worklog();
+
+            $workLog->setComment('I did edit previous worklog here.')
+                ->setStarted('2016-05-29 13:41:12')
+                ->setTimeSpent('2d 7h 5m');
+
+            $issueService = new IssueService();
+
+            $ret = $issueService->editWorklog($this->issueKey, $workLog, $workLogid);
+
+            Dumper::dump($ret);
+
+            $workLogid = $ret->{'id'};
+
+            return $workLogid;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testUpdateWorkLogInIssue
+     */
     public function testGetWorkLogById($workLogid)
     {
         try {

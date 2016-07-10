@@ -377,7 +377,7 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * add work log to issue. if worklog id in 3rd param is passed, it will edit the worklog
+     * add work log to issue.
      * 
      * @param mixed  $issueIdOrKey
      * @param object $worklog
@@ -385,21 +385,43 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Worklog Object
      */
-    public function addWorklog($issueIdOrKey, $worklog, $worklogId = NULL){
+    public function addWorklog($issueIdOrKey, $worklog){
         $this->log->addInfo("addWorklog=\n");
 
         $data = json_encode($worklog);
-        if($worklogId === NULL){
-            $url = $this->uri . "/$issueIdOrKey/worklog";
-            $type = 'POST';
-        }else{
-            $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
-            $type = 'PUT';
-        }
+        $url = $this->uri . "/$issueIdOrKey/worklog";
+        $type = 'POST';
+
         $ret = $this->exec($url, $data, $type);
 
         $ret_worklog = $this->json_mapper->map(
            json_decode($ret), new Worklog()
+        );
+
+        return $ret_worklog;
+    }
+
+    /**
+     * edit the worklog
+     *
+     * @param $issueIdOrKey
+     * @param $worklog
+     * @param string $worklogId
+     * @return object
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     */
+    public function editWorklog($issueIdOrKey, $worklog, $worklogId){
+        $this->log->addInfo("editWorklog=\n");
+
+        $data = json_encode($worklog);
+        $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
+        $type = 'PUT';
+
+        $ret = $this->exec($url, $data, $type);
+
+        $ret_worklog = $this->json_mapper->map(
+            json_decode($ret), new Worklog()
         );
 
         return $ret_worklog;
