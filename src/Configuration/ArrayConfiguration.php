@@ -18,6 +18,12 @@ class ArrayConfiguration extends AbstractConfiguration
      */
     public function __construct(array $configuration)
     {
+        $this->jiraLogFile = 'jira-rest-client.log';
+        $this->jiraLogLevel = 'WARNING';
+        $this->curlOptSslVerifyHost = false;
+        $this->curlOptSslVerifyPeer = false;
+        $this->curlOptVerbose = false;
+
         foreach ($configuration as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
