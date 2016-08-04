@@ -42,6 +42,11 @@
 
 # Configuration
 
+you can choose loads environment variables either 'dotenv' or 'array'.
+
+## use dotenv
+
+
 copy .env.example file to .env on your project root.	
 	
 	JIRA_HOST="https://your-jira.host.com"
@@ -51,6 +56,22 @@ copy .env.example file to .env on your project root.
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+
+## use array
+
+create Service class with ArrayConfiguration parameter.
+
+```php
+use JiraRestApi\Configuration\ArrayConfiguration;
+
+$iss = new IssueService(new ArrayConfiguration(
+          array(
+               'jiraHost' => 'https://your-jira.host.com',
+               'jiraUser' => 'jira-username',
+               'jiraPassword' => 'jira-password',
+          )
+   ));
+```
 
 # Usage
 
