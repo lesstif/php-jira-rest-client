@@ -1,3 +1,11 @@
+# PHP JIRA Rest Client
+
+[![Latest Stable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/stable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![Latest Unstable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/unstable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![License](https://poser.pugx.org/lesstif/php-jira-rest-client/license)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![Total Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/downloads)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![Monthly Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/monthly)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![Daily Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/daily)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 
 # Requirements
 
