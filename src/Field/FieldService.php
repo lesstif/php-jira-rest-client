@@ -2,8 +2,6 @@
 
 namespace JiraRestApi\Field;
 
-use JiraRestApi\Dumper;
-
 class FieldService extends \JiraRestApi\JiraClient
 {
     private $uri = '/field';
@@ -46,7 +44,9 @@ class FieldService extends \JiraRestApi\JiraClient
     {
         $ret = $this->exec('/customFieldOption', null);
 
-        Dumper::dd($ret);
+        $this->log->addDebug("Create Field=\n" . $ret);
+
+        return $ret;
     }
 
     /**
@@ -60,7 +60,7 @@ class FieldService extends \JiraRestApi\JiraClient
     {
         $data = json_encode($field);
 
-        $this->log->addInfo("Create Field=\n".$data);
+        $this->log->addInfo("Create Field=\n" . $data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
