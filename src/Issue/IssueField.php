@@ -165,7 +165,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type.
      *
-     * @param IssueType $name
+     * @param \JiraRestApi\Issue\IssueType $name
      *
      * @return $this
      */
@@ -228,16 +228,16 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $progress;
 
-    /** @var TimeTracking */
+    /** @var \JiraRestApi\Issue\TimeTracking */
     public $timeTracking;
 
-    /** @var IssueType */
+    /** @var \JiraRestApi\Issue\IssueType */
     public $issuetype;
 
     /** @var string|null */
     public $timespent;
 
-    /** @var Reporter */
+    /** @var \JiraRestApi\Issue\Reporter */
     public $reporter;
 
     /** @var \DateTime */
@@ -249,10 +249,10 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $description;
 
-    /** @var Priority */
+    /** @var \JiraRestApi\Issue\Priority */
     public $priority;
 
-    /** @var IssueStatus */
+    /** @var \JiraRestApi\Issue\IssueStatus */
     public $status;
 
     /** @var array */
@@ -267,7 +267,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $components;
 
-    /** @var Comments */
+    /** @var \JiraRestApi\Issue\Comments */
     public $comment;
 
     /** @var object */
@@ -279,7 +279,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $fixVersions;
 
-    /** @var Reporter */
+    /** @var \JiraRestApi\Issue\Reporter */
     public $creator;
 
     /** @var object */
@@ -288,7 +288,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $worklog;
 
-    /** @var Reporter|null */
+    /** @var \JiraRestApi\Issue\Reporter|null */
     public $assignee;
 
     /** @var \JiraRestApi\Issue\Version[] */
@@ -315,7 +315,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $issuelinks;
 
-    /** @var Issue[] */
+    /** @var \JiraRestApi\Issue\Issue[] */
     public $subtasks;
 
     /** @var int */

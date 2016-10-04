@@ -58,8 +58,9 @@ class JiraClient
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
+     * @param Logger $logger
      */
-    public function __construct(ConfigurationInterface $configuration = null)
+    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null)
     {
         if ($configuration === null) {
             $path = './';
@@ -74,11 +75,15 @@ class JiraClient
         $this->json_mapper = new \JsonMapper();
 
         // create logger
-        $this->log = new Logger('JiraClient');
-        $this->log->pushHandler(new StreamHandler(
-            $configuration->getJiraLogFile(),
-            $this->convertLogLevel($configuration->getJiraLogLevel())
-        ));
+        if ($logger) {
+            $this->log = $logger;
+        } else {
+            $this->log = new Logger('JiraClient');
+            $this->log->pushHandler(new StreamHandler(
+                $configuration->getJiraLogFile(),
+                $this->convertLogLevel($configuration->getJiraLogLevel())
+            ));
+        }
 
         $this->http_response = 200;
     }
