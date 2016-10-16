@@ -249,7 +249,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $description;
 
-    /** @var Priority */
+    /** @var Priority|null */
     public $priority;
 
     /** @var IssueStatus */
