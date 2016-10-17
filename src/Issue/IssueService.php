@@ -24,14 +24,17 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param $issueIdOrKey
      * @param array $paramArray Query Parameter key-value Array.
+     * @param Issue $issueObject
      *
      * @return Issue class
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      */
-    public function get($issueIdOrKey, $paramArray = [])
+    public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
+        $issueObject = ($issueObject) ? $issueObject : new Issue();
+
         $queryParam = '?'.http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$queryParam, null);
@@ -39,7 +42,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->addInfo("Result=\n".$ret);
 
         return $issue = $this->json_mapper->map(
-            json_decode($ret), new Issue()
+            json_decode($ret), $issueObject
         );
     }
 

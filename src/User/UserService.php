@@ -27,8 +27,27 @@ class UserService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo("Result=\n".$ret);
 
-        return $issue = $this->json_mapper->map(
+        return $this->json_mapper->map(
                 json_decode($ret), new User()
         );
+    }
+
+    public function search($paramArray)
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri.'/search'.$queryParam, null);
+
+        $this->log->addInfo("Result=\n".$ret);
+
+        $userData = json_decode($ret);
+        $users = [];
+
+        foreach($userData as $user) {
+            $users[] = $this->json_mapper->map(
+                $user, new User()
+            );
+        }
+        return $users;
     }
 }
