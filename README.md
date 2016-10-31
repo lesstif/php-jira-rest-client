@@ -71,6 +71,7 @@ create Service class with ArrayConfiguration parameter.
 
 ```php
 use JiraRestApi\Configuration\ArrayConfiguration;
+use JiraRestApi\Issue\IssueService;
 
 $iss = new IssueService(new ArrayConfiguration(
           array(
