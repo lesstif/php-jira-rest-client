@@ -290,7 +290,7 @@ class IssueService extends \JiraRestApi\JiraClient
         );
 
         foreach ($result->issues as $ndx => $issue_json) {
-            $result->getIssue($ndx)->addCustomFields($issue_json->fields);
+            $result->getIssue($ndx)->addCustomFields($json->issues[$ndx]->fields);
         }
 
         return $result;
