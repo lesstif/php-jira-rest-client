@@ -14,8 +14,6 @@ class IssueService extends \JiraRestApi\JiraClient
             $json, new Issue()
         );
 
-        $issue->addCustomFields($issue->fields);
-
         return $issue;
     }
 
@@ -288,10 +286,6 @@ class IssueService extends \JiraRestApi\JiraClient
         $result = $this->json_mapper->map(
             $json, new IssueSearchResult()
         );
-
-        foreach ($result->issues as $ndx => $issue_json) {
-            $result->getIssue($ndx)->addCustomFields($json->issues[$ndx]->fields);
-        }
 
         return $result;
     }

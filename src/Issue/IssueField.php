@@ -26,6 +26,11 @@ class IssueField implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
     public function getProjectKey()
     {
         return $this->project->key;
@@ -190,20 +195,6 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * add custom field.
-     *
-     * @param array $data
-     */
-    public function addCustomFields($data)
-    {
-        foreach ($data as $key => $value) {
-            if (substr($key, 0, 12) == 'customfield_') {
-                $this->{$key} = $value;
-            }
-        }
-    }
-
-    /**
      *  set parent issue.
      *
      * @param string $keyOrId
@@ -335,4 +326,7 @@ class IssueField implements \JsonSerializable
 
     /** @var object|null */
     public $parent;
+
+    /** @var array|null */
+    public $customFields;
 }

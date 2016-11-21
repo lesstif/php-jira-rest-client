@@ -74,6 +74,8 @@ class JiraClient
         $this->configuration = $configuration;
         $this->json_mapper = new \JsonMapper();
 
+        $this->json_mapper->undefinedPropertyHandler = [\JiraRestApi\JsonMapperHelper::class, 'setUndefinedProperty'];
+
         // create logger
         if ($logger) {
             $this->log = $logger;
