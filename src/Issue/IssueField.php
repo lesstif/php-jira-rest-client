@@ -23,12 +23,31 @@ class IssueField implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        $vars = array_filter(get_object_vars($this));
+
+        // clear undefined json property
+        unset($vars['customFields']);
+
+        // repackaging custom field
+        if (!empty($this->customFields)) {
+            foreach ($this->customFields as $key => $value) {
+                $vars[$key] = $value;
+            }
+        }
+
+        return $vars;
     }
 
     public function getCustomFields()
     {
         return $this->customFields;
+    }
+
+    public function addCustomField($key, $value)
+    {
+        $this->customFields[$key] = $value;
+
+        return $this;
     }
 
     public function getProjectKey()

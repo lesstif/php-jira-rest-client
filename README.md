@@ -17,36 +17,36 @@
 
 1. Download and Install PHP Composer.
 
-	``` sh
-	curl -sS https://getcomposer.org/installer | php
-	```
+   ``` sh
+   curl -sS https://getcomposer.org/installer | php
+   ```
 
 2. Next, run the Composer command to install the latest version of php jira rest client.
-	``` sh
-	php composer.phar require lesstif/php-jira-rest-client "^1.7.0"
-	```
+   ``` sh
+   php composer.phar require lesstif/php-jira-rest-client "^1.7.0"
+   ```
     or add the following to your composer.json file.
-	```json
-	{
-	    "require": {
-	        "lesstif/php-jira-rest-client": "^1.7.0"
-	    }
-	}
-	```
-	**Note:**
-	If you are using **laravel 5.0 or 5.1**(this version dependent on phpdotenv 1.x), then use **"1.5.\*"** version instead.
+   ```json
+   {
+       "require": {
+           "lesstif/php-jira-rest-client": "^1.7.0"
+       }
+   }
+   ```
+   **Note:**
+   If you are using **laravel 5.0 or 5.1**(this version dependent on phpdotenv 1.x), then use **"1.5.\*"** version instead.
 
 3. Then run Composer's install or update commands to complete installation. 
 
-	```sh
-	php composer.phar install
-	```
-	
+   ```sh
+   php composer.phar install
+   ```
+
 4. After installing, you need to require Composer's autoloader:
 
-	```php
-	require 'vendor/autoload.php';
-	```
+   ```php
+   require 'vendor/autoload.php';
+   ```
 
 # Configuration
 
@@ -56,7 +56,7 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 
 
 copy .env.example file to .env on your project root.	
-	
+​	
 	JIRA_HOST="https://your-jira.host.com"
 	JIRA_USER="jira-username"
 	JIRA_PASS="jira-password"
@@ -247,8 +247,9 @@ try {
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-
 ```
+
+You can access the custom field associated with issue through *$issue->fields->customFields* array or through direct custom field id variables(Ex: *$issue->fields->customfield_10300*).
 
 #### Create Issue
 
@@ -281,8 +282,41 @@ try {
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-
 ```
+
+If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
+
+```php
+try {
+	$issueField = new IssueField();
+
+	$issueField->setProjectKey("TEST")
+				->setSummary("something's wrong")
+				->setAssigneeName("lesstif")
+				->setPriorityName("Critical")
+				->setIssueType("Bug")
+				->setDescription("Full description for issue")
+				->addVersion("1.0.1")
+				->addVersion("1.0.3")
+      			->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
+      			->addCustomField('customfield_10408', [
+                		['value' => 'opt2'], ['value' => 'opt4']
+           		 ]) // Select List (multiple choice)
+      
+      ;
+	
+	$issueService = new IssueService();
+
+	$ret = $issueService->create($issueField);
+	
+	//If success, Returns a link to the created issue.
+	print_r($ret);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+Currently, not tested for all custom field types.
 
 #### Create Multiple Issue
 
@@ -333,7 +367,7 @@ Creating a sub-task is similar to creating a regular issue, with two important m
 ```
 
 for example
-                
+​                
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -428,6 +462,8 @@ try {
 }
 
 ```
+
+If you want to change the custom field type when updating an issue, you can call the *addCustomField* function just as you did for creating issue.
 
 #### Add comment
 
