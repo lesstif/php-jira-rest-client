@@ -126,11 +126,10 @@ try {
 
 	$p = $proj->get('TEST');
 	
-	print_r($p);			
+	var_dump($p);			
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-
 ```
 
 #### Get All Project list
@@ -175,11 +174,10 @@ try {
 	 // return custom field only. 
     $ret = $fieldService->getAllFields(Field::CUSTOM); 
     	
-    Dumper::dump($ret);
+    var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
-
 ```
 
 #### Create Custom Field
@@ -203,11 +201,11 @@ try {
     $fieldService = new FieldService();
 
     $ret = $fieldService->create($field);
-    Dumper::dump($ret);
+    
+    var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
 }
-
 ```
 
 
@@ -243,7 +241,7 @@ try {
             
 	$issue = $issueService->get('TEST-867', $queryParam);
 	
-	print_r($issue->fields);	
+	var_dump($issue->fields);	
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -278,7 +276,7 @@ try {
 	$ret = $issueService->create($issueField);
 	
 	//If success, Returns a link to the created issue.
-	print_r($ret);
+	var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -310,7 +308,7 @@ try {
 	$ret = $issueService->create($issueField);
 	
 	//If success, Returns a link to the created issue.
-	print_r($ret);
+	var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -350,11 +348,10 @@ try {
     $ret = $issueService->createMultiple([$issueFieldOne, $issueFieldTwo]);
     
     //If success, returns an array of the created issues
-    print_r($ret);
+    var_dump($ret);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
-
 ```
 
 #### Create Sub Task
@@ -395,11 +392,10 @@ try {
 	$ret = $issueService->create($issueField);
 
 	//If success, Returns a link to the created sub task.
-	print_r($ret);
+	var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
-
 ```
 
 #### Add Attachment
@@ -457,10 +453,10 @@ try {
 
 	$ret = $issueService->update($issueKey, $issueField);
 
+    var_dump($ret);
 } catch (JiraException $e) {
 	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
-
 ```
 
 If you want to change the custom field type when updating an issue, you can call the *addCustomField* function just as you did for creating issue.
