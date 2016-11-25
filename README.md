@@ -57,11 +57,11 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 
 copy .env.example file to .env on your project root.	
 
-	```sh
-	JIRA_HOST="https://your-jira.host.com"
-	JIRA_USER="jira-username"
-	JIRA_PASS="jira-password"
-	```
+```sh
+JIRA_HOST="https://your-jira.host.com"
+JIRA_USER="jira-username"
+JIRA_PASS="jira-password"
+```
 
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
 
