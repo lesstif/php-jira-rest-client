@@ -523,10 +523,11 @@ try {
 } catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
-
 ```
 
 #### Perform an advanced search
+
+**Simple Query**
 
 ```php
 <?php
@@ -545,8 +546,63 @@ try {
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
-
 ```
+
+
+
+**JQL with pagination**
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
+
+try {
+    $issueService = new IssueService();
+
+  	$pagination = -1;
+  
+    $startAt = 0;	//the index of the first issue to return (0-based)    
+    $maxResult = 3;	// the maximum number of issues to return (defaults to 50). 
+    $totalCount = -1;	// the number of issues to return
+  
+    // first fetch
+    $ret = $issueService->search($jql, $startAt, $maxResult);
+  	$totalCount = $ret->total;
+  	
+  	// do something with fetched data
+    foreach ($ret->issues as $issue) {
+        print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
+    }
+  	
+  	// fetch remained data
+    $page = $totalCount / $maxResult;
+
+    for ($startAt = 1; $startAt < $page; $startAt++)
+    {
+         $ret = $issueService->search($jql, $startAt, $maxResult);
+
+         print ("\nPaging $startAt\n");
+         print ("-------------------\n");
+         foreach ($ret->issues as $issue) {
+             print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
+         }
+    }     
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+```
+
+
+
+
+
+
+
 
 #### Issue time tracking
 
