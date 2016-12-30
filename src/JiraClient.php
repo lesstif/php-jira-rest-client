@@ -337,8 +337,8 @@ class JiraClient
                 // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
                 if ($this->http_response != 200 && $this->http_response != 201) {
                     $body = 'CURL HTTP Request Failed: Status Code : '
-                     .$this->http_response.', URL:'.$url
-                     ."\nError Message : ".$response; // @TODO undefined variable $response
+                     .$this->http_response.', URL:'.$url;
+                    
                     $this->log->addError($body);
                 }
             }
