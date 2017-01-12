@@ -26,3 +26,7 @@ screen_capture.png
 bug-description.pdf
 
 .env
+
+# Ignoree Vagrant Folder
+.vagrant
+# Vagrantfile
