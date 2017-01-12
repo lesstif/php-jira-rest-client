@@ -40,4 +40,18 @@ class ProjectTest extends PHPUnit_Framework_TestCase
         }
     }
     //
+
+    public function testGetProjectTypes() {
+        // TODO
+    }
+
+    public function testGetProjectType()
+    {
+        // TODO
+    }
+
+    public function testGetProjectAccessible()
+    {
+        // TODO
+    }
 }

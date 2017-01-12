@@ -2,8 +2,8 @@
 
 namespace JiraRestApi\Project;
 
-use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\IssueType;
+use JiraRestApi\Issue\Reporter;
 
 class ProjectService extends \JiraRestApi\JiraClient
 {
@@ -19,7 +19,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, null);
 
         $prjs = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
+            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
         );
 
         return $prjs;
@@ -36,12 +36,12 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function get($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey", null);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey", null);
 
-        $this->log->addInfo('Result='.$ret);
+        $this->log->addInfo('Result=' . $ret);
 
         $prj = $this->json_mapper->map(
-             json_decode($ret), new Project()
+            json_decode($ret), new Project()
         );
 
         return $prj;
@@ -69,12 +69,62 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     public function getStatuses($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
         }, $json);
 
         return $results;
+    }
+
+    /**
+     * @return ProjectType[]
+     */
+    public function getProjectTypes()
+    {
+        $ret = $this->exec($this->uri . "/type");
+
+        $this->log->addInfo('Result=' . $ret);
+
+        $types = $this->json_mapper->map(
+            json_decode($ret, false), new \ArrayObject(), new ProjectType()
+        );
+
+        return $types;
+    }
+
+    /**
+     * @param string|int $key
+     * @return ProjectType
+     */
+    public function getProjectType($key)
+    {
+        $ret = $this->exec($this->uri . "/type/$key");
+
+        $this->log->addInfo('Result=' . $ret);
+
+        $type = $this->json_mapper->map(
+            json_decode($ret, false), new ProjectType()
+        );
+
+        return $type;
+    }
+
+    /**
+     * @param string|int $key
+     * @return ProjectType
+     */
+    public function getAccessibleProjectType($key)
+    {
+        $ret = $this->exec($this->uri . "/type/$key/accessible");
+
+        $this->log->addInfo('Result=' . $ret);
+
+        $type = $this->json_mapper->map(
+            json_decode($ret, false), new ProjectType()
+        );
+
+        return $type;
     }
 }
