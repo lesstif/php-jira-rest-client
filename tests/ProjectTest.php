@@ -42,16 +42,51 @@ class ProjectTest extends PHPUnit_Framework_TestCase
     //
 
     public function testGetProjectTypes() {
-        // TODO
+        try {
+            $proj = new ProjectService();
+
+            $prjtyps = $proj->getProjectTypes();
+
+            foreach ($prjtyps as $pt) {
+				$this->assertTrue($pt instanceof JiraRestApi\Project\ProjectType);
+                echo sprintf("ProjectType Key:%s, FormattedKey:%s, descriptionI18nKey:%s, color:%s, icon: %s\n",
+                    $pt->key, $pt->formattedKey, $pt->descriptionI18nKey, $pt->color, $pt->icon
+                    );
+            }
+        } catch (HTTPException $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
     }
 
     public function testGetProjectType()
     {
-        // TODO
+        try {
+            $proj = new ProjectService();
+
+            $prjtyp = $proj->getProjectType('software');
+
+			$this->assertTrue($prjtyp instanceof JiraRestApi\Project\ProjectType);
+			echo sprintf("ProjectType Key:%s, FormattedKey:%s, descriptionI18nKey:%s, color:%s, icon: %s\n",
+				$prjtyp->key, $prjtyp->formattedKey, $prjtyp->descriptionI18nKey, $prjtyp->color, $prjtyp->icon
+				);
+        } catch (HTTPException $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
     }
 
     public function testGetProjectAccessible()
     {
-        // TODO
+        try {
+            $proj = new ProjectService();
+
+            $prjtyp = $proj->getProjectType('software');
+
+			$this->assertTrue($prjtyp instanceof JiraRestApi\Project\ProjectType);
+			echo sprintf("ProjectType Key:%s, FormattedKey:%s, descriptionI18nKey:%s, color:%s, icon: %s\n",
+				$prjtyp->key, $prjtyp->formattedKey, $prjtyp->descriptionI18nKey, $prjtyp->color, $prjtyp->icon
+				);
+        } catch (HTTPException $e) {
+            $this->assertTrue(false, $e->getMessage());
+        }
     }
 }
