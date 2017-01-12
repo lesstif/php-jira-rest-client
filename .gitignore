@@ -27,6 +27,8 @@ bug-description.pdf
 
 .env
 
-# Ignoree Vagrant Folder
+# Ignore Vagrant Stuff
 .vagrant
 Vagrantfile
+# Ignore scotch.io box
+public/
