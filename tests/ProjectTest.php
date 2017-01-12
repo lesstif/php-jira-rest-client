@@ -76,7 +76,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase
     {
 		$proj = new ProjectService();
 
-		$prjtyp = $proj->getProjectType('business');
+		$prjtyp = $proj->getAccessibleProjectType('business');
 
 		$this->assertTrue($prjtyp instanceof JiraRestApi\Project\ProjectType);
 		$this->assertTrue(strlen($prjtyp->key) > 0);
@@ -85,4 +85,14 @@ class ProjectTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(strlen($prjtyp->color) > 0);
 		$this->assertTrue(strlen($prjtyp->icon) > 0);
     }
+	
+	/**
+	  * @expectedException JiraRestApi\JiraException
+	  */
+	public function testGetProjectAccessibleException()
+    {
+		$proj = new ProjectService();
+
+		$prjtyp = $proj->getAccessibleProjectType('foobar');
+	}
 }

@@ -29,4 +29,4 @@ bug-description.pdf
 
 # Ignoree Vagrant Folder
 .vagrant
-# Vagrantfile
+Vagrantfile
