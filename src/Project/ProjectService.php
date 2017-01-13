@@ -87,7 +87,7 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo('Result=' . $ret);
 
-		$json = json_decode($ret);
+        $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new ProjectType());
         }, $json);
