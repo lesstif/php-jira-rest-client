@@ -91,6 +91,7 @@ $iss = new IssueService(new ArrayConfiguration(
 ### Project
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
+- [Get Project Type](#get-project-type)
 
 ### Custom Field
 - [Get All Field list](#get-all-field-list)
@@ -154,6 +155,36 @@ try {
 			);
 			
 	}			
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get Project type
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Project\ProjectType;
+use JiraRestApi\JiraException;
+
+try {
+	$proj = new ProjectService();
+
+    // get all project type
+	$prjtyps = $proj->getProjectTypes();
+
+	foreach ($prjtyps as $pt) {
+	    var_dump($pt);
+	}
+
+	// get specific project type.
+	$pt = $proj->getProjectType('software');
+	var_dump($pt);
+
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
