@@ -127,6 +127,10 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function addAttachments($issueIdOrKey, $filePathArray)
     {
+        if (is_array($filePathArray) == false) {
+            $filePathArray = [$filePathArray];
+        }
+
         $results = $this->upload($this->uri."/$issueIdOrKey/attachments", $filePathArray);
 
         $this->log->addInfo('addAttachments result='.var_export($results, true));
@@ -137,6 +141,11 @@ class IssueService extends \JiraRestApi\JiraClient
             if (is_array($ret)) {
                 array_push($resArr, $this->json_mapper->mapArray(
                     $ret, new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
+                    )
+                );
+            } else {
+                array_push($resArr, $this->json_mapper->map(
+                    $ret, new Attachment
                     )
                 );
             }
