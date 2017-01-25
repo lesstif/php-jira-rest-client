@@ -193,7 +193,7 @@ class JiraClient
 
             //The server successfully processed the request, but is not returning any content.
             if ($this->http_response == 204) {
-                return '';
+                return true;
             }
 
             // HostNotFound, No route to Host, etc Network error

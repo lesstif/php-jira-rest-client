@@ -104,6 +104,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
+- [Change assignee](#change-assignee)
+- [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
@@ -493,6 +495,54 @@ try {
 ```
 
 If you want to change the custom field type when updating an issue, you can call the *addCustomField* function just as you did for creating issue.
+
+#### Change Assignee
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+	$issueService = new IssueService();
+
+    // if assignee is -1, automatic assignee used.
+    // A null assignee will remove the assignee.
+    $assignee = 'newAssigneeName';
+
+    $ret = $issueService->changeAssignee($this->key, $assignee);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+}
+```
+
+#### Remove Issue
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+	$issueService = new IssueService();
+
+    $ret = $issueService->deleteIssue($this->key);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+}
+```
 
 #### Add comment
 
