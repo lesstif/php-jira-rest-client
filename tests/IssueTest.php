@@ -156,7 +156,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testChangeAssignee
+     * @depends testDeleteIssue
      */
     public function testDeleteIssue($issueKey)
     {
