@@ -484,9 +484,15 @@ try {
 				->setDescription("This is a shorthand for a set operation on the summary field")
 				;
 
+	// optionally set some query params
+	$editParams = array(
+		'notifyUsers' => false
+	);
+	
 	$issueService = new IssueService();
 
-	$ret = $issueService->update($issueKey, $issueField);
+	// You can set the $paramArray param to disable notifications in example
+	$ret = $issueService->update($issueKey, $issueField, $editParams);
 
     var_dump($ret);
 } catch (JiraException $e) {
@@ -514,7 +520,7 @@ try {
     // A null assignee will remove the assignee.
     $assignee = 'newAssigneeName';
 
-    $ret = $issueService->changeAssignee($this->key, $assignee);
+    $ret = $issueService->changeAssignee($issueKey, $assignee);
 
     var_dump($ret);
 } catch (JiraException $e) {
@@ -536,7 +542,9 @@ $issueKey = "TEST-879";
 try {
 	$issueService = new IssueService();
 
-    $ret = $issueService->deleteIssue($this->key);
+    $ret = $issueService->deleteIssue($issueKey);
+    // if you want to delete issues with sub-tasks
+    //$ret = $issueService->deleteIssue($issueKey, array('deleteSubtasks' => 'true'));
 
     var_dump($ret);
 } catch (JiraException $e) {

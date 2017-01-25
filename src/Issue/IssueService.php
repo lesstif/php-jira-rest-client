@@ -159,10 +159,11 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param   $issueIdOrKey Issue Key
      * @param   $issueField   object of Issue class
+     * @param array $paramArray Query Parameter key-value Array.
      *
      * @return created issue key
      */
-    public function update($issueIdOrKey, $issueField)
+    public function update($issueIdOrKey, $issueField, $paramArray = [])
     {
         $issue = new Issue();
 
@@ -175,7 +176,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo("Update Issue=\n".$data);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $data, 'PUT');
 
         return $ret;
     }
@@ -234,13 +237,17 @@ class IssueService extends \JiraRestApi\JiraClient
       * Delete a issue.
       *
       * @param issueIdOrKey Issue id or key
+      * @param array $paramArray Query Parameter key-value Array.
+      * @return true | false
       *
       */
-    public function deleteIssue($issueIdOrKey)
+    public function deleteIssue($issueIdOrKey, $paramArray = [])
     {
         $this->log->addInfo("deleteIssue=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey", '', 'DELETE');
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, '', 'DELETE');
 
         $this->log->addInfo('delete issue '.$issueIdOrKey.' result='.var_export($ret, true));
 
