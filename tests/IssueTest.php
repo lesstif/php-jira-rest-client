@@ -138,6 +138,42 @@ class IssueTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testChangeAssignee
+     */
+    public function testChangeAssignee($issueKey)
+    {
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->changeAssignee($issueKey, 'lesstif');
+
+            print_r($ret);
+
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Change assignee failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testChangeAssignee
+     */
+    public function testDeleteIssue($issueKey)
+    {
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->deleteIssue($issueKey);
+
+            print_r($ret);
+
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'delete issue failed : '.$e->getMessage());
+        }
+    }
+
+    /**
      * @depends testUpdateIssue
      */
     public function testAddcomment($issueKey)
