@@ -203,7 +203,44 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $comment;
     }
+    
+    /**
+      * Change a issue assignee
+      *
+      * @param issueIdOrKey Issue id or key
+      * @param assignee array of assigne field informations
+      *
+      */
+    public function changeAssignee($issueIdOrKey, $assignee)
+    {
+        $this->log->addInfo("changeAssignee=\n");
 
+        $data = json_encode($assignee);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+
+        $this->log->addInfo('change assignee of '.$issueIdOrKey.' to '.json_encode($assignee).' result='.var_export($ret, true));
+
+        return $ret;
+    }
+
+    /**
+      * Delete a issue.
+      *
+      * @param issueIdOrKey Issue id or key
+      *
+      */
+    public function deleteIssue($issueIdOrKey)
+    {
+        $this->log->addInfo("deleteIssue=\n");
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey", '', 'DELETE');
+
+        $this->log->addInfo('delete issue '.$issueIdOrKey.' result='.var_export($ret, true));
+
+        return $ret;
+    }
+    
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
