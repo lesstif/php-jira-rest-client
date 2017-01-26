@@ -143,7 +143,7 @@ class IssueService extends \JiraRestApi\JiraClient
                     $ret, new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
                     )
                 );
-            } else {
+            } elseif (is_object($ret)) {
                 array_push($resArr, $this->json_mapper->map(
                     $ret, new Attachment
                     )
