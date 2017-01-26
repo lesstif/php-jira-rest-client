@@ -26,3 +26,9 @@ screen_capture.png
 bug-description.pdf
 
 .env
+
+# Ignore Vagrant Stuff
+.vagrant
+Vagrantfile
+# Ignore scotch.io box and the folders of them
+public/

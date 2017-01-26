@@ -91,6 +91,7 @@ $iss = new IssueService(new ArrayConfiguration(
 ### Project
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
+- [Get Project Type](#get-project-type)
 
 ### Custom Field
 - [Get All Field list](#get-all-field-list)
@@ -103,6 +104,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
+- [Change assignee](#change-assignee)
+- [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
@@ -154,6 +157,36 @@ try {
 			);
 			
 	}			
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get Project type
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Project\ProjectType;
+use JiraRestApi\JiraException;
+
+try {
+	$proj = new ProjectService();
+
+    // get all project type
+	$prjtyps = $proj->getProjectTypes();
+
+	foreach ($prjtyps as $pt) {
+	    var_dump($pt);
+	}
+
+	// get specific project type.
+	$pt = $proj->getProjectType('software');
+	var_dump($pt);
+
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -451,9 +484,15 @@ try {
 				->setDescription("This is a shorthand for a set operation on the summary field")
 				;
 
+	// optionally set some query params
+	$editParams = array(
+		'notifyUsers' => false
+	);
+	
 	$issueService = new IssueService();
 
-	$ret = $issueService->update($issueKey, $issueField);
+	// You can set the $paramArray param to disable notifications in example
+	$ret = $issueService->update($issueKey, $issueField, $editParams);
 
     var_dump($ret);
 } catch (JiraException $e) {
@@ -462,6 +501,56 @@ try {
 ```
 
 If you want to change the custom field type when updating an issue, you can call the *addCustomField* function just as you did for creating issue.
+
+#### Change Assignee
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+	$issueService = new IssueService();
+
+    // if assignee is -1, automatic assignee used.
+    // A null assignee will remove the assignee.
+    $assignee = 'newAssigneeName';
+
+    $ret = $issueService->changeAssignee($issueKey, $assignee);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+}
+```
+
+#### Remove Issue
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+	$issueService = new IssueService();
+
+    $ret = $issueService->deleteIssue($issueKey);
+    // if you want to delete issues with sub-tasks
+    //$ret = $issueService->deleteIssue($issueKey, array('deleteSubtasks' => 'true'));
+
+    var_dump($ret);
+} catch (JiraException $e) {
+	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+}
+```
 
 #### Add comment
 

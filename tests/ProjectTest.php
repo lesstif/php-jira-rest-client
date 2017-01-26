@@ -1,43 +1,98 @@
 <?php
 
-use JiraRestApi\Dumper;
 use JiraRestApi\Project\ProjectService;
 
 class ProjectTest extends PHPUnit_Framework_TestCase
 {
     public function testGetProject()
     {
-        //$this->markTestIncomplete();
-        try {
-            $proj = new ProjectService();
+        $proj = new ProjectService();
 
-            $p = $proj->get('TEST');
+        $p = $proj->get('TEST');
 
-            Dumper::dump($p);
-            foreach ($p->components as $c) {
-                echo 'COM : '.$c->name."\n";
-            }
-        } catch (HTTPException $e) {
-            $this->assertTrue(false, $e->getMessage());
-        }
+        $this->assertTrue($p instanceof JiraRestApi\Project\Project);
+        $this->assertTrue(strlen($p->key) > 0);
+        $this->assertTrue(!empty($p->id));
+        $this->assertTrue(strlen($p->name) > 0);
+        // $this->assertTrue(strlen($p->projectCategory['name']) > 0);
     }
 
     public function testGetProjectLists()
     {
-        //$this->markTestIncomplete();
-        try {
-            $proj = new ProjectService();
+        $proj = new ProjectService();
 
-            $prjs = $proj->getAllProjects();
+        $prjs = $proj->getAllProjects();
 
-            foreach ($prjs as $p) {
-                echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
-                    $p->key, $p->id, $p->name, $p->projectCategory['name']
-                    );
-            }
-        } catch (HTTPException $e) {
-            $this->assertTrue(false, $e->getMessage());
+        foreach ($prjs as $p) {
+            $this->assertTrue($p instanceof JiraRestApi\Project\Project);
+            $this->assertTrue(strlen($p->key) > 0);
+            $this->assertTrue(!empty($p->id));
+            $this->assertTrue(strlen($p->name) > 0);
+            // $this->assertTrue(strlen($p->projectCategory['name']) > 0);
         }
     }
-    //
+
+    public function testGetProjectTypes()
+    {
+        $proj = new ProjectService();
+
+        $prjtyps = $proj->getProjectTypes();
+
+        foreach ($prjtyps as $pt) {
+            $this->assertTrue($pt instanceof JiraRestApi\Project\ProjectType);
+            $this->assertTrue(strlen($pt->key) > 0);
+            $this->assertTrue(strlen($pt->formattedKey) > 0);
+            $this->assertTrue(strlen($pt->descriptionI18nKey) > 0);
+            $this->assertTrue(strlen($pt->color) > 0);
+            $this->assertTrue(strlen($pt->icon) > 0);
+        }
+    }
+
+    public function testGetProjectType()
+    {
+        $proj = new ProjectService();
+
+        $prjtyp = $proj->getProjectType('software');
+
+        $this->assertTrue($prjtyp instanceof JiraRestApi\Project\ProjectType);
+        $this->assertTrue(strlen($prjtyp->key) > 0);
+        $this->assertTrue(strlen($prjtyp->formattedKey) > 0);
+        $this->assertTrue(strlen($prjtyp->descriptionI18nKey) > 0);
+        $this->assertTrue(strlen($prjtyp->color) > 0);
+        $this->assertTrue(strlen($prjtyp->icon) > 0);
+    }
+
+    /**
+     * @expectedException JiraRestApi\JiraException
+     */
+    public function testGetProjectTypeException()
+    {
+        $proj = new ProjectService();
+
+        $prjtyp = $proj->getProjectType('foobar');
+    }
+
+    public function testGetProjectAccessible()
+    {
+        $proj = new ProjectService();
+
+        $prjtyp = $proj->getAccessibleProjectType('business');
+
+        $this->assertTrue($prjtyp instanceof JiraRestApi\Project\ProjectType);
+        $this->assertTrue(strlen($prjtyp->key) > 0);
+        $this->assertTrue(strlen($prjtyp->formattedKey) > 0);
+        $this->assertTrue(strlen($prjtyp->descriptionI18nKey) > 0);
+        $this->assertTrue(strlen($prjtyp->color) > 0);
+        $this->assertTrue(strlen($prjtyp->icon) > 0);
+    }
+
+    /**
+     * @expectedException JiraRestApi\JiraException
+     */
+    public function testGetProjectAccessibleException()
+    {
+        $proj = new ProjectService();
+
+        $prjtyp = $proj->getAccessibleProjectType('foobar');
+    }
 }

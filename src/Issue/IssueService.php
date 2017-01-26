@@ -127,6 +127,10 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function addAttachments($issueIdOrKey, $filePathArray)
     {
+        if (is_array($filePathArray) == false) {
+            $filePathArray = [$filePathArray];
+        }
+
         $results = $this->upload($this->uri."/$issueIdOrKey/attachments", $filePathArray);
 
         $this->log->addInfo('addAttachments result='.var_export($results, true));
@@ -155,10 +159,11 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param   $issueIdOrKey Issue Key
      * @param   $issueField   object of Issue class
+     * @param array $paramArray Query Parameter key-value Array.
      *
      * @return created issue key
      */
-    public function update($issueIdOrKey, $issueField)
+    public function update($issueIdOrKey, $issueField, $paramArray = [])
     {
         $issue = new Issue();
 
@@ -171,7 +176,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo("Update Issue=\n".$data);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $data, 'PUT');
 
         return $ret;
     }
@@ -200,6 +207,53 @@ class IssueService extends \JiraRestApi\JiraClient
         return $comment;
     }
 
+    /**
+     * Change a issue assignee
+     *
+     * @param Issue $issueIdOrKey
+     * @param Assigns $assigneeName Assigns an issue to a user.
+     *    If the assigneeName is "-1" automatic assignee is used.
+     *    A null name will remove the assignee.
+     * @return true | false
+     * @throws JiraException
+     *
+     */
+    public function changeAssignee($issueIdOrKey, $assigneeName)
+    {
+        $this->log->addInfo("changeAssignee=\n");
+
+        $ar = ['name' => $assigneeName];
+
+        $data = json_encode($ar);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+
+        $this->log->addInfo('change assignee of '.$issueIdOrKey.' to ' . $assigneeName .' result='.var_export($ret, true));
+
+        return $ret;
+    }
+
+    /**
+      * Delete a issue.
+      *
+      * @param issueIdOrKey Issue id or key
+      * @param array $paramArray Query Parameter key-value Array.
+      * @return true | false
+      *
+      */
+    public function deleteIssue($issueIdOrKey, $paramArray = [])
+    {
+        $this->log->addInfo("deleteIssue=\n");
+
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, '', 'DELETE');
+
+        $this->log->addInfo('delete issue '.$issueIdOrKey.' result='.var_export($ret, true));
+
+        return $ret;
+    }
+    
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
