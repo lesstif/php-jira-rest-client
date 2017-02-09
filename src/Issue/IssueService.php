@@ -545,4 +545,27 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $prio;
     }
+
+    /**
+    * add watcher to issue.
+    *
+    * @param mixed  $issueIdOrKey
+    * @param object $watcher
+    * @param int $worklogId
+    *
+    * @return bool
+    */
+    public function addWatcher($issueIdOrKey, $watcher)
+    {
+        $this->log->addInfo("addWatcher=\n");
+
+        $data = json_encode($watcher);
+        $url = $this->uri . "/$issueIdOrKey/watchers";
+        $type = 'POST';
+
+        $this->exec($url, $data, $type);
+
+        return $this->http_response == 204 ? true : false;
+    }
+
 }
