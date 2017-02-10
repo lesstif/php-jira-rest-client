@@ -197,8 +197,10 @@ class JiraClient
             }
 
             // HostNotFound, No route to Host, etc Network error
-            $this->log->addError('CURL Error: = '.$body);
-            throw new JiraException('CURL Error: = '.$body);
+            $msg = sprintf("CURL Error: http response=%d, %s", $this->http_response, $body);
+
+            $this->log->addError($msg);
+            throw new JiraException($msg);
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);

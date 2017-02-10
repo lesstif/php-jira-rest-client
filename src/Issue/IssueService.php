@@ -550,8 +550,7 @@ class IssueService extends \JiraRestApi\JiraClient
     * add watcher to issue.
     *
     * @param mixed  $issueIdOrKey
-    * @param object $watcher
-    * @param int $worklogId
+    * @param string $watcher watcher id
     *
     * @return bool
     */
