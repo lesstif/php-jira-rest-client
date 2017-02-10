@@ -113,6 +113,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
+- [Add watcher in Issue](#add-issue-watcher)
 
 ### User
 - [Get User Info](#get-user-info)
@@ -812,6 +813,34 @@ try {
     $wlId = 12345;
     $wl = $issueService->getWorklogById($issueKey, $wlId);
     var_dump($wl);
+    
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+
+```
+
+#### Add watcher in Issue 
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Watcher;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $issueService = new IssueService();
+    
+    // get issue's all worklog
+    $watcher = new Watcher('lesstif');
+    var_dump($watcher);
+    
+    $wch = $issueService->addWatcher($issueKey, $watcher);
+    var_dump($wch);
     
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
