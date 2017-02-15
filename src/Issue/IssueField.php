@@ -232,6 +232,30 @@ class IssueField implements \JsonSerializable
         $this->parent = $parent;
     }
 
+    /**
+     * add issue component.
+     *
+     * @param string $component
+     *
+     * @return $this
+     */
+    public function addComponents($component)
+    {
+        if (is_null($this->components)) {
+            $this->components = array();
+        }
+
+        if (is_string($component)){
+            array_push($this->components, new Component($component));
+        } else if (is_array($component)) {
+            foreach($component as $c) {
+                array_push($this->components, new Component($c));
+            }
+        }
+
+        return $this;
+    }
+
     /** @var string */
     public $summary;
 
@@ -274,7 +298,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $environment;
 
-    /** @var array */
+    /** @var  \JiraRestApi\Issue\Component[] */
     public $components;
 
     /** @var Comments */
