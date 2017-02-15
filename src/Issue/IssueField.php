@@ -161,9 +161,13 @@ class IssueField implements \JsonSerializable
             $this->versions = array();
         }
 
-        $v = new Version();
-        $v->name = $name;
-        array_push($this->versions, $v);
+        if (is_string($name)){
+            array_push($this->versions, new Version($name));
+        } else if (is_array($name)) {
+            foreach($name as $v) {
+                array_push($this->versions, new Version($v));
+            }
+        }
 
         return $this;
     }

@@ -304,8 +304,8 @@ try {
 				->setPriorityName("Critical")
 				->setIssueType("Bug")
 				->setDescription("Full description for issue")
-				->addVersion("1.0.1")
-				->addVersion("1.0.3");
+				->addVersion(["1.0.1", "1.0.3"])
+				->addComponents(['Component-1', 'Component-2']);
 	
 	$issueService = new IssueService();
 
