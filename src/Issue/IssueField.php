@@ -161,9 +161,13 @@ class IssueField implements \JsonSerializable
             $this->versions = array();
         }
 
-        $v = new Version();
-        $v->name = $name;
-        array_push($this->versions, $v);
+        if (is_string($name)){
+            array_push($this->versions, new Version($name));
+        } else if (is_array($name)) {
+            foreach($name as $v) {
+                array_push($this->versions, new Version($v));
+            }
+        }
 
         return $this;
     }
@@ -232,6 +236,30 @@ class IssueField implements \JsonSerializable
         $this->parent = $parent;
     }
 
+    /**
+     * add issue component.
+     *
+     * @param string $component
+     *
+     * @return $this
+     */
+    public function addComponents($component)
+    {
+        if (is_null($this->components)) {
+            $this->components = array();
+        }
+
+        if (is_string($component)){
+            array_push($this->components, new Component($component));
+        } else if (is_array($component)) {
+            foreach($component as $c) {
+                array_push($this->components, new Component($c));
+            }
+        }
+
+        return $this;
+    }
+
     /** @var string */
     public $summary;
 
@@ -274,7 +302,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $environment;
 
-    /** @var array */
+    /** @var  \JiraRestApi\Issue\Component[] */
     public $components;
 
     /** @var Comments */
