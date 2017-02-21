@@ -59,12 +59,12 @@ class JiraClient
      *
      * @param ConfigurationInterface $configuration
      * @param Logger $logger
+     * @param string $path
      */
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null)
+    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
     {
         if ($configuration === null) {
-            $path = './';
-            if (!file_exists('.env')) {
+            if (!file_exists($path . '.env')) {
                 // If calling the getcwd() on laravel it will returning the 'public' directory.
                 $path = '../';
             }
