@@ -25,7 +25,7 @@ class Version implements \JsonSerializable
     /* @var DateTime */
     public $releaseDate;
 
-    public function __construct($name)
+    public function __construct($name = null)
     {
         $this->name = $name;
     }
