@@ -6,7 +6,7 @@ class Component implements \JsonSerializable
     public $id;
     public $name;
 
-    public function __construct($name)
+    public function __construct($name = null)
     {
         $this->name = $name;
     }
