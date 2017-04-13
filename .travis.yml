@@ -11,11 +11,10 @@ php:
 before_install:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist
-  - travis_retry phpunit --version
 
 script:
-  - phpunit --verbose tests/MockTest
-  - phpunit --verbose tests/SerializeTest
+  - ./vendor/bin/phpunit --verbose tests/MockTest
+  - ./vendor/bin/phpunit --verbose tests/SerializeTest
 
 matrix:
   allow_failures:
