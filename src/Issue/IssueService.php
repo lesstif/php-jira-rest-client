@@ -35,9 +35,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query($paramArray);
         
-		$urlPath      = $this->uri . '/' . $issueIdOrKey . $queryParam;
-		$cleanUrlPath = preg_replace('/%5B[0-9]+%5D/simU', '', $urlPath);
-		$ret          = $this->exec($cleanUrlPath, null);
+	$urlPath      = $this->uri . '/' . $issueIdOrKey . $queryParam;
+	$cleanUrlPath = preg_replace('/%5B[0-9]+%5D/simU', '', $urlPath);
+	$ret          = $this->exec($cleanUrlPath, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
