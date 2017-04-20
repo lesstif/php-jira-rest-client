@@ -34,8 +34,10 @@ class IssueService extends \JiraRestApi\JiraClient
         $issueObject = ($issueObject) ? $issueObject : new Issue();
 
         $queryParam = '?'.http_build_query($paramArray);
-
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$queryParam, null);
+        
+		$urlPath      = $this->uri . '/' . $issueIdOrKey . $queryParam;
+		$cleanUrlPath = preg_replace('/%5B[0-9]+%5D/simU', '', $urlPath);
+		$ret          = $this->exec($cleanUrlPath, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
