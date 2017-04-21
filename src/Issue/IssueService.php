@@ -33,9 +33,13 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $issueObject = ($issueObject) ? $issueObject : new Issue();
 
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?';
 
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$queryParam, null);
+        foreach($paramArray as $key => $value) {
+            $queryParam .= $key . '=' . join(',', $value) . '&';
+        }
+
+        $ret = $this->exec($this->uri . '/' . $issueIdOrKey . $queryParam, null);
 
         $this->log->addInfo("Result=\n".$ret);
 

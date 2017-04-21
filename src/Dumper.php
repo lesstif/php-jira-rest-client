@@ -3,6 +3,7 @@
 namespace JiraRestApi;
 
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class Dumper
