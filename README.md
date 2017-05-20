@@ -115,6 +115,11 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get Issue worklog](#get-issue-worklog)
 - [Add watcher in Issue](#add-issue-watcher)
 
+### IssueLink
+
+* [Create Issue Link](#create-issue-link)
+* [Get Issue LinkType](#get-issue-linktype)
+
 ### User
 - [Get User Info](#get-user-info)
 
@@ -845,7 +850,58 @@ try {
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
+```
 
+#### Create Issue Link
+
+The Link Issue Resource provides functionality to manage issue links.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\IssueLink\IssueLink;
+use JiraRestApi\IssueLink\IssueLinkService;
+use JiraRestApi\JiraException;
+
+try {
+    $il = new IssueLink();
+
+    $il->setInwardIssue('TEST-258')
+        ->setOutwardIssue('TEST-249')
+        ->setLinkTypeName('Relates' )
+        ->setComment('Linked related issue via REST API.');
+            
+    $ils = new IssueLinkService();
+
+    $ret = $ils->addIssueLink($il);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+#### Get Issue LinkType
+
+Rest resource to retrieve a list of issue link types.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\IssueLink\IssueLink;
+use JiraRestApi\IssueLink\IssueLinkService;
+use JiraRestApi\JiraException;
+
+try {
+    $ils = new IssueLinkService();
+
+    $ret = $ils->getIssueLinkTypes();
+    
+    var_dump($ret);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
 ```
 
 #### Get User Info
