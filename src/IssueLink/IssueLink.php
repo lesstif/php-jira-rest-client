@@ -3,6 +3,7 @@
 namespace JiraRestApi\IssueLink;
 
 use JiraRestApi\ClassSerialize;
+use JiraRestApi\Issue\Comment;
 
 class IssueLink implements \JsonSerializable
 {
@@ -48,9 +49,18 @@ class IssueLink implements \JsonSerializable
         return $this;
     }
 
-    public function setComments($comment)
+    /**
+     * @param $comment string or \JiraRestApi\Issue\Comment instance
+     * @return $this
+     */
+    public function setComment($comment)
     {
-        $this->comment = $comment;
+        if (is_string($comment)) {
+            $this->comment = new Comment();
+            $this->comment->setBody($comment);
+        } else if($comment instanceof Comment ) {
+            $this->comment = $comment;
+        }
 
         return $this;
     }

@@ -191,8 +191,11 @@ class JiraClient
             $body = curl_error($ch);
             curl_close($ch);
 
-            //The server successfully processed the request, but is not returning any content.
-            if ($this->http_response == 204) {
+            /*
+             * 201: The request has been fulfilled, resulting in the creation of a new resource.
+             * 204: The server successfully processed the request, but is not returning any content.
+             */
+            if ($this->http_response === 204 || $this->http_response === 201) {
                 return true;
             }
 

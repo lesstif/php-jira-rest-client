@@ -20,14 +20,6 @@ class IssueLinkService extends \JiraRestApi\JiraClient
         $type = 'POST';
 
         $ret = $this->exec($url, $data, $type);
-
-        $this->log->addDebug('add issue link result='.var_export($ret, true));
-        //$comment = $this->json_mapper->map(
-        //    json_decode($ret), new Comment()
-        //);
-
-        return $this->http_response === 201 ? true : 'qqq';
-        //https://docs.atlassian.com/jira/REST/server/#api/2/issueLink-linkIssues
     }
 
     public function getIssueLinkTypes()
@@ -38,8 +30,10 @@ class IssueLinkService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($url);
 
+        $data = json_encode(json_decode($ret)->issueLinkTypes);
+
         $linkTypes = $this->json_mapper->mapArray(
-            json_decode($ret), new \ArrayObject(), '\JiraRestApi\IssueLink\IssueLinkType'
+            json_decode($data, false), new \ArrayObject(), '\JiraRestApi\IssueLink\IssueLinkType'
         );
 
         return $linkTypes;
