@@ -123,6 +123,10 @@ $iss = new IssueService(new ArrayConfiguration(
 ### User
 - [Get User Info](#get-user-info)
 
+### Group
+- [Create Group](#create-group)
+- [Get Users from group](#get-users-from-group)
+
 #### Get Project Info
 
 ```php
@@ -921,6 +925,65 @@ try {
 	$user = $us->get(['username' => 'lesstif']);
 
 	var_dump($user);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Create Group
+
+Create new group.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\Group\GroupService;
+
+try {
+    $g = new Group();
+
+    $g->name = 'Test group for REST API';
+
+    $gs = new GroupService();
+
+    $ret = $gs->createGroup($g);
+	var_dump($user);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get Users from group
+
+returns a paginated list of users who are members of the specified group and its subgroups.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\Group\GroupService;
+
+try {
+   $queryParam = [
+        'groupname' => 'Test group for REST API',
+        'includeInactiveUsers' => true, // default false
+        'startAt' => 0,
+        'maxResults' => 50,
+    ];
+
+    $gs = new GroupService();
+
+    $ret = $gs->getMembers($queryParam);
+
+    // print all users in the group
+    foreach($ret->values as $user) {
+        print_r($user);
+    }
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
