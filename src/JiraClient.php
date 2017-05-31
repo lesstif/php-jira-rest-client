@@ -99,13 +99,25 @@ class JiraClient
      */
     private function convertLogLevel($log_level)
     {
+        $log_level = strtoupper($log_level);
+
         switch ($log_level) {
+            case 'EMERGENCY':
+                return Logger::EMERGENCY;
+            case 'ALERT':
+                return Logger::ALERT;
+            case 'CRITICAL':
+                return Logger::CRITICAL;
+            case 'ERROR':
+                return Logger::ERROR;
+            case 'WARNING':
+                return Logger::WARNING;
+            case 'NOTICE':
+                return Logger::NOTICE;
             case 'DEBUG':
                 return Logger::DEBUG;
             case 'INFO':
                 return Logger::INFO;
-            case 'ERROR':
-                return Logger::ERROR;
             default:
                 return Logger::WARNING;
         }
