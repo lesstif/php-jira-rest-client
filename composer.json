@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["jira", "rest", "jira-php", "jira-rest"],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "netresearch/jsonmapper": "~0.11|^1.0",
         "monolog/monolog": "~1.12",
         "vlucas/phpdotenv": "~2.0"
