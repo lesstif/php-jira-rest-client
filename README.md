@@ -126,6 +126,7 @@ $iss = new IssueService(new ArrayConfiguration(
 ### Group
 - [Create Group](#create-group)
 - [Get Users from group](#get-users-from-group)
+- [Add User to group](#add-user-to-group)
 
 #### Get Project Info
 
@@ -984,6 +985,34 @@ try {
     foreach($ret->values as $user) {
         print_r($user);
     }
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+### Add User to group
+
+add user to given group.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\Group\GroupService;
+
+try {
+    $groupName  = '한글 그룹 name';
+    $userName = 'lesstif';
+
+    $gs = new GroupService();
+
+    $ret = $gs->addUserToGroup($groupName, $userName);
+
+    // print current state of the group.
+    print_r($ret);
+
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }

@@ -50,4 +50,22 @@ class GroupTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'testCreateGroup Failed : '.$e->getMessage());
         }
     }
+
+    public function testAddUserToGroup()
+    {
+        try {
+            $groupName  = '한글 그룹 name';
+            $userName = 'lesstif';
+
+            $gs = new GroupService();
+
+            $ret = $gs->addUserToGroup($groupName, $userName);
+
+            // print all users in the group
+            print_r($ret);
+
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testAddUserToGroup Failed : '.$e->getMessage());
+        }
+    }
 }

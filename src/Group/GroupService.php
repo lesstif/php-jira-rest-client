@@ -79,4 +79,27 @@ class GroupService extends \JiraRestApi\JiraClient
 
         return $group;
     }
+
+    /**
+     * Adds given user to a group.
+     *
+     * @param $group
+     * @return Returns the current state of the group.
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     */
+    public function addUserToGroup($groupName, $userName)
+    {
+        $data = json_encode(['name' => $userName,]);
+
+        $ret = $this->exec($this->uri . '/user?groupname=' . urlencode($groupName), $data);
+
+        $this->log->addInfo("Result=\n".$ret);
+
+        $group = $this->json_mapper->map(
+            json_decode($ret), new Group()
+        );
+
+        return $group;
+    }
 }
