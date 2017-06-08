@@ -11,27 +11,33 @@ class GroupTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateGroup()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
         try {
             $g = new Group();
 
-            $g->name = 'Test group for REST API';
+            $g->name = 'Test 한글 group for REST API';
 
             $gs = new GroupService();
 
             $ret = $gs->createGroup($g);
 
             Dumper::dump($ret);
+
+            $groupName = $g->name;
+            return $groupName;
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testCreateGroup Failed : '.$e->getMessage());
         }
     }
 
-    public function testGetUsersFromGroup()
+    /**
+     * @depends testCreateGroup
+     */
+    public function testGetUsersFromGroup($groupName)
     {
         try {
             $queryParam = [
-                'groupname' => 'Test group for REST API',
+                'groupname' => $groupName,
                 'includeInactiveUsers' => true, // default false
                 'startAt' => 0,
                 'maxResults' => 50,
@@ -46,15 +52,19 @@ class GroupTest extends PHPUnit_Framework_TestCase
                 print_r($user);
             }
 
+            return $groupName;
+
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testCreateGroup Failed : '.$e->getMessage());
         }
     }
 
-    public function testAddUserToGroup()
+    /**
+     * @depends testCreateGroup
+     */
+    public function testAddUserToGroup($groupName)
     {
         try {
-            $groupName  = '한글 그룹 name';
             $userName = 'lesstif';
 
             $gs = new GroupService();

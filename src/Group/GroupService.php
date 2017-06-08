@@ -102,4 +102,24 @@ class GroupService extends \JiraRestApi\JiraClient
 
         return $group;
     }
+
+    /**
+     * Removes given user from a group.
+     *
+     * @param $groupName
+     * @param $userName
+     * @return null Returns no content
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     */
+    public function removeUserFromGroup($groupName, $userName)
+    {
+        $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
+
+        $ret = $this->exec($this->uri . '/user?' . $param, [], 'DELETE');
+
+        $this->log->addInfo("Result=\n".$ret);
+
+        return $ret;
+    }
 }
