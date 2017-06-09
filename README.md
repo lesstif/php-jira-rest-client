@@ -122,6 +122,8 @@ $iss = new IssueService(new ArrayConfiguration(
 
 ### User
 - [Get User Info](#get-user-info)
+- [Find Users](#find-users)
+- [Find Assignable Users](#find-assignable-users)
 
 ### Group
 - [Create Group](#create-group)
@@ -926,6 +928,66 @@ try {
 	$user = $us->get(['username' => 'lesstif']);
 
 	var_dump($user);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Find Users
+
+Returns a list of users that match the search string and/or property. 
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $paramArray = [
+        'username' => '.', // get all users. 
+        'startAt' => 0,
+        'maxResults' => 1000,
+        'includeInactive' => true,
+        //'property' => '*',
+        ];
+
+    // get the user info.
+    $users = $us->findUsers($paramArray);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Find Assignable Users
+
+Returns a list of users that match the search string. 
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $paramArray = [
+        //'username' => null,
+        'project' => 'TEST',
+        //'issueKey' => 'TEST-1',
+        'startAt' => 0,
+        'maxResults' => 50, //max 1000
+        //'actionDescriptorId' => 1,
+    ];
+
+    $users = $us->findAssignableUsers($paramArray);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
