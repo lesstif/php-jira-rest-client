@@ -571,4 +571,23 @@ class IssueService extends \JiraRestApi\JiraClient
         return $this->http_response == 204 ? true : false;
     }
 
+    /**
+     * Get the meta data for creating issues
+     *
+     * @param array $paramArray Possible keys for $paramArray: 'projectIds', 'projectKeys', 'issuetypeIds', 'issuetypeNames'.
+     * @param boolean $expand Retrieve all issue fields and values
+     * @return array of meta data for creating issues.
+     */
+    public function getCreateMeta($paramArray=array(), $expand=true)
+    {
+        $paramArray['expand'] = ($expand) ? 'projects.issuetypes.fields' : null;
+        $paramArray = array_filter($paramArray);
+
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri.'/createmeta'.$queryParam, null);
+
+        return json_decode($ret);
+    }
+
 }
