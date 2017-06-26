@@ -334,16 +334,18 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param int   $startAt
      * @param int   $maxResults
      * @param array $fields
+     * @param array $expand
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [])
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [])
     {
         $data = json_encode(array(
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
             'fields' => $fields,
+            'expand' => $expand,
         ));
 
         $ret = $this->exec('search', $data, 'POST');
