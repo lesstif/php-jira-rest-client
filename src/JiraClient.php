@@ -365,8 +365,8 @@ class JiraClient
 end:
         foreach ($chArr as $ch) {
             $this->log->addDebug('CURL Close handle..');
-            curl_close($ch);
             curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
         }
         $this->log->addDebug('CURL Multi Close handle..');
         curl_multi_close($mh);
