@@ -74,7 +74,8 @@ class JiraClient
         $this->configuration = $configuration;
         $this->json_mapper = new \JsonMapper();
 
-        $this->json_mapper->undefinedPropertyHandler = [\JiraRestApi\JsonMapperHelper::class, 'setUndefinedProperty'];
+        // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
+        $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
 
         // create logger
         if ($logger) {
@@ -188,7 +189,11 @@ class JiraClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
+        if (!function_exists('ini_get') || !ini_get('open_basedir')){
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        }
+        
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array('Accept: */*', 'Content-Type: application/json'));
 
