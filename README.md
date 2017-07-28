@@ -109,6 +109,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add comment](#add-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
+    - [Simple JQL](#simple-query)
+    - [JQL With pagination](#jql-with-pagination)
 - [Issue time tracking](#issue-time-tracking)
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Edit worklog in Issue](#edit-worklog-in-issue)
@@ -629,7 +631,7 @@ try {
 
 #### Perform an advanced search
 
-**Simple Query**
+##### Simple Query
 
 ```php
 <?php
@@ -650,9 +652,7 @@ try {
 }
 ```
 
-
-
-**JQL with pagination**
+##### JQL with pagination
 
 ```php
 <?php

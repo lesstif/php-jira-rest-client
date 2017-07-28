@@ -4,8 +4,8 @@ namespace JiraRestApi;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
-use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger as Logger;
 
 /**
  * Interact jira server with REST API.
@@ -58,13 +58,13 @@ class JiraClient
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
-     * @param Logger $logger
-     * @param string $path
+     * @param Logger                 $logger
+     * @param string                 $path
      */
     public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
     {
         if ($configuration === null) {
-            if (!file_exists($path . '.env')) {
+            if (!file_exists($path.'.env')) {
                 // If calling the getcwd() on laravel it will returning the 'public' directory.
                 $path = '../';
             }
@@ -155,9 +155,9 @@ class JiraClient
      * @param string $post_data
      * @param string $custom_request [PUT|DELETE]
      *
-     * @return string
-     *
      * @throws JiraException
+     *
+     * @return string
      */
     public function exec($context, $post_data = null, $custom_request = null)
     {
@@ -190,12 +190,12 @@ class JiraClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
-        if (!function_exists('ini_get') || !ini_get('open_basedir')){
+        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
-        
+
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array('Accept: */*', 'Content-Type: application/json'));
+            ['Accept: */*', 'Content-Type: application/json']);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -217,7 +217,7 @@ class JiraClient
             }
 
             // HostNotFound, No route to Host, etc Network error
-            $msg = sprintf("CURL Error: http response=%d, %s", $this->http_response, $body);
+            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
             $this->log->addError($msg);
             throw new JiraException($msg);
@@ -255,12 +255,12 @@ class JiraClient
         // send file
         curl_setopt($ch, CURLOPT_POST, true);
 
-        if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION  < 5) {
+        if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
             $attachments = realpath($upload_file);
             $filename = basename($upload_file);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                array('file' => '@'.$attachments.';filename='.$filename));
+                ['file' => '@'.$attachments.';filename='.$filename]);
 
             $this->log->addDebug('using legacy file upload');
         } else {
@@ -269,7 +269,7 @@ class JiraClient
             $attachments->setPostFilename(basename($upload_file));
 
             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    array('file' => $attachments));
+                    ['file' => $attachments]);
 
             $this->log->addDebug('using CURLFile='.var_export($attachments, true));
         }
@@ -280,15 +280,15 @@ class JiraClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
         // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); cannot be activated when an open_basedir is set
-        if (!function_exists('ini_get') || !ini_get('open_basedir')){
+        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
+            [
                 'Accept: */*',
                 'Content-Type: multipart/form-data',
                 'X-Atlassian-Token: nocheck',
-                ));
+                ]);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -303,9 +303,9 @@ class JiraClient
      * @param string $context       url context
      * @param array  $filePathArray upload file path.
      *
-     * @return array
-     *
      * @throws JiraException
+     *
+     * @return array
      */
     public function upload($context, $filePathArray)
     {
@@ -314,8 +314,8 @@ class JiraClient
         // return value
         $result_code = 200;
 
-        $chArr = array();
-        $results = array();
+        $chArr = [];
+        $results = [];
         $mh = curl_multi_init();
 
         for ($idx = 0; $idx < count($filePathArray); ++$idx) {
@@ -363,7 +363,7 @@ class JiraClient
                 if ($this->http_response != 200 && $this->http_response != 201) {
                     $body = 'CURL HTTP Request Failed: Status Code : '
                      .$this->http_response.', URL:'.$url;
-                    
+
                     $this->log->addError($body);
                 }
             }
