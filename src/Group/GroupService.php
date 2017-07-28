@@ -27,7 +27,7 @@ class GroupService extends \JiraRestApi\JiraClient
         $this->log->addInfo("Result=\n".$ret);
 
         return $this->json_mapper->map(
-                json_decode($ret), new User()
+                json_decode($ret), new Group()
         );
     }
 
