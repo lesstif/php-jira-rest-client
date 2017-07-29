@@ -335,10 +335,11 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param int   $maxResults
      * @param array $fields
      * @param array $expand
+     * @param boolean $validateQuery
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [])
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
         $data = json_encode(array(
             'jql' => $jql,
@@ -346,6 +347,7 @@ class IssueService extends \JiraRestApi\JiraClient
             'maxResults' => $maxResults,
             'fields' => $fields,
             'expand' => $expand,
+            'validateQuery' => $validateQuery,
         ));
 
         $ret = $this->exec('search', $data, 'POST');
