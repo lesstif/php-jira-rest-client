@@ -1,8 +1,8 @@
 <?php
 
 use JiraRestApi\Dumper;
-use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Comment;
+use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
 class IssueTest extends PHPUnit_Framework_TestCase

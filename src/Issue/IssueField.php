@@ -15,7 +15,7 @@ class IssueField implements \JsonSerializable
 
             $this->assignee = new \JiraRestApi\Issue\Reporter();
             $this->priority = new \JiraRestApi\Issue\Priority();
-            $this->versions = array();
+            $this->versions = [];
 
             $this->issuetype = new \JiraRestApi\Issue\IssueType();
         }
@@ -66,6 +66,7 @@ class IssueField implements \JsonSerializable
 
         return $this;
     }
+
     public function setProjectId($id)
     {
         $this->project->id = $id;
@@ -158,13 +159,13 @@ class IssueField implements \JsonSerializable
     public function addVersion($name)
     {
         if (is_null($this->versions)) {
-            $this->versions = array();
+            $this->versions = [];
         }
 
-        if (is_string($name)){
+        if (is_string($name)) {
             array_push($this->versions, new Version($name));
-        } else if (is_array($name)) {
-            foreach($name as $v) {
+        } elseif (is_array($name)) {
+            foreach ($name as $v) {
                 array_push($this->versions, new Version($v));
             }
         }
@@ -182,7 +183,7 @@ class IssueField implements \JsonSerializable
     public function addLabel($label)
     {
         if (is_null($this->labels)) {
-            $this->labels = array();
+            $this->labels = [];
         }
 
         array_push($this->labels, $label);
@@ -246,13 +247,13 @@ class IssueField implements \JsonSerializable
     public function addComponents($component)
     {
         if (is_null($this->components)) {
-            $this->components = array();
+            $this->components = [];
         }
 
-        if (is_string($component)){
+        if (is_string($component)) {
             array_push($this->components, new Component($component));
-        } else if (is_array($component)) {
-            foreach($component as $c) {
+        } elseif (is_array($component)) {
+            foreach ($component as $c) {
                 array_push($this->components, new Component($c));
             }
         }
@@ -302,7 +303,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $environment;
 
-    /** @var  \JiraRestApi\Issue\Component[] */
+    /** @var \JiraRestApi\Issue\Component[] */
     public $components;
 
     /** @var Comments */
@@ -335,16 +336,16 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
 
-    /** @var  string|null */
+    /** @var string|null */
     public $aggregatetimespent;
 
-    /** @var  string|null */
+    /** @var string|null */
     public $timeestimate;
 
-    /** @var  string|null */
+    /** @var string|null */
     public $aggregatetimeoriginalestimate;
 
-    /** @var  string|null */
+    /** @var string|null */
     public $resolutiondate;
 
     /** @var \DateTime|null */

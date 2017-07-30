@@ -1,4 +1,5 @@
 <?php
+
 namespace JiraRestApi\Project;
 
 use JiraRestApi\ClassSerialize;
@@ -7,19 +8,18 @@ class ProjectType
 {
     use ClassSerialize;
 
-    /** @var  string */
+    /** @var string */
     public $key;
 
-    /** @var  string */
+    /** @var string */
     public $formattedKey;
 
-    /** @var  string */
+    /** @var string */
     public $descriptionI18nKey;
 
-    /** @var  string */
+    /** @var string */
     public $icon;
 
-    /** @var  string */
+    /** @var string */
     public $color;
-
 }

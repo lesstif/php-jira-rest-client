@@ -1,32 +1,32 @@
 <?php
 
 namespace JiraRestApi\Group;
+
 use JiraRestApi\ClassSerialize;
 
 class GroupUser
 {
     /**
-     * @var integer
+     * @var int
      */
     public $size;
 
-    /** @var  array */
+    /** @var array */
     public $items;
 
-    /** @var  integer */
+    /** @var int */
     public $max_results;
 
-    /** @var  integer */
+    /** @var int */
     public $start_index;
 
-    /** @var  integer */
+    /** @var int */
     public $end_index;
 }
 
 /**
- * Class Group
+ * Class Group.
  *
- * @package JiraRestApi\Group
  *
  * @see https://docs.atlassian.com/jira/REST/server/#api/2/group
  */
@@ -61,10 +61,10 @@ class Group implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
     }
-
 }

@@ -4,7 +4,6 @@ namespace JiraRestApi\Group;
 
 /**
  * Class to perform all groups related queries.
- * @package JiraRestApi\Group
  */
 class GroupService extends \JiraRestApi\JiraClient
 {
@@ -14,7 +13,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * Function to get group.
      *
      * @param array $paramArray Possible values for $paramArray 'username', 'key'.
-     *   "Either the 'username' or the 'key' query parameters need to be provided".
+     *                          "Either the 'username' or the 'key' query parameters need to be provided".
      *
      * @return Group class
      */
@@ -32,18 +31,20 @@ class GroupService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get users from group
+     * Get users from group.
      *
      * @param $paramArray groupname, includeInactiveUsers, startAt, maxResults
-     * @return GroupSearchResult
+     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return GroupSearchResult
      */
     public function getMembers($paramArray)
     {
-        $queryParam = '?' . http_build_query($paramArray);
+        $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri . '/member'.$queryParam, null);
+        $ret = $this->exec($this->uri.'/member'.$queryParam, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
@@ -55,12 +56,14 @@ class GroupService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Creates a group by given group parameter
+     * Creates a group by given group parameter.
      *
      * @param $group \JiraRestApi\Group\Group
-     * @return array
+     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return array
      */
     public function createGroup($group)
     {
@@ -84,15 +87,17 @@ class GroupService extends \JiraRestApi\JiraClient
      * Adds given user to a group.
      *
      * @param $group
-     * @return Returns the current state of the group.
+     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Returns the current state of the group.
      */
     public function addUserToGroup($groupName, $userName)
     {
-        $data = json_encode(['name' => $userName,]);
+        $data = json_encode(['name' => $userName]);
 
-        $ret = $this->exec($this->uri . '/user?groupname=' . urlencode($groupName), $data);
+        $ret = $this->exec($this->uri.'/user?groupname='.urlencode($groupName), $data);
 
         $this->log->addInfo("Result=\n".$ret);
 
@@ -108,15 +113,17 @@ class GroupService extends \JiraRestApi\JiraClient
      *
      * @param $groupName
      * @param $userName
-     * @return null Returns no content
+     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return null Returns no content
      */
     public function removeUserFromGroup($groupName, $userName)
     {
         $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
 
-        $ret = $this->exec($this->uri . '/user?' . $param, [], 'DELETE');
+        $ret = $this->exec($this->uri.'/user?'.$param, [], 'DELETE');
 
         $this->log->addInfo("Result=\n".$ret);
 

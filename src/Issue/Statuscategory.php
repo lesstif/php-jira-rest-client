@@ -1,6 +1,6 @@
 <?php
-namespace JiraRestApi\Issue;
 
+namespace JiraRestApi\Issue;
 
 class Statuscategory
 {

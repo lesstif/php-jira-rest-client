@@ -53,7 +53,7 @@ class Transition implements \JsonSerializable
     public function setTransitionName($name)
     {
         if (is_null($this->transition)) {
-            $this->transition = array();
+            $this->transition = [];
         }
 
         $this->transition['name'] = $name;
@@ -62,7 +62,7 @@ class Transition implements \JsonSerializable
     public function setTransitionId($id)
     {
         if (is_null($this->transition)) {
-            $this->transition = array();
+            $this->transition = [];
         }
 
         $this->transition['id'] = $id;
@@ -71,11 +71,11 @@ class Transition implements \JsonSerializable
     public function setCommentBody($commentBody)
     {
         if (is_null($this->update)) {
-            $this->update = array();
-            $this->update['comment'] = array();
+            $this->update = [];
+            $this->update['comment'] = [];
         }
 
-        $ar = array();
+        $ar = [];
         $ar['add']['body'] = $commentBody;
         array_push($this->update['comment'], $ar);
     }

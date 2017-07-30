@@ -13,7 +13,7 @@ class Worklog
     use ClassSerialize;
 
     /**
-     * @var int id of worklog 
+     * @var int id of worklog
      */
     public $id;
 
@@ -151,7 +151,7 @@ class Worklog
     public function setVisibility($type, $value)
     {
         $this->visibility = [
-            'type' => $type,
+            'type'  => $type,
             'value' => $value,
         ];
 

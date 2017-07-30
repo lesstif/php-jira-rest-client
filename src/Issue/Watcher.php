@@ -3,7 +3,6 @@
 namespace JiraRestApi\Issue;
 
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\JiraException;
 
 /**
  * Class Watcher.
@@ -12,7 +11,7 @@ class Watcher implements \JsonSerializable
 {
     use ClassSerialize;
 
-    /** @var  string  */
+    /** @var string */
     public $name;
 
     public function __construct($name)
@@ -29,5 +28,4 @@ class Watcher implements \JsonSerializable
     {
         return $this->name;
     }
-
 }

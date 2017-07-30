@@ -1,12 +1,12 @@
 <?php
 
 namespace JiraRestApi\Group;
+
 use JiraRestApi\ClassSerialize;
 
 /**
- * Class GroupSearchResult
+ * Class GroupSearchResult.
  *
- * @package JiraRestApi\Group
  *
  * @see https://docs.atlassian.com/jira/REST/server/#api/2/group
  */
@@ -22,21 +22,21 @@ class GroupSearchResult implements \JsonSerializable
     public $self;
 
     /**
-     * @var integer
+     * @var int
      */
     public $maxResults;
 
     /**
-     * @var integer
+     * @var int
      */
     public $startAt;
 
     /**
-     * @var integer
+     * @var int
      */
     public $total;
 
-    /** @var  \JiraRestApi\User\User[] */
+    /** @var \JiraRestApi\User\User[] */
     public $values;
 
     public function jsonSerialize()

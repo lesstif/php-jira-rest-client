@@ -1,6 +1,7 @@
 <?php
 
 namespace JiraRestApi\User;
+
 use JiraRestApi\ClassSerialize;
 
 /**

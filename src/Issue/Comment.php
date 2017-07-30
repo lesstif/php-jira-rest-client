@@ -11,6 +11,7 @@ class Visibility implements \JsonSerializable
     {
         $this->type = $type;
     }
+
     public function setValue($value)
     {
         $this->value = $value;
@@ -20,6 +21,7 @@ class Visibility implements \JsonSerializable
     {
         return $this->type;
     }
+
     public function getValue()
     {
         return $this->value;
@@ -68,7 +70,8 @@ class Comment implements \JsonSerializable
 
     /**
      * @param Visibility $type
-     * @param null $value
+     * @param null       $value
+     *
      * @return $this
      */
     public function setVisibility($type, $value = null)

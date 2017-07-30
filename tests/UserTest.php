@@ -37,9 +37,9 @@ class UserTest extends PHPUnit_Framework_TestCase
             $us = new UserService();
 
             $paramArray = [
-                'username' => '.',  // . means all users
-                'startAt' => 0,
-                'maxResults' => 1000,
+                'username'        => '.',  // . means all users
+                'startAt'         => 0,
+                'maxResults'      => 1000,
                 'includeInactive' => true,
                 //'property' => '*',
                 ];
@@ -65,7 +65,7 @@ class UserTest extends PHPUnit_Framework_TestCase
                 //'username' => null,
                 'project' => 'TEST',
                 //'issueKey' => 'TEST-1',
-                'startAt' => 0,
+                'startAt'    => 0,
                 'maxResults' => 1000,
                 //'actionDescriptorId' => 1,
             ];

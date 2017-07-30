@@ -8,7 +8,7 @@ trait ClassSerialize
      * class property to Array.
      *
      * @param array $ignoreProperties this properties to be (ex|in)cluded from array whether second param is true or false.
-     * @param boolean $excludeMode
+     * @param bool  $excludeMode
      *
      * @return array
      */
@@ -36,7 +36,7 @@ trait ClassSerialize
      * class property to String.
      *
      * @param array $ignoreProperties this properties to be excluded from String.
-     * @param boolean $excludeMode
+     * @param bool  $excludeMode
      *
      * @return string
      */

@@ -2,9 +2,9 @@
 
 namespace JiraRestApi;
 
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class Dumper
 {
@@ -22,6 +22,7 @@ class Dumper
             var_dump($value);
         }
     }
+
     public static function dd($x)
     {
         array_map(function ($x) {

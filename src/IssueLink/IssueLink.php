@@ -18,6 +18,7 @@ class IssueLink implements \JsonSerializable
 
     /**
      * @param $typeName issue type string(ex:  'Duplicate')
+     *
      * @return $this
      */
     public function setLinkTypeName($typeName)
@@ -29,6 +30,7 @@ class IssueLink implements \JsonSerializable
 
     /**
      * @param $issueKey inward issue key or id
+     *
      * @return $this
      */
     public function setInwardIssue($issueKey)
@@ -40,6 +42,7 @@ class IssueLink implements \JsonSerializable
 
     /**
      * @param $issueKey out ward issue key or id
+     *
      * @return $this
      */
     public function setOutwardIssue($issueKey)
@@ -51,6 +54,7 @@ class IssueLink implements \JsonSerializable
 
     /**
      * @param $comment string or \JiraRestApi\Issue\Comment instance
+     *
      * @return $this
      */
     public function setComment($comment)
@@ -58,7 +62,7 @@ class IssueLink implements \JsonSerializable
         if (is_string($comment)) {
             $this->comment = new Comment();
             $this->comment->setBody($comment);
-        } else if($comment instanceof Comment ) {
+        } elseif ($comment instanceof Comment) {
             $this->comment = $comment;
         }
 
@@ -68,10 +72,10 @@ class IssueLink implements \JsonSerializable
     /** @var array */
     public $type;
 
-    /** @var  \JiraRestApi\Issue\Issue */
+    /** @var \JiraRestApi\Issue\Issue */
     public $inwardIssue;
 
-    /** @var  \JiraRestApi\Issue\Issue */
+    /** @var \JiraRestApi\Issue\Issue */
     public $outwardIssue;
 
     /** @var \JiraRestApi\Issue\Comment */

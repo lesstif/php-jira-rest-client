@@ -36,9 +36,9 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function get($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$projectIdOrKey", null);
+        $ret = $this->exec($this->uri."/$projectIdOrKey", null);
 
-        $this->log->addInfo('Result=' . $ret);
+        $this->log->addInfo('Result='.$ret);
 
         $prj = $this->json_mapper->map(
             json_decode($ret), new Project()
@@ -69,7 +69,7 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     public function getStatuses($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri . "/$projectIdOrKey/statuses", null);
+        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
@@ -83,9 +83,9 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getProjectTypes()
     {
-        $ret = $this->exec($this->uri . "/type");
+        $ret = $this->exec($this->uri.'/type');
 
-        $this->log->addInfo('Result=' . $ret);
+        $this->log->addInfo('Result='.$ret);
 
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
@@ -97,13 +97,14 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $key
+     *
      * @return ProjectType
      */
     public function getProjectType($key)
     {
-        $ret = $this->exec($this->uri . "/type/$key");
+        $ret = $this->exec($this->uri."/type/$key");
 
-        $this->log->addInfo('Result=' . $ret);
+        $this->log->addInfo('Result='.$ret);
 
         $type = $this->json_mapper->map(
             json_decode($ret, false), new ProjectType()
@@ -114,13 +115,14 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $key
+     *
      * @return ProjectType
      */
     public function getAccessibleProjectType($key)
     {
-        $ret = $this->exec($this->uri . "/type/$key/accessible");
+        $ret = $this->exec($this->uri."/type/$key/accessible");
 
-        $this->log->addInfo('Result=' . $ret);
+        $this->log->addInfo('Result='.$ret);
 
         $type = $this->json_mapper->map(
             json_decode($ret, false), new ProjectType()

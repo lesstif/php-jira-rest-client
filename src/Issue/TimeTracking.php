@@ -7,6 +7,7 @@
  */
 
 namespace JiraRestApi\Issue;
+
 use JiraRestApi\ClassSerialize;
 
 /**

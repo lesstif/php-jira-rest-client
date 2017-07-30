@@ -1,9 +1,9 @@
 <?php
 
 use JiraRestApi\Dumper;
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Comment;
+use JiraRestApi\Issue\IssueField;
+use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
@@ -37,8 +37,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
                         ->setIssueType('Bug')
                         ->setDescription('Full description for issue')
                         ->addVersion(['1.0.1', '1.0.3'])
-                        ->addComponents(['Component-1', 'Component-2'])
-                        ;
+                        ->addComponents(['Component-1', 'Component-2']);
 
             $issueService = new IssueService();
 
@@ -71,8 +70,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
                 ->addVersion('1.0.1')
                 ->addVersion('1.0.3')
                 ->setIssueType('Sub-task')
-                ->setParentKeyOrId($issueKey)
-            ;
+                ->setParentKeyOrId($issueKey);
 
             $issueService = new IssueService();
 
@@ -98,7 +96,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $issueService = new IssueService();
 
             $ret = $issueService->addAttachments($issueKey,
-                array('screen_capture.png', 'bug-description.pdf', 'README.md'));
+                ['screen_capture.png', 'bug-description.pdf', 'README.md']);
 
             print_r($ret);
 
@@ -124,8 +122,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
                         ->addLabel('test-label-second')
                         ->addVersion('1.0.1')
                         ->addVersion('1.0.2')
-                        ->setDescription('This is a shorthand for a set operation on the summary field')
-                        ;
+                        ->setDescription('This is a shorthand for a set operation on the summary field');
 
             $issueService = new IssueService();
 
@@ -182,7 +179,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
         try {
             $comment = new Comment();
 
-            $body = <<<COMMENT
+            $body = <<<'COMMENT'
 Adds a new comment to an issue.
 * Bullet 1
 * Bullet 2

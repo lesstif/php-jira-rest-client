@@ -1,7 +1,7 @@
 <?php
 
-use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
+use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
 class SubTaskTest extends PHPUnit_Framework_TestCase
@@ -21,8 +21,7 @@ class SubTaskTest extends PHPUnit_Framework_TestCase
                 ->setDescription('Subtask - Full description for issue')
                 ->addVersion('1.0.1')
                 ->addVersion('1.0.3')
-                ->setParent($this->issueKey)
-            ;
+                ->setParent($this->issueKey);
 
             $issueService = new IssueService();
 

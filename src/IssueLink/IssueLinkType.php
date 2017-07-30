@@ -5,8 +5,8 @@ namespace JiraRestApi\IssueLink;
 use JiraRestApi\ClassSerialize;
 
 /**
- * Class IssueLinkType
- * @package JiraRestApi\Issue
+ * Class IssueLinkType.
+ *
  * @see https://docs.atlassian.com/jira/REST/server/#api/2/issueLinkType-createIssueLinkType
  */
 class IssueLinkType implements \JsonSerializable
@@ -20,18 +20,18 @@ class IssueLinkType implements \JsonSerializable
         return $vars;
     }
 
-    /** @var integer */
+    /** @var int */
     public $id;
 
     /** @var string */
     public $name;
 
-    /** @var  string */
+    /** @var string */
     public $inward;
 
     /** @var string */
     public $outward;
 
-    /** @var  string */
+    /** @var string */
     public $self;
 }

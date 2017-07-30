@@ -3,11 +3,9 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Group\Group;
 use JiraRestApi\Group\GroupService;
-use JiraRestApi\IssueLink\IssueLink;
-use JiraRestApi\IssueLink\IssueLinkService;
 use JiraRestApi\JiraException;
 
-class GroupTest extends PHPUnit_Framework_TestCase
+class groupTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateGroup()
     {
@@ -24,6 +22,7 @@ class GroupTest extends PHPUnit_Framework_TestCase
             Dumper::dump($ret);
 
             $groupName = $g->name;
+
             return $groupName;
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testCreateGroup Failed : '.$e->getMessage());
@@ -37,10 +36,10 @@ class GroupTest extends PHPUnit_Framework_TestCase
     {
         try {
             $queryParam = [
-                'groupname' => $groupName,
+                'groupname'            => $groupName,
                 'includeInactiveUsers' => true, // default false
-                'startAt' => 0,
-                'maxResults' => 50,
+                'startAt'              => 0,
+                'maxResults'           => 50,
             ];
 
             $gs = new GroupService();
@@ -48,12 +47,11 @@ class GroupTest extends PHPUnit_Framework_TestCase
             $ret = $gs->getMembers($queryParam);
 
             // print all users in the group
-            foreach($ret->values as $user) {
+            foreach ($ret->values as $user) {
                 print_r($user);
             }
 
             return $groupName;
-
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testCreateGroup Failed : '.$e->getMessage());
         }
@@ -73,7 +71,6 @@ class GroupTest extends PHPUnit_Framework_TestCase
 
             // print all users in the group
             print_r($ret);
-
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testAddUserToGroup Failed : '.$e->getMessage());
         }

@@ -21,13 +21,13 @@ class IssueService extends \JiraRestApi\JiraClient
      *  get all project list.
      *
      * @param $issueIdOrKey
-     * @param array $paramArray Query Parameter key-value Array.
+     * @param array $paramArray  Query Parameter key-value Array.
      * @param Issue $issueObject
-     *
-     * @return Issue class
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue class
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
@@ -35,11 +35,11 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?';
 
-        foreach($paramArray as $key => $value) {
-            $queryParam .= $key . '=' . join(',', $value) . '&';
+        foreach ($paramArray as $key => $value) {
+            $queryParam .= $key.'='.implode(',', $value).'&';
         }
 
-        $ret = $this->exec($this->uri . '/' . $issueIdOrKey . $queryParam, null);
+        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$queryParam, null);
 
         $this->log->addInfo("Result=\n".$ret);
 
@@ -73,10 +73,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * Create multiple issues using bulk insert.
-     * 
+     *
      * @param IssueField[] $issueFields Array of IssueField objects
      * @param int          $batchSize   Maximum number of issues to send in each request
-     * 
+     *
      * @return [] Array of results, where each result represents one batch of insertions
      */
     public function createMultiple($issueFields, $batchSize = 50)
@@ -101,9 +101,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * Makes API call to bulk insert issues.
-     * 
+     *
      * @param [] $issues Array of issue arrays that are sent to Jira one by one in single create
-     * 
+     *
      * @return [] Result of API call to insert many issues
      */
     private function bulkInsert($issues)
@@ -139,7 +139,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo('addAttachments result='.var_export($results, true));
 
-        $resArr = array();
+        $resArr = [];
         foreach ($results as $ret) {
             $ret = json_decode($ret);
             if (is_array($ret)) {
@@ -149,7 +149,7 @@ class IssueService extends \JiraRestApi\JiraClient
                 );
             } elseif (is_object($ret)) {
                 array_push($resArr, $this->json_mapper->map(
-                    $ret, new Attachment
+                    $ret, new Attachment()
                     )
                 );
             }
@@ -161,9 +161,9 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * update issue.
      *
-     * @param   $issueIdOrKey Issue Key
-     * @param   $issueField   object of Issue class
-     * @param array $paramArray Query Parameter key-value Array.
+     * @param       $issueIdOrKey Issue Key
+     * @param       $issueField   object of Issue class
+     * @param array $paramArray   Query Parameter key-value Array.
      *
      * @return created issue key
      */
@@ -212,15 +212,16 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Change a issue assignee
+     * Change a issue assignee.
      *
-     * @param Issue $issueIdOrKey
+     * @param Issue   $issueIdOrKey
      * @param Assigns $assigneeName Assigns an issue to a user.
-     *    If the assigneeName is "-1" automatic assignee is used.
-     *    A null name will remove the assignee.
-     * @return true | false
+     *                              If the assigneeName is "-1" automatic assignee is used.
+     *                              A null name will remove the assignee.
+     *
      * @throws JiraException
      *
+     * @return true | false
      */
     public function changeAssignee($issueIdOrKey, $assigneeName)
     {
@@ -232,19 +233,19 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
 
-        $this->log->addInfo('change assignee of '.$issueIdOrKey.' to ' . $assigneeName .' result='.var_export($ret, true));
+        $this->log->addInfo('change assignee of '.$issueIdOrKey.' to '.$assigneeName.' result='.var_export($ret, true));
 
         return $ret;
     }
 
     /**
-      * Delete a issue.
-      *
-      * @param issueIdOrKey Issue id or key
-      * @param array $paramArray Query Parameter key-value Array.
-      * @return true | false
-      *
-      */
+     * Delete a issue.
+     *
+     * @param issueIdOrKey Issue id or key
+     * @param array $paramArray Query Parameter key-value Array.
+     *
+     * @return true | false
+     */
     public function deleteIssue($issueIdOrKey, $paramArray = [])
     {
         $this->log->addInfo("deleteIssue=\n");
@@ -257,7 +258,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
-    
+
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
@@ -335,20 +336,20 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param int   $maxResults
      * @param array $fields
      * @param array $expand
-     * @param boolean $validateQuery
+     * @param bool  $validateQuery
      *
      * @return IssueSearchResult
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
-        $data = json_encode(array(
-            'jql' => $jql,
-            'startAt' => $startAt,
-            'maxResults' => $maxResults,
-            'fields' => $fields,
-            'expand' => $expand,
+        $data = json_encode([
+            'jql'           => $jql,
+            'startAt'       => $startAt,
+            'maxResults'    => $maxResults,
+            'fields'        => $fields,
+            'expand'        => $expand,
             'validateQuery' => $validateQuery,
-        ));
+        ]);
 
         $ret = $this->exec('search', $data, 'POST');
         $json = json_decode($ret);
@@ -445,18 +446,19 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * add work log to issue.
-     * 
+     *
      * @param mixed  $issueIdOrKey
      * @param object $worklog
-     * @param int $worklogId
+     * @param int    $worklogId
      *
      * @return Worklog Object
      */
-    public function addWorklog($issueIdOrKey, $worklog){
+    public function addWorklog($issueIdOrKey, $worklog)
+    {
         $this->log->addInfo("addWorklog=\n");
 
         $data = json_encode($worklog);
-        $url = $this->uri . "/$issueIdOrKey/worklog";
+        $url = $this->uri."/$issueIdOrKey/worklog";
         $type = 'POST';
 
         $ret = $this->exec($url, $data, $type);
@@ -469,20 +471,23 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * edit the worklog
+     * edit the worklog.
      *
      * @param $issueIdOrKey
      * @param $worklog
      * @param string $worklogId
-     * @return object
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return object
      */
-    public function editWorklog($issueIdOrKey, $worklog, $worklogId){
+    public function editWorklog($issueIdOrKey, $worklog, $worklogId)
+    {
         $this->log->addInfo("editWorklog=\n");
 
         $data = json_encode($worklog);
-        $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
+        $url = $this->uri."/$issueIdOrKey/worklog/$worklogId";
         $type = 'PUT';
 
         $ret = $this->exec($url, $data, $type);
@@ -555,19 +560,19 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-    * add watcher to issue.
-    *
-    * @param mixed  $issueIdOrKey
-    * @param string $watcher watcher id
-    *
-    * @return bool
-    */
+     * add watcher to issue.
+     *
+     * @param mixed  $issueIdOrKey
+     * @param string $watcher      watcher id
+     *
+     * @return bool
+     */
     public function addWatcher($issueIdOrKey, $watcher)
     {
         $this->log->addInfo("addWatcher=\n");
 
         $data = json_encode($watcher);
-        $url = $this->uri . "/$issueIdOrKey/watchers";
+        $url = $this->uri."/$issueIdOrKey/watchers";
         $type = 'POST';
 
         $this->exec($url, $data, $type);
@@ -576,13 +581,14 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get the meta data for creating issues
+     * Get the meta data for creating issues.
      *
      * @param array $paramArray Possible keys for $paramArray: 'projectIds', 'projectKeys', 'issuetypeIds', 'issuetypeNames'.
-     * @param boolean $expand Retrieve all issue fields and values
+     * @param bool  $expand     Retrieve all issue fields and values
+     *
      * @return array of meta data for creating issues.
      */
-    public function getCreateMeta($paramArray=array(), $expand=true)
+    public function getCreateMeta($paramArray = [], $expand = true)
     {
         $paramArray['expand'] = ($expand) ? 'projects.issuetypes.fields' : null;
         $paramArray = array_filter($paramArray);
@@ -593,5 +599,4 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return json_decode($ret);
     }
-
 }

@@ -44,7 +44,7 @@ class FieldService extends \JiraRestApi\JiraClient
     {
         $ret = $this->exec('/customFieldOption', null);
 
-        $this->log->addDebug("Create Field=\n" . $ret);
+        $this->log->addDebug("Create Field=\n".$ret);
 
         return $ret;
     }
@@ -60,7 +60,7 @@ class FieldService extends \JiraRestApi\JiraClient
     {
         $data = json_encode($field);
 
-        $this->log->addInfo("Create Field=\n" . $data);
+        $this->log->addInfo("Create Field=\n".$data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 

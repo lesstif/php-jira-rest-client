@@ -2,8 +2,6 @@
 
 namespace JiraRestApi\IssueLink;
 
-use JiraRestApi\JiraException;
-
 class IssueLinkService extends \JiraRestApi\JiraClient
 {
     private $uri = '';
@@ -16,7 +14,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
 
         $this->log->addDebug("Create IssueLink=\n".$data);
 
-        $url = $this->uri . "/issueLink";
+        $url = $this->uri.'/issueLink';
         $type = 'POST';
 
         $ret = $this->exec($url, $data, $type);
@@ -26,7 +24,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
     {
         $this->log->addInfo("getIssueLinkTYpes=\n");
 
-        $url = $this->uri . "/issueLinkType";
+        $url = $this->uri.'/issueLinkType';
 
         $ret = $this->exec($url);
 

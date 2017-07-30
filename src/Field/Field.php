@@ -1,6 +1,7 @@
 <?php
 
 namespace JiraRestApi\Field;
+
 use JiraRestApi\ClassSerialize;
 
 /**

@@ -14,7 +14,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
             $j = new \JiraRestApi\JiraClient($config, getOptions());
 
-            $post_data = array('name' => 'value');
+            $post_data = ['name' => 'value'];
 
             $http_status = 0;
             $ret = $j->exec('/', json_encode($post_data), $http_status);
