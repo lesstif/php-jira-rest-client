@@ -318,7 +318,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $fixVersions;
 
-    /** @var Reporter */
+    /** @var Reporter|null */
     public $creator;
 
     /** @var object */
