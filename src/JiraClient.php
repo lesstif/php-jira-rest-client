@@ -424,7 +424,7 @@ end:
         return $this->configuration;
     }
 
-     /**
+    /**
      * Set a custom Jira API URI for the request.
      *
      * @param string $api_uri
