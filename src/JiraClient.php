@@ -433,4 +433,30 @@ end:
     {
         $this->api_uri = $api_uri;
     }
+
+    /**
+     * convert to query array to http query parameter
+     * @param $paramArray
+     *
+     * @return string
+     */
+    public function toHttpQueryParameter($paramArray)
+    {
+        $queryParam = '?';
+
+        foreach ($paramArray as $key => $value) {
+            $v = null;
+
+            // some param field(Ex: expand) type is array.
+            if (is_array($value)) {
+                $v = implode(',', $value);
+            } else {
+                $v = $value;
+            }
+
+            $queryParam .= $key.'='.$v.'&';
+        }
+
+        return $queryParam;
+    }
 }

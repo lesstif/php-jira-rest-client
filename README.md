@@ -92,6 +92,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
 - [Get Project Type](#get-project-type)
+- [Get Project Version](#get-project-version)
 
 ### Custom Field
 - [Get All Field list](#get-all-field-list)
@@ -207,6 +208,66 @@ try {
 }
 
 ```
+
+#### Get Project Version
+
+get all project's versions.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Issue\Version;
+use JiraRestApi\JiraException;
+
+try {
+    $proj = new ProjectService();
+
+    $vers = $proj->getVersions('TEST');
+
+    foreach ($vers as $v) {
+        // $v is  JiraRestApi\Issue\Version
+        var_dump($v);
+    }
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+or get pagenated project's versions.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Issue\Version;
+use JiraRestApi\JiraException;
+
+try {
+     $param = [
+            'startAt' => 0,
+            'maxResults' => 10,
+            'orderBy' => 'name',
+            //'expand' => null,
+        ];
+
+    $proj = new ProjectService();
+
+    $vers = $proj->getVersionsPagenated('TEST', $param);
+
+    foreach ($vers as $v) {
+        // $v is  JiraRestApi\Issue\Version
+        var_dump($v);
+    }
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
 
 #### Get All Field List
 
@@ -1087,4 +1148,5 @@ Apache V2 License
 
 # JIRA Rest API Documents
 * 6.4 - https://docs.atlassian.com/jira/REST/6.4/
-* latest - https://docs.atlassian.com/jira/REST/latest/
+* Jira Server latest - https://docs.atlassian.com/jira/REST/server/
+* Jira Cloud latest - https://docs.atlassian.com/jira/REST/latest/

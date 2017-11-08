@@ -10,20 +10,29 @@ class Version implements \JsonSerializable
     /* @var string */
     public $id;
 
-    /* @var string|null */
-    public $description;
-
-    /* @var string */
+    /* @var string Version name: ex: 4.2.3 */
     public $name;
 
-     /* @var bool */
+    /* @var string|null version description: ex; improvement performance */
+    public $description;
+
+    /* @var bool */
     public $archived;
 
     /* @var bool */
     public $released;
 
-    /* @var DateTime */
+    /* @var DateTime|null */
     public $releaseDate;
+
+    /* @var bool */
+    public $overdue;
+
+    /* @var string|null */
+    public $userReleaseDate;
+
+    /* @var int */
+    public $projectId;
 
     public function __construct($name = null)
     {

@@ -130,4 +130,59 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         return $type;
     }
+
+    /**
+     * get pagenated Project versions
+     *
+     * @param $projectIdOrKey
+     * @param array $queryParam
+     *
+     * @return mixed array of version
+     */
+    public function getVersionsPagenated($projectIdOrKey, $queryParam = [])
+    {
+        $default = [
+            'startAt' => 0,
+            'maxResults' => 50,
+            // order by following field: sequence, name, startDate, releaseDate
+            //'orderBy' => null,
+            //'expand' => null,
+        ];
+
+        $param = $this->toHttpQueryParameter(
+            array_merge($default, $queryParam)
+        );
+
+        $ret = $this->exec($this->uri."/$projectIdOrKey/version".$param);
+
+        $this->log->addInfo('Result='.$ret);
+
+        //@see https://docs.atlassian.com/jira/REST/server/#api/2/project-getProjectVersions
+        $json = json_decode($ret);
+
+        $prjs = $this->json_mapper->mapArray(
+            $json->values, new \ArrayObject(), '\JiraRestApi\Issue\Version'
+        );
+
+        return $prjs;
+    }
+
+    /**
+     *  get specified's project versions
+     *
+     * @param $projectIdOrKey
+     * @return mixed array of version
+     */
+    public function getVersions($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
+
+        $this->log->addInfo('Result='.$ret);
+
+        $prjs = $this->json_mapper->mapArray(
+            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
+        );
+
+        return $prjs;
+    }
 }
