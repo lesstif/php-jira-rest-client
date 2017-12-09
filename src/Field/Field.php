@@ -120,11 +120,11 @@ class Field implements \JsonSerializable
     /* @var string */
     public $type;
 
-   /* @var boolean */
-   public $custom;
+    /* @var boolean */
+    public $custom;
 
-   /* @var boolean */
-   public $orderable;
+    /* @var boolean */
+    public $orderable;
 
     /* @var boolean */
     public $navigable;

@@ -220,6 +220,7 @@ class JiraClient
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
             $this->log->addError($msg);
+
             throw new JiraException($msg);
         } else {
             // if request was ok, parsing http response code.
@@ -318,12 +319,13 @@ class JiraClient
         $results = [];
         $mh = curl_multi_init();
 
-        for ($idx = 0; $idx < count($filePathArray); ++$idx) {
+        for ($idx = 0; $idx < count($filePathArray); $idx++) {
             $file = $filePathArray[$idx];
             if (file_exists($file) == false) {
                 $body = "File $file not found";
                 $result_code = -1;
                 $this->closeCURLHandle($chArr, $mh, $body, $result_code);
+
                 return $results;
             }
             $chArr[$idx] = $this->createUploadHandle($url, $filePathArray[$idx]);
@@ -336,9 +338,9 @@ class JiraClient
             curl_multi_exec($mh, $running);
         } while ($running > 0);
 
-         // Get content and remove handles.
+        // Get content and remove handles.
         $body = '';
-        for ($idx = 0; $idx < count($chArr); ++$idx) {
+        for ($idx = 0; $idx < count($chArr); $idx++) {
             $ch = $chArr[$idx];
 
             $results[$idx] = curl_multi_getcontent($ch);
@@ -371,10 +373,10 @@ class JiraClient
             }
         }
 
-      $this->closeCURLHandle($chArr, $mh, $body, $result_code);
-      return $results;
-    }
+        $this->closeCURLHandle($chArr, $mh, $body, $result_code);
 
+        return $results;
+    }
 
     /**
      * @param array $chArr
@@ -384,21 +386,20 @@ class JiraClient
      *
      * @throws \JiraRestApi\JiraException
      */
-    protected function closeCURLHandle(array $chArr, $mh, $body, $result_code){
-      foreach ($chArr as $ch) {
-        $this->log->addDebug('CURL Close handle..');
-        curl_multi_remove_handle($mh, $ch);
-        curl_close($ch);
-      }
-      $this->log->addDebug('CURL Multi Close handle..');
-      curl_multi_close($mh);
-      if ($result_code != 200) {
-        // @TODO $body might have not been defined
-        throw new JiraException('CURL Error: = '.$body, $result_code);
-      }
+    protected function closeCURLHandle(array $chArr, $mh, $body, $result_code)
+    {
+        foreach ($chArr as $ch) {
+            $this->log->addDebug('CURL Close handle..');
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+        }
+        $this->log->addDebug('CURL Multi Close handle..');
+        curl_multi_close($mh);
+        if ($result_code != 200) {
+            // @TODO $body might have not been defined
+            throw new JiraException('CURL Error: = '.$body, $result_code);
+        }
     }
-
-
 
     /**
      * Get URL by context.
@@ -449,7 +450,8 @@ class JiraClient
     }
 
     /**
-     * convert to query array to http query parameter
+     * convert to query array to http query parameter.
+     *
      * @param $paramArray
      *
      * @return string
