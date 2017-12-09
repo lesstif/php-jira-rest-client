@@ -17,11 +17,11 @@ class Issue implements \JsonSerializable
     /* @var string */
     public $id;
 
-   /* @var string */
-   public $key;
+    /* @var string */
+    public $key;
 
-   /** @var IssueField */
-   public $fields;
+    /** @var IssueField */
+    public $fields;
 
     public function jsonSerialize()
     {
