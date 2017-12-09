@@ -1,0 +1,11 @@
+preset: recommended
+disabled:
+    #  - self_accessor
+
+finder:
+  exclude:
+    - "tests"
+  name:
+    - "*.php"
+  not-name:
+    - "*Stub.php"

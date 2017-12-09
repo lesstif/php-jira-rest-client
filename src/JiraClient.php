@@ -337,6 +337,7 @@ class JiraClient
         } while ($running > 0);
 
          // Get content and remove handles.
+        $body = '';
         for ($idx = 0; $idx < count($chArr); ++$idx) {
             $ch = $chArr[$idx];
 
