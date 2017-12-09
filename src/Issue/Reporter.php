@@ -20,10 +20,10 @@ class Reporter implements \JsonSerializable
     /* @var string */
     public $avatarUrls;
 
-     /* @var string */
+    /* @var string */
     public $displayName;
 
-     /* @var string */
+    /* @var string */
     public $active;
 
     public function jsonSerialize()

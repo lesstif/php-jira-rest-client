@@ -132,7 +132,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get pagenated Project versions
+     * get pagenated Project versions.
      *
      * @param $projectIdOrKey
      * @param array $queryParam
@@ -142,7 +142,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     public function getVersionsPagenated($projectIdOrKey, $queryParam = [])
     {
         $default = [
-            'startAt' => 0,
+            'startAt'    => 0,
             'maxResults' => 50,
             // order by following field: sequence, name, startDate, releaseDate
             //'orderBy' => null,
@@ -168,9 +168,10 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     *  get specified's project versions
+     *  get specified's project versions.
      *
      * @param $projectIdOrKey
+     *
      * @return mixed array of version
      */
     public function getVersions($projectIdOrKey)

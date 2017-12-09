@@ -19,7 +19,7 @@ class IssueType implements \JsonSerializable
     /* @var string */
     public $name;
 
-     /* @var bool */
+    /* @var bool */
     public $subtask;
 
     /* @var \JiraRestApi\Issue\IssueStatus[] */
