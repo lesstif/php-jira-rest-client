@@ -8,22 +8,22 @@ class Reporter implements \JsonSerializable
 {
     use ClassSerialize;
 
-    /* @var string */
+    /** @var string */
     public $self;
 
-    /* @var string */
+    /** @var string */
     public $name;
 
-    /* @var string */
+    /** @var string */
     public $emailAddress;
 
-    /* @var string */
+    /** @var string */
     public $avatarUrls;
 
-    /* @var string */
+    /** @var string */
     public $displayName;
 
-    /* @var string */
+    /** @var string */
     public $active;
 
     public function jsonSerialize()
@@ -37,7 +37,7 @@ class Reporter implements \JsonSerializable
             }
         }
         if (empty($vars)) {
-            return;
+            return null;
         }
 
         return $vars;

@@ -16,7 +16,7 @@ class Attachment implements \JsonSerializable
     /* @var Reporter */
     public $author;
 
-    /* @var DateTime */
+    /* @var \DateTime */
     public $created;
 
     /* @var int */

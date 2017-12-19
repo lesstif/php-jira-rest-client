@@ -6,6 +6,11 @@ class IssueLinkService extends \JiraRestApi\JiraClient
 {
     private $uri = '';
 
+    /**
+     * @param IssueLink $issueLink
+     *
+     * @throws \JiraRestApi\JiraException
+     */
     public function addIssueLink($issueLink)
     {
         $this->log->addInfo("addIssueLink=\n");
@@ -17,9 +22,14 @@ class IssueLinkService extends \JiraRestApi\JiraClient
         $url = $this->uri.'/issueLink';
         $type = 'POST';
 
-        $ret = $this->exec($url, $data, $type);
+        $this->exec($url, $data, $type);
     }
 
+    /**
+     * @return IssueLinkType[]
+     *
+     * @throws \JiraRestApi\JiraException
+     */
     public function getIssueLinkTypes()
     {
         $this->log->addInfo("getIssueLinkTYpes=\n");

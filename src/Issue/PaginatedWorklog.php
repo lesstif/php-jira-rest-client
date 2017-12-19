@@ -27,7 +27,7 @@ class PaginatedWorklog
     public $total;
 
     /**
-     * @var array Worklog
+     * @var Worklog[]|array Worklog
      */
     public $worklogs;
 
@@ -80,7 +80,7 @@ class PaginatedWorklog
     }
 
     /**
-     * @return array Worklogs
+     * @return Worklog[]|array Worklogs
      */
     public function getWorklogs()
     {
@@ -88,7 +88,7 @@ class PaginatedWorklog
     }
 
     /**
-     * @param array $worklogs Worklogs
+     * @param Worklog[]|array $worklogs
      */
     public function setWorklogs($worklogs)
     {

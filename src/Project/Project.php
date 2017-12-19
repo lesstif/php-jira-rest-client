@@ -3,6 +3,7 @@
 namespace JiraRestApi\Project;
 
 use JiraRestApi\ClassSerialize;
+use JiraRestApi\Issue\IssueType;
 
 class Project
 {
@@ -57,24 +58,36 @@ class Project
      */
     public $projectCategory;
 
-    /* @var string|null */
+    /** @var string|null */
     public $description;
 
-    /* Project leader info @var array */
+    /**
+     * Project leader info
+     *
+     * @var array
+     */
     public $lead;
 
-    /* @var ComponentList[\JiraRestApi\Project\Component] */
+    /**
+     * ComponentList [\JiraRestApi\Project\Component]
+     *
+     * @var Component[]
+     */
     public $components;
 
-    /* @var IssueTypeList[\JiraRestApi\Issue\IssueType] */
+    /**
+     * IssueTypeList [\JiraRestApi\Issue\IssueType]
+     *
+     * @var IssueType[]
+     */
     public $issueTypes;
 
-    /* @var string */
+    /** @var string */
     public $assigneeType;
 
-    /* @var array */
+    /** @var array */
     public $versions;
 
-    /* @var array */
+    /** @var array */
     public $roles;
 }

@@ -17,7 +17,10 @@ class UserService extends \JiraRestApi\JiraClient
      * @param array $paramArray Possible values for $paramArray 'username', 'key'.
      *                          "Either the 'username' or the 'key' query parameters need to be provided".
      *
-     * @return User class
+     * @return User|object User class
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
      */
     public function get($paramArray)
     {
@@ -35,12 +38,12 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * Returns a list of users that match the search string and/or property.
      *
-     * @param $paramArray
+     * @param array $paramArray
+     *
+     * @return User[]
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
-     *
-     * @return array
      */
     public function findUsers($paramArray)
     {
@@ -66,12 +69,12 @@ class UserService extends \JiraRestApi\JiraClient
      * Returns a list of users that match the search string.
      * Please note that this resource should be called with an issue key when a list of assignable users is retrieved for editing.
      *
-     * @param $paramArray
+     * @param array $paramArray
+     *
+     * @return User[]
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
-     *
-     * @return array
      *
      * @see https://docs.atlassian.com/jira/REST/cloud/#api/2/user-findAssignableUsers
      */

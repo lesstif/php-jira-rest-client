@@ -104,6 +104,7 @@ class IssueSearchResult
 
     /**
      * @param int $ndx
+     * @return Issue
      */
     public function getIssue($ndx)
     {

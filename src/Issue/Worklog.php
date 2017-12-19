@@ -76,6 +76,8 @@ class Worklog
      * Function to set comments.
      *
      * @param string $comment
+     *
+     * @return Worklog
      */
     public function setComment($comment)
     {
@@ -88,6 +90,10 @@ class Worklog
      * Function to set start time of worklog.
      *
      * @param mixed $started started time value(\DateTime|string)  e.g. -  new DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
+     *
+     * @return Worklog
+     *
+     * @throws JiraException
      */
     public function setStarted($started)
     {
@@ -109,6 +115,8 @@ class Worklog
      * Function to set start time of worklog.
      *
      * @param \DateTime $started e.g. -  new DateTime("2014-04-05 16:00:00")
+     *
+     * @return Worklog
      */
     public function setStartedDateTime($started)
     {
@@ -122,6 +130,8 @@ class Worklog
      * Function to set worklog time in string.
      *
      * @param string $timeSpent
+     *
+     * @return Worklog
      */
     public function setTimeSpent($timeSpent)
     {
@@ -134,6 +144,8 @@ class Worklog
      * Function to set worklog time in seconds.
      *
      * @param int $timeSpentSeconds
+     *
+     * @return Worklog
      */
     public function setTimeSpentSeconds($timeSpentSeconds)
     {
@@ -145,8 +157,10 @@ class Worklog
     /**
      * Function to set visibility of worklog.
      *
-     * @param string $type  value can be group or role
+     * @param string $type value can be group or role
      * @param string $value
+     *
+     * @return Worklog
      */
     public function setVisibility($type, $value)
     {
