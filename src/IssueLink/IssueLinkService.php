@@ -26,9 +26,9 @@ class IssueLinkService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @return IssueLinkType[]
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return IssueLinkType[]
      */
     public function getIssueLinkTypes()
     {

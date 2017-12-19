@@ -57,7 +57,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
             case 'null':
             case '(null)':
-                return null;
+                return;
         }
 
         if ($this->startsWith($value, '"') && $this->endsWith($value, '"')) {

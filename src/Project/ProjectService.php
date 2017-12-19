@@ -13,9 +13,9 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * get all project list.
      *
-     * @return Project[] array of Project class
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return Project[] array of Project class
      */
     public function getAllProjects()
     {
@@ -30,15 +30,14 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     /**
      * get Project id By Project Key.
+     * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
      *
      * @param string|int $projectIdOrKey projectName or Project Key(Ex: Test, MyProj)
      *
-     * @return Project|object
-     *
-     * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
-     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Project|object
      */
     public function get($projectIdOrKey)
     {
@@ -59,9 +58,9 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param string|int projectIdOrKey Project Key
      *
-     * @return Reporter[]
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return Reporter[]
      */
     public function getAssignable($projectIdOrKey)
     {
@@ -77,9 +76,9 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param string|int $projectIdOrKey
      *
-     * @return IssueType[]
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return IssueType[]
      */
     public function getStatuses($projectIdOrKey)
     {
@@ -93,9 +92,9 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @return ProjectType[]
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return ProjectType[]
      */
     public function getProjectTypes()
     {
@@ -114,10 +113,10 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param string|int $key
      *
-     * @return ProjectType|object
-     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return ProjectType|object
      */
     public function getProjectType($key)
     {
@@ -135,10 +134,10 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param string|int $key
      *
-     * @return ProjectType|object
-     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return ProjectType|object
      */
     public function getAccessibleProjectType($key)
     {
@@ -157,11 +156,11 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get pagenated Project versions.
      *
      * @param string|int $projectIdOrKey
-     * @param array $queryParam
-     *
-     * @return Version[] array of version
+     * @param array      $queryParam
      *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return Version[] array of version
      */
     public function getVersionsPagenated($projectIdOrKey, $queryParam = [])
     {
@@ -196,9 +195,9 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param string|int $projectIdOrKey
      *
-     * @return Version[] array of version
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return Version[] array of version
      */
     public function getVersions($projectIdOrKey)
     {

@@ -11,9 +11,9 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * @param $json
      *
-     * @return Issue|object
-     *
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue|object
      */
     public function getIssueFromJSON($json)
     {
@@ -28,13 +28,13 @@ class IssueService extends \JiraRestApi\JiraClient
      *  get all project list.
      *
      * @param string|int $issueIdOrKey
-     * @param array $paramArray  Query Parameter key-value Array.
-     * @param Issue $issueObject
-     *
-     * @return Issue|object class
+     * @param array      $paramArray Query Parameter key-value Array.
+     * @param Issue      $issueObject
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue|object class
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
@@ -54,10 +54,10 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param IssueField $issueField
      *
-     * @return Issue|object created issue key
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue|object created issue key
      */
     public function create($issueField)
     {
@@ -79,12 +79,12 @@ class IssueService extends \JiraRestApi\JiraClient
      * Create multiple issues using bulk insert.
      *
      * @param IssueField[] $issueFields Array of IssueField objects
-     * @param int $batchSize Maximum number of issues to send in each request
-     *
-     * @return array Array of results, where each result represents one batch of insertions
+     * @param int          $batchSize   Maximum number of issues to send in each request
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return array Array of results, where each result represents one batch of insertions
      */
     public function createMultiple($issueFields, $batchSize = 50)
     {
@@ -111,10 +111,10 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param Issue[] $issues Array of issue arrays that are sent to Jira one by one in single create
      *
-     * @return Issue[] Result of API call to insert many issues
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue[] Result of API call to insert many issues
      */
     private function bulkInsert($issues)
     {
@@ -134,13 +134,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Add one or more file to an issue.
      *
-     * @param string|int issueIdOrKey Issue id or key
-     * @param array|string filePathArray attachment file path.
-     *
-     * @return Attachment[]
+     * @param string|int   $issueIdOrKey  Issue id or key
+     * @param array|string $filePathArray attachment file path.
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Attachment[]
      */
     public function addAttachments($issueIdOrKey, $filePathArray)
     {
@@ -175,12 +175,12 @@ class IssueService extends \JiraRestApi\JiraClient
      * update issue.
      *
      * @param string|int $issueIdOrKey Issue Key
-     * @param IssueField $issueField object of Issue class
-     * @param array $paramArray Query Parameter key-value Array.
-     *
-     * @return string created issue key
+     * @param IssueField $issueField   object of Issue class
+     * @param array      $paramArray   Query Parameter key-value Array.
      *
      * @throws JiraException
+     *
+     * @return string created issue key
      */
     public function update($issueIdOrKey, $issueField, $paramArray = [])
     {
@@ -205,13 +205,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Adds a new comment to an issue.
      *
-     * @param string|int issueIdOrKey Issue id or key
-     * @param string comment .
-     *
-     * @return Comment|object Comment class
+     * @param string|int $issueIdOrKey Issue id or key
+     * @param string     $comment
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Comment|object Comment class
      */
     public function addComment($issueIdOrKey, $comment)
     {
@@ -232,10 +232,10 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Change a issue assignee.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int  $issueIdOrKey
      * @param string|null $assigneeName Assigns an issue to a user.
-     *                              If the assigneeName is "-1" automatic assignee is used.
-     *                              A null name will remove the assignee.
+     *                                  If the assigneeName is "-1" automatic assignee is used.
+     *                                  A null name will remove the assignee.
      *
      * @throws JiraException
      *
@@ -259,12 +259,12 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Delete a issue.
      *
-     * @param string|int issueIdOrKey Issue id or key
-     * @param array $paramArray Query Parameter key-value Array.
-     *
-     * @return string|bool
+     * @param string|int $issueIdOrKey Issue id or key
+     * @param array      $paramArray   Query Parameter key-value Array.
      *
      * @throws JiraException
+     *
+     * @return string|bool
      */
     public function deleteIssue($issueIdOrKey, $paramArray = [])
     {
@@ -282,11 +282,11 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
-     * @param string|int issueIdOrKey Issue id or key
-     *
-     * @return Transition[] array of Transition class
+     * @param string|int $issueIdOrKey Issue id or key
      *
      * @throws JiraException
+     *
+     * @return Transition[] array of Transition class
      */
     public function getTransition($issueIdOrKey)
     {
@@ -306,11 +306,11 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * find transition id by transition's to field name(aka 'Resolved').
      * @param string|int $issueIdOrKey
-     * @param string $transitionToName
-     *
-     * @return string
+     * @param string     $transitionToName
      *
      * @throws JiraException
+     *
+     * @return string
      */
     public function findTransitonId($issueIdOrKey, $transitionToName)
     {
@@ -335,12 +335,12 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Perform a transition on an issue.
      *
-     * @param string|int issueIdOrKey Issue id or key
+     * @param string|int $issueIdOrKey Issue id or key
      * @param Transition $transition
      *
-     * @return string|null nothing - if transition was successful return http 204(no contents)
-     *
      * @throws JiraException
+     *
+     * @return string|null nothing - if transition was successful return http 204(no contents)
      */
     public function transition($issueIdOrKey, $transition)
     {
@@ -371,10 +371,10 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param array  $expand
      * @param bool   $validateQuery
      *
-     * @return IssueSearchResult|object
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return IssueSearchResult|object
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
@@ -402,10 +402,10 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param string|int $issueIdOrKey
      *
-     * @return TimeTracking
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
     {
@@ -422,12 +422,12 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * TimeTracking issues.
      *
-     * @param string|int issueIdOrKey Issue id or key
-     * @param TimeTracking timeTracking
-     *
-     * @return string
+     * @param string|int   $issueIdOrKey Issue id or key
+     * @param TimeTracking $timeTracking
      *
      * @throws JiraException
+     *
+     * @return string
      */
     public function timeTracking($issueIdOrKey, $timeTracking)
     {
@@ -454,10 +454,10 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param string|int $issueIdOrKey
      *
-     * @return PaginatedWorklog|object
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return PaginatedWorklog|object
      */
     public function getWorklog($issueIdOrKey)
     {
@@ -474,12 +474,12 @@ class IssueService extends \JiraRestApi\JiraClient
      * get getWorklog by Id.
      *
      * @param string|int $issueIdOrKey
-     * @param int $workLogId
-     *
-     * @return Worklog|object PaginatedWorklog object
+     * @param int        $workLogId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Worklog|object PaginatedWorklog object
      */
     public function getWorklogById($issueIdOrKey, $workLogId)
     {
@@ -495,13 +495,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * add work log to issue.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int     $issueIdOrKey
      * @param Worklog|object $worklog
-     *
-     * @return Worklog|object Worklog Object
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Worklog|object Worklog Object
      */
     public function addWorklog($issueIdOrKey, $worklog)
     {
@@ -523,14 +523,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * edit the worklog.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int     $issueIdOrKey
      * @param Worklog|object $worklog
-     * @param string|int $worklogId
-     *
-     * @return Worklog|object
+     * @param string|int     $worklogId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Worklog|object
      */
     public function editWorklog($issueIdOrKey, $worklog, $worklogId)
     {
@@ -552,9 +552,9 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Get all priorities.
      *
-     * @return Priority[] array of priority class
-     *
      * @throws JiraException
+     *
+     * @return Priority[] array of priority class
      */
     public function getAllPriorities()
     {
@@ -569,10 +569,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * Get priority by id.
-     *
-     * @param string|int priorityId Id of priority.
-     *
      * throws  HTTPException if the priority is not found, or the calling user does not have permission or view it.
+     *
+     * @param string|int $priorityId Id of priority.
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
@@ -593,10 +593,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * Get priority by id.
-     *
-     * @param string|int priorityId Id of priority.
-     *
      * throws HTTPException if the priority is not found, or the calling user does not have permission or view it.
+     *
+     * @param string|int $priorityId Id of priority.
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
@@ -619,11 +619,11 @@ class IssueService extends \JiraRestApi\JiraClient
      * add watcher to issue.
      *
      * @param string|int $issueIdOrKey
-     * @param string $watcher watcher id
-     *
-     * @return bool
+     * @param string     $watcher watcher id
      *
      * @throws JiraException
+     *
+     * @return bool
      */
     public function addWatcher($issueIdOrKey, $watcher)
     {
@@ -642,11 +642,11 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get the meta data for creating issues.
      *
      * @param array $paramArray Possible keys for $paramArray: 'projectIds', 'projectKeys', 'issuetypeIds', 'issuetypeNames'.
-     * @param bool $expand Retrieve all issue fields and values
-     *
-     * @return object array of meta data for creating issues.
+     * @param bool  $expand     Retrieve all issue fields and values
      *
      * @throws JiraException
+     *
+     * @return object array of meta data for creating issues.
      */
     public function getCreateMeta($paramArray = [], $expand = true)
     {

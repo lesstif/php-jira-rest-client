@@ -91,9 +91,9 @@ class Worklog
      *
      * @param mixed $started started time value(\DateTime|string)  e.g. -  new DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
      *
-     * @return Worklog
-     *
      * @throws JiraException
+     *
+     * @return Worklog
      */
     public function setStarted($started)
     {
@@ -157,7 +157,7 @@ class Worklog
     /**
      * Function to set visibility of worklog.
      *
-     * @param string $type value can be group or role
+     * @param string $type  value can be group or role
      * @param string $value
      *
      * @return Worklog

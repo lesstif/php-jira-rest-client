@@ -62,21 +62,21 @@ class Project
     public $description;
 
     /**
-     * Project leader info
+     * Project leader info.
      *
      * @var array
      */
     public $lead;
 
     /**
-     * ComponentList [\JiraRestApi\Project\Component]
+     * ComponentList [\JiraRestApi\Project\Component].
      *
      * @var Component[]
      */
     public $components;
 
     /**
-     * IssueTypeList [\JiraRestApi\Issue\IssueType]
+     * IssueTypeList [\JiraRestApi\Issue\IssueType].
      *
      * @var IssueType[]
      */

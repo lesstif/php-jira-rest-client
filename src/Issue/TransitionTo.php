@@ -15,6 +15,7 @@ class TransitionTo
 
     /**
      * Closed, Resolved, etc..
+     *
      * @var string
      */
     public $name;
