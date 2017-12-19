@@ -28,7 +28,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *  get all project list.
      *
      * @param string|int $issueIdOrKey
-     * @param array      $paramArray Query Parameter key-value Array.
+     * @param array      $paramArray   Query Parameter key-value Array.
      * @param Issue      $issueObject
      *
      * @throws JiraException
@@ -305,6 +305,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * find transition id by transition's to field name(aka 'Resolved').
+     *
      * @param string|int $issueIdOrKey
      * @param string     $transitionToName
      *
@@ -619,7 +620,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * add watcher to issue.
      *
      * @param string|int $issueIdOrKey
-     * @param string     $watcher watcher id
+     * @param string     $watcher      watcher id
      *
      * @throws JiraException
      *
