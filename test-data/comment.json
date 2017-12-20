@@ -1,0 +1,41 @@
+{
+    "self": "https://jira.example.com/rest/api/2/issue/13332/comment/12312",
+    "id": "12312",
+    "author": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "John Doe",
+        "key": "lesstif",
+        "emailAddress": "johndoe@example.com",
+        "avatarUrls": {
+            "48x48": "https://jira.example.com/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.example.com/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.example.com/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.example.com/secure/useravatar?size=medium&avatarId=10122"
+        },
+        "displayName": "John Doe",
+        "active": true,
+        "timeZone": "ROK"
+    },
+    "body": "Adds a new comment to an issue.\\r\\n* Bullet 1\\r\\n* Bullet 2\\r\\n** sub Bullet 1\\r\\n** sub Bullet 2",
+    "updateAuthor": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "KwangSeob Jeong",
+        "key": "lesstif",
+        "emailAddress": "lesstif@gmail.com",
+        "avatarUrls": {
+            "48x48": "https://jira.example.com/secure/useravatar?avatarId=10122",
+            "24x24": "https://jira.example.com/secure/useravatar?size=small&avatarId=10122",
+            "16x16": "https://jira.example.com/secure/useravatar?size=xsmall&avatarId=10122",
+            "32x32": "https://jira.example.com/secure/useravatar?size=medium&avatarId=10122"
+        },
+        "displayName": "정광섭",
+        "active": true,
+        "timeZone": "ROK"
+    },
+    "created": "2017-12-20T09:00:05.752+0900",
+    "updated": "2017-12-20T09:00:05.752+0900",
+    "visibility": {
+        "type": "role",
+        "value": "Users"
+    }
+}

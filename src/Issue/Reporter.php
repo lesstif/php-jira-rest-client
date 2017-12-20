@@ -17,7 +17,7 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $emailAddress;
 
-    /** @var string */
+    /** @var array|null */
     public $avatarUrls;
 
     /** @var string */

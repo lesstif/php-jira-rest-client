@@ -27,7 +27,7 @@ class PaginatedWorklog
     public $total;
 
     /**
-     * @var Worklog[]|array Worklog
+     * @var \JiraRestApi\Issue\Worklog[] Worklog
      */
     public $worklogs;
 
@@ -80,7 +80,7 @@ class PaginatedWorklog
     }
 
     /**
-     * @return Worklog[]|array Worklogs
+     * @return \JiraRestApi\Issue\Worklog[] Worklogs
      */
     public function getWorklogs()
     {
@@ -88,7 +88,7 @@ class PaginatedWorklog
     }
 
     /**
-     * @param Worklog[]|array $worklogs
+     * @param \JiraRestApi\Issue\Worklog[] $worklogs
      */
     public function setWorklogs($worklogs)
     {

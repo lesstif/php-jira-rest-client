@@ -71,23 +71,23 @@ class Project
     /**
      * ComponentList [\JiraRestApi\Project\Component].
      *
-     * @var Component[]
+     * @var \JiraRestApi\Project\Component[]
      */
     public $components;
 
     /**
      * IssueTypeList [\JiraRestApi\Issue\IssueType].
      *
-     * @var IssueType[]
+     * @var \JiraRestApi\Issue\IssueType[]
      */
     public $issueTypes;
 
-    /** @var string */
+    /** @var string|null */
     public $assigneeType;
 
-    /** @var array */
+    /** @var array|null */
     public $versions;
 
-    /** @var array */
+    /** @var array|null */
     public $roles;
 }

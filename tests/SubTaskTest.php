@@ -21,7 +21,7 @@ class SubTaskTest extends PHPUnit_Framework_TestCase
                 ->setDescription('Subtask - Full description for issue')
                 ->addVersion('1.0.1')
                 ->addVersion('1.0.3')
-                ->setParent($this->issueKey);
+                ->setParentKeyOrId($this->issueKey);
 
             $issueService = new IssueService();
 

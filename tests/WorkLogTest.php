@@ -15,7 +15,8 @@ class WorkLogTest extends PHPUnit_Framework_TestCase
             $issueService = new IssueService();
 
             // get issue's worklog
-            $worklogs = $issueService->getWorklog($this->issueKey)->getWorklogs();
+            $pwl = $issueService->getWorklog($this->issueKey);
+            $worklogs = $pwl->getWorklogs();
 
             Dumper::dump($worklogs);
         } catch (JiraException $e) {
