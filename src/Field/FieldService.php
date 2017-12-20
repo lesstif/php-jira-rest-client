@@ -9,6 +9,8 @@ class FieldService extends \JiraRestApi\JiraClient
     /**
      * get all field list.
      *
+     * @throws \JiraRestApi\JiraException
+     *
      * @return array of Filed class
      */
     public function getAllFields($fieldType = Field::BOTH)
@@ -40,7 +42,12 @@ class FieldService extends \JiraRestApi\JiraClient
         return $fields;
     }
 
-    public function getCustomFieldOption($id)
+    /**
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return string
+     */
+    public function getCustomFieldOption()
     {
         $ret = $this->exec('/customFieldOption', null);
 
@@ -52,9 +59,12 @@ class FieldService extends \JiraRestApi\JiraClient
     /**
      * create new field.
      *
-     * @param   $field object of Field class
+     * @param Field $field object of Field class
      *
-     * @return created field class
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return Field|object created field class
      */
     public function create(Field $field)
     {

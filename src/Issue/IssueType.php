@@ -4,25 +4,25 @@ namespace JiraRestApi\Issue;
 
 class IssueType implements \JsonSerializable
 {
-    /* @var string */
+    /** @var string */
     public $self;
 
-    /* @var string */
+    /** @var string */
     public $id;
 
-    /* @var string|null */
+    /** @var string|null */
     public $description;
 
-    /* @var string */
+    /** @var string */
     public $iconUrl;
 
-    /* @var string */
+    /** @var string */
     public $name;
 
-    /* @var bool */
+    /** @var bool */
     public $subtask;
 
-    /* @var \JiraRestApi\Issue\IssueStatus[] */
+    /** @var IssueStatus[] */
     public $statuses;
 
     public function jsonSerialize()

@@ -4,18 +4,18 @@ namespace JiraRestApi\Issue;
 
 class Statuscategory
 {
-    /* @var string */
+    /** @var string */
     public $self;
 
-    /* @var string */
+    /** @var string */
     public $id;
 
-    /* @var string|null */
+    /** @var string|null */
     public $key;
 
-    /* @var string */
+    /** @var string */
     public $colorName;
 
-    /* @var string */
+    /** @var string */
     public $name;
 }

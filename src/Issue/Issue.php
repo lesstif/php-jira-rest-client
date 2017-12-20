@@ -7,17 +7,17 @@ class Issue implements \JsonSerializable
     /**
      * return only if Project query by key(not id).
      *
-     * @var string
+     * @var string|null
      */
     public $expand;
 
-    /* @var string */
+    /** @var string */
     public $self;
 
-    /* @var string */
+    /** @var string */
     public $id;
 
-    /* @var string */
+    /** @var string */
     public $key;
 
     /** @var IssueField */

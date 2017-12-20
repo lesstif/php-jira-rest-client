@@ -2,52 +2,30 @@
 
 namespace JiraRestApi\Issue;
 
-class TransitionTo
-{
-    /* @var string */
-    public $self;
-
-    /* @var string|null */
-    public $description;
-
-    /* @var string */
-    public $iconUrl;
-
-    /** Closed, Resolved, etc..
-     * @var string
-     */
-    public $name;
-
-    /* @var string */
-    public $id;
-
-    /* @var array */
-    public $statusCategory;
-}
-
 /**
  * Issue Transition mapping class.
  */
 class Transition implements \JsonSerializable
 {
-    /* @var string */
+    /** @var string */
     public $id;
 
-    /* @var string */
+    /** @var string */
     public $name;
 
-    /* @var TransitionTo */
+    /** @var TransitionTo */
     public $to;
 
-    /* @var array */
+    /** @var array */
     public $fields;
 
-    /* @var IssueField */
+    /** @var IssueField */
     public $issueFields;
 
-    /* @var array */
+    /** @var array */
     public $transition;
 
+    /** @var array */
     public $update;
 
     public function setTransitionName($name)

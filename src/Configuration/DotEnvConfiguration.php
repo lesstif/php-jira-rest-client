@@ -60,7 +60,7 @@ class DotEnvConfiguration extends AbstractConfiguration
                 return;
         }
 
-        if ($this->startsWith($value, '"') && endsWith($value, '"')) {
+        if ($this->startsWith($value, '"') && $this->endsWith($value, '"')) {
             return substr($value, 1, -1);
         }
 

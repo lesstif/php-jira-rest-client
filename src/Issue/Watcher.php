@@ -26,6 +26,6 @@ class Watcher implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->name;
+        return array_filter(get_object_vars($this));
     }
 }

@@ -9,6 +9,18 @@ class IssueLink implements \JsonSerializable
 {
     use ClassSerialize;
 
+    /** @var array */
+    public $type;
+
+    /** @var \JiraRestApi\Issue\Issue */
+    public $inwardIssue;
+
+    /** @var \JiraRestApi\Issue\Issue */
+    public $outwardIssue;
+
+    /** @var \JiraRestApi\Issue\Comment */
+    public $comment;
+
     public function jsonSerialize()
     {
         $vars = array_filter(get_object_vars($this));
@@ -17,7 +29,7 @@ class IssueLink implements \JsonSerializable
     }
 
     /**
-     * @param $typeName issue type string(ex:  'Duplicate')
+     * @param string $typeName issue type string(ex:  'Duplicate')
      *
      * @return $this
      */
@@ -29,7 +41,7 @@ class IssueLink implements \JsonSerializable
     }
 
     /**
-     * @param $issueKey inward issue key or id
+     * @param string|int $issueKey inward issue key or id
      *
      * @return $this
      */
@@ -41,7 +53,7 @@ class IssueLink implements \JsonSerializable
     }
 
     /**
-     * @param $issueKey out ward issue key or id
+     * @param string|int $issueKey out ward issue key or id
      *
      * @return $this
      */
@@ -53,7 +65,7 @@ class IssueLink implements \JsonSerializable
     }
 
     /**
-     * @param $comment string or \JiraRestApi\Issue\Comment instance
+     * @param string|Comment $comment string or \JiraRestApi\Issue\Comment instance
      *
      * @return $this
      */
@@ -68,16 +80,4 @@ class IssueLink implements \JsonSerializable
 
         return $this;
     }
-
-    /** @var array */
-    public $type;
-
-    /** @var \JiraRestApi\Issue\Issue */
-    public $inwardIssue;
-
-    /** @var \JiraRestApi\Issue\Issue */
-    public $outwardIssue;
-
-    /** @var \JiraRestApi\Issue\Comment */
-    public $comment;
 }
