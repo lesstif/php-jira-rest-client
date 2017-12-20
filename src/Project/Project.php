@@ -3,7 +3,6 @@
 namespace JiraRestApi\Project;
 
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\Issue\IssueType;
 
 class Project
 {
