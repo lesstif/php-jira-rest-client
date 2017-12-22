@@ -20,9 +20,6 @@ class IssueField implements \JsonSerializable
     /** @var IssueType */
     public $issuetype;
 
-    /** @var string|null */
-    public $timespent;
-
     /** @var Reporter */
     public $reporter;
 
@@ -68,10 +65,10 @@ class IssueField implements \JsonSerializable
     /** @var Reporter|null */
     public $creator;
 
-    /** @var object */
+    /** @var object|null */
     public $watches;
 
-    /** @var object */
+    /** @var object|null */
     public $worklog;
 
     /** @var Reporter|null */
