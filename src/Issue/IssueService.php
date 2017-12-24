@@ -616,18 +616,18 @@ class IssueService extends \JiraRestApi\JiraClient
         return $prio;
     }
 
-
     /**
-     * get watchers
+     * get watchers.
      *
      * @param $issueIdOrKey
+     *
      * @return Watcher[]
      */
     public function getWatchers($issueIdOrKey)
     {
         $this->log->addInfo("getWatchers=\n");
 
-        $url = $this->uri . "/$issueIdOrKey/watchers";
+        $url = $this->uri."/$issueIdOrKey/watchers";
 
         $ret = $this->exec($url, null);
 
@@ -637,7 +637,6 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $watchers;
     }
-
 
     /**
      * add watcher to issue.

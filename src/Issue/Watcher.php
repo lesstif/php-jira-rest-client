@@ -20,7 +20,6 @@ class Watcher implements \JsonSerializable
     /** @var bool */
     public $active;
 
-
     public function __construct($name)
     {
         $this->name = $name;
