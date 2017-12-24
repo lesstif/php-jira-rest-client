@@ -13,6 +13,13 @@ class Watcher implements \JsonSerializable
 
     /** @var string */
     public $name;
+    /** @var string */
+    public $displayName;
+    /** @var string */
+    public $emailAddress;
+    /** @var bool */
+    public $active;
+
 
     public function __construct($name)
     {
