@@ -617,6 +617,28 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * get watchers.
+     *
+     * @param $issueIdOrKey
+     *
+     * @return Watcher[]
+     */
+    public function getWatchers($issueIdOrKey)
+    {
+        $this->log->addInfo("getWatchers=\n");
+
+        $url = $this->uri."/$issueIdOrKey/watchers";
+
+        $ret = $this->exec($url, null);
+
+        $watchers = $this->json_mapper->mapArray(
+            json_decode($ret, false)->watchers, new \ArrayObject(), '\JiraRestApi\Issue\Watcher'
+        );
+
+        return $watchers;
+    }
+
+    /**
      * add watcher to issue.
      *
      * @param string|int $issueIdOrKey
