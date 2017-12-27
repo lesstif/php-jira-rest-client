@@ -7,7 +7,7 @@
         "php": ">=5.5.9",
         "netresearch/jsonmapper": "~0.11|^1.0",
         "monolog/monolog": "~1.12",
-        "vlucas/phpdotenv": "~2.0"
+        "vlucas/phpdotenv": "~1.0|~2.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=5.7 <6",

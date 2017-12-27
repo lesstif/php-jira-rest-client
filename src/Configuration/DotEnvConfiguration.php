@@ -1,6 +1,7 @@
 <?php
 
 namespace JiraRestApi\Configuration;
+use JiraRestApi\JiraException;
 
 /**
  * Class DotEnvConfiguration.
@@ -12,9 +13,19 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     public function __construct($path = '.')
     {
-        $dotenv = new \Dotenv\Dotenv($path);
-        $dotenv->load();
-        $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
+        // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
+        if (class_exists('\Dotenv\Dotenv')) {
+            $dotenv = new \Dotenv\Dotenv($path);
+
+            $dotenv->load();
+            $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
+
+        } else if (class_exists('\Dotenv')) {
+            \Dotenv::load($path);
+            \Dotenv::required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
+        } else {
+            throw new JiraException('can not load PHP dotenv class.!');
+        }
 
         $this->jiraHost = $this->env('JIRA_HOST');
         $this->jiraUser = $this->env('JIRA_USER');
