@@ -43,15 +43,19 @@ class FieldService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Returned if the Custom Field Option exists and is visible by the calling user.
+     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @param string $id custom field option id
      *
      * @return string
      */
-    public function getCustomFieldOption()
+    public function getCustomFieldOption($id)
     {
-        $ret = $this->exec('/customFieldOption', null);
+        $ret = $this->exec('/customFieldOption/'.$id);
 
-        $this->log->addDebug("Create Field=\n".$ret);
+        $this->log->addDebug("get custom Field Option=\n".$ret);
 
         return $ret;
     }
