@@ -1,6 +1,7 @@
 <?php
 
 namespace JiraRestApi\Configuration;
+
 use JiraRestApi\JiraException;
 
 /**
@@ -19,8 +20,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
             $dotenv->load();
             $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-
-        } else if (class_exists('\Dotenv')) {
+        } elseif (class_exists('\Dotenv')) {
             \Dotenv::load($path);
             \Dotenv::required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
         } else {
