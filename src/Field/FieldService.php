@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\Field;
 
+use JiraRestApi\Issue\IssueService;
+
 class FieldService extends \JiraRestApi\JiraClient
 {
     private $uri = '/field';
@@ -45,6 +47,9 @@ class FieldService extends \JiraRestApi\JiraClient
     /**
      * Returned if the Custom Field Option exists and is visible by the calling user.
      *
+     * Currently, JIRA doesn't provide a method to retrieve custom field's option. instead use getEditMeta().
+     *
+     * @see IssueService::getEditMeta() .
      *
      * @param string $id custom field option id
      *

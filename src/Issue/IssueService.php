@@ -682,4 +682,43 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return json_decode($ret);
     }
+
+    /**
+     * returns the metadata(include custom field) for an issue.
+     *
+     * @param string $idOrKey issue id or key
+     * @param boolean $overrideEditableFlag Allows retrieving edit metadata for fields in non-editable status
+     * @param boolean $overrideScreenSecurity Allows retrieving edit metadata for the fields hidden on Edit screen.
+     *
+     * @throws JiraException
+     *
+     * @return array of custom fields
+     *
+     * @see https://confluence.atlassian.com/jirakb/how-to-retrieve-available-options-for-a-multi-select-customfield-via-jira-rest-api-815566715.html How to retrieve available options for a multi-select customfield via JIRA REST API
+     * @see https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-editmeta-get
+     */
+    public function getEditMeta($idOrKey, $overrideEditableFlag  = false, $overrideScreenSecurity = false)
+    {
+        $queryParam = '?'.http_build_query([
+            'overrideEditableFlag'   => $overrideEditableFlag,
+            'overrideScreenSecurity' => $overrideScreenSecurity,
+            ]);
+
+        $uri = sprintf("%s/%s/editmeta",$this->uri,$idOrKey).$queryParam;
+
+        $ret = $this->exec($uri, null);
+
+        $metas = json_decode($ret, true);
+
+        // extract only custom field(startWith customefield_XXXXX)
+        $cfs = array_filter($metas['fields'], function($key) {
+            $pos = strpos($key, "customfield");
+
+            if ($pos !== false)
+                return true;
+
+        }, ARRAY_FILTER_USE_KEY);
+
+        return $cfs;
+    }
 }
