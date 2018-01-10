@@ -70,6 +70,11 @@ class User implements \JsonSerializable
      */
     public $expand;
 
+    /**
+     * @var string Used only for creating a new user
+     */
+    public $password;
+
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

@@ -12,6 +12,29 @@ class UserService extends \JiraRestApi\JiraClient
     private $uri = '/user';
 
     /**
+     * Function to create a new user
+     *
+     * @param User $user
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return User|object User class
+     */
+    public function create($user)
+    {
+        $data = json_encode($user);
+
+        $this->log->addInfo("Create User=\n".$data);
+
+        $ret = $this->exec($this->uri, $data, 'POST');
+
+        return $this->json_mapper->map(
+            json_decode($ret), new User()
+        );
+    }
+
+    /**
      * Function to get user.
      *
      * @param array $paramArray Possible values for $paramArray 'username', 'key'.
