@@ -12,7 +12,7 @@ class UserService extends \JiraRestApi\JiraClient
     private $uri = '/user';
 
     /**
-     * Function to create a new user
+     * Function to create a new user.
      *
      * @param User $user
      *
