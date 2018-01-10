@@ -125,6 +125,7 @@ $iss = new IssueService(new ArrayConfiguration(
 * [Get Issue LinkType](#get-issue-linktype)
 
 ### User
+- [Create User](#create-user)
 - [Get User Info](#get-user-info)
 - [Find Users](#find-users)
 - [Find Assignable Users](#find-assignable-users)
@@ -144,11 +145,11 @@ use JiraRestApi\Project\ProjectService;
 use JiraRestApi\JiraException;
 
 try {
-	$proj = new ProjectService();
+    $proj = new ProjectService();
 
-	$p = $proj->get('TEST');
+    $p = $proj->get('TEST');
 	
-	var_dump($p);			
+    var_dump($p);			
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -164,16 +165,15 @@ use JiraRestApi\Project\ProjectService;
 use JiraRestApi\JiraException;
 
 try {
-	$proj = new ProjectService();
+    $proj = new ProjectService();
 
-	$prjs = $proj->getAllProjects();
+    $prjs = $proj->getAllProjects();
 
-	foreach ($prjs as $p) {
-		echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
-			$p->key, $p->id, $p->name, $p->projectCategory['name']
-			);
-			
-	}			
+    foreach ($prjs as $p) {
+        echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
+            $p->key, $p->id, $p->name, $p->projectCategory['name']
+        );			
+    }			
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -191,18 +191,18 @@ use JiraRestApi\Project\ProjectType;
 use JiraRestApi\JiraException;
 
 try {
-	$proj = new ProjectService();
+    $proj = new ProjectService();
 
     // get all project type
-	$prjtyps = $proj->getProjectTypes();
+    $prjtyps = $proj->getProjectTypes();
 
-	foreach ($prjtyps as $pt) {
-	    var_dump($pt);
-	}
+    foreach ($prjtyps as $pt) {
+        var_dump($pt);
+    }
 
-	// get specific project type.
-	$pt = $proj->getProjectType('software');
-	var_dump($pt);
+    // get specific project type.
+    $pt = $proj->getProjectType('software');
+    var_dump($pt);
 
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
@@ -248,12 +248,12 @@ use JiraRestApi\Issue\Version;
 use JiraRestApi\JiraException;
 
 try {
-     $param = [
-            'startAt' => 0,
-            'maxResults' => 10,
-            'orderBy' => 'name',
-            //'expand' => null,
-        ];
+    $param = [
+        'startAt' => 0,
+        'maxResults' => 10,
+        'orderBy' => 'name',
+        //'expand' => null,
+    ];
 
     $proj = new ProjectService();
 
@@ -283,7 +283,7 @@ use JiraRestApi\JiraException;
 try {
     $fieldService = new FieldService();
 
-	 // return custom field only. 
+    // return custom field only. 
     $ret = $fieldService->getAllFields(Field::CUSTOM); 
     	
     var_dump($ret);
@@ -333,27 +333,27 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
 try {
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 	
-   $queryParam = [
-            'fields' => [  // default: '*all'
-                'summary',
-                'comment',
-            ],
-            'expand' => [
-                'renderedFields',
-                'names',
-                'schema',
-                'transitions',
-                'operations',
-                'editmeta',
-                'changelog',
-            ]
-        ];
+    $queryParam = [
+        'fields' => [  // default: '*all'
+            'summary',
+            'comment',
+        ],
+        'expand' => [
+            'renderedFields',
+            'names',
+            'schema',
+            'transitions',
+            'operations',
+            'editmeta',
+            'changelog',
+        ]
+    ];
             
-	$issue = $issueService->get('TEST-867', $queryParam);
+    $issue = $issueService->get('TEST-867', $queryParam);
 	
-	var_dump($issue->fields);	
+    var_dump($issue->fields);	
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -372,23 +372,23 @@ use JiraRestApi\Issue\IssueField;
 use JiraRestApi\JiraException;
 
 try {
-	$issueField = new IssueField();
+    $issueField = new IssueField();
 
-	$issueField->setProjectKey("TEST")
-				->setSummary("something's wrong")
-				->setAssigneeName("lesstif")
-				->setPriorityName("Critical")
-				->setIssueType("Bug")
-				->setDescription("Full description for issue")
-				->addVersion(["1.0.1", "1.0.3"])
-				->addComponents(['Component-1', 'Component-2']);
+    $issueField->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setAssigneeName("lesstif")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->setDescription("Full description for issue")
+                ->addVersion(["1.0.1", "1.0.3"])
+                ->addComponents(['Component-1', 'Component-2']);
 	
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
-	$ret = $issueService->create($issueField);
+    $ret = $issueService->create($issueField);
 	
-	//If success, Returns a link to the created issue.
-	var_dump($ret);
+    //If success, Returns a link to the created issue.
+    var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -398,29 +398,28 @@ If you want to set custom field, you can call the *addCustomField* function with
 
 ```php
 try {
-	$issueField = new IssueField();
+    $issueField = new IssueField();
 
-	$issueField->setProjectKey("TEST")
-				->setSummary("something's wrong")
-				->setAssigneeName("lesstif")
-				->setPriorityName("Critical")
-				->setIssueType("Bug")
-				->setDescription("Full description for issue")
-				->addVersion("1.0.1")
-				->addVersion("1.0.3")
-      			->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
-      			->addCustomField('customfield_10408', [
-                		['value' => 'opt2'], ['value' => 'opt4']
-           		 ]) // Select List (multiple choice)
-      
-      ;
+    $issueField->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setAssigneeName("lesstif")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->setDescription("Full description for issue")
+                ->addVersion("1.0.1")
+                ->addVersion("1.0.3")
+                ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
+                ->addCustomField('customfield_10408', [
+                    ['value' => 'opt2'], ['value' => 'opt4']
+                ]) // Select List (multiple choice)
+    ;
 	
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
-	$ret = $issueService->create($issueField);
+    $ret = $issueService->create($issueField);
 	
-	//If success, Returns a link to the created issue.
-	var_dump($ret);
+    //If success, Returns a link to the created issue.
+    var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -486,25 +485,25 @@ use JiraRestApi\Issue\IssueField;
 use JiraRestApi\JiraException;
 
 try {
-	$issueField = new IssueField();
+    $issueField = new IssueField();
 
-	$issueField->setProjectKey("TEST")
-				->setSummary("something's wrong")
-				->setAssigneeName("lesstif")
-				->setPriorityName("Critical")
-				->setDescription("Full description for issue")
-				->addVersion("1.0.1")
-				->addVersion("1.0.3")
-				->setIssueType("Sub-task")  //issue type must be Sub-task
-				->setParentKeyOrId('TEST-143')  //Issue Key
-				;
+    $issueField->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setAssigneeName("lesstif")
+                ->setPriorityName("Critical")
+                ->setDescription("Full description for issue")
+                ->addVersion("1.0.1")
+                ->addVersion("1.0.3")
+                ->setIssueType("Sub-task")  //issue type must be Sub-task
+                ->setParentKeyOrId('TEST-143')  //Issue Key
+    ;
 
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
-	$ret = $issueService->create($issueField);
+    $ret = $issueService->create($issueField);
 
-	//If success, Returns a link to the created sub task.
-	var_dump($ret);
+    //If success, Returns a link to the created sub task.
+    var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -527,7 +526,8 @@ try {
 
     // multiple file upload support.
     $ret = $issueService->addAttachments($issueKey, 
-    	array('screen_capture.png', 'bug-description.pdf', 'README.md'));
+        ['screen_capture.png', 'bug-description.pdf', 'README.md']
+    );
 
     print_r($ret);
 } catch (JiraException $e) {
@@ -549,27 +549,27 @@ use JiraRestApi\JiraException;
 $issueKey = "TEST-879";
 
 try {			
-	$issueField = new IssueField(true);
+    $issueField = new IssueField(true);
 
-	$issueField->setAssigneeName("admin")
-				->setPriorityName("Blocker")
-				->setIssueType("Task")
-				->addLabel("test-label-first")
-				->addLabel("test-label-second")
-				->addVersion("1.0.1")
-				->addVersion("1.0.2")
-				->setDescription("This is a shorthand for a set operation on the summary field")
-				;
+    $issueField->setAssigneeName("admin")
+                ->setPriorityName("Blocker")
+                ->setIssueType("Task")
+                ->addLabel("test-label-first")
+                ->addLabel("test-label-second")
+                ->addVersion("1.0.1")
+                ->addVersion("1.0.2")
+                ->setDescription("This is a shorthand for a set operation on the summary field")
+    ;
 
-	// optionally set some query params
-	$editParams = array(
-		'notifyUsers' => false
-	);
-	
-	$issueService = new IssueService();
+    // optionally set some query params
+    $editParams = [
+        'notifyUsers' => false,
+    ];
 
-	// You can set the $paramArray param to disable notifications in example
-	$ret = $issueService->update($issueKey, $issueField, $editParams);
+    $issueService = new IssueService();
+
+    // You can set the $paramArray param to disable notifications in example
+    $ret = $issueService->update($issueKey, $issueField, $editParams);
 
     var_dump($ret);
 } catch (JiraException $e) {
@@ -617,7 +617,7 @@ use JiraRestApi\JiraException;
 $issueKey = "TEST-879";
 
 try {
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
     $ret = $issueService->deleteIssue($issueKey);
     // if you want to delete issues with sub-tasks
@@ -642,9 +642,9 @@ use JiraRestApi\JiraException;
 $issueKey = "TEST-879";
 
 try {			
-	$comment = new Comment();
+    $comment = new Comment();
 
-	$body = <<<COMMENT
+    $body = <<<COMMENT
 Adds a new comment to an issue.
 * Bullet 1
 * Bullet 2
@@ -653,13 +653,13 @@ Adds a new comment to an issue.
 * Bullet 3
 COMMENT;
 
-	$comment->setBody($body)
-		->setVisibility('role', 'Users');
-	;
+    $comment->setBody($body)
+        ->setVisibility('role', 'Users');
+    ;
 
-	$issueService = new IssueService();
-	$ret = $issueService->addComment($issueKey, $comment);
-	print_r($ret);
+    $issueService = new IssueService();
+    $ret = $issueService->addComment($issueKey, $comment);
+    print_r($ret);
 } catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
@@ -679,13 +679,13 @@ use JiraRestApi\JiraException;
 $issueKey = "TEST-879";
 
 try {			
-	$transition = new Transition();
-	$transition->setTransitionName('Resolved');
-	$transition->setCommentBody('performing the transition via REST API.');
+    $transition = new Transition();
+    $transition->setTransitionName('Resolved');
+    $transition->setCommentBody('performing the transition via REST API.');
 
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
-	$issueService->transition($issueKey, $transition);
+    $issueService->transition($issueKey, $transition);
 } catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
@@ -728,7 +728,7 @@ $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resol
 try {
     $issueService = new IssueService();
 
-  	$pagination = -1;
+    $pagination = -1;
   
     $startAt = 0;	//the index of the first issue to return (0-based)    
     $maxResult = 3;	// the maximum number of issues to return (defaults to 50). 
@@ -736,36 +736,29 @@ try {
   
     // first fetch
     $ret = $issueService->search($jql, $startAt, $maxResult);
-  	$totalCount = $ret->total;
+    $totalCount = $ret->total;
   	
-  	// do something with fetched data
+    // do something with fetched data
     foreach ($ret->issues as $issue) {
         print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
     }
   	
-  	// fetch remained data
+    // fetch remained data
     $page = $totalCount / $maxResult;
 
-    for ($startAt = 1; $startAt < $page; $startAt++)
-    {
-         $ret = $issueService->search($jql, $startAt, $maxResult);
+    for ($startAt = 1; $startAt < $page; $startAt++) {
+        $ret = $issueService->search($jql, $startAt, $maxResult);
 
-         print ("\nPaging $startAt\n");
-         print ("-------------------\n");
-         foreach ($ret->issues as $issue) {
-             print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
-         }
+        print ("\nPaging $startAt\n");
+        print ("-------------------\n");
+        foreach ($ret->issues as $issue) {
+            print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
+        }
     }     
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
-
-
-
-
-
-
 
 
 #### Issue time tracking
@@ -817,8 +810,8 @@ try {
     $workLog = new Worklog();
 
     $workLog->setComment('I did some work here.')
-        ->setStarted("2016-05-28 12:35:54")
-        ->setTimeSpent('1d 2h 3m');
+            ->setStarted("2016-05-28 12:35:54")
+            ->setTimeSpent('1d 2h 3m');
 
     $issueService = new IssueService();
 
@@ -850,8 +843,8 @@ try {
     $workLog = new Worklog();
 
     $workLog->setComment('I did edit previous worklog here.')
-        ->setStarted("2016-05-29 13:15:34")
-        ->setTimeSpent('3d 4h 5m');
+            ->setStarted("2016-05-29 13:15:34")
+            ->setTimeSpent('3d 4h 5m');
 
     $issueService = new IssueService();
 
@@ -973,6 +966,36 @@ try {
 }
 ```
 
+#### Create User
+
+Create user. 
+By default created user will not be notified with email. If password field is not set then password will be randomly generated.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    // create new user
+    $user = $us->create([
+            'name'=>'charlie',
+            'password' => 'abracadabra',
+            'emailAddress' => 'charlie@atlassian.com',
+            'displayName' => 'Charlie of Atlassian',
+        ]);
+
+    var_dump($user);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
 #### Get User Info
 
 Returns a user.
@@ -985,11 +1008,11 @@ use JiraRestApi\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
-	$us = new UserService();
+    $us = new UserService();
 
-	$user = $us->get(['username' => 'lesstif']);
+    $user = $us->get(['username' => 'lesstif']);
 
-	var_dump($user);
+    var_dump($user);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }

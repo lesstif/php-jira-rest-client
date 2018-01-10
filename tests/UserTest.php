@@ -2,17 +2,42 @@
 
 use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
+use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetUser()
+    public function testCreateUser()
+    {
+        try {
+            $us = new UserService();
+
+            // create new user
+            $user = $us->create([
+                'name'=>'charlie',
+                'password' => 'abracadabra',
+                'emailAddress' => 'charlie@atlassian.com',
+                'displayName' => 'Charlie of Atlassian',
+            ]);
+
+            Dumper::dump($user);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testGetUser Failed : '.$e->getMessage());
+        }
+
+        return $user;
+    }
+
+    /**
+     * @depends testGetUser
+     */
+    public function testGetUser(User $user)
     {
         try {
             $us = new UserService();
 
             // get the user info.
-            $user = $us->get(['username' => 'lesstif']);
+            $user = $us->get(['username' => $user->username]);
 
             Dumper::dump($user);
         } catch (JiraException $e) {

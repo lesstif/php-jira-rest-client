@@ -79,4 +79,16 @@ class User implements \JsonSerializable
     {
         return array_filter(get_object_vars($this));
     }
+
+    /**
+     * User constructor.
+     *
+     * @param array $array  user info array.
+     */
+    public function __construct($array = [])
+    {
+        foreach ($array as $key=>$value) {
+            $this->{$key} = $value;
+        }
+    }
 }
