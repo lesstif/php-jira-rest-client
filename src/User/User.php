@@ -83,7 +83,7 @@ class User implements \JsonSerializable
     /**
      * User constructor.
      *
-     * @param array $array  user info array.
+     * @param array $array user info array.
      */
     public function __construct($array = [])
     {
