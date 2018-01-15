@@ -438,7 +438,7 @@ class JqlQuery
     protected function quote($value)
     {
         $value = str_replace('"', '\\\\"', $value);
-        return '"' . $value . '"';
+        return '"'.$value.'"';
     }
 
     protected function joinExpression($expression, $joinOperation)
@@ -503,6 +503,7 @@ class JqlQuery
      * Adds 'in' expression with any field to query.
      *
      * Example: $query->addInExpression({@see JqlQuery::FIELD_ASSIGNEE}, ['user1', 'user2'])
+     *
      * @param string   $field            field name
      * @param string[] $values           field values array
      * @param string   $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
@@ -524,6 +525,7 @@ class JqlQuery
      * Adds 'not in' expression with any field to query.
      *
      * Example: $query->addNotInExpression({@see JqlQuery::FIELD_ASSIGNEE}, ['user1', 'user2'])
+     *
      * @param string   $field            field name
      * @param string[] $values           field values array
      * @param string   $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
@@ -545,6 +547,7 @@ class JqlQuery
      * Adds 'is null' expression with any field to query.
      *
      * Example: $query->addIsNullExpression({@see JqlQuery::FIELD_ASSIGNEE})
+     *
      * @param string $field            field name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -561,6 +564,7 @@ class JqlQuery
      * Adds 'is not null' expression with any field to query.
      *
      * Example: $query->addIsNotNullExpression({@see JqlQuery::FIELD_ASSIGNEE})
+     *
      * @param string $field            field name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -577,6 +581,7 @@ class JqlQuery
      * Adds 'is empty' expression with any field to query.
      *
      * Example: $query->addIsEmptyExpression({@see JqlQuery::FIELD_ASSIGNEE})
+     *
      * @param string $field            field name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -593,6 +598,7 @@ class JqlQuery
      * Adds 'is not empty' expression with any field to query.
      *
      * Example: $query->addIsNotEmptyExpression({@see JqlQuery::FIELD_ASSIGNEE})
+     *
      * @param string $field            field name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -609,6 +615,7 @@ class JqlQuery
      * Adds project condition.
      *
      * Example: $query->setProject('projectKey')
+     *
      * @param string $idOrKey          project id or key
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -624,6 +631,7 @@ class JqlQuery
      * Adds priority condition.
      *
      * Example: $query->setPriority('high')
+     *
      * @param string $priority         priority id or name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -639,6 +647,7 @@ class JqlQuery
      * Adds assignee condition.
      *
      * Example: $query->setAssignee('user1')
+     *
      * @param string $user             user id or name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -654,6 +663,7 @@ class JqlQuery
      * Adds issue status condition.
      *
      * Example: $query->setStatus('Open')
+     *
      * @param string $status           issue status id or name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
@@ -669,6 +679,7 @@ class JqlQuery
      * Adds issue type condition.
      *
      * Example: $query->setType('bug')
+     *
      * @param string $type             issue type id or name
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
