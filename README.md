@@ -113,6 +113,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
     - [Simple JQL](#simple-query)
     - [JQL With pagination](#jql-with-pagination)
+    - [Using JQL Query class](#jql-query-class)
 - [Issue time tracking](#issue-time-tracking)
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Edit worklog in Issue](#edit-worklog-in-issue)
@@ -760,6 +761,35 @@ try {
 }
 ```
 
+##### JQL query class
+
+if you're not familiar JQL then you can use convenience JQLQuery class.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\JqlQuery;
+use JiraRestApi\JiraException;
+
+try {
+    $jql = new JqlQuery();
+
+    $jql->setProject('TEST')
+        ->setType('Bug')
+        ->setStatus('In Progress')
+        ->addIsNotNullExpression('due');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->search($jql->getQuery());
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+```
 
 #### Issue time tracking
 
