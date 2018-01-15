@@ -621,6 +621,8 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param $issueIdOrKey
      *
+     * @throws JiraException
+     *
      * @return Reporter[]
      */
     public function getWatchers($issueIdOrKey)
@@ -714,9 +716,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $cfs = array_filter($metas['fields'], function ($key) {
             $pos = strpos($key, 'customfield');
 
-            if ($pos !== false) {
-                return true;
-            }
+            return $pos !== false;
         }, ARRAY_FILTER_USE_KEY);
 
         return $cfs;
