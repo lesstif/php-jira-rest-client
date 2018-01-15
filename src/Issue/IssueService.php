@@ -721,4 +721,28 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $cfs;
     }
+
+    /**
+     * @param $issueIdOrKey Issue id Or Key
+     * @param $notify Notify
+     *
+     * @throws JiraException
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-notify
+     *
+     */
+    public function notify($issueIdOrKey, $notify)
+    {
+        $uri = $this->uri."/$issueIdOrKey/notify";
+
+        $data = json_encode($notify);
+
+        $this->log->addInfo("notify=$data\n");
+
+        $ret = $this->exec($uri, $data, 'POST');
+
+        if ($ret !== 204) {
+            throw new JiraException("notify failed: response code=".$ret);
+        }
+    }
 }
