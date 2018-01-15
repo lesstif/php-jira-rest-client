@@ -438,6 +438,7 @@ class JqlQuery
     protected function quote($value)
     {
         $value = str_replace('"', '\\\\"', $value);
+
         return '"'.$value.'"';
     }
 
@@ -471,6 +472,7 @@ class JqlQuery
     public function addAnyExpression($expression)
     {
         $this->query .= " $expression";
+
         return $this;
     }
 
@@ -496,6 +498,7 @@ class JqlQuery
     public function addExpression($field, $operator, $value, $logicLinkKeyword = self::KEYWORD_AND)
     {
         $this->joinExpression("$field $operator ".$this->quote($value), $logicLinkKeyword);
+
         return $this;
     }
 
@@ -518,6 +521,7 @@ class JqlQuery
             $valuesQuoted[] = $this->quote($value);
         }
         $this->joinExpression("$field in (".implode(', ', $valuesQuoted).')', $logicLinkKeyword);
+
         return $this;
     }
 
@@ -540,6 +544,7 @@ class JqlQuery
             $valuesQuoted[] = $this->quote($value);
         }
         $this->joinExpression("$field not in (".implode(', ', $valuesQuoted).')', $logicLinkKeyword);
+
         return $this;
     }
 
@@ -557,6 +562,7 @@ class JqlQuery
     public function addIsNullExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
         $this->joinExpression("$field is null", $logicLinkKeyword);
+
         return $this;
     }
 
@@ -574,6 +580,7 @@ class JqlQuery
     public function addIsNotNullExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
         $this->joinExpression("$field is not null", $logicLinkKeyword);
+
         return $this;
     }
 
@@ -591,6 +598,7 @@ class JqlQuery
     public function addIsEmptyExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
         $this->joinExpression("$field is empty", $logicLinkKeyword);
+
         return $this;
     }
 
@@ -608,6 +616,7 @@ class JqlQuery
     public function addIsNotEmptyExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
         $this->joinExpression("$field is not empty", $logicLinkKeyword);
+
         return $this;
     }
 
