@@ -723,6 +723,8 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Sends a notification (email) to the list or recipients defined in the request.
+     *
      * @param $issueIdOrKey Issue id Or Key
      * @param $notify Notify
      *
@@ -733,15 +735,23 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function notify($issueIdOrKey, $notify)
     {
-        $uri = $this->uri."/$issueIdOrKey/notify";
+        $full_uri = $this->uri."/$issueIdOrKey/notify";
 
-        $data = json_encode($notify);
+        // set self value
+        foreach ($notify->to['groups'] as &$g) {
+            $g['self'] = $this->getConfiguration()->getJiraHost().'/rest/api/2/group?groupname='.$g['name'];
+        }
+        foreach ($notify->restrict['groups'] as &$g) {
+            $g['self'] = $this->getConfiguration()->getJiraHost().'/rest/api/2/group?groupname='.$g['name'];
+        }
 
-        $this->log->addInfo("notify=$data\n");
+        $data = json_encode($notify, JSON_UNESCAPED_SLASHES);
 
-        $ret = $this->exec($uri, $data, 'POST');
+        $this->log->addDebug("notify=$data\n");
 
-        if ($ret !== 204) {
+        $ret = $this->exec($full_uri, $data, 'POST');
+
+        if ($ret !== true) {
             throw new JiraException("notify failed: response code=".$ret);
         }
     }

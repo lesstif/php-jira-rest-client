@@ -119,6 +119,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
 - [Add watcher in Issue](#add-issue-watcher)
+- [Send a notification to the recipients](#issue-notify)
 
 ### IssueLink
 
@@ -940,10 +941,42 @@ try {
     var_dump($wch);
     
 } catch (JiraException $e) {
-    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+    $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
 ```
 
+#### issue notify
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Notify;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $issueService = new IssueService();
+
+    $noti = new Notify();
+
+    $noti->setSubject('notify test')
+        ->setTextBody('notify test text body')
+        ->setHtmlBody('<h1>notify</h1>test html body')
+        ->sendToAssignee(true)
+        ->sendToWatchers(true)
+        ->sendToUser('lesstif', true)
+        ->sendToGroup('temp-group')
+    ;
+
+    $issueService->notify($issueKey, $noti);
+    
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Issue notify Failed : '.$e->getMessage());
+}
+```
 #### Create Issue Link
 
 The Link Issue Resource provides functionality to manage issue links.

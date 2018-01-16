@@ -18,14 +18,21 @@ class Notify implements \JsonSerializable
     /** @var array|null */
     public $groups;
 
+    /** @var array */
+    public $restrict;
+
     public function __construct()
     {
         $this->to = [];
         $this->to['users'] = [];
-        $this->groups = [];
+        $this->to['groups'] = [];
 
-        $this->to['reporter'] = false;
-        $this->to['assignee'] = false;
+        $this->restrict = [];
+        $this->restrict['groups'] = [];
+        $this->restrict['permissions'] = [];
+
+        $this->to['reporter'] = true;
+        $this->to['assignee'] = true;
         $this->to['watchers'] = true;
         $this->to['voters'] = true;
     }
@@ -82,10 +89,26 @@ class Notify implements \JsonSerializable
     public function sendToGroup($groupName)
     {
         $group['name'] = $groupName;
-        // FIXME "self": "http://www.example.com/jira/rest/api/2/group?groupname=notification-group"
-        //$group['self'] = $active;
 
-        array_push($this->groups, $group);
+        array_push($this->to['groups'], $group);
+
+        return $this;
+    }
+
+    public function setRestrictGroup($groupName)
+    {
+        $group['name'] = $groupName;
+
+        array_push($this->restrict['groups'], $group);
+
+        return $this;
+    }
+
+    public function setRestrictPermission($id, $key)
+    {
+        $perm['id'] = $id;
+        $perm['key'] = $key;
+        array_push($this->restrict['permissions'], $perm);
 
         return $this;
     }
