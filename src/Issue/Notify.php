@@ -1,4 +1,5 @@
 <?php
+
 namespace JiraRestApi\Issue;
 
 class Notify implements \JsonSerializable
@@ -37,42 +38,52 @@ class Notify implements \JsonSerializable
         $this->to['voters'] = true;
     }
 
-    public function setSubject($subject) {
+    public function setSubject($subject)
+    {
         $this->subject = $subject;
+
         return $this;
     }
 
-    public function setTextBody($textBody) {
+    public function setTextBody($textBody)
+    {
         $this->textBody = $textBody;
+
         return $this;
     }
 
-    public function setHtmlBody($htmlBody) {
+    public function setHtmlBody($htmlBody)
+    {
         $this->htmlBody = $htmlBody;
+
         return $this;
     }
 
     public function sendToReporter($bool)
     {
         $this->to['reporter'] = $bool;
+
         return $this;
     }
 
     public function sendToAssignee($bool)
     {
         $this->to['assignee'] = $bool;
+
         return $this;
     }
 
     public function sendToWatchers($bool)
     {
         $this->to['watchers'] = $bool;
+
         return $this;
     }
 
     public function sendToVoters($bool)
     {
         $this->to['voters'] = $bool;
+
         return $this;
     }
 
