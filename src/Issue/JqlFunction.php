@@ -54,7 +54,6 @@ class JqlFunction
      *
      * @return JqlFunction
      */
-
     public static function cascadeOption($parentOption, $childOption = null)
     {
         $expression = "cascadeOption($parentOption";
