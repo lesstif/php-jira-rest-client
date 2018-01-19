@@ -435,11 +435,53 @@ class JqlQuery
 
     protected $query = '';
 
-    protected function quote($value)
+    /**
+     * Quote value. Also can be used with JqlFunctions.
+     *
+     * Example: JqlQuery::quote('some "value"') returns '"some \\"value\\""'
+     *
+     * JqlQuery::quote(JqlFunction::now()) returns 'now()'
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function quote($value)
     {
+        if ($value instanceof JqlFunction) {
+            return $value->expression;
+        }
+
         $value = str_replace('"', '\\\\"', $value);
 
         return '"'.$value.'"';
+    }
+
+    /**
+     * Quote jql field name.
+     * Doesn't quote already "quoted" or 'quoted' strings;
+     *
+     * Example: JqlQuery::quoteField(JqlQuery::FIELD_PROJECT) returns '"project"'
+     *
+     * JqlQuery::quoteField('"Quoted Custom Field"') returns '"Quoted Custom Field"' (no changes)
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public static function quoteField($name)
+    {
+        $first = substr($name, 0, 1);
+        $last = substr($name, -1, 1);
+
+        if ($first === '"' && $last === '"') {
+            return $name; // already "quoted"
+        }
+        if ($first === "'" && $last === "'") {
+            return $name; // already 'quoted'
+        }
+
+        return self::quote($name);
     }
 
     protected function joinExpression($expression, $joinOperation)
@@ -497,7 +539,8 @@ class JqlQuery
      */
     public function addExpression($field, $operator, $value, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression("$field $operator ".$this->quote($value), $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field)." $operator ".self::quote($value),
+            $logicLinkKeyword);
 
         return $this;
     }
@@ -518,9 +561,10 @@ class JqlQuery
     {
         $valuesQuoted = [];
         foreach ($values as $value) {
-            $valuesQuoted[] = $this->quote($value);
+            $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression("$field in (".implode(', ', $valuesQuoted).')', $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' in ('.implode(', ', $valuesQuoted).')',
+            $logicLinkKeyword);
 
         return $this;
     }
@@ -541,9 +585,10 @@ class JqlQuery
     {
         $valuesQuoted = [];
         foreach ($values as $value) {
-            $valuesQuoted[] = $this->quote($value);
+            $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression("$field not in (".implode(', ', $valuesQuoted).')', $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' not in ('.implode(', ', $valuesQuoted).')',
+            $logicLinkKeyword);
 
         return $this;
     }
@@ -561,7 +606,7 @@ class JqlQuery
      */
     public function addIsNullExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression("$field is null", $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' is null', $logicLinkKeyword);
 
         return $this;
     }
@@ -579,7 +624,7 @@ class JqlQuery
      */
     public function addIsNotNullExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression("$field is not null", $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' is not null', $logicLinkKeyword);
 
         return $this;
     }
@@ -597,7 +642,7 @@ class JqlQuery
      */
     public function addIsEmptyExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression("$field is empty", $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' is empty', $logicLinkKeyword);
 
         return $this;
     }
@@ -615,9 +660,28 @@ class JqlQuery
      */
     public function addIsNotEmptyExpression($field, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression("$field is not empty", $logicLinkKeyword);
+        $this->joinExpression(self::quoteField($field).' is not empty', $logicLinkKeyword);
 
         return $this;
+    }
+
+    /**
+     * Add custom field test to equality.
+     * This method can be used with system fields and 'custom fields' (defined by user).
+     *
+     * Example: $query->setCustomField('My Custom field', 'value')
+     * appends 'and "My Custom field" = "value"' expression
+     *
+     * @param string $field            custom field name
+     * @param string $value            value to equality check
+     * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
+     *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
+     *
+     * @return JqlQuery
+     */
+    public function setCustomField($field, $value, $logicLinkKeyword = self::KEYWORD_AND)
+    {
+        return $this->addExpression($field, self::OPERATOR_EQUALS, $value, $logicLinkKeyword);
     }
 
     /**
