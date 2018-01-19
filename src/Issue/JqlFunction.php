@@ -3,7 +3,7 @@
 namespace JiraRestApi\Issue;
 
 /**
- * Class JqlFunction used with JqlQuery to set JQL function calls as values in expressions;
+ * Class JqlFunction used with JqlQuery to set JQL function calls as values in expressions.
  *
  * Example:
  * ```
@@ -29,7 +29,7 @@ class JqlFunction
      */
     public static function approved()
     {
-        return new JqlFunction('approved()');
+        return new self('approved()');
     }
 
     /**
@@ -42,7 +42,7 @@ class JqlFunction
      */
     public static function approver($user)
     {
-        return new JqlFunction('approver('.implode(', ', func_get_args()).')');
+        return new self('approver('.implode(', ', func_get_args()).')');
     }
 
     /**
@@ -63,7 +63,7 @@ class JqlFunction
         }
         $expression .= ')';
 
-        return new JqlFunction($expression);
+        return new self($expression);
     }
 
     /**
@@ -74,7 +74,7 @@ class JqlFunction
      */
     public static function closedSprints()
     {
-        return new JqlFunction('closedSprints()');
+        return new self('closedSprints()');
     }
 
     /**
@@ -87,7 +87,7 @@ class JqlFunction
      */
     public static function componentsLeadByUser($user = null)
     {
-        return new JqlFunction("componentsLeadByUser($user)");
+        return new self("componentsLeadByUser($user)");
     }
 
     /**
@@ -98,7 +98,7 @@ class JqlFunction
      */
     public static function currentLogin()
     {
-        return new JqlFunction('currentLogin()');
+        return new self('currentLogin()');
     }
 
     /**
@@ -109,7 +109,7 @@ class JqlFunction
      */
     public static function currentUser()
     {
-        return new JqlFunction('currentUser()');
+        return new self('currentUser()');
     }
 
     /**
@@ -122,7 +122,7 @@ class JqlFunction
      */
     public static function earliestUnreleasedVersion($project)
     {
-        return new JqlFunction("earliestUnreleasedVersion($project)");
+        return new self("earliestUnreleasedVersion($project)");
     }
 
     /**
@@ -139,7 +139,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("endOfDay($inc)");
+        return new self("endOfDay($inc)");
     }
 
     /**
@@ -156,7 +156,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("endOfMonth($inc)");
+        return new self("endOfMonth($inc)");
     }
 
     /**
@@ -173,7 +173,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("endOfWeek($inc)");
+        return new self("endOfWeek($inc)");
     }
 
     /**
@@ -190,7 +190,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("endOfYear($inc)");
+        return new self("endOfYear($inc)");
     }
 
     /**
@@ -201,7 +201,7 @@ class JqlFunction
      */
     public static function issueHistory()
     {
-        return new JqlFunction('issueHistory()');
+        return new self('issueHistory()');
     }
 
     /**
@@ -212,7 +212,7 @@ class JqlFunction
      */
     public static function issuesWithRemoteLinksByGlobalId()
     {
-        return new JqlFunction('issuesWithRemoteLinksByGlobalId()');
+        return new self('issuesWithRemoteLinksByGlobalId()');
     }
 
     /**
@@ -223,7 +223,7 @@ class JqlFunction
      */
     public static function lastLogin()
     {
-        return new JqlFunction('lastLogin()');
+        return new self('lastLogin()');
     }
 
     /**
@@ -236,7 +236,7 @@ class JqlFunction
      */
     public static function latestReleasedVersion($project)
     {
-        return new JqlFunction("latestReleasedVersion($project)");
+        return new self("latestReleasedVersion($project)");
     }
 
     /**
@@ -256,7 +256,7 @@ class JqlFunction
         }
         $expression .= ')';
 
-        return new JqlFunction($expression);
+        return new self($expression);
     }
 
     /**
@@ -269,7 +269,7 @@ class JqlFunction
      */
     public static function membersOf($group)
     {
-        return new JqlFunction('membersOf('.JqlQuery::quote($group).')');
+        return new self('membersOf('.JqlQuery::quote($group).')');
     }
 
     /**
@@ -280,7 +280,7 @@ class JqlFunction
      */
     public static function myApproval()
     {
-        return new JqlFunction('myApproval()');
+        return new self('myApproval()');
     }
 
     /**
@@ -291,7 +291,7 @@ class JqlFunction
      */
     public static function myPending()
     {
-        return new JqlFunction('myPending()');
+        return new self('myPending()');
     }
 
     /**
@@ -302,7 +302,7 @@ class JqlFunction
      */
     public static function now()
     {
-        return new JqlFunction('now()');
+        return new self('now()');
     }
 
     /**
@@ -313,7 +313,7 @@ class JqlFunction
      */
     public static function openSprints()
     {
-        return new JqlFunction('openSprints()');
+        return new self('openSprints()');
     }
 
     /**
@@ -324,7 +324,7 @@ class JqlFunction
      */
     public static function pending()
     {
-        return new JqlFunction('pending()');
+        return new self('pending()');
     }
 
     /**
@@ -337,7 +337,7 @@ class JqlFunction
      */
     public static function pendingBy($user)
     {
-        return new JqlFunction('pendingBy('.implode(', ', func_get_args()).')');
+        return new self('pendingBy('.implode(', ', func_get_args()).')');
     }
 
     /**
@@ -350,7 +350,7 @@ class JqlFunction
      */
     public static function projectsLeadByUser($username = null)
     {
-        return new JqlFunction("projectsLeadByUser($username)");
+        return new self("projectsLeadByUser($username)");
     }
 
     /**
@@ -363,7 +363,7 @@ class JqlFunction
      */
     public static function projectsWhereUserHasPermission($permission)
     {
-        return new JqlFunction('projectsWhereUserHasPermission('.JqlQuery::quote($permission).')');
+        return new self('projectsWhereUserHasPermission('.JqlQuery::quote($permission).')');
     }
 
     /**
@@ -376,7 +376,7 @@ class JqlFunction
      */
     public static function projectsWhereUserHasRole($roleName)
     {
-        return new JqlFunction('projectsWhereUserHasRole('.JqlQuery::quote($roleName).')');
+        return new self('projectsWhereUserHasRole('.JqlQuery::quote($roleName).')');
     }
 
     /**
@@ -389,7 +389,7 @@ class JqlFunction
      */
     public static function releasedVersions($project = null)
     {
-        return new JqlFunction("releasedVersions($project)");
+        return new self("releasedVersions($project)");
     }
 
     /**
@@ -400,7 +400,7 @@ class JqlFunction
      */
     public static function standardIssueTypes()
     {
-        return new JqlFunction('standardIssueTypes()');
+        return new self('standardIssueTypes()');
     }
 
     /**
@@ -417,7 +417,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("startOfDay($inc)");
+        return new self("startOfDay($inc)");
     }
 
     /**
@@ -434,7 +434,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("startOfMonth($inc)");
+        return new self("startOfMonth($inc)");
     }
 
     /**
@@ -451,7 +451,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("startOfWeek($inc)");
+        return new self("startOfWeek($inc)");
     }
 
     /**
@@ -468,7 +468,7 @@ class JqlFunction
             $inc = JqlQuery::quote($inc);
         }
 
-        return new JqlFunction("startOfYear($inc)");
+        return new self("startOfYear($inc)");
     }
 
     /**
@@ -479,7 +479,7 @@ class JqlFunction
      */
     public static function subtaskIssueTypes()
     {
-        return new JqlFunction('subtaskIssueTypes()');
+        return new self('subtaskIssueTypes()');
     }
 
     /**
@@ -492,7 +492,7 @@ class JqlFunction
      */
     public static function unreleasedVersions($project = null)
     {
-        return new JqlFunction("unreleasedVersions($project)");
+        return new self("unreleasedVersions($project)");
     }
 
     /**
@@ -503,7 +503,7 @@ class JqlFunction
      */
     public static function votedIssues()
     {
-        return new JqlFunction('votedIssues()');
+        return new self('votedIssues()');
     }
 
     /**
@@ -514,6 +514,6 @@ class JqlFunction
      */
     public static function watchedIssues()
     {
-        return new JqlFunction('watchedIssues()');
+        return new self('watchedIssues()');
     }
 }

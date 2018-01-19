@@ -459,7 +459,7 @@ class JqlQuery
 
     /**
      * Quote jql field name.
-     * Doesn't quote already "quoted" or 'quoted' strings;
+     * Doesn't quote already "quoted" or 'quoted' strings.
      *
      * Example: JqlQuery::quoteField(JqlQuery::FIELD_PROJECT) returns '"project"'
      *
