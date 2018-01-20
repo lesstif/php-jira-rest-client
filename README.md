@@ -118,7 +118,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
-- [Add watcher in Issue](#add-issue-watcher)
+- [Add watcher to Issue](#add-watcher-to-issue)
 - [Send a notification to the recipients](#issue-notify)
 
 ### IssueLink
@@ -919,14 +919,13 @@ try {
 
 ```
 
-#### Add watcher in Issue 
+#### Add watcher to Issue 
 
 ```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Watcher;
 use JiraRestApi\JiraException;
 
 $issueKey = 'TEST-961';
@@ -934,12 +933,10 @@ $issueKey = 'TEST-961';
 try {
     $issueService = new IssueService();
     
-    // get issue's all worklog
-    $watcher = new Watcher('lesstif');
-    var_dump($watcher);
+    // watcher's id
+    $watcher = 'lesstif';
     
-    $wch = $issueService->addWatcher($issueKey, $watcher);
-    var_dump($wch);
+    $issueService->addWatcher($issueKey, $watcher);
     
 } catch (JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
