@@ -14,7 +14,7 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * Function to create a new user.
      *
-     * @param User $user
+     * @param User|array $user
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception

@@ -15,7 +15,10 @@ class GroupService extends \JiraRestApi\JiraClient
      * @param array $paramArray Possible values for $paramArray 'username', 'key'.
      *                          "Either the 'username' or the 'key' query parameters need to be provided".
      *
-     * @return Group class
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return Group|object
      */
     public function get($paramArray)
     {
@@ -33,12 +36,12 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Get users from group.
      *
-     * @param $paramArray groupname, includeInactiveUsers, startAt, maxResults
+     * @param array $paramArray groupname, includeInactiveUsers, startAt, maxResults
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return GroupSearchResult
+     * @return GroupSearchResult|object
      */
     public function getMembers($paramArray)
     {
@@ -63,7 +66,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array
+     * @return Group|object
      */
     public function createGroup($group)
     {
@@ -72,9 +75,6 @@ class GroupService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data);
 
         $this->log->addInfo("Result=\n".$ret);
-
-        $groupData = json_decode($ret);
-        $groups = [];
 
         $group = $this->json_mapper->map(
             json_decode($ret), new Group()
@@ -86,12 +86,13 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Adds given user to a group.
      *
-     * @param $group
+     * @param string $groupName
+     * @param string $userName
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Returns the current state of the group.
+     * @return Group|object Returns the current state of the group.
      */
     public function addUserToGroup($groupName, $userName)
     {
@@ -115,7 +116,6 @@ class GroupService extends \JiraRestApi\JiraClient
      * @param $userName
      *
      * @throws \JiraRestApi\JiraException
-     * @throws \JsonMapper_Exception
      *
      * @return null Returns no content
      */
