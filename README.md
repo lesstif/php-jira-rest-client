@@ -102,7 +102,7 @@ $iss = new IssueService(new ArrayConfiguration(
 ### Issue
 - [Get Issue Info](#get-issue-info)
 - [Create Issue](#create-issue)
-- [Create Issue - bulk](#create-multiple-issue)
+- [Create Issue - bulk](#create-multiple-issues)
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
@@ -139,6 +139,8 @@ $iss = new IssueService(new ArrayConfiguration(
 
 #### Get Project Info
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProject)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -158,6 +160,8 @@ try {
 ```
 
 #### Get All Project list
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getAllProjects)
 
 ```php
 <?php
@@ -184,12 +188,15 @@ try {
 
 #### Get Project type
 
+[See Jira API reference (get all types)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project/type-getAllProjectTypes)
+
+[See Jira API reference (get type)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project/type-getProjectTypeByKey)
+
 ```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\Project\ProjectType;
 use JiraRestApi\JiraException;
 
 try {
@@ -216,6 +223,8 @@ try {
 
 get all project's versions.
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProjectVersions)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -241,12 +250,13 @@ try {
 
 or get pagenated project's versions.
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProjectVersionsPaginated)
+
 ```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\Issue\Version;
 use JiraRestApi\JiraException;
 
 try {
@@ -274,6 +284,8 @@ try {
 
 #### Get All Field List
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/field-getFields)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -295,6 +307,8 @@ try {
 ```
 
 #### Create Custom Field
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/field-createCustomField)
 
 ```php
 <?php
@@ -324,6 +338,8 @@ try {
 
 
 #### Get Issue Info
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue)
 
 Returns a full representation of the issue for the given issue key.
 
@@ -364,6 +380,8 @@ try {
 You can access the custom field associated with issue through *$issue->fields->customFields* array or through direct custom field id variables(Ex: *$issue->fields->customfield_10300*).
 
 #### Create Issue
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssue)
 
 ```php
 <?php
@@ -430,7 +448,9 @@ try {
 
 Currently, not tested for all custom field types.
 
-#### Create Multiple Issue
+#### Create Multiple Issues
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssues)
 
 ```php
 <?php
@@ -469,6 +489,8 @@ try {
 ```
 
 #### Create Sub Task
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssue)
 
 Creating a sub-task is similar to creating a regular issue, with two important method calls:
 
@@ -514,12 +536,13 @@ try {
 
 #### Add Attachment
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue/%7BissueIdOrKey%7D/attachments-addAttachment)
+
 ```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueField;
 use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
@@ -540,6 +563,8 @@ try {
 ```
 
 #### Update issue
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-editIssue)
 
 ```php
 <?php
@@ -584,6 +609,8 @@ If you want to change the custom field type when updating an issue, you can call
 
 #### Change Assignee
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-assign)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -610,6 +637,8 @@ try {
 
 #### Remove Issue
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-deleteIssue)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -633,6 +662,8 @@ try {
 ```
 
 #### Add comment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addComment)
 
 ```php
 <?php
@@ -671,6 +702,14 @@ COMMENT;
 
 #### Perform a transition on an issue
 
+Note: this library uses goal **status names** instead of **transition names**.
+So, if you want to change issue status to 'Some Status',
+you should pass that status name to `setTransitionName`
+
+i.e. `$transition->setTransitionName('Some Status')`
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-doTransition)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -698,6 +737,8 @@ try {
 
 ##### Simple Query
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/search-searchUsingSearchRequest)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -718,6 +759,8 @@ try {
 ```
 
 ##### JQL with pagination
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/search-search)
 
 ```php
 <?php
@@ -765,7 +808,13 @@ try {
 
 ##### JQL query class
 
-if you're not familiar JQL then you can use convenience JQLQuery class.
+[See Jira API reference](https://confluence.atlassian.com/jiracoreserver/advanced-searching-939937709.html)
+
+If you're not familiar JQL then you can use convenience JqlQuery class.
+JqlFunction class can be used to add jql functions calls to query.
+You can find the names of almost all fields, functions, keywords and operators
+defined as constants in `JqlQuery` and static methods in `JqlFunciton` classes.
+For more info see the Jira docs (link above).
 
 ```php
 <?php
@@ -774,6 +823,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\JqlQuery;
 use JiraRestApi\JiraException;
+use JiraRestApi\Issue\JqlFunction;
 
 try {
     $jql = new JqlQuery();
@@ -781,6 +831,8 @@ try {
     $jql->setProject('TEST')
         ->setType('Bug')
         ->setStatus('In Progress')
+        ->setAssignee(JqlFunction::currentUser())
+        ->setCustomField('My Custom Field', 'value')
         ->addIsNotNullExpression('due');
 
     $issueService = new IssueService();
@@ -794,6 +846,12 @@ try {
 ```
 
 #### Issue time tracking
+
+This methods use `get issue` and `edit issue` methods internally.
+
+[See Jira API reference (get issue)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue)
+
+[See Jira API reference (edit issue)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-editIssue)
 
 ```php
 <?php
@@ -828,6 +886,8 @@ try {
 
 #### Add worklog in issue
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addWorklog)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -860,6 +920,8 @@ try {
 
 #### edit worklog in issue
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-updateWorklog)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -880,7 +942,7 @@ try {
 
     $issueService = new IssueService();
 
-    $ret = $issueService->updateWorklog($issueKey, $workLog, $workLogid);
+    $ret = $issueService->editWorklog($issueKey, $workLog, $workLogid);
 
     var_dump($ret);
 } catch (JiraException $e) {
@@ -890,6 +952,10 @@ try {
 ```
 
 #### Get issue worklog
+
+[See Jira API reference (get full issue worklog)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssueWorklog)
+
+[See Jira API reference (get worklog by id)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getWorklog)
 
 ```php
 <?php
@@ -921,6 +987,8 @@ try {
 
 #### Add watcher to Issue 
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addWatcher)
+
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -944,6 +1012,8 @@ try {
 ```
 
 #### issue notify
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-notify)
 
 ```php
 <?php
@@ -977,6 +1047,8 @@ try {
 ```
 #### Create Issue Link
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issueLink-linkIssues)
+
 The Link Issue Resource provides functionality to manage issue links.
 
 ```php
@@ -1006,6 +1078,8 @@ try {
 
 #### Get Issue LinkType
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issueLinkType-getIssueLinkTypes)
+
 Rest resource to retrieve a list of issue link types.
 
 ```php
@@ -1028,6 +1102,8 @@ try {
 ```
 
 #### Create User
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-createUser)
 
 Create user. 
 By default created user will not be notified with email. If password field is not set then password will be randomly generated.
@@ -1059,6 +1135,8 @@ try {
 
 #### Get User Info
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-getUser)
+
 Returns a user.
 
 ```php
@@ -1081,6 +1159,8 @@ try {
 ```
 
 #### Find Users
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findUsers)
 
 Returns a list of users that match the search string and/or property. 
 
@@ -1112,6 +1192,8 @@ try {
 
 #### Find Assignable Users
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findAssignableUsers)
+
 Returns a list of users that match the search string. 
 
 ```php
@@ -1142,6 +1224,8 @@ try {
 
 #### Create Group
 
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-createGroup)
+
 Create new group.
 
 ```php
@@ -1150,6 +1234,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\JiraException;
 use JiraRestApi\Group\GroupService;
+use JiraRestApi\Group\Group;
 
 try {
     $g = new Group();
@@ -1159,7 +1244,7 @@ try {
     $gs = new GroupService();
 
     $ret = $gs->createGroup($g);
-	var_dump($user);
+	var_dump($ret);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -1167,6 +1252,8 @@ try {
 ```
 
 #### Get Users from group
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-getUsersFromGroup)
 
 returns a paginated list of users who are members of the specified group and its subgroups.
 
@@ -1200,6 +1287,8 @@ try {
 ```
 
 ### Add User to group
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-addUserToGroup)
 
 add user to given group.
 

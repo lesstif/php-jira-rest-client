@@ -266,7 +266,7 @@ class IssueField implements \JsonSerializable
     /**
      * add a Affects version.
      *
-     * @param string $name
+     * @param string|array $name
      *
      * @return $this
      */
@@ -308,7 +308,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type.
      *
-     * @param IssueType $name
+     * @param IssueType|string $name
      *
      * @return $this
      */
@@ -354,7 +354,7 @@ class IssueField implements \JsonSerializable
     /**
      * add issue component.
      *
-     * @param string $component
+     * @param string|array $component
      *
      * @return $this
      */
