@@ -13,13 +13,14 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * get all project list.
      *
+     * @param array $paramArray
      * @throws \JiraRestApi\JiraException
      *
      * @return Project[] array of Project class
      */
-    public function getAllProjects()
+    public function getAllProjects($paramArray = [])
     {
-        $ret = $this->exec($this->uri, null);
+        $ret = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
 
         $prjs = $this->json_mapper->mapArray(
             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
