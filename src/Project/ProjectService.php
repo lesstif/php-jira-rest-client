@@ -14,6 +14,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get all project list.
      *
      * @param array $paramArray
+     *
      * @throws \JiraRestApi\JiraException
      *
      * @return Project[] array of Project class
