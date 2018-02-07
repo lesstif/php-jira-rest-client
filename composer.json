@@ -14,7 +14,7 @@
         "mockery/mockery": "^0.9.4",
         "symfony/var-dumper": "~2.8|~3.0"
     },
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "KwangSeob Jeong",
