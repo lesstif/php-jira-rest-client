@@ -74,8 +74,9 @@ class JiraClient
         $this->configuration = $configuration;
         $this->json_mapper = new \JsonMapper();
 
-        $this->json_mapper->undefinedPropertyHandler = [\JiraRestApi\JsonMapperHelper::class, 'setUndefinedProperty'];
-
+        // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
+        $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+        
         // create logger
         if ($logger) {
             $this->log = $logger;
