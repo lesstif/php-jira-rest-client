@@ -796,5 +796,4 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $res;
     }
-
 }

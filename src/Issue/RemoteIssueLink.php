@@ -1,9 +1,10 @@
 <?php
+
 namespace JiraRestApi\Issue;
 
 class RemoteIssueLink implements \JsonSerializable
 {
-    /** @var  integer */
+    /** @var int */
     public $id;
 
     /** @var string */
@@ -12,13 +13,13 @@ class RemoteIssueLink implements \JsonSerializable
     /** @var string */
     public $globalId;
 
-    /** @var  array|null */
+    /** @var array|null */
     public $application;
 
     /** @var string|null */
     public $relationship;
 
-    /** @var  RemoteIssueLinkObject|null */
+    /** @var RemoteIssueLinkObject|null */
     public $object;
 
     public function jsonSerialize()
@@ -28,28 +29,33 @@ class RemoteIssueLink implements \JsonSerializable
 
     public function setUrl($url)
     {
-        if(is_null($this->object))
-            $this->object = new RemoteIssueLink();
+        if (is_null($this->object)) {
+            $this->object = new self();
+        }
 
         $this->object->url = $url;
+
         return $this;
     }
 
     public function setTitle($title)
     {
         $this->object->title = $title;
+
         return $this;
     }
 
     public function setSummary($summary)
     {
         $this->object->summary = $summary;
+
         return $this;
     }
 
     public function setRelationship($relationship)
     {
         $this->relationship = $relationship;
+
         return $this;
     }
 }
