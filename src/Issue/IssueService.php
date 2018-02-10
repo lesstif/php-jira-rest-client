@@ -754,4 +754,47 @@ class IssueService extends \JiraRestApi\JiraClient
             throw new JiraException('notify failed: response code='.$ret);
         }
     }
+
+    /**
+     * Get a remote issue links on the issue.
+     *
+     * @param $issueIdOrKey Issue id Or Key
+     *
+     * @throws JiraException
+     *
+     * @return array array os RemoteIssueLink class
+     *
+     * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks
+     */
+    public function getRemoteIssueLink($issueIdOrKey)
+    {
+        $full_uri = $this->uri."/$issueIdOrKey/remotelink";
+
+        $ret = $this->exec($full_uri, null);
+
+        $rils = $this->json_mapper->mapArray(
+            json_decode($ret, false), new \ArrayObject(), RemoteIssueLink::class
+        );
+
+        return $rils;
+    }
+
+    public function createOrUpdateRemoteIssueLink($issueIdOrKey, RemoteIssueLink $ril)
+    {
+        $full_uri = $this->uri."/$issueIdOrKey/remotelink";
+
+        $data = json_encode($ril, JSON_UNESCAPED_SLASHES);
+
+        $this->log->addDebug("create remoteIssueLink=$data\n");
+
+        $ret = $this->exec($full_uri, $data, 'POST');
+
+        $res = $this->json_mapper->map(
+            json_decode($ret), new RemoteIssueLink()
+        );
+
+        return $res;
+    }
+
 }

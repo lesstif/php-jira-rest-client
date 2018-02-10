@@ -114,6 +114,9 @@ $iss = new IssueService(new ArrayConfiguration(
     - [Simple JQL](#simple-query)
     - [JQL With pagination](#jql-with-pagination)
     - [Using JQL Query class](#jql-query-class)
+- [Remote Issue Link](#remote-issue-link)
+    - [Get Remote Issue Link](#get-remote-issue-link)
+    - [Create Remote Issue Link](#create-remote-issue-link)
 - [Issue time tracking](#issue-time-tracking)
 - [Add worklog in Issue](#add-worklog-in-issue)
 - [Edit worklog in Issue](#edit-worklog-in-issue)
@@ -842,6 +845,63 @@ try {
     var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+```
+
+#### Remote Issue Link
+
+
+##### get remote issue link
+
+* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks)
+
+```php
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\RemoteIssueLink;
+use JiraRestApi\JiraException;
+
+try {
+    $issueService = new IssueService();
+
+    $rils = $issueService->getRemoteIssueLink($issueKey);
+        
+    // rils is array of RemoteIssueLink classes
+    var_dump($rils);
+} catch (HTTPException $e) {
+    $this->assertTrue(false, $e->getMessage());
+}
+
+```
+
+##### create remote issue link
+
+* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks)
+
+```php
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\RemoteIssueLink;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-316';
+
+try {
+	$issueService = new IssueService();
+
+	$ril = new RemoteIssueLink();
+
+	$ril->setUrl('http://www.mycompany.com/support?id=1')
+		->setTitle('Remote Link Title')
+		->setRelationship('causes')
+		->setSummary('Crazy customer support issue')
+	;
+
+	$rils = $issueService->createOrUpdateRemoteIssueLink($issueKey, $ril);
+
+    // rils is array of RemoteIssueLink classes
+    var_dump($rils);
+} catch (JiraException $e) {
+	$this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 ```
 
