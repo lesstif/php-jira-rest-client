@@ -37,9 +37,25 @@ class Reporter implements \JsonSerializable
             }
         }
         if (empty($vars)) {
-            return;
+            return null;
         }
 
         return $vars;
+    }
+
+    /**
+     * determine class has value for effective json serialize.
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/126
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        if (empty($this->name) && empty($this->self)) {
+            return true;
+        }
+
+        return false;
     }
 }

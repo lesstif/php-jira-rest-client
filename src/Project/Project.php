@@ -4,7 +4,7 @@ namespace JiraRestApi\Project;
 
 use JiraRestApi\ClassSerialize;
 
-class Project
+class Project implements \JsonSerializable
 {
     use ClassSerialize;
 
@@ -89,4 +89,11 @@ class Project
 
     /** @var array|null */
     public $roles;
+
+    function jsonSerialize()
+    {
+        return array_filter(get_object_vars($this), function($var) {
+                  return ! is_null($var);
+             });
+    }
 }

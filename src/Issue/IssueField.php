@@ -137,7 +137,15 @@ class IssueField implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        $vars = array_filter(get_object_vars($this));
+        $vars = array_filter(get_object_vars($this), function($var) {
+            return ! is_null($var);
+        });
+
+        // if assignee property has empty value then remove it.
+        // @see https://github.com/lesstif/php-jira-rest-client/issues/126
+        if($this->assignee->isEmpty()) {
+            unset($vars['assignee']);
+        }
 
         // clear undefined json property
         unset($vars['customFields']);
