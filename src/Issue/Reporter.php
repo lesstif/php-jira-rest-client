@@ -37,7 +37,7 @@ class Reporter implements \JsonSerializable
             }
         }
         if (empty($vars)) {
-            return null;
+            return;
         }
 
         return $vars;
