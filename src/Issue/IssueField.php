@@ -129,7 +129,6 @@ class IssueField implements \JsonSerializable
 
             $this->assignee = new Reporter();
             $this->priority = new Priority();
-            $this->versions = [];
 
             $this->issuetype = new IssueType();
         }
