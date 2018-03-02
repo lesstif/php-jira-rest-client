@@ -82,5 +82,4 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isCookieAuthorizationEnabled();
-
 }

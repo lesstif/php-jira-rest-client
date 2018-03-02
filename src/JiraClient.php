@@ -491,9 +491,11 @@ class JiraClient
             $value = $authService->getSessionCookieValue();
 
             curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: $name=$value"]);
+
             return true;
         } catch (\Exception $e) {
             $this->log->addError("Cookie authorization error: {$e->getMessage()}");
+
             return false;
         }
     }
