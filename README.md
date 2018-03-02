@@ -64,6 +64,12 @@ JIRA_USER="jira-username"
 JIRA_PASS="jira-password"
 ```
 
+Or for OAuth authorization:
+
+```sh
+JIRA_ACCESS_TOKEN="access-token"
+```
+
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
@@ -79,8 +85,11 @@ use JiraRestApi\Issue\IssueService;
 $iss = new IssueService(new ArrayConfiguration(
           array(
                'jiraHost' => 'https://your-jira.host.com',
+               // for basic authorization:
                'jiraUser' => 'jira-username',
                'jiraPassword' => 'jira-password',
+               // for OAuth authorization:
+               'oauthAccessToken' => 'access-token',
           )
    ));
 ```

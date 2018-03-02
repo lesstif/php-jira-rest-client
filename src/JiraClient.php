@@ -60,6 +60,9 @@ class JiraClient
      * @param ConfigurationInterface $configuration
      * @param Logger                 $logger
      * @param string                 $path
+     *
+     * @throws JiraException
+     * @throws \Exception
      */
     public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
     {
@@ -284,12 +287,11 @@ class JiraClient
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            [
-                'Accept: */*',
-                'Content-Type: multipart/form-data',
-                'X-Atlassian-Token: nocheck',
-                ]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: */*',
+            'Content-Type: multipart/form-data',
+            'X-Atlassian-Token: nocheck',
+        ]);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -418,12 +420,18 @@ class JiraClient
     /**
      * Add authorize to curl request.
      *
-     * @TODO session/oauth methods
+     * @TODO cookie for basic auth
      *
      * @param resource $ch
      */
     protected function authorization($ch)
     {
+        $token = $this->getConfiguration()->getOAuthAccessToken();
+        if ($token) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+            return;
+        }
+
         $username = $this->getConfiguration()->getJiraUser();
         $password = $this->getConfiguration()->getJiraPassword();
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");

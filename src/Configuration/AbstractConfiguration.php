@@ -64,6 +64,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $curlOptVerbose;
 
     /**
+     * HTTP header 'Authorization: Bearer {token}' for OAuth.
+     *
+     * @var string
+     */
+    protected $oauthAccessToken;
+
+    /**
      * @return string
      */
     public function getJiraHost()
@@ -125,5 +132,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function isCurlOptVerbose()
     {
         return $this->curlOptVerbose;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOAuthAccessToken()
+    {
+        return $this->oauthAccessToken;
     }
 }

@@ -68,4 +68,11 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isCurlOptVerbose();
+
+    /**
+     * HTTP header 'Authorization: Bearer {token}' for OAuth.
+     *
+     * @return string
+     */
+    public function getOAuthAccessToken();
 }
