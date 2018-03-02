@@ -62,6 +62,14 @@ copy .env.example file to .env on your project root.
 JIRA_HOST="https://your-jira.host.com"
 JIRA_USER="jira-username"
 JIRA_PASS="jira-password"
+# to enable session cookie authorization
+# COOKIE_AUTH_ENABLED=1
+```
+
+Or for OAuth authorization:
+
+```sh
+JIRA_ACCESS_TOKEN="access-token"
 ```
 
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
@@ -79,8 +87,13 @@ use JiraRestApi\Issue\IssueService;
 $iss = new IssueService(new ArrayConfiguration(
           array(
                'jiraHost' => 'https://your-jira.host.com',
+               // for basic authorization:
                'jiraUser' => 'jira-username',
                'jiraPassword' => 'jira-password',
+               // to enable session cookie authorization (with basic authorization only)
+               'cookieAuthEnabled' => true,
+               // for OAuth authorization:
+               'oauthAccessToken' => 'access-token',
           )
    ));
 ```
