@@ -725,8 +725,8 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Sends a notification (email) to the list or recipients defined in the request.
      *
-     * @param $issueIdOrKey Issue id Or Key
-     * @param $notify Notify
+     * @param string|int $issueIdOrKey Issue id Or Key
+     * @param Notify     $notify
      *
      * @throws JiraException
      *
@@ -758,7 +758,7 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Get a remote issue links on the issue.
      *
-     * @param $issueIdOrKey Issue id Or Key
+     * @param string|int $issueIdOrKey Issue id Or Key
      *
      * @throws JiraException
      *
@@ -780,6 +780,15 @@ class IssueService extends \JiraRestApi\JiraClient
         return $rils;
     }
 
+    /**
+     * @param string|int      $issueIdOrKey
+     * @param RemoteIssueLink $ril
+     *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return object
+     */
     public function createOrUpdateRemoteIssueLink($issueIdOrKey, RemoteIssueLink $ril)
     {
         $full_uri = $this->uri."/$issueIdOrKey/remotelink";
