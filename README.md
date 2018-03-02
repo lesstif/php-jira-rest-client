@@ -62,6 +62,8 @@ copy .env.example file to .env on your project root.
 JIRA_HOST="https://your-jira.host.com"
 JIRA_USER="jira-username"
 JIRA_PASS="jira-password"
+# to enable session cookie authorization
+# COOKIE_AUTH_ENABLED=1
 ```
 
 Or for OAuth authorization:
@@ -88,6 +90,8 @@ $iss = new IssueService(new ArrayConfiguration(
                // for basic authorization:
                'jiraUser' => 'jira-username',
                'jiraPassword' => 'jira-password',
+               // to enable session cookie authorization (with basic authorization only)
+               'cookieAuthEnabled' => true,
                // for OAuth authorization:
                'oauthAccessToken' => 'access-token',
           )
