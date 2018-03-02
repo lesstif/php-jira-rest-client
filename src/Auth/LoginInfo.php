@@ -19,14 +19,14 @@ class LoginInfo implements \JsonSerializable
     public $loginCount;
 
     /**
-     * timestamp string "2017-12-07T09:23:17.771+0000"
+     * timestamp string "2017-12-07T09:23:17.771+0000".
      *
      * @var string
      */
     public $lastFailedLoginTime;
 
     /**
-     * timestamp string "2017-12-07T09:23:17.771+0000"
+     * timestamp string "2017-12-07T09:23:17.771+0000".
      *
      * @var string
      */
