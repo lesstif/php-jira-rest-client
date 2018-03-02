@@ -429,6 +429,7 @@ class JiraClient
         $token = $this->getConfiguration()->getOAuthAccessToken();
         if ($token) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+
             return;
         }
 
