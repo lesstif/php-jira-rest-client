@@ -71,6 +71,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $oauthAccessToken;
 
     /**
+     * enable cookie authorization.
+     *
+     * @var bool
+     */
+    protected $cookieAuthEnabled;
+
+    /**
      * @return string
      */
     public function getJiraHost()
@@ -138,6 +145,14 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      * @return string
      */
     public function getOAuthAccessToken()
+    {
+        return $this->oauthAccessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function isCookieAuthorizationEnabled()
     {
         return $this->oauthAccessToken;
     }

@@ -2,6 +2,7 @@
 
 namespace JiraRestApi;
 
+use JiraRestApi\Auth\AuthService;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
@@ -12,6 +13,11 @@ use Monolog\Logger as Logger;
  */
 class JiraClient
 {
+    /**
+     * @var static
+     */
+    private static $_instance;
+
     /**
      * Json Mapper.
      *
@@ -53,6 +59,25 @@ class JiraClient
      * @var ConfigurationInterface
      */
     protected $configuration;
+
+    /**
+     * @param ConfigurationInterface|null $configuration
+     * @param Logger|null                 $logger
+     * @param string                      $path
+     *
+     * @throws JiraException
+     * @throws \Exception
+     *
+     * @return static Service instance
+     */
+    public static function getInstance(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    {
+        if (empty(static::$_instance)) {
+            static::$_instance = new static($configuration, $logger, $path);
+        }
+
+        return static::$_instance;
+    }
 
     /**
      * Constructor.
@@ -234,8 +259,8 @@ class JiraClient
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
                 throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                 .$this->http_response.', URL:'.$url
-                 ."\nError Message : ".$response, $this->http_response);
+                    .$this->http_response.', URL:'.$url
+                    ."\nError Message : ".$response, $this->http_response);
             }
         }
 
@@ -273,7 +298,7 @@ class JiraClient
             $attachments->setPostFilename(basename($upload_file));
 
             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    ['file' => $attachments]);
+                ['file' => $attachments]);
 
             $this->log->addDebug('using CURLFile='.var_export($attachments, true));
         }
@@ -368,7 +393,7 @@ class JiraClient
                 // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
                 if ($this->http_response != 200 && $this->http_response != 201) {
                     $body = 'CURL HTTP Request Failed: Status Code : '
-                     .$this->http_response.', URL:'.$url;
+                        .$this->http_response.', URL:'.$url;
 
                     $this->log->addError($body);
                 }
@@ -420,8 +445,6 @@ class JiraClient
     /**
      * Add authorize to curl request.
      *
-     * @TODO cookie for basic auth
-     *
      * @param resource $ch
      */
     protected function authorization($ch)
@@ -433,9 +456,46 @@ class JiraClient
             return;
         }
 
+        if ($this->cookieSessionAuthorization($ch)) {
+            return;
+        }
+
         $username = $this->getConfiguration()->getJiraUser();
         $password = $this->getConfiguration()->getJiraPassword();
         curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+    }
+
+    /**
+     * @param resource $ch
+     *
+     * @return bool
+     */
+    protected function cookieSessionAuthorization($ch)
+    {
+        $cookieAuthOn = $this->getConfiguration()->isCookieAuthorizationEnabled();
+        if (!$cookieAuthOn) {
+            return false;
+        }
+
+        try {
+            $authService = AuthService::getInstance($this->getConfiguration(), $this->log);
+            if ($authService->isAuthInProgress()) {
+                return false;
+            }
+
+            if (!$authService->isAuthorized()) {
+                $authService->authorizeWithCookie();
+            }
+
+            $name = $authService->getSessionCookieName();
+            $value = $authService->getSessionCookieValue();
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: $name=$value"]);
+            return true;
+        } catch (\Exception $e) {
+            $this->log->addError("Cookie authorization error: {$e->getMessage()}");
+            return false;
+        }
     }
 
     /**

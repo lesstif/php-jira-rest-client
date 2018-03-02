@@ -75,4 +75,12 @@ interface ConfigurationInterface
      * @return string
      */
     public function getOAuthAccessToken();
+
+    /**
+     * Use cookie authorization. Login with username and password only once, then use session cookie.
+     *
+     * @return bool
+     */
+    public function isCookieAuthorizationEnabled();
+
 }
