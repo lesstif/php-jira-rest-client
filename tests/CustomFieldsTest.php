@@ -2,7 +2,7 @@
 
 use JiraRestApi\Dumper;
 use JiraRestApi\Field\Field;
-use JiraRestApi\Field\AuthService;
+use JiraRestApi\Field\FieldService;
 use JiraRestApi\JiraException;
 
 class CustomFieldsTest extends PHPUnit_Framework_TestCase
@@ -10,7 +10,7 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
     public function testGetFields()
     {
         try {
-            $fieldService = new AuthService();
+            $fieldService = new FieldService();
 
             $ret = $fieldService->getAllFields(Field::CUSTOM);
             Dumper::dump($ret);
@@ -36,7 +36,7 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
     public function testGetFieldOptions($ids)
     {
         try {
-            $fieldService = new AuthService();
+            $fieldService = new FieldService();
 
             foreach ($ids as $id) {
                 try {
@@ -60,7 +60,7 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
                 ->setType('com.atlassian.jira.plugin.system.customfieldtypes:grouppicker')
                 ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher');
 
-            $fieldService = new AuthService();
+            $fieldService = new FieldService();
 
             $ret = $fieldService->create($field);
             Dumper::dump($ret);
