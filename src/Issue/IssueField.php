@@ -128,7 +128,8 @@ class IssueField implements \JsonSerializable
             $this->project = new \JiraRestApi\Project\Project();
 
             $this->assignee = new Reporter();
-            $this->priority = new Priority();
+            // priority maybe empty.
+            //$this->priority = new Priority();
 
             $this->issuetype = new IssueType();
         }
