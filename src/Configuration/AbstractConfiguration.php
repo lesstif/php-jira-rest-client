@@ -154,6 +154,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function isCookieAuthorizationEnabled()
     {
-        return $this->oauthAccessToken;
+        return $this->cookieAuthEnabled;
     }
 }

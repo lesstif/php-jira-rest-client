@@ -16,7 +16,7 @@ class JiraClient
     /**
      * @var static
      */
-    private static $_instance;
+    protected static $_instance;
 
     /**
      * Json Mapper.
