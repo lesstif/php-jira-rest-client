@@ -17,7 +17,15 @@ class VersionService extends \JiraRestApi\JiraClient
      */
     public function create($version)
     {
-        throw new JiraException('create version not yet implemented');
+        $data = json_encode($version);
+
+        $this->log->addInfo("Create Version=\n".$data);
+
+        $ret = $this->exec($this->uri, $data, 'POST');
+
+        return $this->json_mapper->map(
+            json_decode($ret), new Version()
+        );
     }
 
     /**
