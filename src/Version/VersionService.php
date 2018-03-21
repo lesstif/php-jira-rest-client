@@ -11,9 +11,14 @@ class VersionService extends \JiraRestApi\JiraClient
     private $uri = '/version';
 
     /**
-     * create version.
+     * Function to create a new version.
      *
-     * @see https://docs.atlassian.com/jira/REST/server/#api/2/version-createVersion
+     * @param Version|array $version
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return Version|object User class
      */
     public function create($version)
     {
