@@ -11,14 +11,14 @@ class VersionService extends \JiraRestApi\JiraClient
     private $uri = '/version';
 
     /**
-     * Function to create a new version.
+     * Function to create a new project version.
      *
      * @param Version|array $version
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Version|object User class
+     * @return Version|object Version class
      */
     public function create($version)
     {
