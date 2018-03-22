@@ -2,7 +2,6 @@
 
 namespace JiraRestApi;
 
-use JiraRestApi\Auth\AuthService;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
@@ -56,7 +55,7 @@ class JiraClient
     protected $configuration;
 
     /**
-     * cookie file name
+     * cookie file name.
      *
      * @var string
      */
@@ -437,11 +436,11 @@ class JiraClient
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie);
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie);
 
-            $this->log->addDebug("Using cookie..");
+            $this->log->addDebug('Using cookie..');
         }
 
         // if cookie file not exist, using id/pwd login
-        if (! file_exists($this->cookie)) {
+        if (!file_exists($this->cookie)) {
             $username = $this->getConfiguration()->getJiraUser();
             $password = $this->getConfiguration()->getJiraPassword();
             curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
