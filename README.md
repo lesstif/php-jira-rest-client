@@ -24,18 +24,16 @@
 
 2. Next, run the Composer command to install the latest version of php jira rest client.
    ``` sh
-   php composer.phar require lesstif/php-jira-rest-client "^1.7.0"
+   php composer.phar require lesstif/php-jira-rest-client
    ```
     or add the following to your composer.json file.
    ```json
    {
        "require": {
-           "lesstif/php-jira-rest-client": "^1.7.0"
+           "lesstif/php-jira-rest-client": "^1.19"
        }
    }
    ```
-   **Note:**
-   If you are using **laravel 5.0 or 5.1**(this version dependent on phpdotenv 1.x), then use **"1.5.\*"** version instead.
 
 3. Then run Composer's install or update commands to complete installation. 
 
@@ -61,16 +59,13 @@ copy .env.example file to .env on your project root.
 ```sh
 JIRA_HOST="https://your-jira.host.com"
 JIRA_USER="jira-username"
-JIRA_PASS="jira-password"
+JIRA_PASS="jira-password-OR-api-token"
 # to enable session cookie authorization
-# COOKIE_AUTH_ENABLED=1
+# COOKIE_AUTH_ENABLED=true
 ```
-
-Or for OAuth authorization:
-
-```sh
-JIRA_ACCESS_TOKEN="access-token"
-```
+**Note:**
+As of March 15, 2018, in accordance to the [Atlassian REST API Policy](https://developer.atlassian.com/platform/marketplace/atlassian-rest-api-policy/), Basic auth with password to be deprecated.
+Instead of password, you should using [API token](https://confluence.atlassian.com/cloud/api-tokens-938839638.html).
 
 **important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
 
