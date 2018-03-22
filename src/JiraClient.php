@@ -14,11 +14,6 @@ use Monolog\Logger as Logger;
 class JiraClient
 {
     /**
-     * @var static
-     */
-    protected static $_instance;
-
-    /**
      * Json Mapper.
      *
      * @var \JsonMapper
@@ -61,23 +56,11 @@ class JiraClient
     protected $configuration;
 
     /**
-     * @param ConfigurationInterface|null $configuration
-     * @param Logger|null                 $logger
-     * @param string                      $path
+     * cookie file name
      *
-     * @throws JiraException
-     * @throws \Exception
-     *
-     * @return static Service instance
+     * @var string
      */
-    public static function getInstance(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
-    {
-        if (empty(static::$_instance)) {
-            static::$_instance = new static($configuration, $logger, $path);
-        }
-
-        return static::$_instance;
-    }
+    protected $cookie = 'jira-cookies.txt';
 
     /**
      * Constructor.
@@ -223,7 +206,7 @@ class JiraClient
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json']);
+            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -449,54 +432,19 @@ class JiraClient
      */
     protected function authorization($ch)
     {
-        $token = $this->getConfiguration()->getOAuthAccessToken();
-        if ($token) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+        // use cookie
+        if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie);
 
-            return;
+            $this->log->addDebug("Using cookie..");
         }
 
-        if ($this->cookieSessionAuthorization($ch)) {
-            return;
-        }
-
-        $username = $this->getConfiguration()->getJiraUser();
-        $password = $this->getConfiguration()->getJiraPassword();
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-    }
-
-    /**
-     * @param resource $ch
-     *
-     * @return bool
-     */
-    protected function cookieSessionAuthorization($ch)
-    {
-        $cookieAuthOn = $this->getConfiguration()->isCookieAuthorizationEnabled();
-        if (!$cookieAuthOn) {
-            return false;
-        }
-
-        try {
-            $authService = AuthService::getInstance($this->getConfiguration(), $this->log);
-            if ($authService->isAuthInProgress()) {
-                return false;
-            }
-
-            if (!$authService->isAuthorized()) {
-                $authService->authorizeWithCookie();
-            }
-
-            $name = $authService->getSessionCookieName();
-            $value = $authService->getSessionCookieValue();
-
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: $name=$value"]);
-
-            return true;
-        } catch (\Exception $e) {
-            $this->log->addError("Cookie authorization error: {$e->getMessage()}");
-
-            return false;
+        // if cookie file not exist, using id/pwd login
+        if (! file_exists($this->cookie)) {
+            $username = $this->getConfiguration()->getJiraUser();
+            $password = $this->getConfiguration()->getJiraPassword();
+            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
         }
     }
 
