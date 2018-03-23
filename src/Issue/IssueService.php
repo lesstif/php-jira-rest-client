@@ -230,6 +230,51 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Get all comments on an issue.
+     *
+     * @param string|int $issueIdOrKey Issue id or key
+     *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return Comment|object Comment class
+     */
+    public function getComments($issueIdOrKey)
+    {
+        $this->log->addInfo("getComments=\n");
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment");
+
+        $this->log->addDebug('get comments result='.var_export($ret, true));
+        $comment = $this->json_mapper->map(
+                json_decode($ret), new Comment()
+                );
+
+        return $comment;
+    }
+
+    /**
+     * Delete a comment on an issue.
+     *
+     * @param string|int $issueIdOrKey Issue id or key
+     * @param string|int $id Comment id
+     *
+     * @throws JiraException
+     *
+     * @return string|bool
+     */
+    public function deleteComment($issueIdOrKey, $id)
+    {
+        $this->log->addInfo("deleteComment=\n");
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id", '', 'DELETE');
+
+        $this->log->addInfo('delete comment '.$issueIdOrKey.' '. $id.' result='.var_export($ret, true));
+
+        return $ret;
+    }
+
+    /**
      * Change a issue assignee.
      *
      * @param string|int  $issueIdOrKey
