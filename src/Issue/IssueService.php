@@ -233,7 +233,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get a comment on an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param string|int $id Comment id
+     * @param string|int $id           Comment id
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -282,7 +282,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * Delete a comment on an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param string|int $id Comment id
+     * @param string|int $id           Comment id
      *
      * @throws JiraException
      *
@@ -294,7 +294,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id", '', 'DELETE');
 
-        $this->log->addInfo('delete comment '.$issueIdOrKey.' '. $id.' result='.var_export($ret, true));
+        $this->log->addInfo('delete comment '.$issueIdOrKey.' '.$id.' result='.var_export($ret, true));
 
         return $ret;
     }
