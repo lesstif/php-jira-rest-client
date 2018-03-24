@@ -63,12 +63,12 @@ JIRA_PASS="jira-password-OR-api-token"
 # to enable session cookie authorization
 # COOKIE_AUTH_ENABLED=true
 ```
-**Note:**
+
+**Important Note:**
 As of March 15, 2018, in accordance to the [Atlassian REST API Policy](https://developer.atlassian.com/platform/marketplace/atlassian-rest-api-policy/), Basic auth with password to be deprecated.
 Instead of password, you should using [API token](https://confluence.atlassian.com/cloud/api-tokens-938839638.html).
 
-**important-note:** If you are using previous versions(a prior v1.2), you should move config.jira.json to .env and will edit it. 
-
+**Laravel Users:** 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
 
 ## use array
@@ -84,11 +84,9 @@ $iss = new IssueService(new ArrayConfiguration(
                'jiraHost' => 'https://your-jira.host.com',
                // for basic authorization:
                'jiraUser' => 'jira-username',
-               'jiraPassword' => 'jira-password',
+               'jiraPassword' => 'jira-password-OR-api-token',
                // to enable session cookie authorization (with basic authorization only)
                'cookieAuthEnabled' => true,
-               // for OAuth authorization:
-               'oauthAccessToken' => 'access-token',
           )
    ));
 ```
@@ -117,6 +115,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
+- [Get comment](#get-comment)
+- [Delete comment](#delete-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
     - [Simple JQL](#simple-query)
@@ -707,6 +707,60 @@ COMMENT;
     print_r($ret);
 } catch (JiraException $e) {
 	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+}
+
+```
+
+#### Get comment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getComments)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Comment;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+    $issueService = new IssueService();
+
+    $comments = $issueService->getComments($issueKey);
+
+    var_dump($comments);
+
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
+}
+
+```
+
+#### Delete comment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-deleteComment)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Comment;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+    $commentId = 12345;
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->deleteComment($issueKey, commentId);
+
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
 }
 
 ```
