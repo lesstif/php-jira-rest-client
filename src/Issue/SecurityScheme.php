@@ -1,4 +1,5 @@
 <?php
+
 namespace JiraRestApi\Issue;
 
 class SecurityScheme implements \JsonSerializable
@@ -6,7 +7,7 @@ class SecurityScheme implements \JsonSerializable
     /** @var string */
     public $self;
 
-    /** @var integer */
+    /** @var int */
     public $id;
 
     /** @var string */
@@ -15,7 +16,7 @@ class SecurityScheme implements \JsonSerializable
     /** @var string */
     public $description;
 
-    /** @var integer */
+    /** @var int */
     public $defaultSecurityLevelId;
 
     /** @var array security level */
