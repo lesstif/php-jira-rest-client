@@ -412,7 +412,10 @@ try {
                 ->setIssueType("Bug")
                 ->setDescription("Full description for issue")
                 ->addVersion(["1.0.1", "1.0.3"])
-                ->addComponents(['Component-1', 'Component-2']);
+                ->addComponents(['Component-1', 'Component-2'])
+                // set issue security if you need.
+                ->setSecurity(10001 /* security scheme id */)
+            ;
 	
     $issueService = new IssueService();
 

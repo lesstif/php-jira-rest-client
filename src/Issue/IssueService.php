@@ -875,4 +875,51 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $res;
     }
+
+    /**
+     * get all issue security schemes
+     *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return SecurityScheme[] array of SecurityScheme class
+     */
+    public function getAllIssueSecuritySchemes()
+    {
+        $url = '/issuesecurityschemes';
+
+        $ret = $this->exec($url);
+
+        $data = json_decode($ret, true);
+
+        // extract schem field
+        $schemes = json_decode(json_encode($data['issueSecuritySchemes']), false);
+
+        $res = $this->json_mapper->mapArray(
+            $schemes, new \ArrayObject(), '\JiraRestApi\Issue\SecurityScheme'
+        );
+
+        return $res;
+    }
+
+    /**
+     *  get issue security scheme
+     *
+     * @param int $securityId security scheme id
+     * @return SecurityScheme SecurityScheme
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     */
+    public function getIssueSecuritySchemes($securityId)
+    {
+        $url = '/issuesecurityschemes/' . $id;
+
+        $ret = $this->exec($url);
+
+        $res = $this->json_mapper->map(
+            json_decode($ret), new SecurityScheme()
+        );
+
+        return $res;
+    }
 }

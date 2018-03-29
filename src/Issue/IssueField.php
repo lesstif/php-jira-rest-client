@@ -122,6 +122,9 @@ class IssueField implements \JsonSerializable
     /** @var array|null */
     public $customFields;
 
+    /** @var SecurityScheme */
+    public $security;
+
     public function __construct($updateIssue = false)
     {
         if ($updateIssue != true) {
@@ -379,6 +382,22 @@ class IssueField implements \JsonSerializable
                 array_push($this->components, new Component($c));
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * set security level
+     *
+     * @param $securityId
+     * @return $this
+     */
+    public function setSecurity($securityId)
+    {
+        if ($this->security == null) {
+            $this->security = new SecurityScheme();
+        }
+        $this->security->id = $securityId;
 
         return $this;
     }
