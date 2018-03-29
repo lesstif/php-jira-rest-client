@@ -877,7 +877,7 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get all issue security schemes
+     * get all issue security schemes.
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -903,16 +903,18 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     *  get issue security scheme
+     *  get issue security scheme.
      *
      * @param int $securityId security scheme id
-     * @return SecurityScheme SecurityScheme
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return SecurityScheme SecurityScheme
      */
     public function getIssueSecuritySchemes($securityId)
     {
-        $url = '/issuesecurityschemes/' . $id;
+        $url = '/issuesecurityschemes/'.$id;
 
         $ret = $this->exec($url);
 

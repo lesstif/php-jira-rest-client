@@ -387,9 +387,10 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set security level
+     * set security level.
      *
      * @param $securityId
+     *
      * @return $this
      */
     public function setSecurity($securityId)
