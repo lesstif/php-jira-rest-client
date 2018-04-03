@@ -23,6 +23,27 @@ class Issue implements \JsonSerializable
     /** @var IssueField */
     public $fields;
 
+    /** @var array|null */
+    public $renderedFields;
+
+    /** @var array|null */
+    public $names;
+
+    /** @var array|null */
+    public $schema;
+
+    /** @var array|null */
+    public $transitions;
+
+    /** @var array|null */
+    public $operations;
+
+    /** @var array|null */
+    public $editmeta;
+
+    /** @var ChangeLog|null */
+    public $changelog;
+
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
