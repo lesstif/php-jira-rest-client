@@ -3,15 +3,13 @@
 namespace JiraRestApi\Issue;
 
 /**
- * ChangeLog History
+ * ChangeLog History.
  *
  * Class History
- *
- * @package JiraRestApi\Issue
  */
 class History implements \JsonSerializable
 {
-    /** @var integer */
+    /** @var int */
     public $id;
 
     /** @var Reporter */
