@@ -122,7 +122,7 @@ class IssueField implements \JsonSerializable
     /** @var array|null */
     public $customFields;
 
-    /** @var SecurityScheme */
+    /** @var SecurityScheme|null */
     public $security;
 
     public function __construct($updateIssue = false)
