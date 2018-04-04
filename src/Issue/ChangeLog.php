@@ -3,21 +3,19 @@
 namespace JiraRestApi\Issue;
 
 /**
- * Issue ChangeLog
+ * Issue ChangeLog.
  *
  * Class ChangeLog
- *
- * @package JiraRestApi\Issue
  */
 class ChangeLog implements \JsonSerializable
 {
-    /** @var integer */
+    /** @var int */
     public $startAt;
 
-    /** @var integer */
+    /** @var int */
     public $maxResults;
 
-    /** @var integer */
+    /** @var int */
     public $total;
 
     /** @var History[]|null */
