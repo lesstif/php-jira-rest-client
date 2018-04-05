@@ -1,8 +1,10 @@
 # PHP JIRA Rest Client
 
-[![StyleCI](https://styleci.io/repos/30015369/shield?branch=master&style=flat)](https://styleci.io/repos/30015369)
 [![Latest Stable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/stable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Latest Unstable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/unstable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![StyleCI](https://styleci.io/repos/30015369/shield?branch=master&style=flat)](https://styleci.io/repos/30015369)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/lesstif/php-jira-rest-client/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lesstif/php-jira-rest-client/)
+[![Coverage Status](https://coveralls.io/repos/github/lesstif/php-jira-rest-client/badge.svg?branch=master)](https://coveralls.io/github/lesstif/php-jira-rest-client?branch=master)
 [![License](https://poser.pugx.org/lesstif/php-jira-rest-client/license)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Total Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/downloads)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Monthly Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/monthly)](https://packagist.org/packages/lesstif/php-jira-rest-client)
@@ -456,7 +458,7 @@ try {
     //If success, Returns a link to the created issue.
     var_dump($ret);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 ```
 
@@ -544,7 +546,7 @@ try {
     //If success, Returns a link to the created sub task.
     var_dump($ret);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 ```
 
@@ -615,7 +617,7 @@ try {
 
     var_dump($ret);
 } catch (JiraException $e) {
-	$this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 ```
 
@@ -645,7 +647,7 @@ try {
 
     var_dump($ret);
 } catch (JiraException $e) {
-	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
 
@@ -671,7 +673,7 @@ try {
 
     var_dump($ret);
 } catch (JiraException $e) {
-	$this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
 
@@ -709,7 +711,7 @@ COMMENT;
     $ret = $issueService->addComment($issueKey, $comment);
     print_r($ret);
 } catch (JiraException $e) {
-	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
 ```
@@ -797,7 +799,7 @@ try {
 
     $issueService->transition($issueKey, $transition);
 } catch (JiraException $e) {
-	$this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 ```
 
@@ -951,22 +953,22 @@ use JiraRestApi\JiraException;
 $issueKey = 'TEST-316';
 
 try {
-	$issueService = new IssueService();
+    $issueService = new IssueService();
 
-	$ril = new RemoteIssueLink();
+    $ril = new RemoteIssueLink();
 
-	$ril->setUrl('http://www.mycompany.com/support?id=1')
-		->setTitle('Remote Link Title')
-		->setRelationship('causes')
-		->setSummary('Crazy customer support issue')
-	;
+    $ril->setUrl('http://www.mycompany.com/support?id=1')
+        ->setTitle('Remote Link Title')
+        ->setRelationship('causes')
+        ->setSummary('Crazy customer support issue')
+    ;
 
-	$rils = $issueService->createOrUpdateRemoteIssueLink($issueKey, $ril);
+    $rils = $issueService->createOrUpdateRemoteIssueLink($issueKey, $ril);
 
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
 } catch (JiraException $e) {
-	$this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+    $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 ```
 
@@ -1197,7 +1199,7 @@ try {
     $ret = $ils->addIssueLink($il);
 
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 ```
 
@@ -1222,7 +1224,7 @@ try {
     
     var_dump($ret);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 ```
 
@@ -1253,7 +1255,7 @@ try {
 
     var_dump($user);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1278,7 +1280,7 @@ try {
 
     var_dump($user);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1310,7 +1312,7 @@ try {
     // get the user info.
     $users = $us->findUsers($paramArray);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1342,7 +1344,7 @@ try {
 
     $users = $us->findAssignableUsers($paramArray);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1367,11 +1369,11 @@ try {
     $g->name = 'Test group for REST API';
 
     $gs = new GroupService();
-
     $ret = $gs->createGroup($g);
-	var_dump($ret);
+
+    var_dump($ret);
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1406,7 +1408,7 @@ try {
         print_r($user);
     }
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
@@ -1436,7 +1438,7 @@ try {
     print_r($ret);
 
 } catch (JiraException $e) {
-	print("Error Occured! " . $e->getMessage());
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```
