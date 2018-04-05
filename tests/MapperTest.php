@@ -1,6 +1,9 @@
 <?php
 
 use JiraRestApi\Issue\Comment;
+use JiraRestApi\Issue\Issue;
+use JiraRestApi\Issue\Reporter;
+use JiraRestApi\Issue\SecurityScheme;
 use \Mockery as m;
 
 class MapperTest extends PHPUnit_Framework_TestCase
@@ -11,6 +14,7 @@ class MapperTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mapper = new JsonMapper();
+        $this->mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
     }
 
     public function tearDown()
@@ -31,5 +35,23 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('johndoe@example.com', $comment->author->emailAddress);
         $this->assertEquals('KwangSeob Jeong', $comment->updateAuthor->name);
+    }
+
+    public function testIssue()
+    {
+        $ret = file_get_contents('test-data/issue.json');
+
+        $is = new \JiraRestApi\Issue\IssueService();
+        $issue = $this->mapper->map(
+                json_decode($ret), new Issue()
+            );
+
+        $this->assertInstanceOf(Issue::class, $issue);
+
+        $this->assertInstanceOf(Reporter::class, $issue->fields->assignee);
+        $this->assertEquals('lesstif@gmail.com', $issue->fields->assignee->emailAddress);
+
+        //$this->assertInstanceOf(SecurityScheme::class, $issue->fields->security);
+        //$this->assertEquals('KwangSeob Jeong', $issue->updateAuthor->name);
     }
 }
