@@ -2,6 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/stable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Latest Unstable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/unstable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![Build Status](https://travis-ci.org/lesstif/php-jira-rest-client.svg?branch=master)](https://travis-ci.org/lesstif/php-jira-rest-client)
 [![StyleCI](https://styleci.io/repos/30015369/shield?branch=master&style=flat)](https://styleci.io/repos/30015369)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/lesstif/php-jira-rest-client/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lesstif/php-jira-rest-client/)
 [![Coverage Status](https://coveralls.io/repos/github/lesstif/php-jira-rest-client/badge.svg?branch=master)](https://coveralls.io/github/lesstif/php-jira-rest-client?branch=master)
