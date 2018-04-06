@@ -1,0 +1,187 @@
+{
+    "issuetype": {
+        "self": "https://jira.example.com/rest/api/2/issuetype/10000",
+        "id": "10000",
+        "description": "해야할 일",
+        "iconUrl": "https://jira.example.com/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype",
+        "name": "작업",
+        "subtask": false,
+        "avatarId": 10318
+    },
+    "timespent": null,
+    "project": {
+        "self": "https://jira.example.com/rest/api/2/project/10000",
+        "id": "10000",
+        "key": "TEST",
+        "name": "test",
+        "avatarUrls": {
+            "48x48": "https://jira.example.com/secure/projectavatar?avatarId=10324",
+            "24x24": "https://jira.example.com/secure/projectavatar?size=small&avatarId=10324",
+            "16x16": "https://jira.example.com/secure/projectavatar?size=xsmall&avatarId=10324",
+            "32x32": "https://jira.example.com/secure/projectavatar?size=medium&avatarId=10324"
+        }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "resolution": null,
+    "customfield_10310": null,
+    "customfield_10304": null,
+    "customfield_10305": null,
+    "customfield_10306": null,
+    "customfield_10307": null,
+    "customfield_10308": null,
+    "resolutiondate": null,
+    "customfield_10309": null,
+    "workratio": -1,
+    "lastViewed": null,
+    "watches": {
+        "self": "https://jira.example.com/rest/api/2/issue/TEST-1/watchers",
+        "watchCount": 0,
+        "isWatching": false
+    },
+    "created": "2018-02-04T09:07:06.000+0000",
+    "priority": {
+        "self": "https://jira.example.com/rest/api/2/priority/3",
+        "iconUrl": "https://jira.example.com/images/icons/priorities/medium.svg",
+        "name": "Medium",
+        "id": "3"
+    },
+    "customfield_10221": null,
+    "customfield_10222": null,
+    "labels": [],
+    "customfield_10301": null,
+    "customfield_10216": null,
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [],
+    "assignee": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "lesstif",
+        "key": "정광섭",
+        "emailAddress": "lesstif@gmail.com",
+        "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=32"
+        },
+        "displayName": "lesstif",
+        "active": true,
+        "timeZone": "Asia/Seoul"
+    },
+    "updated": "2018-02-06T05:47:31.000+0000",
+    "status": {
+        "self": "https://jira.example.com/rest/api/2/status/10000",
+        "description": "",
+        "iconUrl": "https://jira.example.com/images/icons/status_generic.gif",
+        "name": "할 일",
+        "id": "10000",
+        "statusCategory": {
+            "self": "https://jira.example.com/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "할 일"
+        }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "h2. This is your first task. \n{color:#707070} Issues are the things you do in a project. In business projects, issues are called tasks. {color}\nh4. Types of tasks\n{color:#707070}A task can represent a document, a creative asset, a purchase and even a person.{color}\n!IssueTypes.png!\nh4. Details\n{color:#707070}The 'Details' section above, provides the information you need, such as priority and status, to help you track the progress of your tasks.{color}\nNext: [Workflows and statuses|TEST-2]\n\n----\n[Learn more |http://blogs.atlassian.com/2015/11/make-jira-core-issues-work-for-your-business-team/]",
+    "customfield_10211": null,
+    "timetracking": {},
+    "customfield_10005": "0|i0005r:",
+    "attachment": [
+        {
+            "self": "https://jira.example.com/rest/api/2/attachment/10000",
+            "id": "10000",
+            "filename": "IssueTypes.png",
+            "author": {
+                "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+                "name": "lesstif",
+                "key": "lesstif",
+                "emailAddress": "lesstif@gmail.com",
+                "avatarUrls": {
+                    "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+                    "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+                    "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+                    "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+                },
+                "displayName": "정광섭",
+                "active": true,
+                "timeZone": "Asia/Seoul"
+            },
+            "created": "2018-02-04T09:07:06.000+0000",
+            "size": 12880,
+            "mimeType": "image/png",
+            "content": "https://jira.example.com/secure/attachment/10000/IssueTypes.png",
+            "thumbnail": "https://jira.example.com/secure/thumbnail/10000/_thumb_10000.png"
+        }
+    ],
+    "aggregatetimeestimate": null,
+    "customfield_10209": null,
+    "summary": "This is your first task",
+    "creator": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "lesstif",
+        "key": "lesstif",
+        "emailAddress": "lesstif@gmail.com",
+        "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+        },
+        "displayName": "정광섭",
+        "active": true,
+        "timeZone": "Asia/Seoul"
+    },
+    "subtasks": [],
+    "reporter": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "lesstif",
+        "key": "lesstif",
+        "emailAddress": "lesstif@gmail.com",
+        "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+        },
+        "displayName": "정광섭",
+        "active": true,
+        "timeZone": "Asia/Seoul"
+    },
+    "customfield_10000": null,
+    "aggregateprogress": {
+        "progress": 0,
+        "total": 0
+    },
+    "customfield_10004": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+        "progress": 0,
+        "total": 0
+    },
+    "comment": {
+        "comments": [],
+        "maxResults": 0,
+        "total": 0,
+        "startAt": 0
+    },
+    "votes": {
+        "self": "https://jira.example.com/rest/api/2/issue/TEST-1/votes",
+        "votes": 0,
+        "hasVoted": false
+    },
+    "worklog": {
+        "startAt": 0,
+        "maxResults": 20,
+        "total": 0,
+        "worklogs": []
+    },
+    "security": {
+        "id": 12345
+    }
+}

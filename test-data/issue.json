@@ -187,8 +187,7 @@
             "worklogs": []
         },
         "security": {
-
-            "name": "value"
+            "id": 12345
         }
     },
     "renderedFields": {
