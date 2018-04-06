@@ -13,6 +13,9 @@ before_install:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist
 
+before_script:
+  - cp .env.example .env
+  
 script:
   - ./vendor/bin/phpunit --verbose tests/MockTest
   - ./vendor/bin/phpunit --verbose tests/SerializeTest
