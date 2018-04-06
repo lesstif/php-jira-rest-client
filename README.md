@@ -416,7 +416,7 @@ try {
                 ->addVersion(["1.0.1", "1.0.3"])
                 ->addComponents(['Component-1', 'Component-2'])
                 // set issue security if you need.
-                ->setSecurity(10001 /* security scheme id */)
+                ->setSecurityId(10001 /* security scheme id */)
             ;
 	
     $issueService = new IssueService();

@@ -1,0 +1,1201 @@
+{
+    "expand": "renderedFields,names,schema,transitions,operations,editmeta,changelog,versionedRepresentations",
+    "id": "10000",
+    "self": "https://jira.example.com/rest/api/2/issue/10000",
+    "key": "TEST-1",
+    "fields": {
+        "issuetype": {
+            "self": "https://jira.example.com/rest/api/2/issuetype/10000",
+            "id": "10000",
+            "description": "해야할 일",
+            "iconUrl": "https://jira.example.com/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype",
+            "name": "작업",
+            "subtask": false,
+            "avatarId": 10318
+        },
+        "timespent": null,
+        "project": {
+            "self": "https://jira.example.com/rest/api/2/project/10000",
+            "id": "10000",
+            "key": "TEST",
+            "name": "test",
+            "avatarUrls": {
+                "48x48": "https://jira.example.com/secure/projectavatar?avatarId=10324",
+                "24x24": "https://jira.example.com/secure/projectavatar?size=small&avatarId=10324",
+                "16x16": "https://jira.example.com/secure/projectavatar?size=xsmall&avatarId=10324",
+                "32x32": "https://jira.example.com/secure/projectavatar?size=medium&avatarId=10324"
+            }
+        },
+        "fixVersions": [],
+        "aggregatetimespent": null,
+        "resolution": null,
+        "customfield_10310": null,
+        "customfield_10304": null,
+        "customfield_10305": null,
+        "customfield_10306": null,
+        "customfield_10307": null,
+        "customfield_10308": null,
+        "resolutiondate": null,
+        "customfield_10309": null,
+        "workratio": -1,
+        "lastViewed": null,
+        "watches": {
+            "self": "https://jira.example.com/rest/api/2/issue/TEST-1/watchers",
+            "watchCount": 0,
+            "isWatching": false
+        },
+        "created": "2018-02-04T09:07:06.000+0000",
+        "priority": {
+            "self": "https://jira.example.com/rest/api/2/priority/3",
+            "iconUrl": "https://jira.example.com/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+        },
+        "customfield_10221": null,
+        "customfield_10222": null,
+        "labels": [],
+        "customfield_10301": null,
+        "customfield_10216": null,
+        "timeestimate": null,
+        "aggregatetimeoriginalestimate": null,
+        "versions": [],
+        "issuelinks": [],
+        "assignee": {
+            "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+            "name": "lesstif",
+            "key": "정광섭",
+            "emailAddress": "lesstif@gmail.com",
+            "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=48",
+                "24x24": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=24",
+                "16x16": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=16",
+                "32x32": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=32"
+            },
+            "displayName": "lesstif",
+            "active": true,
+            "timeZone": "Asia/Seoul"
+        },
+        "updated": "2018-02-06T05:47:31.000+0000",
+        "status": {
+            "self": "https://jira.example.com/rest/api/2/status/10000",
+            "description": "",
+            "iconUrl": "https://jira.example.com/images/icons/status_generic.gif",
+            "name": "할 일",
+            "id": "10000",
+            "statusCategory": {
+                "self": "https://jira.example.com/rest/api/2/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "할 일"
+            }
+        },
+        "components": [],
+        "timeoriginalestimate": null,
+        "description": "h2. This is your first task. \n{color:#707070} Issues are the things you do in a project. In business projects, issues are called tasks. {color}\nh4. Types of tasks\n{color:#707070}A task can represent a document, a creative asset, a purchase and even a person.{color}\n!IssueTypes.png!\nh4. Details\n{color:#707070}The 'Details' section above, provides the information you need, such as priority and status, to help you track the progress of your tasks.{color}\nNext: [Workflows and statuses|TEST-2]\n\n----\n[Learn more |http://blogs.atlassian.com/2015/11/make-jira-core-issues-work-for-your-business-team/]",
+        "customfield_10211": null,
+        "timetracking": {},
+        "customfield_10005": "0|i0005r:",
+        "attachment": [
+            {
+                "self": "https://jira.example.com/rest/api/2/attachment/10000",
+                "id": "10000",
+                "filename": "IssueTypes.png",
+                "author": {
+                    "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+                    "name": "lesstif",
+                    "key": "lesstif",
+                    "emailAddress": "lesstif@gmail.com",
+                    "avatarUrls": {
+                        "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+                        "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+                        "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+                        "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+                    },
+                    "displayName": "정광섭",
+                    "active": true,
+                    "timeZone": "Asia/Seoul"
+                },
+                "created": "2018-02-04T09:07:06.000+0000",
+                "size": 12880,
+                "mimeType": "image/png",
+                "content": "https://jira.example.com/secure/attachment/10000/IssueTypes.png",
+                "thumbnail": "https://jira.example.com/secure/thumbnail/10000/_thumb_10000.png"
+            }
+        ],
+        "aggregatetimeestimate": null,
+        "customfield_10209": null,
+        "summary": "This is your first task",
+        "creator": {
+            "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+            "name": "lesstif",
+            "key": "lesstif",
+            "emailAddress": "lesstif@gmail.com",
+            "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+                "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+                "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+                "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+            },
+            "displayName": "정광섭",
+            "active": true,
+            "timeZone": "Asia/Seoul"
+        },
+        "subtasks": [],
+        "reporter": {
+            "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+            "name": "lesstif",
+            "key": "lesstif",
+            "emailAddress": "lesstif@gmail.com",
+            "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+                "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+                "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+                "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+            },
+            "displayName": "정광섭",
+            "active": true,
+            "timeZone": "Asia/Seoul"
+        },
+        "customfield_10000": null,
+        "aggregateprogress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_10004": null,
+        "environment": null,
+        "duedate": null,
+        "progress": {
+            "progress": 0,
+            "total": 0
+        },
+        "comment": {
+            "comments": [],
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+        },
+        "votes": {
+            "self": "https://jira.example.com/rest/api/2/issue/TEST-1/votes",
+            "votes": 0,
+            "hasVoted": false
+        },
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        },
+        "security": {
+            "id": 12345
+        }
+    },
+    "renderedFields": {
+        "issuetype": null,
+        "timespent": null,
+        "project": null,
+        "fixVersions": null,
+        "aggregatetimespent": null,
+        "resolution": null,
+        "customfield_10310": null,
+        "customfield_10304": "",
+        "customfield_10305": "",
+        "customfield_10306": "",
+        "customfield_10307": "",
+        "customfield_10308": "",
+        "resolutiondate": null,
+        "customfield_10309": "",
+        "workratio": null,
+        "lastViewed": null,
+        "watches": null,
+        "created": "04/2월/18 6:07 오후",
+        "priority": null,
+        "customfield_10221": null,
+        "customfield_10222": "",
+        "labels": null,
+        "customfield_10301": null,
+        "customfield_10216": "",
+        "timeestimate": null,
+        "aggregatetimeoriginalestimate": null,
+        "versions": null,
+        "issuelinks": null,
+        "assignee": null,
+        "updated": "06/2월/18 2:47 오후",
+        "status": null,
+        "components": null,
+        "timeoriginalestimate": null,
+        "description": "<h2><a name=\"Thisisyourfirsttask.\"></a>This is your first task. </h2>\n<p><font color=\"#707070\"> Issues are the things you do in a project. In business projects, issues are called tasks. </font></p>\n<h4><a name=\"Typesoftasks\"></a>Types of tasks</h4>\n<p><font color=\"#707070\">A task can represent a document, a creative asset, a purchase and even a person.</font><br/>\n<span class=\"image-wrap\" style=\"\"><img src=\"https://jira.example.com/secure/attachment/10000/10000_IssueTypes.png\" style=\"border: 0px solid black\" /></span></p>\n<h4><a name=\"Details\"></a>Details</h4>\n<p><font color=\"#707070\">The 'Details' section above, provides the information you need, such as priority and status, to help you track the progress of your tasks.</font><br/>\nNext: <a href=\"https://jira.example.com/browse/TEST-2\" title=\"Workflows and statuses\" class=\"issue-link\" data-issue-key=\"TEST-2\">Workflows and statuses</a></p>\n\n<hr />\n<p><a href=\"http://blogs.atlassian.com/2015/11/make-jira-core-issues-work-for-your-business-team/\" class=\"external-link\" rel=\"nofollow\">Learn more </a></p>",
+        "customfield_10211": null,
+        "timetracking": {},
+        "customfield_10005": null,
+        "attachment": [
+            {
+                "self": "https://jira.example.com/rest/api/2/attachment/10000",
+                "id": "10000",
+                "filename": "IssueTypes.png",
+                "author": {
+                    "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+                    "name": "lesstif",
+                    "key": "lesstif",
+                    "emailAddress": "lesstif@gmail.com",
+                    "avatarUrls": {
+                        "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+                        "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+                        "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+                        "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+                    },
+                    "displayName": "정광섭",
+                    "active": true,
+                    "timeZone": "Asia/Seoul"
+                },
+                "created": "04/2월/18 6:07 오후",
+                "size": "13 kB",
+                "mimeType": "image/png",
+                "content": "https://jira.example.com/secure/attachment/10000/IssueTypes.png",
+                "thumbnail": "https://jira.example.com/secure/thumbnail/10000/_thumb_10000.png"
+            }
+        ],
+        "aggregatetimeestimate": null,
+        "customfield_10209": "",
+        "summary": null,
+        "creator": null,
+        "subtasks": null,
+        "reporter": null,
+        "customfield_10000": null,
+        "aggregateprogress": null,
+        "customfield_10004": null,
+        "environment": "",
+        "duedate": null,
+        "progress": null,
+        "comment": {
+            "comments": [],
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+        },
+        "votes": null,
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        }
+    },
+    "names": {
+        "issuetype": "이슈 유형",
+        "timespent": "작업한 시간",
+        "project": "프로젝트",
+        "fixVersions": "수정 버전",
+        "aggregatetimespent": "할애한 시간의 합",
+        "resolution": "해결책",
+        "customfield_10310": "할일 목록",
+        "customfield_10304": "부가 정보",
+        "customfield_10305": "참고 자료",
+        "customfield_10306": "관련 자료",
+        "customfield_10307": "영상, 음향",
+        "customfield_10308": "삽화 웹툰",
+        "resolutiondate": "해결일",
+        "customfield_10309": "VR",
+        "workratio": "작업율",
+        "lastViewed": "최근에 본 ",
+        "watches": "지켜보는 사람",
+        "created": "생성일",
+        "priority": "우선순위",
+        "customfield_10221": "산업 테마",
+        "customfield_10222": "사진",
+        "labels": "레이블",
+        "customfield_10301": "태그",
+        "customfield_10216": "요약 내용",
+        "timeestimate": "남은 시간 예상",
+        "aggregatetimeoriginalestimate": "초기 예상 시간의 합",
+        "versions": "영향 받는 버전",
+        "issuelinks": "연결된 이슈",
+        "assignee": "담당자",
+        "updated": "변경일",
+        "status": "상태",
+        "components": "구성 요소",
+        "timeoriginalestimate": "최초 예상",
+        "description": "설명",
+        "customfield_10211": "키워드",
+        "timetracking": "시간 추적",
+        "customfield_10005": "순위",
+        "attachment": "첨부 파일",
+        "aggregatetimeestimate": "남은 시간의 합",
+        "customfield_10209": "중주제",
+        "summary": "요약",
+        "creator": "만든사람",
+        "subtasks": "부작업",
+        "reporter": "보고자",
+        "customfield_10000": "큰틀 연결",
+        "aggregateprogress": "진행 시간의 합",
+        "customfield_10004": "스프린트",
+        "environment": "환경",
+        "duedate": "기한",
+        "progress": "진행",
+        "comment": "댓글",
+        "votes": "투표",
+        "worklog": "작업 기록"
+    },
+    "schema": {
+        "issuetype": {
+            "type": "issuetype",
+            "system": "issuetype"
+        },
+        "timespent": {
+            "type": "number",
+            "system": "timespent"
+        },
+        "project": {
+            "type": "project",
+            "system": "project"
+        },
+        "fixVersions": {
+            "type": "array",
+            "items": "version",
+            "system": "fixVersions"
+        },
+        "aggregatetimespent": {
+            "type": "number",
+            "system": "aggregatetimespent"
+        },
+        "resolution": {
+            "type": "resolution",
+            "system": "resolution"
+        },
+        "customfield_10310": {
+            "type": "any",
+            "custom": "ru.mail.jira.plugins.todolist:todo-list-custom-field",
+            "customId": 10310
+        },
+        "customfield_10304": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10304
+        },
+        "customfield_10305": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10305
+        },
+        "customfield_10306": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10306
+        },
+        "customfield_10307": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10307
+        },
+        "customfield_10308": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10308
+        },
+        "resolutiondate": {
+            "type": "datetime",
+            "system": "resolutiondate"
+        },
+        "customfield_10309": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10309
+        },
+        "workratio": {
+            "type": "number",
+            "system": "workratio"
+        },
+        "lastViewed": {
+            "type": "datetime",
+            "system": "lastViewed"
+        },
+        "watches": {
+            "type": "watches",
+            "system": "watches"
+        },
+        "created": {
+            "type": "datetime",
+            "system": "created"
+        },
+        "priority": {
+            "type": "priority",
+            "system": "priority"
+        },
+        "customfield_10221": {
+            "type": "option",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:select",
+            "customId": 10221
+        },
+        "customfield_10222": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10222
+        },
+        "labels": {
+            "type": "array",
+            "items": "string",
+            "system": "labels"
+        },
+        "customfield_10301": {
+            "type": "array",
+            "items": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:labels",
+            "customId": 10301
+        },
+        "customfield_10216": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+            "customId": 10216
+        },
+        "timeestimate": {
+            "type": "number",
+            "system": "timeestimate"
+        },
+        "aggregatetimeoriginalestimate": {
+            "type": "number",
+            "system": "aggregatetimeoriginalestimate"
+        },
+        "versions": {
+            "type": "array",
+            "items": "version",
+            "system": "versions"
+        },
+        "issuelinks": {
+            "type": "array",
+            "items": "issuelinks",
+            "system": "issuelinks"
+        },
+        "assignee": {
+            "type": "user",
+            "system": "assignee"
+        },
+        "updated": {
+            "type": "datetime",
+            "system": "updated"
+        },
+        "status": {
+            "type": "status",
+            "system": "status"
+        },
+        "components": {
+            "type": "array",
+            "items": "component",
+            "system": "components"
+        },
+        "timeoriginalestimate": {
+            "type": "number",
+            "system": "timeoriginalestimate"
+        },
+        "description": {
+            "type": "string",
+            "system": "description"
+        },
+        "customfield_10211": {
+            "type": "array",
+            "items": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:labels",
+            "customId": 10211
+        },
+        "timetracking": {
+            "type": "timetracking",
+            "system": "timetracking"
+        },
+        "customfield_10005": {
+            "type": "any",
+            "custom": "com.pyxis.greenhopper.jira:gh-lexo-rank",
+            "customId": 10005
+        },
+        "attachment": {
+            "type": "array",
+            "items": "attachment",
+            "system": "attachment"
+        },
+        "aggregatetimeestimate": {
+            "type": "number",
+            "system": "aggregatetimeestimate"
+        },
+        "customfield_10209": {
+            "type": "string",
+            "custom": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+            "customId": 10209
+        },
+        "summary": {
+            "type": "string",
+            "system": "summary"
+        },
+        "creator": {
+            "type": "user",
+            "system": "creator"
+        },
+        "subtasks": {
+            "type": "array",
+            "items": "issuelinks",
+            "system": "subtasks"
+        },
+        "reporter": {
+            "type": "user",
+            "system": "reporter"
+        },
+        "customfield_10000": {
+            "type": "any",
+            "custom": "com.pyxis.greenhopper.jira:gh-epic-link",
+            "customId": 10000
+        },
+        "aggregateprogress": {
+            "type": "progress",
+            "system": "aggregateprogress"
+        },
+        "customfield_10004": {
+            "type": "array",
+            "items": "string",
+            "custom": "com.pyxis.greenhopper.jira:gh-sprint",
+            "customId": 10004
+        },
+        "environment": {
+            "type": "string",
+            "system": "environment"
+        },
+        "duedate": {
+            "type": "date",
+            "system": "duedate"
+        },
+        "progress": {
+            "type": "progress",
+            "system": "progress"
+        },
+        "comment": {
+            "type": "comments-page",
+            "system": "comment"
+        },
+        "votes": {
+            "type": "votes",
+            "system": "votes"
+        },
+        "worklog": {
+            "type": "array",
+            "items": "worklog",
+            "system": "worklog"
+        }
+    },
+    "transitions": [
+        {
+            "id": "11",
+            "name": "작업 시작",
+            "to": {
+                "self": "https://jira.example.com/rest/api/2/status/3",
+                "description": "현재 담당자가 이 이슈를 처리하고 있습니다.",
+                "iconUrl": "https://jira.example.com/images/icons/statuses/inprogress.png",
+                "name": "진행 중",
+                "id": "3",
+                "statusCategory": {
+                    "self": "https://jira.example.com/rest/api/2/statuscategory/4",
+                    "id": 4,
+                    "key": "indeterminate",
+                    "colorName": "yellow",
+                    "name": "진행 중"
+                }
+            }
+        },
+        {
+            "id": "21",
+            "name": "완료",
+            "to": {
+                "self": "https://jira.example.com/rest/api/2/status/10001",
+                "description": "",
+                "iconUrl": "https://jira.example.com/images/icons/status_generic.gif",
+                "name": "완료",
+                "id": "10001",
+                "statusCategory": {
+                    "self": "https://jira.example.com/rest/api/2/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "완료"
+                }
+            }
+        }
+    ],
+    "operations": {
+        "linkGroups": [
+            {
+                "id": "view.issue.opsbar",
+                "links": [],
+                "groups": [
+                    {
+                        "id": "edit-issue_container",
+                        "weight": 1,
+                        "links": [
+                            {
+                                "id": "edit-issue",
+                                "styleClass": "issueaction-edit-issue",
+                                "iconClass": "aui-icon aui-icon-small aui-iconfont-edit",
+                                "label": "편집",
+                                "title": "이 이슈 편집",
+                                "href": "/secure/EditIssue!default.jspa?id=10000",
+                                "weight": 1
+                            }
+                        ],
+                        "groups": []
+                    },
+                    {
+                        "id": "comment-issue_container",
+                        "weight": 10,
+                        "links": [
+                            {
+                                "id": "comment-issue",
+                                "styleClass": "issueaction-comment-issue add-issue-comment",
+                                "iconClass": "aui-icon aui-icon-small aui-iconfont-comment icon-comment",
+                                "label": "댓글",
+                                "title": "이 이슈에 댓글 달기",
+                                "href": "/secure/AddComment!default.jspa?id=10000",
+                                "weight": 10
+                            }
+                        ],
+                        "groups": []
+                    },
+                    {
+                        "id": "opsbar-operations",
+                        "weight": 10,
+                        "links": [
+                            {
+                                "id": "assign-issue",
+                                "styleClass": "issueaction-assign-issue",
+                                "label": "할당",
+                                "title": "이 이슈를 다른 사람에게 할당",
+                                "href": "/secure/AssignIssue!default.jspa?id=10000",
+                                "weight": 5
+                            }
+                        ],
+                        "groups": [
+                            {
+                                "header": {
+                                    "id": "opsbar-operations_more",
+                                    "label": "더 많은 조치"
+                                },
+                                "links": [],
+                                "groups": [
+                                    {
+                                        "id": "operations-work",
+                                        "weight": 20,
+                                        "links": [
+                                            {
+                                                "id": "log-work",
+                                                "styleClass": "issueaction-log-work",
+                                                "label": "작업 로그",
+                                                "title": "이 이슈에 대한 작업 기록",
+                                                "href": "/secure/CreateWorklog!default.jspa?id=10000",
+                                                "weight": 10
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-attachments",
+                                        "weight": 30,
+                                        "links": [
+                                            {
+                                                "id": "attach-file",
+                                                "styleClass": "unified-attach-file",
+                                                "label": "파일 첨부",
+                                                "title": "이슈에 한 개 이상의 파일을 첨부할 수 있습니다.",
+                                                "href": "/secure/AttachFile!default.jspa?id=10000",
+                                                "weight": 10
+                                            },
+                                            {
+                                                "id": "attach-screenshot-html5",
+                                                "styleClass": "issueaction-attach-screenshot-html5",
+                                                "label": "스크린샷 첨부",
+                                                "href": "/secure/ShowAttachScreenshotFormAction!default.jspa?id=10000",
+                                                "weight": 15
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-voteswatchers",
+                                        "weight": 40,
+                                        "links": [
+                                            {
+                                                "id": "view-voters",
+                                                "styleClass": "issueaction-view-voters",
+                                                "label": "투표자",
+                                                "title": "이 이슈의 투표자 보기",
+                                                "href": "/secure/ViewVoters!default.jspa?id=10000",
+                                                "weight": 30
+                                            },
+                                            {
+                                                "id": "toggle-watch-issue",
+                                                "styleClass": "issueaction-watch-issue",
+                                                "label": "이슈 지켜보기",
+                                                "title": "이 이슈를 지켜보기 시작합니다.",
+                                                "href": "/secure/VoteOrWatchIssue.jspa?atl_token=BZ4S-KS07-BG0Z-NYLI|5b9ab75f5ce9328021ed944be75d16f2c1e95f93|lin&id=10000&watch=watch",
+                                                "weight": 40
+                                            },
+                                            {
+                                                "id": "manage-watchers",
+                                                "styleClass": "issueaction-manage-watchers",
+                                                "label": "지켜보는 사람",
+                                                "title": "이 이슈를 지켜보는 사람 관리",
+                                                "href": "/secure/ManageWatchers!default.jspa?id=10000",
+                                                "weight": 60
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-subtasks",
+                                        "weight": 50,
+                                        "links": [
+                                            {
+                                                "id": "create-subtask",
+                                                "styleClass": "issueaction-create-subtask",
+                                                "label": "하위 작업 생성",
+                                                "title": "이 이슈의 부작업 만들기",
+                                                "href": "/secure/CreateSubTaskIssue!default.jspa?parentIssueId=10000",
+                                                "weight": 10
+                                            },
+                                            {
+                                                "id": "issue-to-subtask",
+                                                "styleClass": "issueaction-issue-to-subtask",
+                                                "label": "하위 작업으로 전환",
+                                                "title": "이 이슈를 부작업으로 전환",
+                                                "href": "/secure/ConvertIssue.jspa?id=10000",
+                                                "weight": 20
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-operations",
+                                        "weight": 60,
+                                        "links": [
+                                            {
+                                                "id": "create-linked-issue",
+                                                "styleClass": "issueaction-create-linked-issue",
+                                                "label": "연결된 이슈 생성",
+                                                "href": "#",
+                                                "weight": 5
+                                            },
+                                            {
+                                                "id": "move-issue",
+                                                "styleClass": "issueaction-move-issue",
+                                                "label": "이동",
+                                                "title": "이 이슈를 다른 프로젝트로 이동하거나 이슈 유형을 변경합니다.",
+                                                "href": "/secure/MoveIssue!default.jspa?id=10000",
+                                                "weight": 10
+                                            },
+                                            {
+                                                "id": "link-issue",
+                                                "styleClass": "issueaction-link-issue",
+                                                "label": "연결",
+                                                "title": "이 이슈를 다른 이슈나 항목으로 연결",
+                                                "href": "/secure/LinkJiraIssue!default.jspa?id=10000",
+                                                "weight": 20
+                                            },
+                                            {
+                                                "id": "clone-issue",
+                                                "styleClass": "issueaction-clone-issue",
+                                                "label": "복제",
+                                                "title": "이 이슈를 복제",
+                                                "href": "/secure/CloneIssueDetails!default.jspa?id=10000",
+                                                "weight": 20
+                                            },
+                                            {
+                                                "id": "edit-labels",
+                                                "styleClass": "issueaction-edit-labels",
+                                                "label": "레이블",
+                                                "title": "이 이슈의 레이블 편집",
+                                                "href": "/secure/EditLabels!default.jspa?id=10000",
+                                                "weight": 30
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-delete",
+                                        "weight": 70,
+                                        "links": [
+                                            {
+                                                "id": "delete-issue",
+                                                "styleClass": "issueaction-delete-issue",
+                                                "label": "삭제",
+                                                "title": "이 이슈 삭제",
+                                                "href": "/secure/DeleteIssue!default.jspa?id=10000",
+                                                "weight": 10
+                                            }
+                                        ],
+                                        "groups": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "opsbar-transitions",
+                        "weight": 20,
+                        "links": [
+                            {
+                                "id": "action_id_11",
+                                "styleClass": "issueaction-workflow-transition",
+                                "label": "작업 시작",
+                                "href": "/secure/WorkflowUIDispatcher.jspa?id=10000&action=11&atl_token=",
+                                "weight": 10
+                            },
+                            {
+                                "id": "action_id_21",
+                                "styleClass": "issueaction-workflow-transition",
+                                "label": "완료",
+                                "href": "/secure/WorkflowUIDispatcher.jspa?id=10000&action=21&atl_token=",
+                                "weight": 20
+                            }
+                        ],
+                        "groups": [
+                            {
+                                "header": {
+                                    "id": "opsbar-transitions_more",
+                                    "label": "작업흐름"
+                                },
+                                "links": [],
+                                "groups": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "opsbar-admin",
+                        "weight": 30,
+                        "links": [],
+                        "groups": [
+                            {
+                                "header": {
+                                    "id": "opsbar-admin_more",
+                                    "label": "관리"
+                                },
+                                "links": [],
+                                "groups": [
+                                    {
+                                        "id": "operations-fields",
+                                        "weight": 10,
+                                        "links": [
+                                            {
+                                                "id": "com.atlassian.jira.jira-project-config-plugin:add-custom-field",
+                                                "styleClass": "issueaction-fields-add",
+                                                "label": "필드 추가",
+                                                "title": "현재의 이슈 화면에 필드 추가하기",
+                                                "href": "/secure/admin/ViewCustomFields.jspa",
+                                                "weight": 10
+                                            }
+                                        ],
+                                        "groups": []
+                                    },
+                                    {
+                                        "id": "operations-admin-helper",
+                                        "weight": 200,
+                                        "links": [
+                                            {
+                                                "id": "jira-operations-permissionhelper-trigger",
+                                                "styleClass": "permissionhelper-trigger",
+                                                "label": "권한 도우미",
+                                                "title": "사용자에게 특정 권한이 왜 있는지/없는지 알아보기",
+                                                "href": "/notimportant",
+                                                "weight": 2
+                                            },
+                                            {
+                                                "id": "jira-operations-notificationhelper-trigger",
+                                                "styleClass": "notificationhelper-trigger",
+                                                "label": "알림 도우미",
+                                                "title": "사용자가 이 이슈에 대해 왜 알림을 받는지/못 받는지 알아보기",
+                                                "href": "/notimportant",
+                                                "weight": 3
+                                            }
+                                        ],
+                                        "groups": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "jira.issue.tools",
+                "links": [
+                    {
+                        "id": "jira-share-trigger",
+                        "styleClass": "viewissue-share",
+                        "iconClass": "aui-icon aui-icon-small aui-iconfont-share",
+                        "label": "",
+                        "title": "이 이슈를 이메일로 다른 사람과 공유",
+                        "href": "",
+                        "weight": 10
+                    }
+                ],
+                "groups": [
+                    {
+                        "id": "view.issue.exports",
+                        "header": {
+                            "id": "viewissue-export",
+                            "iconClass": "icon-default aui-icon aui-icon-small aui-iconfont-export",
+                            "label": "내보내기",
+                            "title": "이 이슈를 다른 형식으로 내보내기"
+                        },
+                        "links": [
+                            {
+                                "id": "jira.issueviews:issue-xml",
+                                "label": "XML",
+                                "href": "/si/jira.issueviews:issue-xml/TEST-1/TEST-1.xml"
+                            },
+                            {
+                                "id": "jira.issueviews:issue-word",
+                                "label": "Word",
+                                "href": "/si/jira.issueviews:issue-word/TEST-1/TEST-1.doc"
+                            },
+                            {
+                                "id": "jira.issueviews:issue-html",
+                                "label": "인쇄용",
+                                "href": "/si/jira.issueviews:issue-html/TEST-1/TEST-1.html"
+                            }
+                        ],
+                        "groups": []
+                    }
+                ]
+            }
+        ]
+    },
+    "editmeta": {
+        "fields": {
+            "summary": {
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "system": "summary"
+                },
+                "name": "요약",
+                "operations": [
+                    "set"
+                ]
+            },
+            "issuetype": {
+                "required": true,
+                "schema": {
+                    "type": "issuetype",
+                    "system": "issuetype"
+                },
+                "name": "이슈 유형",
+                "operations": [],
+                "allowedValues": [
+                    {
+                        "self": "https://jira.example.com/rest/api/2/issuetype/10000",
+                        "id": "10000",
+                        "description": "해야할 일",
+                        "iconUrl": "https://jira.example.com/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype",
+                        "name": "작업",
+                        "subtask": false,
+                        "avatarId": 10318
+                    }
+                ]
+            },
+            "components": {
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": "component",
+                    "system": "components"
+                },
+                "name": "구성 요소",
+                "operations": [
+                    "add",
+                    "set",
+                    "remove"
+                ],
+                "allowedValues": []
+            },
+            "description": {
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "system": "description"
+                },
+                "name": "설명",
+                "operations": [
+                    "set"
+                ]
+            },
+            "reporter": {
+                "required": true,
+                "schema": {
+                    "type": "user",
+                    "system": "reporter"
+                },
+                "name": "보고자",
+                "autoCompleteUrl": "https://jira.example.com/rest/api/latest/user/search?username=",
+                "operations": [
+                    "set"
+                ]
+            },
+            "priority": {
+                "required": false,
+                "schema": {
+                    "type": "priority",
+                    "system": "priority"
+                },
+                "name": "우선순위",
+                "operations": [
+                    "set"
+                ],
+                "allowedValues": [
+                    {
+                        "self": "https://jira.example.com/rest/api/2/priority/1",
+                        "iconUrl": "https://jira.example.com/images/icons/priorities/highest.svg",
+                        "name": "Highest",
+                        "id": "1"
+                    },
+                    {
+                        "self": "https://jira.example.com/rest/api/2/priority/2",
+                        "iconUrl": "https://jira.example.com/images/icons/priorities/high.svg",
+                        "name": "High",
+                        "id": "2"
+                    },
+                    {
+                        "self": "https://jira.example.com/rest/api/2/priority/3",
+                        "iconUrl": "https://jira.example.com/images/icons/priorities/medium.svg",
+                        "name": "Medium",
+                        "id": "3"
+                    },
+                    {
+                        "self": "https://jira.example.com/rest/api/2/priority/4",
+                        "iconUrl": "https://jira.example.com/images/icons/priorities/low.svg",
+                        "name": "Low",
+                        "id": "4"
+                    },
+                    {
+                        "self": "https://jira.example.com/rest/api/2/priority/5",
+                        "iconUrl": "https://jira.example.com/images/icons/priorities/lowest.svg",
+                        "name": "Lowest",
+                        "id": "5"
+                    }
+                ]
+            },
+            "customfield_10310": {
+                "required": false,
+                "schema": {
+                    "type": "any",
+                    "custom": "ru.mail.jira.plugins.todolist:todo-list-custom-field",
+                    "customId": 10310
+                },
+                "name": "할일 목록",
+                "operations": [
+                    "set"
+                ]
+            },
+            "timetracking": {
+                "required": false,
+                "schema": {
+                    "type": "timetracking",
+                    "system": "timetracking"
+                },
+                "name": "시간 추적",
+                "operations": [
+                    "set",
+                    "edit"
+                ]
+            },
+            "labels": {
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": "string",
+                    "system": "labels"
+                },
+                "name": "레이블",
+                "autoCompleteUrl": "https://jira.example.com/rest/api/1.0/labels/suggest?query=",
+                "operations": [
+                    "add",
+                    "set",
+                    "remove"
+                ]
+            },
+            "attachment": {
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": "attachment",
+                    "system": "attachment"
+                },
+                "name": "첨부 파일",
+                "operations": []
+            },
+            "duedate": {
+                "required": false,
+                "schema": {
+                    "type": "date",
+                    "system": "duedate"
+                },
+                "name": "기한",
+                "operations": [
+                    "set"
+                ]
+            },
+            "comment": {
+                "required": false,
+                "schema": {
+                    "type": "comments-page",
+                    "system": "comment"
+                },
+                "name": "댓글",
+                "operations": [
+                    "add",
+                    "edit",
+                    "remove"
+                ]
+            },
+            "assignee": {
+                "required": true,
+                "schema": {
+                    "type": "user",
+                    "system": "assignee"
+                },
+                "name": "담당자",
+                "autoCompleteUrl": "https://jira.example.com/rest/api/latest/user/assignable/search?issueKey=TEST-1&username=",
+                "operations": [
+                    "set"
+                ]
+            }
+        }
+    },
+    "changelog": {
+        "startAt": 0,
+        "maxResults": 1,
+        "total": 1,
+        "histories": [
+            {
+                "id": "10016",
+                "author": {
+                    "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+                    "name": "lesstif",
+                    "key": "정광섭",
+                    "emailAddress": "lesstif@gmail.com",
+                    "avatarUrls": {
+                        "48x48": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=48",
+                        "24x24": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=24",
+                        "16x16": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=16",
+                        "32x32": "https://secure.gravatar.com/avatar/e52d3045c4aaab2dd76d6a30133826d2?d=mm&s=32"
+                    },
+                    "displayName": "lesstif",
+                    "active": true,
+                    "timeZone": "Asia/Seoul"
+                },
+                "created": "2018-02-06T05:47:31.000+0000",
+                "items": [
+                    {
+                        "field": "assignee",
+                        "fieldtype": "jira",
+                        "from": "lesstif",
+                        "fromString": "정광섭",
+                        "to": "정광섭",
+                        "toString": "lesstif"
+                    }
+                ]
+            }
+        ]
+    }
+}
