@@ -20,7 +20,7 @@ class IssueField implements \JsonSerializable
     /** @var IssueType */
     public $issuetype;
 
-    /** @var Reporter */
+    /** @var Reporter|null */
     public $reporter;
 
     /** @var \DateTime */
