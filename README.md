@@ -350,6 +350,7 @@ try {
 }
 ```
 
+If you need a list of custom field types(ex. *com.atlassian.jira.plugin.system.customfieldtypes:grouppicker*) , check out [Get All Field list](#get-all-field-list).
 
 #### Get Issue Info
 
