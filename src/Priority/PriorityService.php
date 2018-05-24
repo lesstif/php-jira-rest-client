@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Priority;
 
-use \JiraRestApi\Issue\Priority;
+use JiraRestApi\Issue\Priority;
 
 /**
  * Class to query priority.
@@ -36,13 +36,14 @@ class PriorityService extends \JiraRestApi\JiraClient
     }
 
     /**
-     *  get specific priority info
+     *  get specific priority info.
      *
      * @param $priorityId priority id
-     * @return \JiraRestApi\Priority\Priority
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \JiraRestApi\Priority\Priority
      */
     public function get($priorityId)
     {
@@ -53,6 +54,5 @@ class PriorityService extends \JiraRestApi\JiraClient
         $priority = $this->json_mapper->map(json_decode($ret), new Priority());
 
         return $priority;
-
     }
 }
