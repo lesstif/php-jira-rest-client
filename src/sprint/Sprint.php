@@ -8,11 +8,6 @@
 
 namespace JiraRestApi\Sprint;
 
-use JiraRestApi\ClassSerialize;
-use JiraRestApi\JiraException;
-use JiraRestApi\Sprint\SprintService;
-
-
 class Sprint implements \JsonSerializable
 {
     /**

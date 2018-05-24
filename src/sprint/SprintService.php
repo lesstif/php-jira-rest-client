@@ -10,10 +10,11 @@ namespace JiraRestApi\Sprint;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\JiraException;
+use JiraRestApi\JiraClient;
 use Monolog\Logger;
 
 
-class SprintService extends  \JiraRestApi\JiraClient
+class SprintService extends  JiraClient
 {
     //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
@@ -36,16 +37,14 @@ class SprintService extends  \JiraRestApi\JiraClient
     /**
      *  get all Sprint list.
      *
-     * @param $boardIdOrKey
-     * @param array $paramArray  Query Parameter key-value Array.
-     * @param Sprint $issueObject
+     * @param Sprint $sprintObject
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Sprint class
+     * @return  object
      */
-    public function getSprint($sprintId, $sprintObject = null)
+    public function getSprint($sprintObject = null)
     {
         $sprintObject = ($sprintObject ) ? $sprintObject : new Sprint();
 

@@ -104,6 +104,7 @@ class SprintSearchResult
 
     /**
      * @param int $ndx
+     * @return object
      */
     public function getSprint($ndx)
     {
