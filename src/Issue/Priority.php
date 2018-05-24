@@ -16,6 +16,12 @@ class Priority implements \JsonSerializable
     /** @var string */
     public $id;
 
+    /** @var string */
+    public $statusColor;
+
+    /** @var string */
+    public $description;
+
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

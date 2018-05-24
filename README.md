@@ -151,6 +151,10 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get Users from group](#get-users-from-group)
 - [Add User to group](#add-user-to-group)
 
+### Priority
+- [Get All Priority list](#get-all-priority-list)
+- [Get Priority](#get-priority)
+
 #### Get Project Info
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProject)
@@ -1443,6 +1447,50 @@ try {
     print("Error Occured! " . $e->getMessage());
 }
 
+```
+
+#### Get All Priority list
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/priority)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Priority\PriorityService;
+use JiraRestApi\JiraException;
+
+try {
+    $ps = new PriorityService();
+
+    $p = $ps->getAll();
+	
+    var_dump($p);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+#### Get Priority
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/priority)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Priority\PriorityService;
+use JiraRestApi\JiraException;
+
+try {
+    $ps = new PriorityService();
+
+    $p = $ps->get($priorityId = 1);
+	
+    var_dump($p);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
 ```
 
 # License

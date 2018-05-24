@@ -15,6 +15,8 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
             $ret = $fieldService->getAllFields(Field::CUSTOM);
             Dumper::dump($ret);
 
+            file_put_contents("custom-field.json", json_encode($ret, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+
             $ids = array_map(function($cf) {
                 // extract custom field id
                     preg_match('/\d+/', $cf->id, $matches);
@@ -51,14 +53,15 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
 
     public function testCreateFields()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
         try {
             $field = new Field();
 
-            $field->setName('New custom field')
+            $field->setName('다중 선택이')
                 ->setDescription('Custom field for picking groups')
-                ->setType('com.atlassian.jira.plugin.system.customfieldtypes:grouppicker')
-                ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher');
+                ->setType("com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect")
+            //    ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher')
+            ;
 
             $fieldService = new FieldService();
 
