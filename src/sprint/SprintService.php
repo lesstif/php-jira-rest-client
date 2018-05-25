@@ -3,18 +3,17 @@
  * Created by PhpStorm.
  * User: meshulam
  * Date: 11/08/2017
- * Time: 17:28
+ * Time: 17:28.
  */
 
 namespace JiraRestApi\Sprint;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
-use JiraRestApi\JiraException;
 use JiraRestApi\JiraClient;
+use JiraRestApi\JiraException;
 use Monolog\Logger;
 
-
-class SprintService extends  JiraClient
+class SprintService extends JiraClient
 {
     //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
@@ -27,7 +26,7 @@ class SprintService extends  JiraClient
 
     public function getSprintFromJSON($json)
     {
-        $sprint= $this->json_mapper->map(
+        $sprint = $this->json_mapper->map(
             $json, new Sprint()
         );
 
@@ -42,13 +41,13 @@ class SprintService extends  JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return  object
+     * @return object
      */
     public function getSprint($sprintObject = null)
     {
-        $sprintObject = ($sprintObject ) ? $sprintObject : new Sprint();
+        $sprintObject = ($sprintObject) ? $sprintObject : new Sprint();
 
-        $ret = $this->exec($this->uri.'/$sprintId' , null);
+        $ret = $this->exec($this->uri.'/$sprintId', null);
 
         $this->log->addInfo("Result=\n".$ret);
 
@@ -56,5 +55,4 @@ class SprintService extends  JiraClient
             json_decode($ret), $sprintObject
         );
     }
-
 }

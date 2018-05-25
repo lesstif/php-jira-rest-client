@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: meshulam
  * Date: 23/09/2017
- * Time: 14:17
+ * Time: 14:17.
  */
 
 namespace JiraRestApi\Sprint;
@@ -22,7 +22,6 @@ class Sprint implements \JsonSerializable
 
     /* @var string */
     public $id;
-
 
     /* @var string*/
     public $name;
@@ -47,12 +46,15 @@ class Sprint implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    public function setName ($sprintName) {
+    public function setName($sprintName)
+    {
         $this->name = $sprintName;
+
         return $sprintName;
     }
-    public function getName () {
+
+    public function getName()
+    {
         return $this->name;
     }
-
 }
