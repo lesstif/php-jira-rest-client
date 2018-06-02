@@ -955,7 +955,7 @@ class IssueService extends \JiraRestApi\JiraClient
             'update' => [
                 'labels' => $labels,
             ],
-        ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        ], JSON_UNESCAPED_UNICODE);
 
         $this->log->addInfo("Update labels=\n".$postData);
 
