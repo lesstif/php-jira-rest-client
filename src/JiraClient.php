@@ -173,7 +173,7 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addDebug("Curl $url JsonData=".$post_data);
+        $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -191,6 +191,10 @@ class JiraClient
             } else {
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            }
+        } else {
+            if (!is_null($custom_request) && $custom_request == 'DELETE') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
             }
         }
 
@@ -492,5 +496,82 @@ class JiraClient
         }
 
         return $queryParam;
+    }
+
+    /**
+     * download and save into outDir
+     *
+     * @param $url full url
+     * @param $outDir save dir
+     * @param $file save filename
+     * @return bool|mixed
+     * @throws JiraException
+     */
+    public function download($url, $outDir, $file)
+    {
+        $file = fopen($outDir .DIRECTORY_SEPARATOR.$file, 'w');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        // output to file handle
+        curl_setopt($ch, CURLOPT_FILE, $file);
+
+        $this->authorization($ch);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
+        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        }
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
+
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
+
+        $this->log->addDebug('Curl exec='.$url);
+        $response = curl_exec($ch);
+
+        // if request failed.
+        if (!$response) {
+            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $body = curl_error($ch);
+            curl_close($ch);
+            fclose($file);
+
+            /*
+             * 201: The request has been fulfilled, resulting in the creation of a new resource.
+             * 204: The server successfully processed the request, but is not returning any content.
+             */
+            if ($this->http_response === 204 || $this->http_response === 201) {
+                return true;
+            }
+
+            // HostNotFound, No route to Host, etc Network error
+            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
+
+            $this->log->addError($msg);
+
+            throw new JiraException($msg);
+        } else {
+            // if request was ok, parsing http response code.
+            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            curl_close($ch);
+            fclose($file);
+
+            // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
+            if ($this->http_response != 200 && $this->http_response != 201) {
+                throw new JiraException('CURL HTTP Request Failed: Status Code : '
+                    .$this->http_response.', URL:'.$url
+                    ."\nError Message : ".$response, $this->http_response);
+            }
+        }
+
+        return $response;
     }
 }

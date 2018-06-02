@@ -152,23 +152,26 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo('addAttachments result='.var_export($results, true));
 
-        $resArr = [];
+        $attachArr = [];
         foreach ($results as $ret) {
             $ret = json_decode($ret);
             if (is_array($ret)) {
-                array_push($resArr, $this->json_mapper->mapArray(
+                $tmpArr = $this->json_mapper->mapArray(
                     $ret, new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
-                    )
                 );
+
+                foreach($tmpArr as $t) {
+                    array_push($attachArr, $t);
+                }
             } elseif (is_object($ret)) {
-                array_push($resArr, $this->json_mapper->map(
+                array_push($attachArr, $this->json_mapper->map(
                     $ret, new Attachment()
                     )
                 );
             }
         }
 
-        return $resArr;
+        return $attachArr;
     }
 
     /**

@@ -155,6 +155,10 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get All Priority list](#get-all-priority-list)
 - [Get Priority](#get-priority)
 
+### Attachment
+- [Get attachment Info](#get-attachment-info)
+- [Remove attachment](#remove-attachment)
+
 #### Get Project Info
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProject)
@@ -1488,6 +1492,76 @@ try {
     $p = $ps->get($priorityId = 1);
 	
     var_dump($p);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+#### Get Attachment Info
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/attachment-getAttachment)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Attachment\AttachmentService;
+use JiraRestApi\JiraException;
+
+try {
+    $attachmentId = 12345;
+
+    $atts = new AttachmentService();
+    $att = $atts->get($attachmentId);
+
+    var_dump($att);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+```
+
+
+
+Gets the attachment information and saves the attachment into the outDir directory.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Attachment\AttachmentService;
+use JiraRestApi\JiraException;
+
+try {
+    $attachmentId = 12345;
+    $outDir = "attachment_dir";
+    
+    $atts = new AttachmentService();
+    $att = $atts->get($attachmentId, $outDir, $overwrite = true);
+
+    var_dump($att);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+```
+
+
+#### Remove attachment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/attachment-removeAttachment)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Attachment\AttachmentService;
+use JiraRestApi\JiraException;
+
+try {
+    $attachmentId = 12345;
+
+    $atts = new AttachmentService();
+
+    $atts->remove($attachmentId);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }

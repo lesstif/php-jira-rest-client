@@ -1,22 +1,20 @@
 <?php
 
 use JiraRestApi\Attachment\AttachmentService;
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\RemoteIssueLink;
 use JiraRestApi\JiraException;
 
 class AttachmentTest extends PHPUnit_Framework_TestCase
 {
     public function testGetAttachment()
     {
-        $attachmentId = getenv("ID");
-        if ($attachmentId == FALSE)
-            $attachmentId = 12622;
+        $attachmentId = 12643;
 
         try {
             $atts = new AttachmentService();
 
-            $att = $atts->get($attachmentId);
+            $att = $atts->get($attachmentId, "output", true);
+
+            dump($att);
 
             return $attachmentId;
         } catch (JiraException $e) {
@@ -25,11 +23,10 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @depends testGetAttachment
      */
-    public function testRemoveAttachment()
+    public function testRemoveAttachment($attachmentId)
     {
-        $attachmentId = 12622;
         try {
             $atts = new AttachmentService();
 
@@ -37,9 +34,6 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
 
             $this->assertGreaterThan(0, count(1));
 
-            //$this->assertInstanceOf(RemoteIssueLink::class, $rils[0]);
-
-           // return $issueKey;
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());
         }
