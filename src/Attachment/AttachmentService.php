@@ -3,12 +3,9 @@
 namespace JiraRestApi\Attachment;
 
 use JiraRestApi\Issue\Attachment;
-use JiraRestApi\JiraClient;
 
 /**
- * Class AttachmentService
- *
- * @package JiraRestApi\Group
+ * Class AttachmentService.
  */
 class AttachmentService extends \JiraRestApi\JiraClient
 {
@@ -21,10 +18,10 @@ class AttachmentService extends \JiraRestApi\JiraClient
      * @outDir string downloads the content and store into outDir
      * @overwrite boolean determines whether to overwrite the file if it already exists.
      *
-     * @return \JiraRestApi\Issue\Attachment
-     *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \JiraRestApi\Issue\Attachment
      */
     public function get($id, $outDir = null, $overwrite = false)
     {
@@ -41,7 +38,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
         }
 
         // download contents
-        if (! file_exists($outDir)) {
+        if (!file_exists($outDir)) {
             mkdir($outDir);
         }
 
@@ -59,9 +56,10 @@ class AttachmentService extends \JiraRestApi\JiraClient
      * Remove an attachment from an issue.
      *
      * @param $id string|int attachment id
-     * @return boolean
      *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return bool
      */
     public function remove($id)
     {
