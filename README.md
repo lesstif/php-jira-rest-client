@@ -115,6 +115,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Sub Task](#create-sub-task)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
+    - [Update Labels](#update-labels)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
@@ -632,6 +633,48 @@ try {
 ```
 
 If you want to change the custom field type when updating an issue, you can call the *addCustomField* function just as you did for creating issue.
+
+
+##### Update labels
+
+This function is a convenient wrapper for add or remove label in the issue.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+try {
+    $issueKey = 'TEST-123';
+
+    $issueService = new IssueService();
+
+    $addLabels = [
+        'triaged', 'customer-request', 'sales-request'
+    ];
+
+    $removeLabel = [
+        'will-be-remove', 'this-label-is-typo'
+    ];
+
+    $ret = $issueService->updateLabels($issueKey,
+            $addLabels,
+            $removeLabel,
+            $notifyUsers = false
+        );
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+```
+
+
+### #Change Assignee
+
+
 
 #### Change Assignee
 

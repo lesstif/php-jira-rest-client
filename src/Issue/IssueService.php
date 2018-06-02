@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 
 class IssueService extends \JiraRestApi\JiraClient
@@ -926,5 +927,43 @@ class IssueService extends \JiraRestApi\JiraClient
         );
 
         return $res;
+    }
+
+    /**
+     * convenient wrapper function for add or remove labels.
+     *
+     * @param string|int $issueIdOrKey
+     * @param array|null $addLablesParam
+     * @param array|null $removeLabelsParam
+     * @param bool $notifyUsers
+     *
+     * @return Issue|object class
+     *
+     * @throws JiraException
+     */
+    public function updateLabels($issueIdOrKey, $addLablesParam, $removeLabelsParam, $notifyUsers = true)
+    {
+        $labels = [];
+        foreach($addLablesParam as $a) {
+            array_push($labels, ["add" => $a]);
+        }
+
+        foreach($removeLabelsParam as $r) {
+            array_push($labels, ["remove" => $r]);
+        }
+
+        $postData = json_encode([
+            "update" => [
+                "labels" => $labels
+            ]
+        ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+
+        $this->log->addInfo("Update labels=\n".$postData);
+
+        $queryParam = '?'.http_build_query(["notifyUsers" => $notifyUsers]);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
+
+        return $ret;
     }
 }
