@@ -671,11 +671,6 @@ try {
 }
 ```
 
-
-### #Change Assignee
-
-
-
 #### Change Assignee
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-assign)
