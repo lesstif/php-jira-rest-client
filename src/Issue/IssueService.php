@@ -160,7 +160,7 @@ class IssueService extends \JiraRestApi\JiraClient
                     $ret, new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
                 );
 
-                foreach($tmpArr as $t) {
+                foreach ($tmpArr as $t) {
                     array_push($attachArr, $t);
                 }
             } elseif (is_object($ret)) {

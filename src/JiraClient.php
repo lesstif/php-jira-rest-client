@@ -499,17 +499,19 @@ class JiraClient
     }
 
     /**
-     * download and save into outDir
+     * download and save into outDir.
      *
      * @param $url full url
      * @param $outDir save dir
      * @param $file save filename
-     * @return bool|mixed
+     *
      * @throws JiraException
+     *
+     * @return bool|mixed
      */
     public function download($url, $outDir, $file)
     {
-        $file = fopen($outDir .DIRECTORY_SEPARATOR.$file, 'w');
+        $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
