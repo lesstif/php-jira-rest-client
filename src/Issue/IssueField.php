@@ -408,7 +408,7 @@ class IssueField implements \JsonSerializable
      * set issue's due date.
      *
      * @param \DateTime|null $duedate due date string or DateTime object
-     * @param string $format datetime string format.
+     * @param string         $format  datetime string format.
      *
      * @return $this
      */
@@ -416,7 +416,7 @@ class IssueField implements \JsonSerializable
     {
         if (is_string($duedate)) {
             $this->duedate = $duedate;
-        } else if ($duedate instanceof \DateTime) {
+        } elseif ($duedate instanceof \DateTime) {
             $this->duedate = $duedate->format($format);
         } else {
             $this->duedate = null;
@@ -424,5 +424,4 @@ class IssueField implements \JsonSerializable
 
         return $this;
     }
-
 }
