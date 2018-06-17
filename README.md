@@ -428,6 +428,7 @@ try {
                 ->addComponents(['Component-1', 'Component-2'])
                 // set issue security if you need.
                 ->setSecurityId(10001 /* security scheme id */)
+                ->setDueDate('2019-06-19')
             ;
 	
     $issueService = new IssueService();
