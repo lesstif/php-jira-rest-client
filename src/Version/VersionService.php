@@ -89,9 +89,9 @@ class VersionService extends \JiraRestApi\JiraClient
         if ($version->releaseDate instanceof \DateTime) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
-        if ($version->userReleaseDate instanceof \DateTime) {
-            $version->userReleaseDate = $version->userReleaseDate->format('Y-m-d');
-        }
+
+        //Only one of 'releaseDate' and 'userReleaseDate' can be specified when editing a version."
+        $version->userReleaseDate = null;
 
         $data = json_encode($version);
         $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
