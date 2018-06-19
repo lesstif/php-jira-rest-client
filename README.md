@@ -103,6 +103,9 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get All Project list](#get-all-project-list)
 - [Get Project Type](#get-project-type)
 - [Get Project Version](#get-project-version)
+- [Create version](#create-version)
+- [Update version](#update-version)
+- [Delete version](#delete-version)
 
 ### Custom Field
 - [Get All Field list](#get-all-field-list)
