@@ -22,8 +22,7 @@ class VersionService extends \JiraRestApi\JiraClient
      */
     public function create($version)
     {
-        if($version->releaseDate instanceof \DateTime)
-        {
+        if ($version->releaseDate instanceof \DateTime) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
         $data = json_encode($version);
@@ -77,24 +76,22 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @param Version $version
      *
-     * @return string
      * @throws JiraException
      *
+     * @return string
      */
     public function update(Version $version)
     {
-        if(!$version->id || !is_numeric($version->id))
-        {
-            throw new JiraException($version->id . ' is not a valid version id.');
+        if (!$version->id || !is_numeric($version->id)) {
+            throw new JiraException($version->id.' is not a valid version id.');
         }
 
-        if($version->releaseDate instanceof \DateTime)
-        {
+        if ($version->releaseDate instanceof \DateTime) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
 
         $data = json_encode($version);
-        $ret = $this->exec($this->uri . '/' . $version->id, $data, 'PUT');
+        $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
 
         return $ret;
     }
@@ -102,34 +99,31 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * @author Martijn Smidt <martijn@squeezely.tech>
      *
-     * @param Version $version
+     * @param Version      $version
      * @param Version|bool $moveAffectedIssuesTo
      * @param Version|bool $moveFixIssuesTo
      *
-     * @return string
      * @throws JiraException
+     *
+     * @return string
      */
-
     public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false)
     {
-        if(!$version->id || !is_numeric($version->id))
-        {
-            throw new JiraException($version->id . ' is not a valid version id.');
+        if (!$version->id || !is_numeric($version->id)) {
+            throw new JiraException($version->id.' is not a valid version id.');
         }
 
         $data = [];
 
-        if($moveAffectedIssuesTo && $moveAffectedIssuesTo instanceof Version)
-        {
+        if ($moveAffectedIssuesTo && $moveAffectedIssuesTo instanceof Version) {
             $data['moveAffectedIssuesTo'] = $moveAffectedIssuesTo->name;
         }
 
-        if($moveFixIssuesTo && $moveFixIssuesTo instanceof Version)
-        {
+        if ($moveFixIssuesTo && $moveFixIssuesTo instanceof Version) {
             $data['moveFixIssuesTo'] = $moveFixIssuesTo->name;
         }
 
-        $ret = $this->exec($this->uri . '/' . $version->id, json_encode($data), 'DELETE');
+        $ret = $this->exec($this->uri.'/'.$version->id, json_encode($data), 'DELETE');
 
         return $ret;
     }
