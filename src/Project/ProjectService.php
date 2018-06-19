@@ -5,6 +5,7 @@ namespace JiraRestApi\Project;
 use JiraRestApi\Issue\IssueType;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
+use JiraRestApi\JiraException;
 
 class ProjectService extends \JiraRestApi\JiraClient
 {
@@ -185,11 +186,11 @@ class ProjectService extends \JiraRestApi\JiraClient
         //@see https://docs.atlassian.com/jira/REST/server/#api/2/project-getProjectVersions
         $json = json_decode($ret);
 
-        $prjs = $this->json_mapper->mapArray(
+        $versions = $this->json_mapper->mapArray(
             $json->values, new \ArrayObject(), '\JiraRestApi\Issue\Version'
         );
 
-        return $prjs;
+        return $versions;
     }
 
     /**
@@ -207,10 +208,39 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         $this->log->addInfo('Result='.$ret);
 
-        $prjs = $this->json_mapper->mapArray(
+        $versions = $this->json_mapper->mapArray(
             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
         );
 
-        return $prjs;
+        return $versions;
+    }
+
+    /**
+     * get specified's project version
+     *
+     * @param string|int $projectIdOrKey
+     * @param string    $versionName
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return Version version
+     */
+    public function getVersion($projectIdOrKey, $versionName)
+    {
+        $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
+
+        $this->log->addInfo('Result='.$ret);
+
+        $versions = $this->json_mapper->mapArray(
+            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
+        );
+
+        foreach ($versions as $v) {
+            if ($v->name === $versionName) {
+                return $v;
+            }
+        }
+
+        throw new JiraException("Can't found version \"$versionName\" in the Project \"$projectIdOrKey\"");
     }
 }

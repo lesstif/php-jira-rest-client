@@ -18,7 +18,7 @@ class VersionService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Version|object Version class
+     * @return Version Version class
      */
     public function create($version)
     {
@@ -78,7 +78,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return string
+     * @return Version
      */
     public function update(Version $version)
     {
@@ -89,11 +89,16 @@ class VersionService extends \JiraRestApi\JiraClient
         if ($version->releaseDate instanceof \DateTime) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
+        if ($version->userReleaseDate instanceof \DateTime) {
+            $version->userReleaseDate = $version->userReleaseDate->format('Y-m-d');
+        }
 
         $data = json_encode($version);
         $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
 
-        return $ret;
+        return $this->json_mapper->map(
+            json_decode($ret), new Version()
+        );
     }
 
     /**
