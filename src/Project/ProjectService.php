@@ -216,10 +216,10 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get specified's project version
+     * get specified's project version.
      *
      * @param string|int $projectIdOrKey
-     * @param string    $versionName
+     * @param string     $versionName
      *
      * @throws \JiraRestApi\JiraException
      *
