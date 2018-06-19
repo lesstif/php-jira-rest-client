@@ -1703,12 +1703,11 @@ try {
     $versionService = new VersionService();
     $projectService = new ProjectService();
 
-    $versions = $projectService->getVersions('TEST');
-    $version = array_shift($versions);
+    $version = $projectService->getVersion('TEST', '1.0.0');
 
     $res = $versionService->delete($version);
-    var_dump($res);
 
+    var_dump($res);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }

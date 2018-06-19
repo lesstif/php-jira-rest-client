@@ -57,7 +57,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
             $res = $versionService->update($ver);
 
-            $this->assertEquals($res, 200);
+            $this->assertEquals($res->name, $ver->name);
+
+            return $ver->name;
         } catch (JiraException $e) {
             print("Error Occured! " . $e->getMessage());
         }
@@ -66,16 +68,17 @@ class VersionTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testUpdateProject
      */
-    public function testDeleteProject()
+    public function testDeleteProject($versionName)
     {
         try {
             $versionService = new VersionService();
             $projectService = new ProjectService();
 
-            $ver = $projectService->getVersion('TEST', $this->versionName);
+            $ver = $projectService->getVersion($this->project, $versionName);
 
             $res = $versionService->delete($ver);
-            var_dump($res);
+
+            $this->assertEquals($res, true);
         } catch (JiraException $e) {
             print("Error Occured! " . $e->getMessage());
         }

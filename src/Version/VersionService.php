@@ -110,7 +110,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return string
+     * @return boolean
      */
     public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false)
     {
