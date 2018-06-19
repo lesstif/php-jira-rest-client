@@ -47,42 +47,49 @@ class Version implements \JsonSerializable
     public function setProjectId($id)
     {
         $this->projectId = $id;
+
         return $this;
     }
 
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     public function setArchived($archived)
     {
         $this->archived = $archived;
+
         return $this;
     }
 
     public function setReleased($released)
     {
         $this->released = $released;
+
         return $this;
     }
 
     public function setReleaseDate($releaseDate)
     {
         $this->releaseDate = $releaseDate;
+
         return $this;
     }
 
     public function setUserReleaseDate($userReleaseDate)
     {
         $this->userReleaseDate = $userReleaseDate;
+
         return $this;
     }
 }
