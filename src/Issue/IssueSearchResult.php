@@ -34,7 +34,7 @@ class IssueSearchResult
     public $total;
 
     /**
-     * @var Issue[]
+     * @var \JiraRestApi\Issue\Issue[]
      */
     public $issues;
 

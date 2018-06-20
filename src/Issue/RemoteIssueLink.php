@@ -19,7 +19,7 @@ class RemoteIssueLink implements \JsonSerializable
     /** @var string|null */
     public $relationship;
 
-    /** @var RemoteIssueLinkObject|null */
+    /** @var \JiraRestApi\Issue\RemoteIssueLinkObject|null */
     public $object;
 
     public function jsonSerialize()

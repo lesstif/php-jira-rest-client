@@ -14,10 +14,10 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $progress;
 
-    /** @var TimeTracking */
+    /** @var \JiraRestApi\Issue\TimeTracking */
     public $timeTracking;
 
-    /** @var IssueType */
+    /** @var \JiraRestApi\Issue\IssueType */
     public $issuetype;
 
     /** @var Reporter|null */
@@ -35,7 +35,7 @@ class IssueField implements \JsonSerializable
     /** @var Priority|null */
     public $priority;
 
-    /** @var IssueStatus */
+    /** @var \JiraRestApi\Issue\IssueStatus */
     public $status;
 
     /** @var array */
@@ -62,7 +62,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $fixVersions;
 
-    /** @var Reporter|null */
+    /** @var \JiraRestApi\Issue\Reporter|null */
     public $creator;
 
     /** @var object|null */
@@ -71,7 +71,7 @@ class IssueField implements \JsonSerializable
     /** @var object|null */
     public $worklog;
 
-    /** @var Reporter|null */
+    /** @var \JiraRestApi\Issue\Reporter|null */
     public $assignee;
 
     /** @var \JiraRestApi\Issue\Version[] */
@@ -98,7 +98,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $issuelinks;
 
-    /** @var Issue[] */
+    /** @var \JiraRestApi\Issue\Issue[] */
     public $subtasks;
 
     /** @var int */
@@ -122,7 +122,7 @@ class IssueField implements \JsonSerializable
     /** @var array|null */
     public $customFields;
 
-    /** @var SecurityScheme|null */
+    /** @var \JiraRestApi\Issue\SecurityScheme|null */
     public $security;
 
     public function __construct($updateIssue = false)

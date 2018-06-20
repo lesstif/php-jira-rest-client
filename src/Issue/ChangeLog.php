@@ -18,7 +18,7 @@ class ChangeLog implements \JsonSerializable
     /** @var int */
     public $total;
 
-    /** @var History[]|null */
+    /** @var \JiraRestApi\Issue\History[]|null */
     public $histories;
 
     public function jsonSerialize()

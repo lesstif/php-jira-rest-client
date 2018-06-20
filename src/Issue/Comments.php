@@ -13,7 +13,7 @@ class Comments implements \JsonSerializable
     /** @var int */
     public $total;
 
-    /** @var Comment[] */
+    /** @var \JiraRestApi\Issue\Comment[] */
     public $comments;
 
     public function jsonSerialize()

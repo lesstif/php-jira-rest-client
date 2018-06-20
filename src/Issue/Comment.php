@@ -10,13 +10,13 @@ class Comment implements \JsonSerializable
     /** @var string */
     public $id;
 
-    /** @var Reporter */
+    /** @var \JiraRestApi\Issue\Reporter */
     public $author;
 
     /** @var string */
     public $body;
 
-    /** @var Reporter */
+    /** @var \JiraRestApi\Issue\Reporter */
     public $updateAuthor;
 
     /** @var \DateTime */
@@ -25,7 +25,7 @@ class Comment implements \JsonSerializable
     /** @var \DateTime */
     public $updated;
 
-    /** @var Visibility */
+    /** @var \JiraRestApi\Issue\Visibility */
     public $visibility;
 
     public function setBody($body)
