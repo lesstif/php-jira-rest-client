@@ -50,7 +50,7 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Component[] */
     public $components;
 
-    /** @var Comments */
+    /** @var \JiraRestApi\Issue\Comments */
     public $comment;
 
     /** @var object */
