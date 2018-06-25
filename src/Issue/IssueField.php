@@ -32,7 +32,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $description;
 
-    /** @var Priority|null */
+    /** @var \JiraRestApi\Issue\Priority|null */
     public $priority;
 
     /** @var \JiraRestApi\Issue\IssueStatus */
