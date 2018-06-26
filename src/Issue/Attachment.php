@@ -13,7 +13,7 @@ class Attachment implements \JsonSerializable
     /* @var string */
     public $filename;
 
-    /* @var Reporter */
+    /* @var \JiraRestApi\Issue\Reporter */
     public $author;
 
     /* @var \DateTime */

@@ -19,7 +19,7 @@ class IssueStatus implements \JsonSerializable
     /* @var string */
     public $name;
 
-    /* @var Statuscategory */
+    /* @var \JiraRestApi\Issue\Statuscategory */
     public $statuscategory;
 
     public function jsonSerialize()

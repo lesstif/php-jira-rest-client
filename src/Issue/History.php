@@ -12,7 +12,7 @@ class History implements \JsonSerializable
     /** @var int */
     public $id;
 
-    /** @var Reporter */
+    /** @var \JiraRestApi\Issue\Reporter */
     public $author;
 
     /** @var string */
