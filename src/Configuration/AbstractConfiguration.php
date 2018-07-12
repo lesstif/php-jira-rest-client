@@ -57,6 +57,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $curlOptSslVerifyPeer;
 
     /**
+     * Curl option CURLOPT_USERAGENT
+     *
+     * @var string
+     */
+    protected $curlOptUserAgent;
+
+    /**
      * Curl options CURLOPT_VERBOSE.
      *
      * @var bool
@@ -139,6 +146,16 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function isCurlOptVerbose()
     {
         return $this->curlOptVerbose;
+    }
+
+    /**
+     * Get curl option CURLOPT_USERAGENT
+     *
+     * @return string
+     */
+    public function getCurlOptUserAgent()
+    {
+        return $this->curlOptUserAgent;
     }
 
     /**
