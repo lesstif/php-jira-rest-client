@@ -70,7 +70,7 @@ interface ConfigurationInterface
     public function isCurlOptVerbose();
 
     /**
-     * Get curl option CURLOPT_USERAGENT
+     * Get curl option CURLOPT_USERAGENT.
      *
      * @return string
      */
