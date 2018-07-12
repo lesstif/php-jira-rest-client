@@ -57,7 +57,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $curlOptSslVerifyPeer;
 
     /**
-     * Curl option CURLOPT_USERAGENT
+     * Curl option CURLOPT_USERAGENT.
      *
      * @var string
      */
@@ -149,7 +149,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * Get curl option CURLOPT_USERAGENT
+     * Get curl option CURLOPT_USERAGENT.
      *
      * @return string
      */
