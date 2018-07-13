@@ -38,7 +38,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->jiraLogLevel = $this->env('JIRA_LOG_LEVEL', 'WARNING');
         $this->curlOptSslVerifyHost = $this->env('CURLOPT_SSL_VERIFYHOST', false);
         $this->curlOptSslVerifyPeer = $this->env('CURLOPT_SSL_VERIFYPEER', false);
-        $this->curlOptSslVersion = $this->env('CURLOPT_SSLVERSION', CURL_SSLVERSION_TLSv1_2);
+        $this->curlOptSslVersion = $this->env('CURLOPT_SSLVERSION', null);
         $this->curlOptVerbose = $this->env('CURLOPT_VERBOSE', false);
     }
 

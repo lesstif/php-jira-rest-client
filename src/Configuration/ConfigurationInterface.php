@@ -72,7 +72,7 @@ interface ConfigurationInterface
     /**
      * Curl options CURLOPT_SSLVERSION.
      *
-     * @return int
+     * @return int|null
      */
     public function getCurlOptSslVersion();
 
