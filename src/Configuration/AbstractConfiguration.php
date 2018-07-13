@@ -59,7 +59,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /**
      * Curl options CURLOPT_SSLVERSION.
      *
-     * @var int
+     * @var int|null
      */
     protected $curlOptSslVersion;
 
@@ -141,7 +141,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getCurlOptSslVersion()
     {
