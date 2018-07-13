@@ -70,6 +70,13 @@ interface ConfigurationInterface
     public function isCurlOptVerbose();
 
     /**
+     * Curl options CURLOPT_SSLVERSION.
+     *
+     * @return int
+     */
+    public function getCurlOptSslVersion();
+
+    /**
      * HTTP header 'Authorization: Bearer {token}' for OAuth.
      *
      * @return string
