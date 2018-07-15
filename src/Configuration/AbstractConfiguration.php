@@ -173,4 +173,16 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     {
         return $this->cookieAuthEnabled;
     }
+
+    /**
+     * get default User-Agent String
+     *
+     * @return string
+     */
+    public function getDefaultUserAgentString()
+    {
+        $curlVersion = curl_version();
+
+        return sprintf('curl/%s (%s)', $curlVersion['version'], $curlVersion['host']);
+    }
 }

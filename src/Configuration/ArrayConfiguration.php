@@ -23,8 +23,8 @@ class ArrayConfiguration extends AbstractConfiguration
         $this->curlOptSslVerifyHost = false;
         $this->curlOptSslVerifyPeer = false;
         $this->curlOptVerbose = false;
-        $this->curlOptUserAgent = '';
         $this->cookieAuthEnabled = false;
+        $this->curlOptUserAgent = $this->getDefaultUserAgentString();
 
         foreach ($configuration as $key => $value) {
             if (property_exists($this, $key)) {
