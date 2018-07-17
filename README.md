@@ -1357,7 +1357,7 @@ try {
     $us = new UserService();
 
     $paramArray = [
-        'username' => '.', // get all users. 
+        'username' => '_', // get all users. 
         'startAt' => 0,
         'maxResults' => 1000,
         'includeInactive' => true,
