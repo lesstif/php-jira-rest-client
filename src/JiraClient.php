@@ -157,7 +157,7 @@ class JiraClient
      * @param string $context        Rest API context (ex.:issue, search, etc..)
      * @param string $post_data
      * @param string $custom_request [PUT|DELETE]
-     * @param string $cookieFile cookie file
+     * @param string $cookieFile     cookie file
      *
      * @throws JiraException
      *
@@ -432,7 +432,7 @@ class JiraClient
     {
         // use cookie
         if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
-            if ($cookieFile === null){
+            if ($cookieFile === null) {
                 $cookieFile = $this->getConfiguration()->getCookieFile();
             }
 
@@ -581,6 +581,7 @@ class JiraClient
      * setting cookie file path.
      *
      * @param $cookieFile
+     *
      * @return $this
      */
     public function setCookieFile($cookieFile)

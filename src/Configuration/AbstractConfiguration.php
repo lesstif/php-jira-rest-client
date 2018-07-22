@@ -182,7 +182,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * get default User-Agent String
+     * get default User-Agent String.
      *
      * @return string
      */
