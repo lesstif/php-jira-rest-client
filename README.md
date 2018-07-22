@@ -65,6 +65,7 @@ JIRA_USER="jira-username"
 JIRA_PASS="jira-password-OR-api-token"
 # to enable session cookie authorization
 # COOKIE_AUTH_ENABLED=true
+# COOKIE_FILE=storage/jira-cookie.txt
 ```
 
 **Important Note:**
@@ -90,6 +91,7 @@ $iss = new IssueService(new ArrayConfiguration(
                'jiraPassword' => 'jira-password-OR-api-token',
                // to enable session cookie authorization (with basic authorization only)
                'cookieAuthEnabled' => true,
+               'cookieFile' => storage_path('jira-cookie.txt'),
           )
    ));
 ```

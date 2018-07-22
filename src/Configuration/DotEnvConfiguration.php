@@ -34,6 +34,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->jiraPassword = $this->env('JIRA_PASS');
         $this->oauthAccessToken = $this->env('OAUTH_ACCESS_TOKEN');
         $this->cookieAuthEnabled = $this->env('COOKIE_AUTH_ENABLED', false);
+        $this->cookieFile = $this->env('COOKIE_FILE', 'jira-cookie.txt');
         $this->jiraLogFile = $this->env('JIRA_LOG_FILE', 'jira-rest-client.log');
         $this->jiraLogLevel = $this->env('JIRA_LOG_LEVEL', 'WARNING');
         $this->curlOptSslVerifyHost = $this->env('CURLOPT_SSL_VERIFYHOST', false);

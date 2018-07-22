@@ -55,13 +55,6 @@ class JiraClient
     protected $configuration;
 
     /**
-     * cookie file name.
-     *
-     * @var string
-     */
-    protected $cookie = 'jira-cookies.txt';
-
-    /**
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
@@ -164,12 +157,13 @@ class JiraClient
      * @param string $context        Rest API context (ex.:issue, search, etc..)
      * @param string $post_data
      * @param string $custom_request [PUT|DELETE]
+     * @param string $cookieFile cookie file
      *
      * @throws JiraException
      *
      * @return string
      */
-    public function exec($context, $post_data = null, $custom_request = null)
+    public function exec($context, $post_data = null, $custom_request = null, $cookieFile = null)
     {
         $url = $this->createUrlByContext($context);
 
@@ -198,7 +192,7 @@ class JiraClient
             }
         }
 
-        $this->authorization($ch);
+        $this->authorization($ch, $cookieFile);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
@@ -434,18 +428,22 @@ class JiraClient
      *
      * @param resource $ch
      */
-    protected function authorization($ch)
+    protected function authorization($ch, $cookieFile = null)
     {
         // use cookie
         if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie);
+            if ($cookieFile === null){
+                $cookieFile = $this->getConfiguration()->getCookieFile();
+            }
+
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
 
             $this->log->addDebug('Using cookie..');
         }
 
         // if cookie file not exist, using id/pwd login
-        if (!file_exists($this->cookie)) {
+        if (!file_exists($cookieFile)) {
             $username = $this->getConfiguration()->getJiraUser();
             $password = $this->getConfiguration()->getJiraPassword();
             curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
@@ -505,12 +503,13 @@ class JiraClient
      * @param $url full url
      * @param $outDir save dir
      * @param $file save filename
+     * @param $cookieFile cookie filename
      *
      * @throws JiraException
      *
      * @return bool|mixed
      */
-    public function download($url, $outDir, $file)
+    public function download($url, $outDir, $file, $cookieFile = null)
     {
         $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
 
@@ -521,7 +520,7 @@ class JiraClient
         // output to file handle
         curl_setopt($ch, CURLOPT_FILE, $file);
 
-        $this->authorization($ch);
+        $this->authorization($ch, $cookieFile);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
@@ -576,5 +575,18 @@ class JiraClient
         }
 
         return $response;
+    }
+
+    /**
+     * setting cookie file path.
+     *
+     * @param $cookieFile
+     * @return $this
+     */
+    public function setCookieFile($cookieFile)
+    {
+        $this->cookieFile = $cookieFile;
+
+        return $this;
     }
 }

@@ -24,6 +24,7 @@ class ArrayConfiguration extends AbstractConfiguration
         $this->curlOptSslVerifyPeer = false;
         $this->curlOptVerbose = false;
         $this->cookieAuthEnabled = false;
+        $this->cookieFile = 'jira-cookie.txt';
         $this->curlOptUserAgent = $this->getDefaultUserAgentString();
 
         foreach ($configuration as $key => $value) {

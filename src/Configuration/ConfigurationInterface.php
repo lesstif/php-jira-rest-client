@@ -89,4 +89,11 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isCookieAuthorizationEnabled();
+
+    /**
+     * get HTTP cookie file name.
+     *
+     * @return mixed
+     */
+    public function getCookieFile();
 }

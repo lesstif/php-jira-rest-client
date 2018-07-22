@@ -85,6 +85,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $cookieAuthEnabled;
 
     /**
+     * HTTP cookie file name.
+     *
+     * @var string
+     */
+    protected $cookieFile;
+
+    /**
      * @return string
      */
     public function getJiraHost()
@@ -184,5 +191,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
         $curlVersion = curl_version();
 
         return sprintf('curl/%s (%s)', $curlVersion['version'], $curlVersion['host']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCookieFile()
+    {
+        return $this->cookieFile;
     }
 }
