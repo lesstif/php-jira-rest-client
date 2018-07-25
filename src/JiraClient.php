@@ -200,7 +200,7 @@ class JiraClient
             } else {
                 // This is a GET request, check if we have a cached version of it
 
-                $cacheFilename = sys_get_temp_dir() . "/" . hash('sha256', $url) . ".json";
+                $cacheFilename = sys_get_temp_dir() . "/" . hash('sha256', $url) . ".cache";
 
                 if (file_exists($cacheFilename) && is_readable($cacheFilename)) {
                     // Check the age of the cached result, if its too old we will ignore it
