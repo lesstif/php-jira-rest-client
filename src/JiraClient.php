@@ -18,42 +18,36 @@ class JiraClient
      * @var \JsonMapper
      */
     protected $json_mapper;
-
     /**
      * HTTP response code.
      *
      * @var string
      */
     protected $http_response;
-
     /**
      * JIRA REST API URI.
      *
      * @var string
      */
     private $api_uri = '/rest/api/2';
-
     /**
      * CURL instance.
      *
      * @var resource
      */
     protected $curl;
-
     /**
      * Monolog instance.
      *
      * @var \Monolog\Logger
      */
     protected $log;
-
     /**
      * Jira Rest API Configuration.
      *
      * @var ConfigurationInterface
      */
     protected $configuration;
-
     /**
      * cookie file name.
      *
@@ -74,7 +68,7 @@ class JiraClient
     public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
     {
         if ($configuration === null) {
-            if (!file_exists($path.'.env')) {
+            if (!file_exists($path . '.env')) {
                 // If calling the getcwd() on laravel it will returning the 'public' directory.
                 $path = '../';
             }
@@ -82,7 +76,7 @@ class JiraClient
         }
 
         $this->configuration = $configuration;
-        $this->json_mapper = new \JsonMapper();
+        $this->json_mapper   = new \JsonMapper();
 
         // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
         $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
@@ -173,7 +167,7 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
+        $this->log->addInfo("Curl $custom_request: $url JsonData=" . $post_data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -204,7 +198,20 @@ class JiraClient
             if (!is_null($custom_request) && $custom_request == 'DELETE') {
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
             } else {
-                $tempFile = sys_get_temp_dir() . "/";
+                // This is a GET request, check if we have a cached version of it
+
+                $cacheFilename = sys_get_temp_dir() . "/" . hash('sha256', $url) . ".json";
+
+                if (file_exists($cacheFilename) && is_readable($cacheFilename)) {
+                    // Check the age of the cached result, if its too old we will ignore it
+
+                    if (time() - filemtime($cacheFilename) < 600) {
+                        return unserialize(file_get_contents($cacheFilename));
+                    } else {
+                        // Cache has expired
+                        unlink($cacheFilename);
+                    }
+                }
             }
         }
 
@@ -223,13 +230,13 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->addDebug('Curl exec=' . $url);
         $response = curl_exec($ch);
 
         // if request failed.
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $body = curl_error($ch);
+            $body                = curl_error($ch);
             curl_close($ch);
 
             /*
@@ -255,8 +262,12 @@ class JiraClient
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
                 throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                    .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response);
+                                        . $this->http_response . ', URL:' . $url
+                                        . "\nError Message : " . $response, $this->http_response);
+            } else {
+                if (isset($cacheFilename)) {
+                    file_put_contents($cacheFilename, serialize($response));
+                }
             }
         }
 
@@ -282,10 +293,10 @@ class JiraClient
 
         if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
             $attachments = realpath($upload_file);
-            $filename = basename($upload_file);
+            $filename    = basename($upload_file);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                ['file' => '@'.$attachments.';filename='.$filename]);
+                ['file' => '@' . $attachments . ';filename=' . $filename]);
 
             $this->log->addDebug('using legacy file upload');
         } else {
@@ -296,7 +307,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 ['file' => $attachments]);
 
-            $this->log->addDebug('using CURLFile='.var_export($attachments, true));
+            $this->log->addDebug('using CURLFile=' . var_export($attachments, true));
         }
 
         $this->authorization($ch);
@@ -316,7 +327,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->addDebug('Curl exec=' . $url);
 
         return $ch;
     }
@@ -338,14 +349,14 @@ class JiraClient
         // return value
         $result_code = 200;
 
-        $chArr = [];
+        $chArr   = [];
         $results = [];
-        $mh = curl_multi_init();
+        $mh      = curl_multi_init();
 
         for ($idx = 0; $idx < count($filePathArray); $idx++) {
             $file = $filePathArray[$idx];
             if (file_exists($file) == false) {
-                $body = "File $file not found";
+                $body        = "File $file not found";
                 $result_code = -1;
                 $this->closeCURLHandle($chArr, $mh, $body, $result_code);
 
@@ -371,7 +382,7 @@ class JiraClient
             // if request failed.
             if (!$results[$idx]) {
                 $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $body = curl_error($ch);
+                $body                = curl_error($ch);
 
                 //The server successfully processed the request, but is not returning any content.
                 if ($this->http_response == 204) {
@@ -380,7 +391,7 @@ class JiraClient
 
                 // HostNotFound, No route to Host, etc Network error
                 $result_code = -1;
-                $body = 'CURL Error: = '.$body;
+                $body        = 'CURL Error: = ' . $body;
                 $this->log->addError($body);
             } else {
                 // if request was ok, parsing http response code.
@@ -389,7 +400,7 @@ class JiraClient
                 // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
                 if ($this->http_response != 200 && $this->http_response != 201) {
                     $body = 'CURL HTTP Request Failed: Status Code : '
-                        .$this->http_response.', URL:'.$url;
+                            . $this->http_response . ', URL:' . $url;
 
                     $this->log->addError($body);
                 }
@@ -403,9 +414,9 @@ class JiraClient
 
     /**
      * @param array $chArr
-     * @param $mh
-     * @param $body
-     * @param $result_code
+     * @param       $mh
+     * @param       $body
+     * @param       $result_code
      *
      * @throws \JiraRestApi\JiraException
      */
@@ -420,7 +431,7 @@ class JiraClient
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
-            throw new JiraException('CURL Error: = '.$body, $result_code);
+            throw new JiraException('CURL Error: = ' . $body, $result_code);
         }
     }
 
@@ -435,7 +446,7 @@ class JiraClient
     {
         $host = $this->getConfiguration()->getJiraHost();
 
-        return $host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
+        return $host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
     }
 
     /**
@@ -502,7 +513,7 @@ class JiraClient
                 $v = $value;
             }
 
-            $queryParam .= $key.'='.$v.'&';
+            $queryParam .= $key . '=' . $v . '&';
         }
 
         return $queryParam;
@@ -511,9 +522,9 @@ class JiraClient
     /**
      * download and save into outDir.
      *
-     * @param $url full url
+     * @param $url    full url
      * @param $outDir save dir
-     * @param $file save filename
+     * @param $file   save filename
      *
      * @throws JiraException
      *
@@ -521,7 +532,7 @@ class JiraClient
      */
     public function download($url, $outDir, $file)
     {
-        $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
+        $file = fopen($outDir . DIRECTORY_SEPARATOR . $file, 'w');
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -545,13 +556,13 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->addDebug('Curl exec=' . $url);
         $response = curl_exec($ch);
 
         // if request failed.
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $body = curl_error($ch);
+            $body                = curl_error($ch);
             curl_close($ch);
             fclose($file);
 
@@ -579,8 +590,8 @@ class JiraClient
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
                 throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                    .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response);
+                                        . $this->http_response . ', URL:' . $url
+                                        . "\nError Message : " . $response, $this->http_response);
             }
         }
 
