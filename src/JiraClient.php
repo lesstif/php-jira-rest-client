@@ -203,6 +203,8 @@ class JiraClient
         } else {
             if (!is_null($custom_request) && $custom_request == 'DELETE') {
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            } else {
+                $tempFile = sys_get_temp_dir() . "/";
             }
         }
 
