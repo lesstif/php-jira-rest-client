@@ -147,10 +147,9 @@ class IssueField implements \JsonSerializable
         // if assignee property has empty value then remove it.
         // @see https://github.com/lesstif/php-jira-rest-client/issues/126
         // @see https://github.com/lesstif/php-jira-rest-client/issues/177
-        if (! empty($this->assignee)) {
+        if (!empty($this->assignee)) {
             // do nothing
-            if ($this->assignee->isWantUnassigned() === true ) {
-
+            if ($this->assignee->isWantUnassigned() === true) {
             } elseif ($this->assignee->isEmpty()) {
                 unset($vars['assignee']);
             }
@@ -432,7 +431,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * set Assignee to Unassigned
+     * set Assignee to Unassigned.
      *
      * @see https://confluence.atlassian.com/jirakb/how-to-set-assignee-to-unassigned-via-rest-api-in-jira-744721880.html
      */
@@ -453,7 +452,7 @@ class IssueField implements \JsonSerializable
             $this->assignee = new Reporter();
         }
 
-        $this->assignee->name = "-1";
+        $this->assignee->name = '-1';
 
         return $this;
     }
