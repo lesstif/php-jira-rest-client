@@ -147,10 +147,10 @@ class IssueField implements \JsonSerializable
         // if assignee property has empty value then remove it.
         // @see https://github.com/lesstif/php-jira-rest-client/issues/126
         // @see https://github.com/lesstif/php-jira-rest-client/issues/177
-        if ( empty($this->assignee)) {
-            // need serialize
+        if (! empty($this->assignee)) {
+            // do nothing
             if ($this->assignee->isWantUnassigned() === true ) {
-                //Dumper::dd($vars);
+
             } elseif ($this->assignee->isEmpty()) {
                 unset($vars['assignee']);
             }

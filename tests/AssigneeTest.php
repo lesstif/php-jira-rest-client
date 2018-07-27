@@ -33,8 +33,7 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
 
         $js = $issueField->jsonSerialize();
 
-        $this->assertArrayHasKey('assignee', $js);
-        Dumper::dd($js);
+        $this->assertArrayNotHasKey('assignee', $js);
     }
 
     public function testUnassigned()
@@ -48,7 +47,12 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
 
         $js = $issueField->jsonSerialize();
 
-        $this->assertArrayNotHasKey('assignee', $js);
+        $this->assertArrayHasKey('assignee', $js);
+
+        $assignee = $js['assignee'];
+
+        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals(null, $assignee->name, "name field not equal to 'null'");
     }
 
     public function testAssigneeFieldDefault()
@@ -63,6 +67,11 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
         $js = $issueField->jsonSerialize();
 
         $this->assertArrayHasKey('assignee', $js);
+
+        $assignee = $js['assignee'];
+
+        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals("-1", $assignee->name, "name field not equal to '-1'");
     }
 
     public function testAssigneeFieldHasAssignee()
@@ -77,5 +86,10 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
         $js = $issueField->jsonSerialize();
 
         $this->assertArrayHasKey('assignee', $js);
+
+        $assignee = $js['assignee'];
+
+        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals("lesstif", $assignee->name, "name field not equal to ");
     }
 }
