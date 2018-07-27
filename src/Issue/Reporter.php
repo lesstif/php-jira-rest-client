@@ -26,16 +26,23 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $active;
 
+    // want assignee to unassigned
+    private $wantUnassigned = false;
+
     public function jsonSerialize()
     {
         $vars = (get_object_vars($this));
+
         foreach ($vars as $key => $value) {
-            if ($key === 'name' && !is_null($value)) {
+            if ($key === 'name' && ($this->isWantUnassigned() === true)) {
                 continue;
+            } elseif ($key === 'wantUnassigned') {
+                unset($vars[$key]);
             } elseif (is_null($value) || $value === '') {
                 unset($vars[$key]);
             }
         }
+
         if (empty($vars)) {
             return;
         }
@@ -57,5 +64,26 @@ class Reporter implements \JsonSerializable
         }
 
         return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isWantUnassigned()
+    {
+        if ($this->wantUnassigned)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * @param $param boolean
+     *
+     */
+    public function setWantUnassigned($param)
+    {
+        $this->wantUnassigned = $param;
+        $this->name = null;
     }
 }
