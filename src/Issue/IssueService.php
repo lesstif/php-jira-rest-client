@@ -917,7 +917,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getIssueSecuritySchemes($securityId)
     {
-        $url = '/issuesecurityschemes/'.$id;
+        $url = '/issuesecurityschemes/'.$securityId;
 
         $ret = $this->exec($url);
 
