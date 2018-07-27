@@ -67,19 +67,19 @@ class Reporter implements \JsonSerializable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isWantUnassigned()
     {
-        if ($this->wantUnassigned)
+        if ($this->wantUnassigned) {
             return true;
+        }
 
         return false;
     }
 
     /**
      * @param $param boolean
-     *
      */
     public function setWantUnassigned($param)
     {
