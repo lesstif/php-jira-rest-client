@@ -11,6 +11,7 @@ use JiraRestApi\JiraException;
 class Worklog
 {
     use ClassSerialize;
+    use VisibilityTrait;
 
     /**
      * @var int id of worklog
@@ -58,7 +59,7 @@ class Worklog
     public $timeSpentSeconds;
 
     /**
-     * @var array
+     * @var \JiraRestApi\Issue\Visibility
      */
     public $visibility;
 
@@ -150,24 +151,6 @@ class Worklog
     public function setTimeSpentSeconds($timeSpentSeconds)
     {
         $this->timeSpentSeconds = $timeSpentSeconds;
-
-        return $this;
-    }
-
-    /**
-     * Function to set visibility of worklog.
-     *
-     * @param string $type  value can be group or role
-     * @param string $value
-     *
-     * @return Worklog
-     */
-    public function setVisibility($type, $value)
-    {
-        $this->visibility = [
-            'type'  => $type,
-            'value' => $value,
-        ];
 
         return $this;
     }
