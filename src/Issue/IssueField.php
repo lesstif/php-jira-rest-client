@@ -400,7 +400,7 @@ class IssueField implements \JsonSerializable
      */
     public function setSecurityId($id)
     {
-        if (is_empty($this->security)) {
+        if (empty($this->security)) {
             $this->security = new SecurityScheme();
         }
 
