@@ -8,11 +8,11 @@ class SerializeTest extends PHPUnit_Framework_TestCase
     /**
      * @see https://github.com/lesstif/php-jira-rest-client/issues/18
      */
-    public function testEmptyAssignee()
+    public function testDefaultAssignee()
     {
         $r = new Reporter();
 
-        $r->name = '';
+        $r->name = '-1';
         $r->emailAddress = 'user@example.com';
         $r->avatarUrls = '';
 

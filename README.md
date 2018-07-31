@@ -148,6 +148,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get User Info](#get-user-info)
 - [Find Users](#find-users)
 - [Find Assignable Users](#find-assignable-users)
+- [Delete User](#delete-user)
 
 ### Group
 - [Create Group](#create-group)
@@ -1400,6 +1401,31 @@ try {
     ];
 
     $users = $us->findAssignableUsers($paramArray);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### delete User
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-removeUser)
+
+Removes user.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $paramArray = ['username' => 'user@example.com'];
+
+    $users = $us->deleteUser($paramArray);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
