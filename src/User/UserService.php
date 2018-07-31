@@ -120,4 +120,23 @@ class UserService extends \JiraRestApi\JiraClient
 
         return $users;
     }
+
+    /**
+     * Delete a User.
+     *
+     * @param $paramArray
+     * @return string
+     * @throws \JiraRestApi\JiraException
+     */
+    public function deleteUser($paramArray)
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+        $success = $this->exec($this->uri.$queryParam, null, 'DELETE');
+        $username = $paramArray['username'];
+        $message = $success ? sprintf('%s removed successfully.', $username) : sprintf('%s could not be removed!', $username);
+        return array(
+            'message' => $message,
+            'response' => $success ? 'success' : 'failure'
+        );
+    }
 }
