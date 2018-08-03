@@ -96,4 +96,32 @@ interface ConfigurationInterface
      * @return mixed
      */
     public function getCookieFile();
+
+    /**
+     * Proxy server.
+     *
+     * @return string
+     */
+    public function getProxyServer();
+
+    /**
+     * Proxy port.
+     *
+     * @return string
+     */
+    public function getProxyPort();
+
+    /**
+     * Proxy user.
+     *
+     * @return string
+     */
+    public function getProxyUser();
+
+    /**
+     * Proxy password.
+     *
+     * @return string
+     */
+    public function getProxyPassword();
 }
