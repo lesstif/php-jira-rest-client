@@ -210,12 +210,12 @@ class JiraClient
 
         // Add proxy settings to the curl.
         if ($this->getConfiguration()->getProxyServer()) {
-          curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
-          curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
+            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
+            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
 
-          $username = $this->getConfiguration()->getProxyUser();
-          $password = $this->getConfiguration()->getProxyPassword();
-          curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
+            $username = $this->getConfiguration()->getProxyUser();
+            $password = $this->getConfiguration()->getProxyPassword();
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
         }
 
         $this->log->addDebug('Curl exec='.$url);

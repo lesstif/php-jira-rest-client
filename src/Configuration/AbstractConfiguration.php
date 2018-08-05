@@ -234,7 +234,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getProxyServer()
     {
-      return $this->proxyServer;
+        return $this->proxyServer;
     }
 
     /**
@@ -242,7 +242,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getProxyPort()
     {
-      return $this->proxyPort;
+        return $this->proxyPort;
     }
 
     /**
@@ -250,7 +250,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getProxyUser()
     {
-      return $this->proxyUser;
+        return $this->proxyUser;
     }
 
     /**
@@ -258,6 +258,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getProxyPassword()
     {
-      return $this->proxyPassword;
+        return $this->proxyPassword;
     }
 }
