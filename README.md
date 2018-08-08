@@ -66,6 +66,11 @@ JIRA_PASS="jira-password-OR-api-token"
 # to enable session cookie authorization
 # COOKIE_AUTH_ENABLED=true
 # COOKIE_FILE=storage/jira-cookie.txt
+# if you are behind a proxy, add proxy settings
+PROXY_SERVER="your-proxy-server"
+PROXY_PORT="proxy-port"
+PROXY_USER="proxy-username"
+PROXY_PASSWORD="proxy-password"
 ```
 
 **Important Note:**
@@ -92,6 +97,11 @@ $iss = new IssueService(new ArrayConfiguration(
                // to enable session cookie authorization (with basic authorization only)
                'cookieAuthEnabled' => true,
                'cookieFile' => storage_path('jira-cookie.txt'),
+               // if you are behind a proxy, add proxy settings
+               "proxyServer" => 'your-proxy-server',
+               "proxyPort" => 'proxy-port',
+               "proxyUser" => 'proxy-username',
+               "proxyPassword" => 'proxy-password',
           )
    ));
 ```

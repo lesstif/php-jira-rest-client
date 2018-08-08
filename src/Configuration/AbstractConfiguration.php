@@ -92,6 +92,34 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $cookieFile;
 
     /**
+     * Proxy server.
+     *
+     * @var string
+     */
+    protected $proxyServer;
+
+    /**
+     * Proxy port.
+     *
+     * @var string
+     */
+    protected $proxyPort;
+
+    /**
+     * Proxy user.
+     *
+     * @var string
+     */
+    protected $proxyUser;
+
+    /**
+     * Proxy password.
+     *
+     * @var string
+     */
+    protected $proxyPassword;
+
+    /**
      * @return string
      */
     public function getJiraHost()
@@ -199,5 +227,37 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getCookieFile()
     {
         return $this->cookieFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyServer()
+    {
+        return $this->proxyServer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyPort()
+    {
+        return $this->proxyPort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyUser()
+    {
+        return $this->proxyUser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyPassword()
+    {
+        return $this->proxyPassword;
     }
 }
