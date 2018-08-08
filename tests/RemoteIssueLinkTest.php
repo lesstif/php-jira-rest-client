@@ -57,13 +57,26 @@ class RemoteIssueLinkTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteRemoteIssueLink($issueKey)
     {
-        // not yet impl
-        $this->markTestIncomplete();
         try {
+            $issueService = new IssueService();
+
+            $rils = $issueService->getRemoteIssueLink($issueKey);
+            $countBefore = count($rils);
+
+            /** @var RemoteIssueLink $firstRil */
+            $firstRil = $rils[0];
+
+            $ret = $issueService->removeRemoteIssueLink($issueKey, $firstRil->globalId);
+
+            $this->assertTrue($ret);
+
+            $rilsAfter = $issueService->getRemoteIssueLink($issueKey);
+
+            $this->assertLessThan($countBefore, count($rilsAfter));
 
             return $issueKey;
         } catch (JiraException $e) {
-            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'Remove Failed : '.$e->getMessage());
         }
     }
 }

@@ -880,6 +880,34 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * @param string|int $issueIdOrKey
+     * @param string|int $globalId
+     *
+     * @throws JiraException
+     *
+     * @return string|bool
+     */
+    public function removeRemoteIssueLink($issueIdOrKey, $globalId)
+    {
+        $query = http_build_query(['globalId' => $globalId]);
+
+        $full_uri = sprintf('%s/%s/remotelink?%s', $this->uri, $issueIdOrKey, $query);
+
+        $ret = $this->exec($full_uri, '', 'DELETE');
+
+        $this->log->addInfo(
+            sprintf(
+                'delete remote issue link for issue "%s" with globalId "%s". Result=%s',
+                $issueIdOrKey,
+                $globalId,
+                var_export($ret, true)
+            )
+        );
+
+        return $ret;
+    }
+
+    /**
      * get all issue security schemes.
      *
      * @throws JiraException
