@@ -87,8 +87,8 @@ class JiraClient
         } else {
             $this->log = new Logger('JiraClient');
             $this->log->pushHandler(new StreamHandler(
-                $configuration->getJiraLogFile(),
-                $this->convertLogLevel($configuration->getJiraLogLevel())
+                $this->configuration->getJiraLogFile(),
+                $this->convertLogLevel($this->configuration->getJiraLogLevel())
             ));
         }
 
