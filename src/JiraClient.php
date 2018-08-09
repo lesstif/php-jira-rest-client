@@ -71,10 +71,11 @@ class JiraClient
                 // If calling the getcwd() on laravel it will returning the 'public' directory.
                 $path = '../';
             }
-            $configuration = new DotEnvConfiguration($path);
+            $this->configuration = new DotEnvConfiguration($path);
+        } else {
+            $this->configuration = $configuration;
         }
 
-        $this->configuration = $configuration;
         $this->json_mapper = new \JsonMapper();
 
         // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
