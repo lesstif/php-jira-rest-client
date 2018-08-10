@@ -17,13 +17,15 @@ class AttachmentService extends \JiraRestApi\JiraClient
      * @param $id string|int attachment Id
      * @outDir string downloads the content and store into outDir
      * @overwrite boolean determines whether to overwrite the file if it already exists.
+     * @mode int outDir creation mode.
+     * @recursive boolean Allows the creation of nested directories specified in the pathname.
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
      * @return \JiraRestApi\Issue\Attachment
      */
-    public function get($id, $outDir = null, $overwrite = false)
+    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true)
     {
         $ret = $this->exec($this->uri.$id, null);
 
@@ -39,7 +41,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
 
         // download contents
         if (!file_exists($outDir)) {
-            mkdir($outDir);
+            mkdir($outDir, $mode, $recursive);
         }
 
         // extract filename
@@ -50,6 +52,8 @@ class AttachmentService extends \JiraRestApi\JiraClient
         }
 
         $this->download($attachment->content, $outDir, $file);
+
+        return $attachment;
     }
 
     /**
