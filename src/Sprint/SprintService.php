@@ -13,20 +13,23 @@ use JiraRestApi\JiraClient;
 use JiraRestApi\JiraException;
 use Monolog\Logger;
 
-class SprintService extends JiraClient
+class SprintService
 {
     //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
 
+
+    protected $restClient;
+
     public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
     {
-        parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/1.0');
+        $this->restClient = new JiraClient($configuration, $logger, $path);
+        $this->restClient->setAPIUri('/rest/agile/1.0');
     }
 
     public function getSprintFromJSON($json)
     {
-        $sprint = $this->json_mapper->map(
+        $sprint = $this->restClient->json_mapper->map(
             $json, new Sprint()
         );
 
@@ -36,7 +39,7 @@ class SprintService extends JiraClient
     /**
      *  get all Sprint list.
      *
-     * @param Sprint $sprintObject
+     * @param integer $sprintId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -45,11 +48,10 @@ class SprintService extends JiraClient
      */
     public function getSprint($sprintId)
     {
-        $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
-        $this->log->addInfo("Result=\n".$ret);
+        $ret = $this->restClient->exec($this->uri.'/'.$sprintId, null);
 
-        return $sprint = $this->json_mapper->map(
+        return $sprint = $this->restClient->json_mapper->map(
             json_decode($ret), new Sprint()
         );
     }
