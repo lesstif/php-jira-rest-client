@@ -15,7 +15,7 @@ use Monolog\Logger;
 
 class SprintService
 {
-    private $uri = '/sprint';
+    private $uri = '/rest/agile/1.0/sprint';
 
     protected $restClient;
 
@@ -33,7 +33,7 @@ class SprintService
 
     public function setRestClient(){
       $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
-      $this->restClient->setAPIUri('/rest/agile/1.0');
+      $this->restClient->setAPIUri('');
     }
 
 
@@ -57,7 +57,23 @@ class SprintService
      */
     public function getSprint($sprintId)
     {
-        $ret = $this->restClient->exec($this->uri.'/'.$sprintId, null);
+        $ret = $this->restClient->exec($this->uri.'/'.$sprintId);
         return $this->getSprintFromJSON(json_decode($ret));
     }
+
+    public function getVelocityForSprint($sprintID){
+        $sprint = $this->getSprint($sprintID);
+        $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
+        $velocityObject = json_decode($ret);
+        $velocityStats = $velocityObject->{'velocityStatEntries'};
+        if (property_exists($velocityStats,$sprint->id)) {
+          $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
+          $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
+        } else {
+          $sprint->estimatedVelocity = null;
+          $sprint->completedVelocity = null;
+        }
+        return $sprint;
+    }
+
 }

@@ -47,6 +47,11 @@ class Sprint implements \JsonSerializable
     /* @var string */
     public $goal;
 
+    /* @var string */
+    public $estimatedVelocity;
+
+    /* @var string */
+    public $completeVelocity;
 
     public function jsonSerialize()
     {
