@@ -41,13 +41,8 @@ class SprintService
     {
 
         $this->json_mapper = new \JsonMapper();
-
-        // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
         $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
-
-        $sprint = $this->json_mapper->map($json, new Sprint() );
-
-        return $sprint;
+        return $this->json_mapper->map($json, new Sprint() );
     }
 
     /**

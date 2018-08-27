@@ -3,6 +3,9 @@
 namespace JiraRestApi\Board;
 
 use JiraRestApi\JiraClient;
+use JiraRestApi\Configuration\ConfigurationInterface;
+use Monolog\Logger;
+
 
 
 class BoardService
@@ -10,18 +13,35 @@ class BoardService
     private $uri = '/board';
     protected $restClient;
 
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './', JiraClient $jiraClient = null)
     {
+        $this->configuration = $configuration;
+        $this->logger = $logger;
+        $this->path = $path;
+        $this->restClient = $jiraClient;
+        if (!$this->restClient) {
+          $this->setRestClient();
+        }
 
-        $this->restClient = new JiraClient($configuration, $logger, $path);
-
-        $this->restClient->setAPIUri('/rest/agile/1.0');
+    }
+    public function setRestClient(){
+      $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
+      $this->restClient->setAPIUri('/rest/agile/1.0');
     }
 
+
     public function getBoardFromJSON($json) {
-        return $this->restClient->json_mapper->map(
-          $json, new Board()
-      );
+      $json_mapper = new \JsonMapper();
+      $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+      return $json_mapper->map($json, new Board() );
+    }
+    public function getArrayOfBoardsFromJSON($boardList) {
+      $json_mapper = new \JsonMapper();
+      $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+      return $json_mapper->mapArray($boardList,
+                                    new \ArrayObject(),
+                                    '\JiraRestApi\Board\Board'
+                                  );
 
     }
 
@@ -46,7 +66,7 @@ class BoardService
      */
     public function getAllBoards($paramArray = [])
     {
-      $boardArray = array();
+        $boardArray = array();
         $ret = $this->restClient->exec($this->uri.$this->restClient->toHttpQueryParameter($paramArray), null);
         $boardResults = json_decode($ret);
         while (!$boardResults->isLast) {
@@ -55,24 +75,9 @@ class BoardService
           $ret = $this->restClient->exec($this->uri.$this->restClient->toHttpQueryParameter($paramArray), null);
           $boardResults = json_decode($ret);
         }
-        //TODO look at re-writting this method to better allow for testing.
-        $boards = $this->restClient->json_mapper
-            ->mapArray($boardArray,
-                      new \ArrayObject(),
-                        '\JiraRestApi\Board\Board'
-        );
-        return $boards;
-    }
-    /**
-     *  get a Board
-     *
-     * @param integer $boardId
-     *
-     * @return object
-     */
-    public function getFilteredBoard($filter)
-    {
-        $ret = $this->restClient->exec($this->uri.'/?='.$filter, null);
-        return $this->getBoardFromJSON(json_decode($ret));
+        $boardArray = array_merge($boardArray,$boardResults->values);
+
+        // print $boardResults
+        return $this->getArrayOfBoardsFromJSON($boardArray);
     }
 }
