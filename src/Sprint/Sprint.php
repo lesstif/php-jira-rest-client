@@ -7,9 +7,12 @@
  */
 
 namespace JiraRestApi\Sprint;
+use JiraRestApi\ClassSerialize;
 
 class Sprint implements \JsonSerializable
 {
+  use ClassSerialize;
+
     /**
      * return only if Project query by key(not id).
      *
@@ -40,6 +43,10 @@ class Sprint implements \JsonSerializable
 
     /* @var string */
     public $originalBoardiD;
+
+    /* @var string */
+    public $goal;
+
 
     public function jsonSerialize()
     {

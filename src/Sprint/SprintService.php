@@ -15,23 +15,37 @@ use Monolog\Logger;
 
 class SprintService
 {
-    //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
-
 
     protected $restClient;
 
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './', JiraClient $jiraClient = null)
     {
-        $this->restClient = new JiraClient($configuration, $logger, $path);
-        $this->restClient->setAPIUri('/rest/agile/1.0');
+        $this->configuration = $configuration;
+        $this->logger = $logger;
+        $this->path = $path;
+        $this->restClient = $jiraClient;
+        if (!$this->restClient) {
+          $this->setRestClient();
+        }
+
     }
+
+    public function setRestClient(){
+      $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
+      $this->restClient->setAPIUri('/rest/agile/1.0');
+    }
+
 
     public function getSprintFromJSON($json)
     {
-        $sprint = $this->restClient->json_mapper->map(
-            $json, new Sprint()
-        );
+
+        $this->json_mapper = new \JsonMapper();
+
+        // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
+        $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+
+        $sprint = $this->json_mapper->map($json, new Sprint() );
 
         return $sprint;
     }
@@ -48,11 +62,7 @@ class SprintService
      */
     public function getSprint($sprintId)
     {
-
         $ret = $this->restClient->exec($this->uri.'/'.$sprintId, null);
-
-        return $sprint = $this->restClient->json_mapper->map(
-            json_decode($ret), new Sprint()
-        );
+        return $this->getSprintFromJSON(json_decode($ret));
     }
 }
