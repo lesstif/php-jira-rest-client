@@ -21,6 +21,9 @@ class Board implements \JsonSerializable
   /* @var string */
   public $type;
 
+  /* @var array */
+  public $sprintList = [];
+
   public function jsonSerialize()
   {
       return array_filter(get_object_vars($this), function ($var) {

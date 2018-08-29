@@ -37,12 +37,11 @@ class SprintService
     }
 
 
-    public function getSprintFromJSON($json)
+    static function getSprintFromJSON($json)
     {
-
-        $this->json_mapper = new \JsonMapper();
-        $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
-        return $this->json_mapper->map($json, new Sprint() );
+        $json_mapper = new \JsonMapper();
+        $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+        return $json_mapper->map($json, new Sprint() );
     }
 
     /**

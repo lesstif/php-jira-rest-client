@@ -48,10 +48,10 @@ class Sprint implements \JsonSerializable
     public $goal;
 
     /* @var string */
-    public $estimatedVelocity;
+    public $estimatedVelocity ='';
 
     /* @var string */
-    public $completeVelocity;
+    public $completedVelocity ='';
 
     public function jsonSerialize()
     {
