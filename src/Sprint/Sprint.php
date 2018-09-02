@@ -11,7 +11,7 @@ use JiraRestApi\ClassSerialize;
 
 class Sprint implements \JsonSerializable
 {
-  use ClassSerialize;
+    use ClassSerialize;
 
     /**
      * return only if Project query by key(not id).
@@ -75,27 +75,27 @@ class Sprint implements \JsonSerializable
         return $this->name;
     }
 
-    public function getGoal(){
-      return str_replace(array("\n\r", "\n", "\r"), '', $this->goal);
+    public function getGoal()
+    {
+        return str_replace(array("\n\r", "\n", "\r"), '', $this->goal);
     }
 
-    public function getStartDate($format = 'Y-m-d H:i:s') {
-      if (!is_null($this->startDate)) {
-        $date = new \DateTime($this->startDate);
-        return date_format($date, $format);
-      }
-      return null;
-      // return date_format($this->startDate, $format);
-
+    public function getStartDate($format = 'Y-m-d H:i:s')
+    {
+        if (!is_null($this->startDate)) {
+            $date = new \DateTime($this->startDate);
+            return date_format($date, $format);
+        }
+            return null;
     }
 
-    public function getEndDate($format = 'Y-m-d H:i:s') {
-      if (!is_null($this->endDate)){
-        $date = new \DateTime($this->endDate);
-        return date_format($date, $format);
-      }
-      return null;
-      // return date_format($this->endDate, $format);
+    public function getEndDate($format = 'Y-m-d H:i:s')
+    {
+        if (!is_null($this->endDate)) {
+            $date = new \DateTime($this->endDate);
+            return date_format($date, $format);
+        }
+        return null;
     }
 
 }

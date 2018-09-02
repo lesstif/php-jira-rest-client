@@ -26,14 +26,14 @@ class SprintService
         $this->path = $path;
         $this->restClient = $jiraClient;
         if (!$this->restClient) {
-          $this->setRestClient();
+            $this->setRestClient();
         }
 
     }
 
     public function setRestClient(){
-      $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
-      $this->restClient->setAPIUri('');
+        $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
+        $this->restClient->setAPIUri('');
     }
 
 
@@ -61,26 +61,26 @@ class SprintService
     }
 
     public function getVelocityForSprint($sprintID){
-      try {
-        $sprint = $this->getSprint($sprintID);
-        if (!is_null($sprint->originBoardId)){
-          $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
-          $velocityObject = json_decode($ret);
-          $velocityStats = $velocityObject->{'velocityStatEntries'};
-          if (property_exists($velocityStats,$sprint->id)) {
-            $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
-            $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
-          } else {
-            $sprint->estimatedVelocity = null;
-            $sprint->completedVelocity = null;
-          }
+        try {
+            $sprint = $this->getSprint($sprintID);
+            if (!is_null($sprint->originBoardId)){
+                $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
+                $velocityObject = json_decode($ret);
+                $velocityStats = $velocityObject->{'velocityStatEntries'};
+                if (property_exists($velocityStats,$sprint->id)) {
+                    $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
+                    $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
+                } else {
+                    $sprint->estimatedVelocity = null;
+                    $sprint->completedVelocity = null;
+                }
+            }
+            return $sprint;
         }
-        return $sprint;
-      }
-      catch (JiraException $e) {
-        print("Error Occured! " . $e->getMessage());
-        return null;
-      }
+        catch (JiraException $e) {
+            print("Error Occured! " . $e->getMessage());
+            return null;
+        }
     }
 
 }
