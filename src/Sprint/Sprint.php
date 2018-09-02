@@ -7,6 +7,7 @@
  */
 
 namespace JiraRestApi\Sprint;
+
 use JiraRestApi\ClassSerialize;
 
 class Sprint implements \JsonSerializable
@@ -84,6 +85,7 @@ class Sprint implements \JsonSerializable
     {
         if (!is_null($this->startDate)) {
             $date = new \DateTime($this->startDate);
+
             return date_format($date, $format);
         }
     }
@@ -92,6 +94,7 @@ class Sprint implements \JsonSerializable
     {
         if (!is_null($this->endDate)) {
             $date = new \DateTime($this->endDate);
+
             return date_format($date, $format);
         }
     }

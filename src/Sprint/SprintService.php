@@ -28,7 +28,6 @@ class SprintService
         if (!$this->restClient) {
             $this->setRestClient();
         }
-
     }
 
     public function setRestClient()
@@ -38,10 +37,11 @@ class SprintService
     }
 
 
-    static function getSprintFromJSON($json)
+    public static function getSprintFromJSON($json)
     {
         $json_mapper = new \JsonMapper();
         $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+
         return $json_mapper->map($json, new Sprint());
     }
 
@@ -58,6 +58,7 @@ class SprintService
     public function getSprint($sprintId)
     {
         $ret = $this->restClient->exec($this->uri.'/'.$sprintId);
+
         return $this->getSprintFromJSON(json_decode($ret));
     }
 
@@ -77,11 +78,12 @@ class SprintService
                     $sprint->completedVelocity = null;
                 }
             }
+
             return $sprint;
         } catch (JiraException $e) {
             print("Error Occured! " . $e->getMessage());
 
-            return null;
+            return;
         }
     }
 }
