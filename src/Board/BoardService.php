@@ -2,8 +2,8 @@
 
 namespace JiraRestApi\Board;
 
-use JiraRestApi\JiraClient;
 use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\JiraClient;
 use JiraRestApi\Sprint\SprintService;
 use Monolog\Logger;
 
@@ -19,7 +19,7 @@ class BoardService
         $this->path = $path;
         $this->restClient = $jiraClient;
         if (!$this->restClient) {
-          $this->setRestClient();
+            $this->setRestClient();
         }
 
     }
@@ -35,7 +35,7 @@ class BoardService
         $json_mapper = new \JsonMapper();
         $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
         return $json_mapper->map($json,
-            new Board() );
+            new Board());
     }
     public static function getArrayOfBoardsFromJSON($boardList)
     {
@@ -48,9 +48,9 @@ class BoardService
     }
 
     /**
-     *  get a Board
+     *  get a Board.
      *
-     * @param integer $boardId
+     * @param int $boardId
      *
      * @return object
      */
@@ -60,31 +60,31 @@ class BoardService
         return $this->getBoardFromJSON(json_decode($ret));
     }
     /**
-     *  get all Boards
+     *  get all Boards.
      *
-     * @param integer $boardId
+     * @param int $boardId
      *
      * @return object
      */
     public function getAllBoards($paramArray = [])
     {
-        $boardArray = array();
-        $boardArray = $this->loopOverResults($this->uri,$paramArray);
+        $boardArray = [];
+        $boardArray = $this->loopOverResults($this->uri, $paramArray);
         return $this->getArrayOfBoardsFromJSON($boardArray);
     }
 
-    public function getBoardWithSprintsList($boardId = null,$paramArray = [])
+    public function getBoardWithSprintsList($boardId = null, $paramArray = [])
     {
         if (is_null($boardId)) {
             $boardList = $this->getAllBoards();
-            $boards = array();
+            $boards = [];
             foreach ($boardList as $board) {
                 if ($board->type == 'scrum') {
                     $boards[] = $this->getSprintInfoForBoard($board->id, $paramArray);
                 } else {
                     $boards[] = $board;
                 }
-        }
+            }
         } else {
             $boards[] = $this->getSprintInfoForBoard($boardId, $paramArray);
         }
@@ -103,17 +103,17 @@ class BoardService
         return $board;
     }
 
-    public function loopOverResults($uri,$paramArray = [])
+    public function loopOverResults($uri, $paramArray = [])
     {
         $resultsArray = array();
         $ret = $this->restClient->exec($uri.$this->restClient->toHttpQueryParameter($paramArray), null);
         $results = json_decode($ret);
         while (!$results->isLast) {
-            $resultsArray = array_merge($resultsArray,$results->values);
+            $resultsArray = array_merge($resultsArray, $results->values);
             $paramArray['startAt'] = $results->startAt + $results->maxResults;
             $ret = $this->restClient->exec($this->uri.$this->restClient->toHttpQueryParameter($paramArray), null);
             $results = json_decode($ret);
         }
-        return array_merge($resultsArray,$results->values);
+        return array_merge($resultsArray, $results->values);
         }
 }

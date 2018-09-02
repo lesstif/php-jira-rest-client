@@ -77,7 +77,7 @@ class Sprint implements \JsonSerializable
 
     public function getGoal()
     {
-        return str_replace(array("\n\r", "\n", "\r"), '', $this->goal);
+        return str_replace(["\n\r", "\n", "\r"], '', $this->goal);
     }
 
     public function getStartDate($format = 'Y-m-d H:i:s')
@@ -86,7 +86,6 @@ class Sprint implements \JsonSerializable
             $date = new \DateTime($this->startDate);
             return date_format($date, $format);
         }
-            return null;
     }
 
     public function getEndDate($format = 'Y-m-d H:i:s')
@@ -95,7 +94,6 @@ class Sprint implements \JsonSerializable
             $date = new \DateTime($this->endDate);
             return date_format($date, $format);
         }
-        return null;
     }
 
 }

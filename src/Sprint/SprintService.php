@@ -31,7 +31,8 @@ class SprintService
 
     }
 
-    public function setRestClient(){
+    public function setRestClient()
+    {
         $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
         $this->restClient->setAPIUri('');
     }
@@ -41,13 +42,13 @@ class SprintService
     {
         $json_mapper = new \JsonMapper();
         $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
-        return $json_mapper->map($json, new Sprint() );
+        return $json_mapper->map($json, new Sprint());
     }
 
     /**
      *  get all Sprint list.
      *
-     * @param integer $sprintId
+     * @param int $sprintId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -60,14 +61,15 @@ class SprintService
         return $this->getSprintFromJSON(json_decode($ret));
     }
 
-    public function getVelocityForSprint($sprintID){
+    public function getVelocityForSprint($sprintID)
+    {
         try {
             $sprint = $this->getSprint($sprintID);
-            if (!is_null($sprint->originBoardId)){
+            if (!is_null($sprint->originBoardId)) {
                 $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
                 $velocityObject = json_decode($ret);
                 $velocityStats = $velocityObject->{'velocityStatEntries'};
-                if (property_exists($velocityStats,$sprint->id)) {
+                if (property_exists($velocityStats, $sprint->id)) {
                     $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
                     $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
                 } else {
@@ -76,11 +78,10 @@ class SprintService
                 }
             }
             return $sprint;
-        }
-        catch (JiraException $e) {
+        } catch (JiraException $e) {
             print("Error Occured! " . $e->getMessage());
+
             return null;
         }
     }
-
 }
