@@ -100,6 +100,6 @@ class SprintServiceTest extends TestCase {
     $sprint = $sprintService->getVelocityForSprint(780);
     $this->assertEquals(null,$sprint->completedVelocity);
   }
-
+//TODO add Test for sprint with no originBoardID
 
 }

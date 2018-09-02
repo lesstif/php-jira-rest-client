@@ -61,18 +61,26 @@ class SprintService
     }
 
     public function getVelocityForSprint($sprintID){
+      try {
         $sprint = $this->getSprint($sprintID);
-        $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
-        $velocityObject = json_decode($ret);
-        $velocityStats = $velocityObject->{'velocityStatEntries'};
-        if (property_exists($velocityStats,$sprint->id)) {
-          $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
-          $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
-        } else {
-          $sprint->estimatedVelocity = null;
-          $sprint->completedVelocity = null;
+        if (!is_null($sprint->originBoardId)){
+          $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
+          $velocityObject = json_decode($ret);
+          $velocityStats = $velocityObject->{'velocityStatEntries'};
+          if (property_exists($velocityStats,$sprint->id)) {
+            $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
+            $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
+          } else {
+            $sprint->estimatedVelocity = null;
+            $sprint->completedVelocity = null;
+          }
         }
         return $sprint;
+      }
+      catch (JiraException $e) {
+        print("Error Occured! " . $e->getMessage());
+        return null;
+      }
     }
 
 }

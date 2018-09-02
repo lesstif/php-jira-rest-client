@@ -70,20 +70,36 @@ class BoardService
     {
         $boardArray = array();
         $boardArray = $this->loopOverResults($this->uri,$paramArray);
-
-
-        // print $results
         return $this->getArrayOfBoardsFromJSON($boardArray);
     }
 
-    public function getBoardWithSprintsList($boardId,$paramArray = []){
+    public function getBoardWithSprintsList($boardId = null,$paramArray = []){
+      if (is_null($boardId)) {
+        $boardList = $this->getAllBoards();
+        $boards = array();
+        foreach($boardList as $board) {
+          if ($board->type == 'scrum') {
+            $boards[] = $this->getSprintInfoForBoard($board->id, $paramArray);
+          }else {
+            $boards[] = $board;
+          }
+        }
+      } else {
+        $boards[] = $this->getSprintInfoForBoard($boardId, $paramArray);
+      }
+      return $boards;
+    }
+
+    public function getSprintInfoForBoard($boardId,$paramArray) {
       $board = $this->getBoard($boardId);
       $sprintList = $this->loopOverResults($this->uri.'/'.$boardId.'/sprint/',$paramArray);
+      $sprintObjectsArray = array();
       foreach ($sprintList as $sprint) {
-        $sprintObjectsArray[] = SprintService::getSprintFromJSON($sprint);
+        $sprintObjectsArray[$sprint->id] = SprintService::getSprintFromJSON($sprint);
       }
       $board->sprintList = $sprintObjectsArray;
       return $board;
+
     }
 
     public function loopOverResults($uri,$paramArray = []) {
