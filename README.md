@@ -38,7 +38,7 @@
    }
    ```
 
-3. Then run Composer's install or update commands to complete installation. 
+3. Then run Composer's install or update commands to complete installation.
 
    ```sh
    php composer.phar install
@@ -57,7 +57,7 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 ## use dotenv
 
 
-copy .env.example file to .env on your project root.	
+copy .env.example file to .env on your project root.
 
 ```sh
 JIRA_HOST="https://your-jira.host.com"
@@ -77,7 +77,7 @@ PROXY_PASSWORD="proxy-password"
 As of March 15, 2018, in accordance to the [Atlassian REST API Policy](https://developer.atlassian.com/platform/marketplace/atlassian-rest-api-policy/), Basic auth with password to be deprecated.
 Instead of password, you should using [API token](https://confluence.atlassian.com/cloud/api-tokens-938839638.html).
 
-**Laravel Users:** 
+**Laravel Users:**
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
 
 ## use array
@@ -178,6 +178,16 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Update version](#update-version)
 - [Delete version](#delete-version)
 
+### Board
+- [Get Individual Board Info](#get-a-board)
+- [Get All Boards Info](#get-all-boards)
+- [Get Board with Sprint Info](#get-board-with-sprint)
+
+### Sprint
+- [Get Individual Sprint Info](#get-a-sprint)
+- [Get Sprint with Velocity Info](#get-sprint-with-velocity)
+
+
 
 #### Get Project Info
 
@@ -194,8 +204,8 @@ try {
     $proj = new ProjectService();
 
     $p = $proj->get('TEST');
-	
-    var_dump($p);			
+
+    var_dump($p);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -220,8 +230,8 @@ try {
     foreach ($prjs as $p) {
         echo sprintf("Project Key:%s, Id:%s, Name:%s, projectCategory: %s\n",
             $p->key, $p->id, $p->name, $p->projectCategory['name']
-        );			
-    }			
+        );
+    }
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -339,9 +349,9 @@ use JiraRestApi\JiraException;
 try {
     $fieldService = new FieldService();
 
-    // return custom field only. 
-    $ret = $fieldService->getAllFields(Field::CUSTOM); 
-    	
+    // return custom field only.
+    $ret = $fieldService->getAllFields(Field::CUSTOM);
+
     var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
@@ -362,7 +372,7 @@ use JiraRestApi\JiraException;
 
 try {
     $field = new Field();
-    
+
     $field->setName("New custom field")
             ->setDescription("Custom field for picking groups")
             ->setType("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
@@ -371,7 +381,7 @@ try {
     $fieldService = new FieldService();
 
     $ret = $fieldService->create($field);
-    
+
     var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
@@ -395,7 +405,7 @@ use JiraRestApi\JiraException;
 
 try {
     $issueService = new IssueService();
-	
+
     $queryParam = [
         'fields' => [  // default: '*all'
             'summary',
@@ -411,10 +421,10 @@ try {
             'changelog',
         ]
     ];
-            
+
     $issue = $issueService->get('TEST-867', $queryParam);
-	
-    var_dump($issue->fields);	
+
+    var_dump($issue->fields);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
@@ -449,11 +459,11 @@ try {
                 ->setSecurityId(10001 /* security scheme id */)
                 ->setDueDate('2019-06-19')
             ;
-	
+
     $issueService = new IssueService();
 
     $ret = $issueService->create($issueField);
-	
+
     //If success, Returns a link to the created issue.
     var_dump($ret);
 } catch (JiraException $e) {
@@ -481,11 +491,11 @@ try {
                     ['value' => 'opt2'], ['value' => 'opt4']
                 ]) // Select List (multiple choice)
     ;
-	
+
     $issueService = new IssueService();
 
     $ret = $issueService->create($issueField);
-	
+
     //If success, Returns a link to the created issue.
     var_dump($ret);
 } catch (JiraException $e) {
@@ -523,11 +533,11 @@ try {
                 ->setPriorityName("Critical")
                 ->setIssueType("Bug")
                 ->setDescription("Full description for second issue");
-    
+
     $issueService = new IssueService();
 
     $ret = $issueService->createMultiple([$issueFieldOne, $issueFieldTwo]);
-    
+
     //If success, returns an array of the created issues
     var_dump($ret);
 } catch (JiraException $e) {
@@ -547,7 +557,7 @@ Creating a sub-task is similar to creating a regular issue, with two important m
 ```
 
 for example
-​                
+​
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -598,7 +608,7 @@ try {
     $issueService = new IssueService();
 
     // multiple file upload support.
-    $ret = $issueService->addAttachments($issueKey, 
+    $ret = $issueService->addAttachments($issueKey,
         ['screen_capture.png', 'bug-description.pdf', 'README.md']
     );
 
@@ -623,7 +633,7 @@ use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
     $issueField = new IssueField(true);
 
     $issueField->setAssigneeName("admin")
@@ -759,7 +769,7 @@ use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
     $comment = new Comment();
 
     $body = <<<COMMENT
@@ -858,7 +868,7 @@ use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
 
-try {			
+try {
     $transition = new Transition();
     $transition->setTransitionName('Resolved');
     $transition->setCommentBody('performing the transition via REST API.');
@@ -913,20 +923,20 @@ try {
     $issueService = new IssueService();
 
     $pagination = -1;
-  
-    $startAt = 0;	//the index of the first issue to return (0-based)    
-    $maxResult = 3;	// the maximum number of issues to return (defaults to 50). 
+
+    $startAt = 0;	//the index of the first issue to return (0-based)
+    $maxResult = 3;	// the maximum number of issues to return (defaults to 50).
     $totalCount = -1;	// the number of issues to return
-  
+
     // first fetch
     $ret = $issueService->search($jql, $startAt, $maxResult);
     $totalCount = $ret->total;
-  	
+
     // do something with fetched data
     foreach ($ret->issues as $issue) {
         print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
     }
-  	
+
     // fetch remained data
     $page = $totalCount / $maxResult;
 
@@ -938,7 +948,7 @@ try {
         foreach ($ret->issues as $issue) {
             print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
         }
-    }     
+    }
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
@@ -1000,7 +1010,7 @@ try {
     $issueService = new IssueService();
 
     $rils = $issueService->getRemoteIssueLink($issueKey);
-        
+
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
 } catch (HTTPException $e) {
@@ -1060,16 +1070,16 @@ $issueKey = 'TEST-961';
 
 try {
     $issueService = new IssueService();
-    
+
     // get issue's time tracking info
     $ret = $issueService->getTimeTracking($this->issueKey);
     var_dump($ret);
-    
+
     $timeTracking = new TimeTracking;
 
     $timeTracking->setOriginalEstimate('3w 4d 6h');
     $timeTracking->setRemainingEstimate('1w 2d 3h');
-    
+
     // add time tracking
     $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
     var_dump($ret);
@@ -1164,23 +1174,23 @@ $issueKey = 'TEST-961';
 
 try {
     $issueService = new IssueService();
-    
+
     // get issue's all worklog
     $worklogs = $issueService->getWorklog($issueKey)->getWorklogs();
     var_dump($worklogs);
-    
+
     // get worklog by id
     $wlId = 12345;
     $wl = $issueService->getWorklogById($issueKey, $wlId);
     var_dump($wl);
-    
+
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
 ```
 
-#### Add watcher to Issue 
+#### Add watcher to Issue
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addWatcher)
 
@@ -1195,12 +1205,12 @@ $issueKey = 'TEST-961';
 
 try {
     $issueService = new IssueService();
-    
+
     // watcher's id
     $watcher = 'lesstif';
-    
+
     $issueService->addWatcher($issueKey, $watcher);
-    
+
 } catch (JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
@@ -1235,7 +1245,7 @@ try {
     ;
 
     $issueService->notify($issueKey, $noti);
-    
+
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Issue notify Failed : '.$e->getMessage());
 }
@@ -1261,7 +1271,7 @@ try {
         ->setOutwardIssue('TEST-249')
         ->setLinkTypeName('Relates' )
         ->setComment('Linked related issue via REST API.');
-            
+
     $ils = new IssueLinkService();
 
     $ret = $ils->addIssueLink($il);
@@ -1289,7 +1299,7 @@ try {
     $ils = new IssueLinkService();
 
     $ret = $ils->getIssueLinkTypes();
-    
+
     var_dump($ret);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
@@ -1300,7 +1310,7 @@ try {
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-createUser)
 
-Create user. 
+Create user.
 By default created user will not be notified with email. If password field is not set then password will be randomly generated.
 
 ```php
@@ -1357,7 +1367,7 @@ try {
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findUsers)
 
-Returns a list of users that match the search string and/or property. 
+Returns a list of users that match the search string and/or property.
 
 ```php
 <?php
@@ -1370,7 +1380,7 @@ try {
     $us = new UserService();
 
     $paramArray = [
-        'username' => '.', // get all users. 
+        'username' => '.', // get all users.
         'startAt' => 0,
         'maxResults' => 1000,
         'includeInactive' => true,
@@ -1389,7 +1399,7 @@ try {
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findAssignableUsers)
 
-Returns a list of users that match the search string. 
+Returns a list of users that match the search string.
 
 ```php
 <?php
@@ -1551,7 +1561,7 @@ try {
     $ps = new PriorityService();
 
     $p = $ps->getAll();
-	
+
     var_dump($p);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
@@ -1573,7 +1583,7 @@ try {
     $ps = new PriorityService();
 
     $p = $ps->get($priorityId = 1);
-	
+
     var_dump($p);
 } catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
@@ -1617,7 +1627,7 @@ use JiraRestApi\JiraException;
 try {
     $attachmentId = 12345;
     $outDir = "attachment_dir";
-    
+
     $atts = new AttachmentService();
     $att = $atts->get($attachmentId, $outDir, $overwrite = true);
 
@@ -1749,6 +1759,100 @@ try {
 }
 
 ```
+#### Get A Board
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-get)
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+use JiraRestApi\JiraException;
+
+try {
+    $boardService = new BoardService();
+    $board = $boardService->getBoard(1);
+    var_dump($board);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+#### Get All Boards
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-get)
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+use JiraRestApi\JiraException;
+
+try {
+    $boardService = new BoardService();
+    $boards = $boardService->getAllBoards();
+    var_dump($boards);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+- [Get Board with Sprint Info](#get-board-with-sprint)
+
+#### Get Board with sprint
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-sprint-get)
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+use JiraRestApi\JiraException;
+
+try {
+    $boardService = new BoardService();
+    $board = $boardService->getBoardWithSprintsList(4);
+    var_dump($board);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+#### Get A Sprint
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-sprint-sprintId-get)
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Sprint\SprintService;
+use JiraRestApi\JiraException;
+
+try {
+    $sprintService = new SprintService();
+    $sprint = $sprintService->getSprint(1);
+    var_dump($sprint);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+#### Get Sprint with Velocity
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Sprint\SprintService;
+use JiraRestApi\JiraException;
+
+try {
+    $sprintService = new SprintService();
+    $sprint = $sprintService->getVelocityForSprint(1);
+    var_dump($sprint);
+
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
 
 # License
 
