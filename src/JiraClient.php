@@ -17,7 +17,7 @@ class JiraClient
      *
      * @var \JsonMapper
      */
-    protected $json_mapper;
+    public $json_mapper;
 
     /**
      * HTTP response code.
@@ -255,6 +255,8 @@ class JiraClient
                     ."\nError Message : ".$response, $this->http_response);
             }
         }
+
+        $this->log->addInfo("Result=\n".$response);
 
         return $response;
     }
