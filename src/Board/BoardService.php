@@ -34,8 +34,10 @@ class BoardService
         $json_mapper = new \JsonMapper();
         $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
 
-        return $json_mapper->map($json,
-            new Board());
+        return $json_mapper->map(
+            $json,
+            new Board()
+        );
     }
 
     public static function getArrayOfBoardsFromJSON($boardList)
@@ -43,7 +45,8 @@ class BoardService
         $json_mapper = new \JsonMapper();
         $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
 
-        return $json_mapper->mapArray($boardList,
+        return $json_mapper->mapArray(
+            $boardList,
             new \ArrayObject(),
             '\JiraRestApi\Board\Board'
             );

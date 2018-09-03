@@ -98,5 +98,4 @@ class Sprint implements \JsonSerializable
             return date_format($date, $format);
         }
     }
-
 }
