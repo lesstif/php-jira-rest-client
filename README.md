@@ -111,6 +111,7 @@ $iss = new IssueService(new ArrayConfiguration(
 ## Table of Contents
 
 ### Project
+- [Create Project](#create-project)
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
 - [Get Project Type](#get-project-type)
@@ -178,6 +179,50 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Update version](#update-version)
 - [Delete version](#delete-version)
 
+#### Create Project
+
+Create a new project.
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-createProject)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Project\Project;
+use JiraRestApi\JiraException;
+
+try {
+    $p = new Project();
+
+    $p->setKey('EX')
+        ->setName('Example')
+        ->setProjectTypeKey('business')
+        ->setProjectTemplateKey('com.atlassian.jira-core-project-templates:jira-core-project-management')
+        ->setDescription('Example Project description')
+        ->setLead('lesstif')
+        ->setUrl('http://example.com')
+        ->setAssigneeType('PROJECT_LEAD')
+        ->setAvatarId(10130)
+        ->setIssueSecurityScheme(10000)
+        ->setPermissionScheme(10100)
+        ->setNotificationScheme(10100)
+        ->setCategoryId(10100)
+    ;
+
+    $proj = new ProjectService();
+
+    $pj = $proj->createProject($p);
+   
+    // "http://example.com/rest/api/2/project/10042"
+    var_dump($pj->self);
+    // 10042 
+    var_dump($pj->id);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+    }
+```
 
 #### Get Project Info
 
