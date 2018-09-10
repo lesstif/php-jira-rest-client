@@ -13,30 +13,42 @@ use JiraRestApi\JiraClient;
 use JiraRestApi\JiraException;
 use Monolog\Logger;
 
-class SprintService extends JiraClient
+class SprintService
 {
-    //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
-    private $uri = '/sprint';
+    private $uri = '/rest/agile/1.0/sprint';
 
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    protected $restClient;
+
+    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './', JiraClient $jiraClient = null)
     {
-        parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/1.0');
+        $this->configuration = $configuration;
+        $this->logger = $logger;
+        $this->path = $path;
+        $this->restClient = $jiraClient;
+        if (!$this->restClient) {
+            $this->setRestClient();
+        }
     }
 
-    public function getSprintFromJSON($json)
+    public function setRestClient()
     {
-        $sprint = $this->json_mapper->map(
-            $json, new Sprint()
-        );
+        $this->restClient = new JiraClient($this->configuration, $this->logger, $this->path);
+        $this->restClient->setAPIUri('');
+    }
 
-        return $sprint;
+
+    public static function getSprintFromJSON($json)
+    {
+        $json_mapper = new \JsonMapper();
+        $json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+
+        return $json_mapper->map($json, new Sprint());
     }
 
     /**
      *  get all Sprint list.
      *
-     * @param Sprint $sprintObject
+     * @param int $sprintId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -45,12 +57,33 @@ class SprintService extends JiraClient
      */
     public function getSprint($sprintId)
     {
-        $ret = $this->exec($this->uri.'/'.$sprintId, null);
+        $ret = $this->restClient->exec($this->uri.'/'.$sprintId);
 
-        $this->log->addInfo("Result=\n".$ret);
+        return $this->getSprintFromJSON(json_decode($ret));
+    }
 
-        return $sprint = $this->json_mapper->map(
-            json_decode($ret), new Sprint()
-        );
+    public function getVelocityForSprint($sprintID)
+    {
+        try {
+            $sprint = $this->getSprint($sprintID);
+            if (!is_null($sprint->originBoardId)) {
+                $ret = $this->restClient->exec('/rest/greenhopper/1.0/rapid/charts/velocity.json?rapidViewId='.$sprint->originBoardId.'&sprintId='.$sprint->id);
+                $velocityObject = json_decode($ret);
+                $velocityStats = $velocityObject->{'velocityStatEntries'};
+                if (property_exists($velocityStats, $sprint->id)) {
+                    $sprint->estimatedVelocity = $velocityStats->{$sprint->id}->{'estimated'}->value;
+                    $sprint->completedVelocity = $velocityStats->{$sprint->id}->{'completed'}->value;
+                } else {
+                    $sprint->estimatedVelocity = null;
+                    $sprint->completedVelocity = null;
+                }
+            }
+
+            return $sprint;
+        } catch (JiraException $e) {
+            print("Error Occured! " . $e->getMessage());
+
+            return;
+        }
     }
 }
