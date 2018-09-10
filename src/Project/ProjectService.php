@@ -243,4 +243,26 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         throw new JiraException("Can't found version \"$versionName\" in the Project \"$projectIdOrKey\"");
     }
+
+    /**
+     * Creates a new project.
+     *
+     * @param Project $project
+     *
+     * @throws JiraException
+     *
+     * @return Project project
+     */
+    public function createProject($project)
+    {
+        $data = json_encode($project);
+
+        $ret = $this->exec($this->uri, $data, 'POST');
+
+        $this->log->addInfo('createProject Result='.$ret);
+
+        return $this->json_mapper->map(
+            json_decode($ret), new Project()
+        );
+    }
 }
