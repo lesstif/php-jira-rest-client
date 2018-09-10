@@ -99,19 +99,19 @@ class Project implements \JsonSerializable
     /** @var string */
     public $projectTemplateKey;
 
-    /** @var integer */
+    /** @var int */
     public $avatarId;
 
-    /** @var integer */
+    /** @var int */
     public $issueSecurityScheme;
 
-    /** @var integer */
+    /** @var int */
     public $permissionScheme;
 
-    /** @var integer */
+    /** @var int */
     public $notificationScheme;
 
-    /** @var integer */
+    /** @var int */
     public $categoryId;
 
     public function jsonSerialize()
@@ -123,161 +123,193 @@ class Project implements \JsonSerializable
 
     /**
      * @param string $id
+     *
      * @return Project
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * @param string $key
+     *
      * @return Project
      */
     public function setKey($key)
     {
         $this->key = $key;
+
         return $this;
     }
 
     /**
      * @param string $name
+     *
      * @return Project
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * @param array $avatarUrls
+     *
      * @return Project
      */
     public function setAvatarUrls($avatarUrls)
     {
         $this->avatarUrls = $avatarUrls;
+
         return $this;
     }
 
     /**
      * @param array $projectCategory
+     *
      * @return Project
      */
     public function setProjectCategory($projectCategory)
     {
         $this->projectCategory = $projectCategory;
+
         return $this;
     }
 
     /**
      * @param null|string $description
+     *
      * @return Project
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * @param array $lead
+     *
      * @return Project
      */
     public function setLead($lead)
     {
         $this->lead = $lead;
+
         return $this;
     }
 
     /**
      * @param string $url
+     *
      * @return Project
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
     /**
      * @param string $projectTypeKey
+     *
      * @return Project
      */
     public function setProjectTypeKey($projectTypeKey)
     {
         $this->projectTypeKey = $projectTypeKey;
+
         return $this;
     }
 
     /**
      * @param string $projectTemplateKey
+     *
      * @return Project
      */
     public function setProjectTemplateKey($projectTemplateKey)
     {
         $this->projectTemplateKey = $projectTemplateKey;
+
         return $this;
     }
 
     /**
      * @param int $avatarId
+     *
      * @return Project
      */
     public function setAvatarId($avatarId)
     {
         $this->avatarId = $avatarId;
+
         return $this;
     }
 
     /**
      * @param int $issueSecurityScheme
+     *
      * @return Project
      */
     public function setIssueSecurityScheme($issueSecurityScheme)
     {
         $this->issueSecurityScheme = $issueSecurityScheme;
+
         return $this;
     }
 
     /**
      * @param int $permissionScheme
+     *
      * @return Project
      */
     public function setPermissionScheme($permissionScheme)
     {
         $this->permissionScheme = $permissionScheme;
+
         return $this;
     }
 
     /**
      * @param int $notificationScheme
+     *
      * @return Project
      */
     public function setNotificationScheme($notificationScheme)
     {
         $this->notificationScheme = $notificationScheme;
+
         return $this;
     }
 
     /**
      * @param int $categoryId
+     *
      * @return Project
      */
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
+
         return $this;
     }
 
     /**
      * @param null|string $assigneeType
+     *
      * @return Project
      */
     public function setAssigneeType($assigneeType)
     {
         $this->assigneeType = $assigneeType;
+
         return $this;
     }
 }
