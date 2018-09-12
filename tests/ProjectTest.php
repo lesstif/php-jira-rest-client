@@ -1,8 +1,9 @@
 <?php
 
 use JiraRestApi\Project\ProjectService;
+use PHPUnit\Framework\TestCase;
 
-class ProjectTest extends PHPUnit_Framework_TestCase
+class ProjectTest extends TestCase
 {
     public function testGetProject()
     {

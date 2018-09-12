@@ -4,8 +4,9 @@ use JiraRestApi\Dumper;
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
 use JiraRestApi\JiraException;
+use PHPUnit\Framework\TestCase;
 
-class CustomFieldsTest extends PHPUnit_Framework_TestCase
+class CustomFieldsTest extends TestCase
 {
     public function testGetFields()
     {

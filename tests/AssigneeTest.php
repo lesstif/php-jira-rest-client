@@ -5,8 +5,9 @@ use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
 use \Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class AssigneeTest extends PHPUnit_Framework_TestCase
+class AssigneeTest extends TestCase
 {
     /** @var JsonMapper */
     public $mapper;

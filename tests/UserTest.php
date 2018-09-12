@@ -4,8 +4,9 @@ use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
+use PHPUnit\Framework\TestCase;
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
     public function testCreateUser()
     {

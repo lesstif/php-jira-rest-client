@@ -1,8 +1,9 @@
 <?php
 
 use JiraRestApi\HTTPException;
+use PHPUnit\Framework\TestCase;
 
-class CurlTest extends PHPUnit_Framework_TestCase
+class CurlTest extends TestCase
 {
     public function testCurlPost()
     {

@@ -4,8 +4,9 @@ use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
 use JiraRestApi\JiraException;
+use PHPUnit\Framework\TestCase;
 
-class WorkLogTest extends PHPUnit_Framework_TestCase
+class WorkLogTest extends TestCase
 {
     public $issueKey = 'TEST-165';
 

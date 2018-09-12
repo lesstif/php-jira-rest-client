@@ -5,8 +5,9 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
 use JiraRestApi\JiraException;
+use PHPUnit\Framework\TestCase;
 
-class TimeTrackingTest extends PHPUnit_Framework_TestCase
+class TimeTrackingTest extends TestCase
 {
     private $issueKey = 'TEST-76';
 
