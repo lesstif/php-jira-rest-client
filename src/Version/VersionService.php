@@ -3,6 +3,7 @@
 namespace JiraRestApi\Version;
 
 use JiraRestApi\Issue\Version;
+use JiraRestApi\Issue\VersionIssueCounts;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\ProjectService;
 
@@ -141,14 +142,22 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * Returns a bean containing the number of fixed in and affected issues for the given version.
      *
-     * @param $id int version id
+     * @param Version      $version
      *
      * @throws JiraException
      *
      * @see https://docs.atlassian.com/jira/REST/server/#api/2/version-getVersionRelatedIssues
      */
-    public function getRelatedIssues($id)
+    public function getRelatedIssues(Version $version)
     {
-        throw new JiraException('get version Related Issues not yet implemented');
+        if (!$version->id || !is_numeric($version->id)) {
+            throw new JiraException($version->id.' is not a valid version id.');
+        }
+
+        $ret = $this->exec($this->uri.'/'.$version->id.'/relatedIssueCounts');
+
+        return $this->json_mapper->map(
+            json_decode($ret), new VersionIssueCounts()
+        );
     }
 }
