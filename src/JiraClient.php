@@ -204,6 +204,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
 
+        curl_setopt($ch, CURLOPT_ENCODING, '');
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
 
