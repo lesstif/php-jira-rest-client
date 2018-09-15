@@ -1,7 +1,5 @@
 <?php
 
-require 'vendor/autoload.php';
-
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
 use JiraRestApi\JiraException;
