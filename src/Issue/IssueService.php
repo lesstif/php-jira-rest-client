@@ -993,4 +993,42 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
+
+    /**
+     * convenient wrapper function for add or remove fix versions.
+     *
+     * @param string|int $issueIdOrKey
+     * @param array|null $addFixVersionsParam
+     * @param array|null $removeFixVersionsParam
+     * @param bool       $notifyUsers
+     *
+     * @throws JiraException
+     *
+     * @return Issue|object class
+     */
+    public function updateFixVersions($issueIdOrKey, $addFixVersionsParam, $removeFixVersionsParam, $notifyUsers = true)
+    {
+        $fixVersions = [];
+        foreach ($addFixVersionsParam as $a) {
+            array_push($fixVersions, ['add' => $a]);
+        }
+
+        foreach ($removeFixVersionsParam as $r) {
+            array_push($fixVersions, ['remove' => $r]);
+        }
+
+        $postData = json_encode([
+            'update' => [
+                'fixVersions' => $fixVersions,
+            ],
+        ], JSON_UNESCAPED_UNICODE);
+
+        $this->log->addInfo("Update fixVersions=\n".$postData);
+
+        $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
+
+        return $ret;
+    }
 }
