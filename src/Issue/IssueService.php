@@ -1010,11 +1010,11 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $fixVersions = [];
         foreach ($addFixVersionsParam as $a) {
-            array_push($fixVersions, ['add' => $a]);
+            array_push($fixVersions, ['add' => ['name' => $a]]);
         }
 
         foreach ($removeFixVersionsParam as $r) {
-            array_push($fixVersions, ['remove' => $r]);
+            array_push($fixVersions, ['remove' => ['name' => $r]]);
         }
 
         $postData = json_encode([
