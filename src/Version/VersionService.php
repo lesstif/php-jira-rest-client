@@ -142,7 +142,7 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * Returns a bean containing the number of fixed in and affected issues for the given version.
      *
-     * @param Version      $version
+     * @param Version $version
      *
      * @throws JiraException
      *
