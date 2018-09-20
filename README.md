@@ -112,6 +112,8 @@ $iss = new IssueService(new ArrayConfiguration(
 
 ### Project
 - [Create Project](#create-project)
+- [Update Project](#update-project)
+- [Delete Project](#delete-project)
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
 - [Get Project Type](#get-project-type)
@@ -219,6 +221,70 @@ try {
     var_dump($pj->self);
     // 10042 
     var_dump($pj->id);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+    }
+```
+
+#### Update Project
+
+Update a project.
+Only non null values sent in JSON will be updated in the project.
+
+Values available for the assigneeType field are: "PROJECT_LEAD" and "UNASSIGNED".
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-updateProject)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Project\Project;
+use JiraRestApi\JiraException;
+
+try {
+    $p = new Project();
+
+    $p->setName('Updated Example')
+        ->setProjectTypeKey('software')
+        ->setProjectTemplateKey('com.atlassian.jira-software-project-templates:jira-software-project-management')
+        ->setDescription('Updated Example Project description')
+        ->setLead('new-leader')
+        ->setUrl('http://new.example.com')
+        ->setAssigneeType('UNASSIGNED')
+    ;
+
+    $proj = new ProjectService();
+
+    $pj = $proj->updateProject($p, 'EX');
+   
+    var_dump($pj);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+    }
+```
+
+#### Delete Project
+
+Deletes a project.
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-deleteProject)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\Project\Project;
+use JiraRestApi\JiraException;
+
+try {
+    $proj = new ProjectService();
+
+    $pj = $proj->deleteProject('EX');
+   
+    var_dump($pj);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
     }

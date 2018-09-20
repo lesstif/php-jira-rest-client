@@ -265,4 +265,48 @@ class ProjectService extends \JiraRestApi\JiraClient
             json_decode($ret), new Project()
         );
     }
+
+    /**
+     * Updates a project.
+     *
+     * Only non null values sent in JSON will be updated in the project.
+     * Values available for the assigneeType field are: "PROJECT_LEAD" and "UNASSIGNED".
+     *
+     * @param Project $project
+     * @package string $projectIdOrKey
+     * @return Project project
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     */
+    public function updateProject($project, $projectIdOrKey)
+    {
+        $data = json_encode($project);
+
+        $ret = $this->exec($this->uri.'/'.$projectIdOrKey, $data, 'PUT');
+
+        $this->log->addInfo('updateProject Result='.$ret);
+
+        return $this->json_mapper->map(
+            json_decode($ret), new Project()
+        );
+    }
+
+    /**
+     *
+     * @param string $projectIdOrKey
+     * @return int response status
+     *
+     * STATUS 401 Returned if the user is not logged in.
+     * STATUS 204 - application/json Returned if the project is successfully deleted.
+     * STATUS 403 - Returned if the currently authenticated user does not have permission to delete the project.
+     * STATUS 404 - Returned if the project does not exist.
+     *
+     * @throws JiraException
+     */
+    public function deleteProject($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri.'/'.$projectIdOrKey, null, 'DELETE');
+
+        return $ret;
+    }
 }
