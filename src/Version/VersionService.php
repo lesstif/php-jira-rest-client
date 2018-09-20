@@ -3,6 +3,7 @@
 namespace JiraRestApi\Version;
 
 use JiraRestApi\Issue\Version;
+use JiraRestApi\Issue\VersionUnresolvedCount;
 use JiraRestApi\Issue\VersionIssueCounts;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\ProjectService;
@@ -159,6 +160,31 @@ class VersionService extends \JiraRestApi\JiraClient
         return $this->json_mapper->map(
             json_decode($ret),
             new VersionIssueCounts()
+        );
+    }
+
+    /**
+     * Returns a bean containing the number of unresolved issues for the given version.
+     *
+     * @param Version $version
+     *
+     * @throws JiraException
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/version-getVersionUnresolvedIssues
+     *
+     * @return VersionUnresolvedCount
+     */
+    public function getUnresolvedIssues(Version $version)
+    {
+        if (!$version->id || !is_numeric($version->id)) {
+            throw new JiraException($version->id.' is not a valid version id.');
+        }
+
+        $ret = $this->exec($this->uri.'/'.$version->id.'/unresolvedIssueCount');
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new VersionUnresolvedCount()
         );
     }
 }
