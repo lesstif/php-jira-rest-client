@@ -3,8 +3,8 @@
 namespace JiraRestApi\Version;
 
 use JiraRestApi\Issue\Version;
-use JiraRestApi\Issue\VersionUnresolvedCount;
 use JiraRestApi\Issue\VersionIssueCounts;
+use JiraRestApi\Issue\VersionUnresolvedCount;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\ProjectService;
 
