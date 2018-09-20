@@ -305,12 +305,13 @@ class Project implements \JsonSerializable
     /**
      * @param null|string $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
      *
-     * @return Project
      * @throws JiraException
+     *
+     * @return Project
      */
     public function setAssigneeType($assigneeType)
     {
-        if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED', ])) {
+        if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
             throw new JiraException('invalid assigneeType:'.$assigneeType);
         }
 

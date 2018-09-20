@@ -273,10 +273,11 @@ class ProjectService extends \JiraRestApi\JiraClient
      * Values available for the assigneeType field are: "PROJECT_LEAD" and "UNASSIGNED".
      *
      * @param Project $project
-     * @package string $projectIdOrKey
-     * @return Project project
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Project project
      */
     public function updateProject($project, $projectIdOrKey)
     {
@@ -292,16 +293,16 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     *
      * @param string $projectIdOrKey
+     *
+     * @throws JiraException
+     *
      * @return int response status
      *
      * STATUS 401 Returned if the user is not logged in.
      * STATUS 204 - application/json Returned if the project is successfully deleted.
      * STATUS 403 - Returned if the currently authenticated user does not have permission to delete the project.
      * STATUS 404 - Returned if the project does not exist.
-     *
-     * @throws JiraException
      */
     public function deleteProject($projectIdOrKey)
     {
