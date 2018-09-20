@@ -157,7 +157,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.'/'.$version->id.'/relatedIssueCounts');
 
         return $this->json_mapper->map(
-            json_decode($ret), new VersionIssueCounts()
+            json_decode($ret),
+            new VersionIssueCounts()
         );
     }
 }
