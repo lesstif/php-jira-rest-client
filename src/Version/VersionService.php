@@ -173,7 +173,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.'/'.$version->id.'/unresolvedIssueCount');
 
         return $this->json_mapper->map(
-            json_decode($ret), new VersionUnresolvedCount()
+            json_decode($ret),
+            new VersionUnresolvedCount()
         );
 
     }
