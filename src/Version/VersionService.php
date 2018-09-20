@@ -176,6 +176,5 @@ class VersionService extends \JiraRestApi\JiraClient
             json_decode($ret),
             new VersionUnresolvedCount()
         );
-
     }
 }
