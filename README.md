@@ -50,6 +50,8 @@
    require 'vendor/autoload.php';
    ```
 
+**Laravel:** Once installed, if you are not using automatic package discovery, then you need to register the `JiraRestApi\JiraRestApiServiceProvider` service provider in your `config/app.php`.
+
 # Configuration
 
 you can choose loads environment variables either 'dotenv' or 'array'.

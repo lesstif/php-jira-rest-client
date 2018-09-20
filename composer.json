@@ -27,5 +27,12 @@
         "psr-4" : {
             "JiraRestApi\\" : "src"
         }
+    },
+     "extra": {
+        "laravel": {
+            "providers": [
+                "JiraRestApi\\JiraRestApiServiceProvider"
+            ]
+        }
     }
 }
