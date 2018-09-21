@@ -187,7 +187,7 @@ $iss = new IssueService(new ArrayConfiguration(
 
 Create a new project.
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-createProject)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-createProject)
 
 ```php
 <?php
@@ -235,7 +235,7 @@ Only non null values sent in JSON will be updated in the project.
 
 Values available for the assigneeType field are: "PROJECT_LEAD" and "UNASSIGNED".
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-updateProject)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-updateProject)
 
 ```php
 <?php
@@ -271,7 +271,7 @@ try {
 
 Deletes a project.
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-deleteProject)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-deleteProject)
 
 ```php
 <?php
@@ -294,7 +294,7 @@ try {
 
 #### Get Project Info
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProject)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProject)
 
 ```php
 <?php
@@ -316,7 +316,7 @@ try {
 
 #### Get All Project list
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getAllProjects)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getAllProjects)
 
 ```php
 <?php
@@ -343,9 +343,9 @@ try {
 
 #### Get Project type
 
-[See Jira API reference (get all types)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project/type-getAllProjectTypes)
+[See Jira API reference (get all types)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project/type-getAllProjectTypes)
 
-[See Jira API reference (get type)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project/type-getProjectTypeByKey)
+[See Jira API reference (get type)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project/type-getProjectTypeByKey)
 
 ```php
 <?php
@@ -378,7 +378,7 @@ try {
 
 get all project's versions.
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProjectVersions)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProjectVersions)
 
 ```php
 <?php
@@ -405,7 +405,7 @@ try {
 
 or get pagenated project's versions.
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/project-getProjectVersionsPaginated)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProjectVersionsPaginated)
 
 ```php
 <?php
@@ -439,7 +439,7 @@ try {
 
 #### Get All Field List
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/field-getFields)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/field-getFields)
 
 ```php
 <?php
@@ -463,7 +463,7 @@ try {
 
 #### Create Custom Field
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/field-createCustomField)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/field-createCustomField)
 
 ```php
 <?php
@@ -495,7 +495,7 @@ If you need a list of custom field types(ex. *com.atlassian.jira.plugin.system.c
 
 #### Get Issue Info
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getIssue)
 
 Returns a full representation of the issue for the given issue key.
 
@@ -537,7 +537,7 @@ You can access the custom field associated with issue through *$issue->fields->c
 
 #### Create Issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssue)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-createIssue)
 
 ```php
 <?php
@@ -610,7 +610,7 @@ Currently, not tested for all custom field types.
 
 #### Create Multiple Issues
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssues)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-createIssues)
 
 ```php
 <?php
@@ -650,7 +650,7 @@ try {
 
 #### Create Sub Task
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-createIssue)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-createIssue)
 
 Creating a sub-task is similar to creating a regular issue, with two important method calls:
 
@@ -696,7 +696,7 @@ try {
 
 #### Add Attachment
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue/%7BissueIdOrKey%7D/attachments-addAttachment)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue/%7BissueIdOrKey%7D/attachments-addAttachment)
 
 ```php
 <?php
@@ -724,7 +724,7 @@ try {
 
 #### Update issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-editIssue)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-editIssue)
 
 ```php
 <?php
@@ -806,7 +806,7 @@ try {
 
 #### Change Assignee
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-assign)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-assign)
 
 ```php
 <?php
@@ -834,7 +834,7 @@ try {
 
 #### Remove Issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-deleteIssue)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-deleteIssue)
 
 ```php
 <?php
@@ -860,7 +860,7 @@ try {
 
 #### Add comment
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addComment)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addComment)
 
 ```php
 <?php
@@ -899,7 +899,7 @@ COMMENT;
 
 #### Get comment
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getComments)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getComments)
 
 ```php
 <?php
@@ -926,7 +926,7 @@ try {
 
 #### Delete comment
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-deleteComment)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-deleteComment)
 
 ```php
 <?php
@@ -959,7 +959,7 @@ you should pass that status name to `setTransitionName`
 
 i.e. `$transition->setTransitionName('Some Status')`
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-doTransition)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-doTransition)
 
 ```php
 <?php
@@ -988,7 +988,7 @@ try {
 
 ##### Simple Query
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/search-searchUsingSearchRequest)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-searchUsingSearchRequest)
 
 ```php
 <?php
@@ -1011,7 +1011,7 @@ try {
 
 ##### JQL with pagination
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/search-search)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-search)
 
 ```php
 <?php
@@ -1101,7 +1101,7 @@ try {
 
 ##### get remote issue link
 
-* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks)
+* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
 
@@ -1124,7 +1124,7 @@ try {
 
 ##### create remote issue link
 
-* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks)
+* [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
 use JiraRestApi\Issue\IssueService;
@@ -1157,9 +1157,9 @@ try {
 
 This methods use `get issue` and `edit issue` methods internally.
 
-[See Jira API reference (get issue)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue)
+[See Jira API reference (get issue)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getIssue)
 
-[See Jira API reference (edit issue)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-editIssue)
+[See Jira API reference (edit issue)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-editIssue)
 
 ```php
 <?php
@@ -1194,7 +1194,7 @@ try {
 
 #### Add worklog in issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addWorklog)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWorklog)
 
 ```php
 <?php
@@ -1228,7 +1228,7 @@ try {
 
 #### edit worklog in issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-updateWorklog)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-updateWorklog)
 
 ```php
 <?php
@@ -1261,9 +1261,9 @@ try {
 
 #### Get issue worklog
 
-[See Jira API reference (get full issue worklog)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssueWorklog)
+[See Jira API reference (get full issue worklog)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getIssueWorklog)
 
-[See Jira API reference (get worklog by id)](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getWorklog)
+[See Jira API reference (get worklog by id)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getWorklog)
 
 ```php
 <?php
@@ -1295,7 +1295,7 @@ try {
 
 #### Add watcher to Issue 
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-addWatcher)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWatcher)
 
 ```php
 <?php
@@ -1321,7 +1321,7 @@ try {
 
 #### issue notify
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-notify)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-notify)
 
 ```php
 <?php
@@ -1355,7 +1355,7 @@ try {
 ```
 #### Create Issue Link
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issueLink-linkIssues)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issueLink-linkIssues)
 
 The Link Issue Resource provides functionality to manage issue links.
 
@@ -1386,7 +1386,7 @@ try {
 
 #### Get Issue LinkType
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issueLinkType-getIssueLinkTypes)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issueLinkType-getIssueLinkTypes)
 
 Rest resource to retrieve a list of issue link types.
 
@@ -1411,7 +1411,7 @@ try {
 
 #### Create User
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-createUser)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-createUser)
 
 Create user. 
 By default created user will not be notified with email. If password field is not set then password will be randomly generated.
@@ -1443,7 +1443,7 @@ try {
 
 #### Get User Info
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-getUser)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-getUser)
 
 Returns a user.
 
@@ -1468,7 +1468,7 @@ try {
 
 #### Find Users
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findUsers)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-findUsers)
 
 Returns a list of users that match the search string and/or property. 
 
@@ -1500,7 +1500,7 @@ try {
 
 #### Find Assignable Users
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-findAssignableUsers)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-findAssignableUsers)
 
 Returns a list of users that match the search string. 
 
@@ -1532,7 +1532,7 @@ try {
 
 #### delete User
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/user-removeUser)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-removeUser)
 
 Removes user.
 
@@ -1557,7 +1557,7 @@ try {
 
 #### Create Group
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-createGroup)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/group-createGroup)
 
 Create new group.
 
@@ -1586,7 +1586,7 @@ try {
 
 #### Get Users from group
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-getUsersFromGroup)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/group-getUsersFromGroup)
 
 returns a paginated list of users who are members of the specified group and its subgroups.
 
@@ -1621,7 +1621,7 @@ try {
 
 ### Add User to group
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/group-addUserToGroup)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/group-addUserToGroup)
 
 add user to given group.
 
@@ -1651,7 +1651,7 @@ try {
 
 #### Get All Priority list
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/priority)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/priority)
 
 ```php
 <?php
@@ -1673,7 +1673,7 @@ try {
 
 #### Get Priority
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/priority)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/priority)
 
 ```php
 <?php
@@ -1695,7 +1695,7 @@ try {
 
 #### Get Attachment Info
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/attachment-getAttachment)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/attachment-getAttachment)
 
 ```php
 <?php
@@ -1743,7 +1743,7 @@ try {
 
 #### Remove attachment
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/attachment-removeAttachment)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/attachment-removeAttachment)
 
 ```php
 <?php
@@ -1765,7 +1765,7 @@ try {
 
 #### Create version
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/version-createVersion)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-createVersion)
 
 ```php
 <?php
@@ -1801,7 +1801,7 @@ try {
 
 #### Update version
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/version-updateVersion)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-updateVersion)
 
 ```php
 <?php
@@ -1837,7 +1837,7 @@ try {
 
 #### Delete version
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/version-delete)
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-delete)
 
 ```php
 <?php
