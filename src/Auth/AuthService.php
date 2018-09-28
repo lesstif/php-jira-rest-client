@@ -90,7 +90,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * Returns information about the currently authenticated user's session.
      * If the caller is not authenticated they will get a 401 Unauthorized status code.
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#auth/1/session-currentUser Jira Reference
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/session-currentUser Jira Reference
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
@@ -111,7 +111,7 @@ class AuthService extends \JiraRestApi\JiraClient
     /**
      * Logs the current user out of JIRA, destroying the existing session, if any.
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#auth/1/session-logout Jira Reference
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/session-logout Jira Reference
      *
      * @throws \JiraRestApi\JiraException
      * @throws \Exception
@@ -131,7 +131,7 @@ class AuthService extends \JiraRestApi\JiraClient
     /**
      * Logs the current user out of JIRA, destroying the existing session, if any.
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#auth/1/session-logout Jira Reference
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/session-logout Jira Reference
      *
      * @param string|null $username If null - takes username from configuration.
      * @param string|null $password If null - takes password from configuration.
@@ -166,7 +166,7 @@ class AuthService extends \JiraRestApi\JiraClient
     /**
      * This method invalidates the any current WebSudo session.
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#auth/1/websudo-release Jira Reference
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/websudo-release Jira Reference
      *
      * @throws \JiraRestApi\JiraException
      *
