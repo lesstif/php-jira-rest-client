@@ -803,7 +803,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-notify
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-notify
      */
     public function notify($issueIdOrKey, $notify)
     {
@@ -838,7 +838,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @return array array os RemoteIssueLink class
      *
      * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getRemoteIssueLinks
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks
      */
     public function getRemoteIssueLink($issueIdOrKey)
     {

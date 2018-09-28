@@ -14,7 +14,7 @@ namespace JiraRestApi\Issue;
  * $issues = $issueService->search($query->getQuery());
  * ```
  *
- * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/search search method
+ * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search search method
  * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-861257209.html jql usage
  * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-fields-reference-861257219.html jql
  *      fields reference

@@ -170,7 +170,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/version-getVersionUnresolvedIssues
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues
      *
      * @return VersionUnresolvedCount
      */
