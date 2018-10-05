@@ -133,6 +133,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
+    - [Update Fix Versions](#update-fix versions)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
@@ -801,6 +802,42 @@ try {
     var_dump($ret);
 } catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+}
+```
+
+##### Update fix versions
+
+This function is a convenient wrapper for add or remove fix version in the issue.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+try {
+    $issueKey = 'TEST-123';
+
+    $issueService = new IssueService();
+
+    $addVersions = [
+        '1.1.1', 'named-version'
+    ];
+
+    $removeVersions = [
+        '1.1.0', 'old-version'
+    ];
+
+    $ret = $issueService->updateFixVersions($issueKey,
+            $addVersions,
+            $removeVersions,
+            $notifyUsers = false
+        );
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'updateFixVersions Failed : '.$e->getMessage());
 }
 ```
 
