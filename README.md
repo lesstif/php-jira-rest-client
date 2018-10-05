@@ -183,6 +183,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Update version](#update-version)
 - [Delete version](#delete-version)
 - [Get version related issues](#get-version-related-issues)
+- [Get version unresolved issues](#get-version-related-issues)
 
 #### Create Project
 
@@ -1881,6 +1882,33 @@ try {
     $version = $projectService->getVersion('TEST', '1.0.0');
 
     $res = $versionService->getRelatedIssues($version);
+
+    var_dump($res);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get version unresolved issues
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Version\VersionService;
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
+
+try {
+    $versionService = new VersionService();
+    $projectService = new ProjectService();
+
+    $version = $projectService->getVersion('TEST', '1.0.0');
+
+    $res = $versionService->getUnresolvedIssues($version);
 
     var_dump($res);
 } catch (JiraException $e) {
