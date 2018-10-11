@@ -412,8 +412,8 @@ class IssueField implements \JsonSerializable
     /**
      * set issue's due date.
      *
-     * @param \DateTime|null $duedate due date string or DateTime object
-     * @param string         $format  datetime string format.
+     * @param string|\DateTime|null $duedate due date string or DateTime object
+     * @param string                $format  datetime string format.
      *
      * @return $this
      */
