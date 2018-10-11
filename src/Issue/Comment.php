@@ -21,10 +21,10 @@ class Comment implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Reporter */
     public $updateAuthor;
 
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     public $created;
 
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     public $updated;
 
     /** @var \JiraRestApi\Issue\Visibility */

@@ -22,7 +22,7 @@ class Version implements \JsonSerializable
     /** @var bool */
     public $released;
 
-    /** @var \DateTime|null */
+    /** @var \DateTimeInterface|null */
     public $releaseDate;
 
     /** @var bool */

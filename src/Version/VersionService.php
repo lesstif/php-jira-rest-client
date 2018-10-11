@@ -24,7 +24,7 @@ class VersionService extends \JiraRestApi\JiraClient
      */
     public function create($version)
     {
-        if ($version->releaseDate instanceof \DateTime) {
+        if ($version->releaseDate instanceof \DateTimeInterface) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
         $data = json_encode($version);
@@ -88,7 +88,7 @@ class VersionService extends \JiraRestApi\JiraClient
             throw new JiraException($version->id.' is not a valid version id.');
         }
 
-        if ($version->releaseDate instanceof \DateTime) {
+        if ($version->releaseDate instanceof \DateTimeInterface) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
         }
 

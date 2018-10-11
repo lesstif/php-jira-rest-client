@@ -16,7 +16,7 @@ class Attachment implements \JsonSerializable
     /* @var \JiraRestApi\Issue\Reporter */
     public $author;
 
-    /* @var \DateTime */
+    /* @var \DateTimeInterface */
     public $created;
 
     /* @var int */

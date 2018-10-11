@@ -81,6 +81,9 @@ class JiraClient
         // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
         $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
 
+        // Properties that are annotated with `@var \DateTimeInterface` should result in \DateTime objects being created.
+        $this->json_mapper->classMap[\DateTimeInterface::class] = \DateTime::class;
+
         // create logger
         if ($logger) {
             $this->log = $logger;
