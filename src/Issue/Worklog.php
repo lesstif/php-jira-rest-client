@@ -89,6 +89,7 @@ class Worklog
 
     // Note that in the docblock below, you cannot replace `mixed` by `\DateTimeInterface|string` because JsonMapper doesn't support that,
     // see <https://github.com/cweiske/jsonmapper/issues/64#issuecomment-269545585>.
+
     /**
      * Function to set start time of worklog.
      *
