@@ -15,7 +15,7 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
     {
         $this->mapper = new JsonMapper();
         $this->mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
-        $this->mapper->classMap[\DateTimeInterface::class] = \DateTime::class;
+        $this->mapper->classMap['\\' . \DateTimeInterface::class] = \DateTime::class;
     }
 
     public function tearDown()
