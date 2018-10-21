@@ -801,7 +801,7 @@ try {
 
     var_dump($ret);
 } catch (JiraException $e) {
-    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+    $this->assertTrue(false, 'updateLabels Failed : '.$e->getMessage());
 }
 ```
 
