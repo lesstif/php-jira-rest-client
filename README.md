@@ -133,6 +133,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
+    - [Update Fix Versions](#update-fix versions)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
@@ -182,6 +183,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create version](#create-version)
 - [Update version](#update-version)
 - [Delete version](#delete-version)
+- [Get version related issues](#get-version-related-issues)
+- [Get version unresolved issues](#get-version-related-issues)
 
 #### Create Project
 
@@ -225,7 +228,7 @@ try {
     var_dump($pj->id);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
-    }
+}
 ```
 
 #### Update Project
@@ -264,7 +267,7 @@ try {
     var_dump($pj);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
-    }
+}
 ```
 
 #### Delete Project
@@ -278,7 +281,6 @@ Deletes a project.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\Project\Project;
 use JiraRestApi\JiraException;
 
 try {
@@ -289,7 +291,7 @@ try {
     var_dump($pj);
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
-    }
+}
 ```
 
 #### Get Project Info
@@ -385,7 +387,6 @@ get all project's versions.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\Issue\Version;
 use JiraRestApi\JiraException;
 
 try {
@@ -800,7 +801,43 @@ try {
 
     var_dump($ret);
 } catch (JiraException $e) {
-    $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+    $this->assertTrue(false, 'updateLabels Failed : '.$e->getMessage());
+}
+```
+
+##### Update fix versions
+
+This function is a convenient wrapper for add or remove fix version in the issue.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+try {
+    $issueKey = 'TEST-123';
+
+    $issueService = new IssueService();
+
+    $addVersions = [
+        '1.1.1', 'named-version'
+    ];
+
+    $removeVersions = [
+        '1.1.0', 'old-version'
+    ];
+
+    $ret = $issueService->updateFixVersions($issueKey,
+            $addVersions,
+            $removeVersions,
+            $notifyUsers = false
+        );
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'updateFixVersions Failed : '.$e->getMessage());
 }
 ```
 
@@ -906,7 +943,6 @@ COMMENT;
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Comment;
 use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
@@ -933,7 +969,6 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Comment;
 use JiraRestApi\JiraException;
 
 $issueKey = "TEST-879";
@@ -943,7 +978,7 @@ try {
 
     $issueService = new IssueService();
 
-    $ret = $issueService->deleteComment($issueKey, commentId);
+    $ret = $issueService->deleteComment($issueKey, $commentId);
 
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
@@ -1104,10 +1139,13 @@ try {
 * [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
+<?php
+require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\RemoteIssueLink;
 use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-316';
 
 try {
     $issueService = new IssueService();
@@ -1116,7 +1154,7 @@ try {
         
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
-} catch (HTTPException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, $e->getMessage());
 }
 
@@ -1127,6 +1165,9 @@ try {
 * [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
+<?php
+require 'vendor/autoload.php';
+
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\RemoteIssueLink;
 use JiraRestApi\JiraException;
@@ -1270,7 +1311,6 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Worklog;
 use JiraRestApi\JiraException;
 
 $issueKey = 'TEST-961';
@@ -1394,7 +1434,6 @@ Rest resource to retrieve a list of issue link types.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\IssueLink\IssueLink;
 use JiraRestApi\IssueLink\IssueLinkService;
 use JiraRestApi\JiraException;
 
@@ -1488,7 +1527,7 @@ try {
         'maxResults' => 1000,
         'includeInactive' => true,
         //'property' => '*',
-        ];
+    ];
 
     // get the user info.
     $users = $us->findUsers($paramArray);
@@ -1685,7 +1724,7 @@ use JiraRestApi\JiraException;
 try {
     $ps = new PriorityService();
 
-    $p = $ps->get($priorityId = 1);
+    $p = $ps->get(1);
 	
     var_dump($p);
 } catch (JiraException $e) {
@@ -1782,7 +1821,7 @@ try {
 
     $versionService = new VersionService();
 
-    $version = new Version(');
+    $version = new Version();
 
     $version->setName('1.0.0')
             ->setDescription('Generated by script')
@@ -1807,8 +1846,7 @@ try {
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\Issue\Version;
-use JiraRestApi\Project\VersionService;
+use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\JiraException;
 
@@ -1843,8 +1881,7 @@ try {
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\Issue\Version;
-use JiraRestApi\Project\VersionService;
+use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\JiraException;
 
@@ -1855,6 +1892,60 @@ try {
     $version = $projectService->getVersion('TEST', '1.0.0');
 
     $res = $versionService->delete($version);
+
+    var_dump($res);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get version related issues
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionRelatedIssues)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Version\VersionService;
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
+
+try {
+    $versionService = new VersionService();
+    $projectService = new ProjectService();
+
+    $version = $projectService->getVersion('TEST', '1.0.0');
+
+    $res = $versionService->getRelatedIssues($version);
+
+    var_dump($res);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get version unresolved issues
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Version\VersionService;
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
+
+try {
+    $versionService = new VersionService();
+    $projectService = new ProjectService();
+
+    $version = $projectService->getVersion('TEST', '1.0.0');
+
+    $res = $versionService->getUnresolvedIssues($version);
 
     var_dump($res);
 } catch (JiraException $e) {
