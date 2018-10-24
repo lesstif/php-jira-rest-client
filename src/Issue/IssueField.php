@@ -23,10 +23,10 @@ class IssueField implements \JsonSerializable
     /** @var Reporter|null */
     public $reporter;
 
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     public $created;
 
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     public $updated;
 
     /** @var string|null */
@@ -92,7 +92,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $resolutiondate;
 
-    /** @var \DateTime|null */
+    /** @var \DateTimeInterface|null */
     public $duedate;
 
     /** @var array */
@@ -412,8 +412,8 @@ class IssueField implements \JsonSerializable
     /**
      * set issue's due date.
      *
-     * @param \DateTime|null $duedate due date string or DateTime object
-     * @param string         $format  datetime string format.
+     * @param string|\DateTimeInterface|null $duedate due date string or DateTimeInterface object
+     * @param string                         $format  datetime string format.
      *
      * @return $this
      */
@@ -421,7 +421,7 @@ class IssueField implements \JsonSerializable
     {
         if (is_string($duedate)) {
             $this->duedate = $duedate;
-        } elseif ($duedate instanceof \DateTime) {
+        } elseif ($duedate instanceof \DateTimeInterface) {
             $this->duedate = $duedate->format($format);
         } else {
             $this->duedate = null;

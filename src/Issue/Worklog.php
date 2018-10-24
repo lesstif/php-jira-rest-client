@@ -87,10 +87,13 @@ class Worklog
         return $this;
     }
 
+    // Note that in the docblock below, you cannot replace `mixed` by `\DateTimeInterface|string` because JsonMapper doesn't support that,
+    // see <https://github.com/cweiske/jsonmapper/issues/64#issuecomment-269545585>.
+
     /**
      * Function to set start time of worklog.
      *
-     * @param mixed $started started time value(\DateTime|string)  e.g. -  new DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
+     * @param mixed $started started time value(\DateTimeInterface|string)  e.g. -  new \DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
      *
      * @throws JiraException
      *
@@ -100,10 +103,10 @@ class Worklog
     {
         if (is_string($started)) {
             $dt = new \DateTime($started);
-        } elseif ($started instanceof \DateTime) {
+        } elseif ($started instanceof \DateTimeInterface) {
             $dt = $started;
         } else {
-            throw new JiraException('field only accept date string or DateTime class.'.get_class($started));
+            throw new JiraException('field only accept date string or DateTimeInterface object.'.get_class($started));
         }
 
         // workround micro second
@@ -115,7 +118,7 @@ class Worklog
     /**
      * Function to set start time of worklog.
      *
-     * @param \DateTime $started e.g. -  new DateTime("2014-04-05 16:00:00")
+     * @param \DateTimeInterface $started e.g. -  new \DateTime("2014-04-05 16:00:00")
      *
      * @return Worklog
      */
