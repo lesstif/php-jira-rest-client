@@ -57,6 +57,28 @@ class AttachmentService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Returns the actual attached file of attachment.
+     *
+     * @param $id string|int attachment Id
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return string
+     */
+    public function getFile($id)
+    {
+        $ret = $this->exec($this->uri.$id, null);
+
+        $this->log->addInfo("Result=\n".$ret);
+
+        $attachment = $this->json_mapper->map(
+            json_decode($ret), new Attachment()
+        );
+
+        return $this->forceDownload($attachment->content);
+    }
+
+    /**
      * Remove an attachment from an issue.
      *
      * @param $id string|int attachment id

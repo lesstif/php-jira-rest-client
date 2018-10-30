@@ -593,6 +593,81 @@ class JiraClient
     }
 
     /**
+     * force download.
+     *
+     * @param $url full url
+     * @param $cookieFile cookie filename
+     *
+     * @throws JiraException
+     *
+     * @return bool|mixed
+     */
+    public function forceDownload($url, $cookieFile = null)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $this->authorization($ch, $cookieFile);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
+        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
+           curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        }
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
+
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
+
+        $this->log->addDebug('Curl exec='.$url);
+        $response = curl_exec($ch);
+
+        // if request failed.
+        if (!$response) {
+            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $body = curl_error($ch);
+            curl_close($ch);
+
+            /*
+             * 201: The request has been fulfilled, resulting in the creation of a new resource.
+             * 204: The server successfully processed the request, but is not returning any content.
+             */
+            if ($this->http_response === 204 || $this->http_response === 201) {
+                return true;
+            }
+
+            // HostNotFound, No route to Host, etc Network error
+            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
+
+            $this->log->addError($msg);
+
+            throw new JiraException($msg);
+        } else {
+            // if request was ok, parsing http response code.
+            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=' . basename($url));
+            header('Content-Transfer-Encoding: binary');
+
+            curl_close($ch);
+
+            // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
+            if ($this->http_response != 200 && $this->http_response != 201) {
+                throw new JiraException('CURL HTTP Request Failed: Status Code : '
+                    .$this->http_response.', URL:'.$url
+                    ."\nError Message : ".$response, $this->http_response);
+            }
+        }
+
+        return $response;
+    }
+
+  /**
      * setting cookie file path.
      *
      * @param $cookieFile
