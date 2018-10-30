@@ -621,7 +621,7 @@ class JiraClient
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Accept: */*',
             'Content-Type: application/json',
-            'X-Atlassian-Token: no-check'
+            'X-Atlassian-Token: no-check',
         ]);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
@@ -654,7 +654,7 @@ class JiraClient
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=' . basename($url));
+            header('Content-Disposition: attachment; filename='.basename($url));
             header('Content-Transfer-Encoding: binary');
 
             curl_close($ch);
@@ -670,7 +670,7 @@ class JiraClient
         return $response;
     }
 
-  /**
+    /**
      * setting cookie file path.
      *
      * @param $cookieFile
