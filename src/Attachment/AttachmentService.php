@@ -72,7 +72,8 @@ class AttachmentService extends \JiraRestApi\JiraClient
         $this->log->addInfo("Result=\n".$ret);
 
         $attachment = $this->json_mapper->map(
-            json_decode($ret), new Attachment()
+            json_decode($ret),
+            new Attachment()
         );
 
         return $this->forceDownload($attachment->content);

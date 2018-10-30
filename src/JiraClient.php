@@ -615,11 +615,14 @@ class JiraClient
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
-           curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: */*',
+            'Content-Type: application/json',
+            'X-Atlassian-Token: no-check'
+        ]);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
