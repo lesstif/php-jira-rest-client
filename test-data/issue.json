@@ -26,7 +26,7 @@
                 "32x32": "https://jira.example.com/secure/projectavatar?size=medium&avatarId=10324"
             }
         },
-        "fixVersions": [],
+        "fixVersions": ["1.1.3","2.1.5"],
         "aggregatetimespent": null,
         "resolution": null,
         "customfield_10310": null,
@@ -90,7 +90,7 @@
                 "name": "할 일"
             }
         },
-        "components": [],
+        "components": ["comp1", "comp2"],
         "timeoriginalestimate": null,
         "description": "h2. This is your first task. \n{color:#707070} Issues are the things you do in a project. In business projects, issues are called tasks. {color}\nh4. Types of tasks\n{color:#707070}A task can represent a document, a creative asset, a purchase and even a person.{color}\n!IssueTypes.png!\nh4. Details\n{color:#707070}The 'Details' section above, provides the information you need, such as priority and status, to help you track the progress of your tasks.{color}\nNext: [Workflows and statuses|TEST-2]\n\n----\n[Learn more |http://blogs.atlassian.com/2015/11/make-jira-core-issues-work-for-your-business-team/]",
         "customfield_10211": null,
@@ -164,7 +164,7 @@
         },
         "customfield_10004": null,
         "environment": null,
-        "duedate": null,
+        "duedate": "2021-06-19",
         "progress": {
             "progress": 0,
             "total": 0
