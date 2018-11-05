@@ -591,8 +591,7 @@ class JiraClient
                 header('Content-Type: application/octet-stream');
                 header('Content-Disposition: attachment; filename='.basename($url));
                 header('Content-Transfer-Encoding: binary');
-            }
-            else {
+            } else {
                 fclose($file);
             }
 
