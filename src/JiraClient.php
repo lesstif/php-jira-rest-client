@@ -566,7 +566,7 @@ class JiraClient
             curl_close($ch);
 
             if (!$forceDownload) {
-               fclose($file);
+                fclose($file);
             }
 
             /*
