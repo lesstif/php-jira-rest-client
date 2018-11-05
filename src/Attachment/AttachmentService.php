@@ -76,7 +76,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
             new Attachment()
         );
 
-        return $this->forceDownload($attachment->content);
+        return $this->download($attachment->content);
     }
 
     /**
