@@ -765,6 +765,29 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * remove watcher from issue.
+     *
+     * @param string|int $issueIdOrKey
+     * @param string     $watcher      watcher id
+     *
+     * @throws JiraException
+     *
+     * @return bool
+     */
+    public function removeWatcher($issueIdOrKey, $watcher)
+    {
+      $this->log->addInfo("removeWatcher=\n");
+
+      $data = json_encode($watcher);
+      $url = $this->uri."/$issueIdOrKey/watchers";
+      $type = 'DELETE';
+
+      $this->exec($url, $data, $type);
+
+      return $this->http_response == 204 ? true : false;
+    }
+    
+    /**
      * Get the meta data for creating issues.
      *
      * @param array $paramArray Possible keys for $paramArray: 'projectIds', 'projectKeys', 'issuetypeIds', 'issuetypeNames'.
