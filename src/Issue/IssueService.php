@@ -776,15 +776,15 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function removeWatcher($issueIdOrKey, $watcher)
     {
-      $this->log->addInfo("removeWatcher=\n");
+        $this->log->addInfo("removeWatcher=\n");
 
-      $data = json_encode($watcher);
-      $url = $this->uri."/$issueIdOrKey/watchers";
-      $type = 'DELETE';
+        $data = json_encode($watcher);
+        $url = $this->uri."/$issueIdOrKey/watchers";
+        $type = 'DELETE';
 
-      $this->exec($url, $data, $type);
+        $this->exec($url, $data, $type);
 
-      return $this->http_response == 204 ? true : false;
+        return $this->http_response == 204 ? true : false;
     }
     
     /**
