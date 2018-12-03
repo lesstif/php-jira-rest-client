@@ -786,7 +786,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $this->http_response == 204 ? true : false;
     }
-    
+
     /**
      * Get the meta data for creating issues.
      *
