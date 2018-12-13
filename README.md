@@ -133,7 +133,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
-    - [Update Fix Versions](#update-fix versions)
+    - [Update Fix Versions](#update-fix-versions)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
 - [Add comment](#add-comment)
