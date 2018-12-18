@@ -171,10 +171,10 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        if (is_string($post_data)){
+        if (is_string($post_data)) {
             $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
         } elseif (is_array($post_data)) {
-            $this->log->addInfo("Curl $custom_request: $url JsonData=" . json_encode($post_data, JSON_UNESCAPED_UNICODE));
+            $this->log->addInfo("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
         }
 
         $ch = curl_init();
