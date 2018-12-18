@@ -171,7 +171,11 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
+        if (is_string($post_data)){
+            $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
+        } elseif (is_array($post_data)) {
+            $this->log->addInfo("Curl $custom_request: $url JsonData=" . json_encode($post_data, JSON_UNESCAPED_UNICODE));
+        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -226,7 +230,7 @@ class JiraClient
         $this->log->addDebug('Curl exec='.$url);
         $response = curl_exec($ch);
 
-        // if request failed.
+        // if request failed or have no result.
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $body = curl_error($ch);
@@ -236,7 +240,7 @@ class JiraClient
              * 201: The request has been fulfilled, resulting in the creation of a new resource.
              * 204: The server successfully processed the request, but is not returning any content.
              */
-            if ($this->http_response === 204 || $this->http_response === 201) {
+            if ($this->http_response === 204 || $this->http_response === 201 || $this->http_response === 200) {
                 return true;
             }
 

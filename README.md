@@ -170,6 +170,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Group](#create-group)
 - [Get Users from group](#get-users-from-group)
 - [Add User to group](#add-user-to-group)
+- [Remove User from group](#remove-user-from-group)
 
 ### Priority
 - [Get All Priority list](#get-all-priority-list)
@@ -1681,6 +1682,33 @@ try {
 
     // print current state of the group.
     print_r($ret);
+
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+### Remove User from group
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/group-removeUserFromGroup)
+
+Removes given user from a group.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\Group\GroupService;
+
+try {
+    $groupName  = '한글 그룹 name';
+    $userName = 'lesstif';
+
+    $gs = new GroupService();
+
+    $gs->removeUserFromGroup($groupName, $userName);
 
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
