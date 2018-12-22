@@ -136,9 +136,6 @@ $iss = new IssueService(new ArrayConfiguration(
     - [Update Fix Versions](#update-fix-versions)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
-- [Add comment](#add-comment)
-- [Get comment](#get-comment)
-- [Delete comment](#delete-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
     - [Simple JQL](#simple-query)
@@ -153,6 +150,12 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get Issue worklog](#get-issue-worklog)
 - [Add watcher to Issue](#add-watcher-to-issue)
 - [Send a notification to the recipients](#issue-notify)
+
+### Comment
+- [Add comment](#add-comment)
+- [Get comment](#get-comment)
+- [Delete comment](#delete-comment)
+- [Update comment](#update-comment)
 
 ### IssueLink
 
@@ -980,6 +983,36 @@ try {
     $issueService = new IssueService();
 
     $ret = $issueService->deleteComment($issueKey, $commentId);
+
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
+}
+
+```
+
+#### Update comment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-updateComment)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+use JiraRestApi\Issue\Comment;
+
+$issueKey = "TEST-879";
+
+try {
+    $commentId = 12345;
+
+    $issueService = new IssueService();
+        
+    $comment = new Comment();
+    $comment->setBody('Updated comments');
+    
+    $issueService->updateComment($issueKey, $commentId, $comment);
 
 } catch (JiraException $e) {
     $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
