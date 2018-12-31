@@ -4,6 +4,7 @@ namespace JiraRestApi;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
+use Psr\Log\LoggerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
 
@@ -64,7 +65,7 @@ class JiraClient
      * @throws JiraException
      * @throws \Exception
      */
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         if ($configuration === null) {
             if (!file_exists($path.'.env')) {
