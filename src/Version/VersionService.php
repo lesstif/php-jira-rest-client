@@ -29,7 +29,7 @@ class VersionService extends \JiraRestApi\JiraClient
         }
         $data = json_encode($version);
 
-        $this->log->addInfo("Create Version=\n".$data);
+        $this->log->info("Create Version=\n".$data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
@@ -63,7 +63,7 @@ class VersionService extends \JiraRestApi\JiraClient
     {
         $ret = $this->exec($this->uri.'/'.$id);
 
-        $this->log->addInfo('Result='.$ret);
+        $this->log->info('Result='.$ret);
 
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
