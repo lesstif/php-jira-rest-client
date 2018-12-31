@@ -4,9 +4,9 @@ namespace JiraRestApi;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
-use Psr\Log\LoggerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interact jira server with REST API.
