@@ -6,6 +6,7 @@ use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interact jira server with REST API.
@@ -64,7 +65,7 @@ class JiraClient
      * @throws JiraException
      * @throws \Exception
      */
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         if ($configuration === null) {
             if (!file_exists($path.'.env')) {
@@ -172,9 +173,9 @@ class JiraClient
         $url = $this->createUrlByContext($context);
 
         if (is_string($post_data)) {
-            $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
+            $this->log->info("Curl $custom_request: $url JsonData=".$post_data);
         } elseif (is_array($post_data)) {
-            $this->log->addInfo("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
+            $this->log->info("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
         }
 
         $ch = curl_init();
@@ -227,7 +228,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
         }
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
         // if request failed or have no result.
@@ -247,7 +248,7 @@ class JiraClient
             // HostNotFound, No route to Host, etc Network error
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
-            $this->log->addError($msg);
+            $this->log->error($msg);
 
             throw new JiraException($msg);
         } else {
@@ -291,7 +292,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 ['file' => '@'.$attachments.';filename='.$filename]);
 
-            $this->log->addDebug('using legacy file upload');
+            $this->log->debug('using legacy file upload');
         } else {
             // CURLFile require PHP > 5.5
             $attachments = new \CURLFile(realpath($upload_file));
@@ -300,7 +301,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 ['file' => $attachments]);
 
-            $this->log->addDebug('using CURLFile='.var_export($attachments, true));
+            $this->log->debug('using CURLFile='.var_export($attachments, true));
         }
 
         $this->authorization($ch);
@@ -320,7 +321,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
 
         return $ch;
     }
@@ -385,7 +386,7 @@ class JiraClient
                 // HostNotFound, No route to Host, etc Network error
                 $result_code = -1;
                 $body = 'CURL Error: = '.$body;
-                $this->log->addError($body);
+                $this->log->error($body);
             } else {
                 // if request was ok, parsing http response code.
                 $result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -395,7 +396,7 @@ class JiraClient
                     $body = 'CURL HTTP Request Failed: Status Code : '
                         .$this->http_response.', URL:'.$url;
 
-                    $this->log->addError($body);
+                    $this->log->error($body);
                 }
             }
         }
@@ -416,11 +417,11 @@ class JiraClient
     protected function closeCURLHandle(array $chArr, $mh, $body, $result_code)
     {
         foreach ($chArr as $ch) {
-            $this->log->addDebug('CURL Close handle..');
+            $this->log->debug('CURL Close handle..');
             curl_multi_remove_handle($mh, $ch);
             curl_close($ch);
         }
-        $this->log->addDebug('CURL Multi Close handle..');
+        $this->log->debug('CURL Multi Close handle..');
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
@@ -458,7 +459,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
 
-            $this->log->addDebug('Using cookie..');
+            $this->log->debug('Using cookie..');
         }
 
         // if cookie file not exist, using id/pwd login
@@ -554,7 +555,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
         // if request failed.
@@ -575,7 +576,7 @@ class JiraClient
             // HostNotFound, No route to Host, etc Network error
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
-            $this->log->addError($msg);
+            $this->log->error($msg);
 
             throw new JiraException($msg);
         } else {

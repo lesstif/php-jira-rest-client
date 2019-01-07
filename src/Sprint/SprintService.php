@@ -47,7 +47,7 @@ class SprintService extends JiraClient
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
-        $this->log->addInfo("Result=\n".$ret);
+        $this->log->info("Result=\n".$ret);
 
         return $sprint = $this->json_mapper->map(
             json_decode($ret), new Sprint()

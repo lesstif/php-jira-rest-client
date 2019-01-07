@@ -13,11 +13,11 @@ class IssueLinkService extends \JiraRestApi\JiraClient
      */
     public function addIssueLink($issueLink)
     {
-        $this->log->addInfo("addIssueLink=\n");
+        $this->log->info("addIssueLink=\n");
 
         $data = json_encode($issueLink);
 
-        $this->log->addDebug("Create IssueLink=\n".$data);
+        $this->log->debug("Create IssueLink=\n".$data);
 
         $url = $this->uri.'/issueLink';
         $type = 'POST';
@@ -32,7 +32,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
      */
     public function getIssueLinkTypes()
     {
-        $this->log->addInfo("getIssueLinkTYpes=\n");
+        $this->log->info("getIssueLinkTYpes=\n");
 
         $url = $this->uri.'/issueLinkType';
 
