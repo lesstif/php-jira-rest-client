@@ -90,5 +90,4 @@ class Location implements \JsonSerializable
             return !is_null($var);
         });
     }
-
 }

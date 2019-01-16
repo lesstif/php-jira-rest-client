@@ -53,5 +53,4 @@ class BoardService extends \JiraRestApi\JiraClient
 
         return $board;
     }
-
 }

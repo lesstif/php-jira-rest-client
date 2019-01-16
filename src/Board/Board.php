@@ -6,7 +6,6 @@ use JiraRestApi\ClassSerialize;
 
 class Board implements \JsonSerializable
 {
-
     use ClassSerialize;
 
     /** @var int */
@@ -41,7 +40,7 @@ class Board implements \JsonSerializable
      */
     public function getSelf()
     {
-          return $this->self;
+        return $this->self;
     }
 
     /**
@@ -74,5 +73,4 @@ class Board implements \JsonSerializable
             return !is_null($var);
         });
     }
-
 }
