@@ -55,6 +55,7 @@ class BoardTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ArrayObject::class, $board_issues, 'We receive a board issue list.');
         $first_issue = reset($board_issues);
         $this->assertInstanceOf(Issue::class, $first_issue);
+        $this->assertNotEmpty($first_issue->id);
     }
 
 }
