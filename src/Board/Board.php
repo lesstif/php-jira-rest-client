@@ -33,7 +33,7 @@ class Board implements \JsonSerializable
      */
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
 
     /**
@@ -41,7 +41,7 @@ class Board implements \JsonSerializable
      */
     public function getSelf()
     {
-      return $this->self;
+          return $this->self;
     }
 
     /**
@@ -49,7 +49,7 @@ class Board implements \JsonSerializable
      */
     public function getName()
     {
-      return $this->name;
+        return $this->name;
     }
 
     /**
@@ -57,7 +57,7 @@ class Board implements \JsonSerializable
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
@@ -65,7 +65,7 @@ class Board implements \JsonSerializable
      */
     public function getLocation()
     {
-      return $this->location;
+        return $this->location;
     }
 
     public function jsonSerialize()

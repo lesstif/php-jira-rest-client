@@ -2,76 +2,83 @@
 
 namespace JiraRestApi\Board;
 
-class Location implements \JsonSerializable {
-
-      /** @var int **/
+class Location implements \JsonSerializable
+{
+    /** @var int * */
     public $projectId;
 
-    /** @var string **/
+    /** @var string * */
     public $displayName;
 
-    /** @var string **/
+    /** @var string * */
     public $projectName;
 
-    /** @var string **/
+    /** @var string * */
     public $projectKey;
 
-    /** @var string **/
+    /** @var string * */
     public $projectTypeKey;
 
-    /** @var string **/
+    /** @var string * */
     public $avatarUri;
 
-    /** @var string **/
+    /** @var string * */
     public $name;
 
     /**
      * Get project id.
      */
-    public function getProjectId() {
-      return $this->projectId;
+    public function getProjectId()
+    {
+        return $this->projectId;
     }
 
     /**
      * Get project id.
      */
-    public function getDisplayName() {
-      return $this->displayName;
+    public function getDisplayName()
+    {
+        return $this->displayName;
     }
 
     /**
      * Get project name.
      */
-    public function getProjectName() {
-      return $this->projectName;
+    public function getProjectName()
+    {
+        return $this->projectName;
     }
 
     /**
      * Get project key.
      */
-    public function getProjectKey() {
-      return $this->projectKey;
+    public function getProjectKey()
+    {
+        return $this->projectKey;
     }
 
     /**
      * Get project type key.
      */
-    public function getProjectTypeKey() {
-      return $this->projectTypeKey;
+    public function getProjectTypeKey()
+    {
+        return $this->projectTypeKey;
     }
 
     /**
      * Get avatar uri.
      */
-    public function getAvatarUri() {
-      return $this->avatarUri;
+    public function getAvatarUri()
+    {
+        return $this->avatarUri;
     }
 
     /**
      * Get name.
      */
-    public function getName() {
-      return $this->name;
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
