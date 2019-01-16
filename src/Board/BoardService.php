@@ -30,6 +30,7 @@ class BoardService extends \JiraRestApi\JiraClient
         $boards = $this->json_mapper->mapArray(
             json_decode($json)->values, new \ArrayObject(), Board::class
         );
+
         return $boards;
     }
 
@@ -39,15 +40,17 @@ class BoardService extends \JiraRestApi\JiraClient
         $board = $this->json_mapper->map(
             json_decode($json), new Board()
         );
+
         return $board;
     }
 
     public function getBoardIssues($id, $paramArray = [])
     {
-        $json = $this->exec($this->uri.'/'.$id . $this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
         $board = $this->json_mapper->mapArray(
             json_decode($json), new \ArrayObject(), Issue::class
         );
+
         return $board;
     }
 
