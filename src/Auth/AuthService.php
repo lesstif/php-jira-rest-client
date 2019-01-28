@@ -73,9 +73,9 @@ class AuthService extends \JiraRestApi\JiraClient
     /**
      * AuthService constructor.
      *
-     * @param ConfigurationInterface|null $configuration
-     * @param \Psr\Log\LoggerInterface|null                 $logger
-     * @param string                      $path
+     * @param ConfigurationInterface|null   $configuration
+     * @param \Psr\Log\LoggerInterface|null $logger
+     * @param string                        $path
      *
      * @throws \Exception
      * @throws \JiraRestApi\JiraException
