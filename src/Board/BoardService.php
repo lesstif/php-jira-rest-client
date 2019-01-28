@@ -4,12 +4,13 @@ namespace JiraRestApi\Board;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Issue\Issue;
+use Psr\Log\LoggerInterface;
 
 class BoardService extends \JiraRestApi\JiraClient
 {
     private $uri = '/board';
 
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
         $this->setAPIUri('/rest/agile/1.0');
