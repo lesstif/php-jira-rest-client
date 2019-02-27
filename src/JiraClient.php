@@ -219,14 +219,7 @@ class JiraClient
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
         // Add proxy settings to the curl.
-        if ($this->getConfiguration()->getProxyServer()) {
-            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
-            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
-
-            $username = $this->getConfiguration()->getProxyUser();
-            $password = $this->getConfiguration()->getProxyPassword();
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
-        }
+        $this->proxyConfigCurlHandle($ch);
 
         $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
@@ -308,6 +301,8 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        $this->proxyConfigCurlHandle($ch);
 
         // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); cannot be activated when an open_basedir is set
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
@@ -544,6 +539,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+        $this->proxyConfigCurlHandle($ch);
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
@@ -609,5 +605,23 @@ class JiraClient
         $this->cookieFile = $cookieFile;
 
         return $this;
+    }
+
+    /**
+     * Config a curl handle with proxy configuration (if set) from ConfigurationInterface.
+     *
+     * @param $ch
+     */
+    private function proxyConfigCurlHandle($ch)
+    {
+        // Add proxy settings to the curl.
+        if ($this->getConfiguration()->getProxyServer()) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
+            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
+
+            $username = $this->getConfiguration()->getProxyUser();
+            $password = $this->getConfiguration()->getProxyPassword();
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
+        }
     }
 }
