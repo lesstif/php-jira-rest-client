@@ -18,25 +18,6 @@ class DotEnvConfiguration extends AbstractConfiguration
     {
         $this->loadDotEnv($path);
 
-        /*
-        // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
-        if (class_exists('\Dotenv\Dotenv')) {
-
-            // check dotenv v3 or v2
-            //create
-            //Dotenv::create($app->environmentPath(), $app->environmentFile())->safeLoad();
-            $dotenv = new \Dotenv\Dotenv($path);
-
-            $dotenv->load();
-            $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-        } elseif (class_exists('\Dotenv')) {
-            \Dotenv::load($path);
-            \Dotenv::required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-        } else {
-            throw new JiraException('can not load PHP dotenv class.!');
-        }
-        */
-
         $this->jiraHost = $this->env('JIRA_HOST');
         $this->jiraUser = $this->env('JIRA_USER');
         $this->jiraPassword = $this->env('JIRA_PASS');
