@@ -116,9 +116,10 @@ class DotEnvConfiguration extends AbstractConfiguration
     }
 
     /**
-     * load dotenv
+     * load dotenv.
      *
      * @param $path
+     *
      * @throws JiraException
      */
     private function loadDotEnv($path)
