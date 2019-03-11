@@ -16,8 +16,15 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     public function __construct($path = '.')
     {
+        $this->loadDotEnv($path);
+
+        /*
         // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
         if (class_exists('\Dotenv\Dotenv')) {
+
+            // check dotenv v3 or v2
+            //create
+            //Dotenv::create($app->environmentPath(), $app->environmentFile())->safeLoad();
             $dotenv = new \Dotenv\Dotenv($path);
 
             $dotenv->load();
@@ -28,6 +35,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         } else {
             throw new JiraException('can not load PHP dotenv class.!');
         }
+        */
 
         $this->jiraHost = $this->env('JIRA_HOST');
         $this->jiraUser = $this->env('JIRA_USER');
@@ -124,5 +132,44 @@ class DotEnvConfiguration extends AbstractConfiguration
         }
 
         return false;
+    }
+
+    /**
+     * load dotenv
+     *
+     * @param $path
+     * @throws JiraException
+     */
+    private function loadDotEnv($path)
+    {
+        $requireParam = [
+            'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',
+        ];
+
+        // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
+        if (class_exists('\Dotenv\Dotenv')) {
+
+            // dirty solution for check whether dotenv v3 or v2
+            try {
+                $method = new \ReflectionMethod('\Dotenv\Dotenv', 'create');
+
+                $dotenv = \Dotenv\Dotenv::create($path);
+
+                $dotenv->safeLoad();
+                $dotenv->required($requireParam);
+            } catch (\ReflectionException $re) {
+                // dotenv v2 doesn't have create method.
+                $dotenv = new \Dotenv\Dotenv($path);
+
+                $dotenv->load();
+
+                $dotenv->required($requireParam);
+            }
+        } elseif (class_exists('\Dotenv')) {    // DotEnv v1
+            \Dotenv::load($path);
+            \Dotenv::required($requireParam);
+        } else {
+            throw new JiraException('can not load PHP dotenv class.!');
+        }
     }
 }
