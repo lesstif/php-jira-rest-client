@@ -149,6 +149,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
 - [Add watcher to Issue](#add-watcher-to-issue)
+- [Remove watcher from Issue](#remove-watcher-from-issue)
 - [Send a notification to the recipients](#issue-notify)
 
 ### Comment
@@ -1387,6 +1388,32 @@ try {
     $watcher = 'lesstif';
     
     $issueService->addWatcher($issueKey, $watcher);
+    
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
+}
+```
+
+#### Remove watcher from Issue
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-removeWatcher)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $issueService = new IssueService();
+    
+    // watcher's id
+    $watcher = 'lesstif';
+    
+    $issueService->removeWatcher($issueKey, $watcher);
     
 } catch (JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());

@@ -22,4 +22,18 @@ class WatcherLogTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'testAddWatcherLog Failed : '.$e->getMessage());
         }
     }
+
+    public function testRemoveWatcherLog()
+    {
+        try {
+            $issueService = new IssueService();
+
+            // remove issue watcher
+            $ret = $issueService->removeWatcher($this->issueKey, 'lesstif');
+
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testRemoveWatcherLog Failed : '.$e->getMessage());
+        }
+    }
 }
