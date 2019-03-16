@@ -18,6 +18,7 @@ class ArrayConfiguration extends AbstractConfiguration
      */
     public function __construct(array $configuration)
     {
+        $this->loraLogEnabled = true;
         $this->jiraLogFile = 'jira-rest-client.log';
         $this->jiraLogLevel = 'WARNING';
         $this->curlOptSslVerifyHost = false;
