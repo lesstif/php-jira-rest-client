@@ -97,6 +97,8 @@ class JiraClient
         }
 
         $this->http_response = 200;
+
+        $this->curl = curl_init();
     }
 
     /**
@@ -178,7 +180,8 @@ class JiraClient
             $this->log->info("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
         }
 
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -228,7 +231,6 @@ class JiraClient
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $body = curl_error($ch);
-            curl_close($ch);
 
             /*
              * 201: The request has been fulfilled, resulting in the creation of a new resource.
@@ -247,8 +249,6 @@ class JiraClient
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            curl_close($ch);
 
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
@@ -271,7 +271,8 @@ class JiraClient
      */
     private function createUploadHandle($url, $upload_file)
     {
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -414,7 +415,6 @@ class JiraClient
         foreach ($chArr as $ch) {
             $this->log->debug('CURL Close handle..');
             curl_multi_remove_handle($mh, $ch);
-            curl_close($ch);
         }
         $this->log->debug('CURL Multi Close handle..');
         curl_multi_close($mh);
@@ -528,7 +528,8 @@ class JiraClient
     {
         $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
 
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -558,7 +559,6 @@ class JiraClient
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $body = curl_error($ch);
-            curl_close($ch);
             fclose($file);
 
             /*
@@ -578,8 +578,6 @@ class JiraClient
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            curl_close($ch);
             fclose($file);
 
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
