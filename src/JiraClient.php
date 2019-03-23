@@ -98,7 +98,7 @@ class JiraClient
             }
         } else {
             $this->log = new Logger('JiraClient');
-            $this->log->pushHandler(new NoOperationMonologHandler);
+            $this->log->pushHandler(new NoOperationMonologHandler());
         }
 
         $this->http_response = 200;
