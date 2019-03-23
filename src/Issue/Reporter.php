@@ -29,6 +29,9 @@ class Reporter implements \JsonSerializable
     // want assignee to unassigned
     private $wantUnassigned = false;
 
+    /** @var string */
+    public $accountId;
+
     public function jsonSerialize()
     {
         $vars = (get_object_vars($this));

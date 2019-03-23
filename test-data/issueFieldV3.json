@@ -1,0 +1,103 @@
+{
+  "update": {
+    "worklog": [
+      {
+        "add": {
+          "timeSpent": "60m",
+          "started": "2011-07-05T11:05:00.000+0000"
+        }
+      }
+    ]
+  },
+  "fields": {
+    "summary": "something's wrong",
+    "issuetype": {
+      "id": "10000"
+    },
+    "components": [
+      {
+        "id": "10000"
+      }
+    ],
+    "customfield_20000": "06/Jul/11 3:25 PM",
+    "customfield_40000": "this is a text field",
+    "customfield_70000": [
+      "jira-administrators",
+      "jira-software-users"
+    ],
+    "project": {
+      "id": "10000"
+    },
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "description",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "reporter": {
+      "id": "557058:d6b5955a-e193-41e1-b051-79cdb0755d68"
+    },
+    "fixVersions": [
+      {
+        "id": "10001"
+      }
+    ],
+    "customfield_10000": "09/Jun/81",
+    "priority": {
+      "id": "20000"
+    },
+    "labels": [
+      "bugfix",
+      "blitz_test"
+    ],
+    "timetracking": {
+      "remainingEstimate": "5",
+      "originalEstimate": "10"
+    },
+    "customfield_30000": [
+      "10000",
+      "10002"
+    ],
+    "customfield_80000": {
+      "value": "red"
+    },
+    "security": {
+      "id": "10000"
+    },
+    "environment": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "environment",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "versions": [
+      {
+        "id": "10000"
+      }
+    ],
+    "duedate": "2011-03-11T00:00:00.000Z",
+    "customfield_60000": "jira-software-users",
+    "customfield_50000": "this is a text area. big text.",
+    "assignee": {
+      "id": "5b10a2844c20165700ede21f"
+    }
+  }
+}

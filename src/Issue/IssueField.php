@@ -29,7 +29,7 @@ class IssueField implements \JsonSerializable
     /** @var \DateTimeInterface */
     public $updated;
 
-    /** @var string|null */
+    /** @var \JiraRestApi\Issue\DescriptionV3|null */
     public $description;
 
     /** @var \JiraRestApi\Issue\Priority|null */
@@ -243,6 +243,24 @@ class IssueField implements \JsonSerializable
         }
 
         $this->assignee->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * set issue assignee accountId.
+     *
+     * @param string $accountId
+     *
+     * @return $this
+     */
+    public function setAssigneeAccountId($accountId)
+    {
+        if (is_null($this->assignee)) {
+            $this->assignee = new Reporter();
+        }
+
+        $this->assignee->accountId = $accountId;
 
         return $this;
     }

@@ -103,6 +103,10 @@ class JiraClient
 
         $this->http_response = 200;
 
+        if ($this->configuration->getUseV3RestApi()) {
+            $this->useV3API();
+        }
+
         $this->curl = curl_init();
     }
 
@@ -626,5 +630,17 @@ class JiraClient
             $password = $this->getConfiguration()->getProxyPassword();
             curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
         }
+    }
+
+    /**
+     * setting REST API url to V3.
+     *
+     * @return $this
+     */
+    public function useV3API()
+    {
+        $this->api_uri = '/rest/api/3';
+
+        return $this;
     }
 }
