@@ -59,7 +59,7 @@ class JiraClient
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
-     * @param Logger                 $logger
+     * @param LoggerInterface        $logger
      * @param string                 $path
      *
      * @throws JiraException
@@ -86,14 +86,19 @@ class JiraClient
         $this->json_mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
 
         // create logger
-        if ($logger) {
-            $this->log = $logger;
+        if ($this->configuration->getJiraLogEnabled()) {
+            if ($logger) {
+                $this->log = $logger;
+            } else {
+                $this->log = new Logger('JiraClient');
+                $this->log->pushHandler(new StreamHandler(
+                    $this->configuration->getJiraLogFile(),
+                    $this->convertLogLevel($this->configuration->getJiraLogLevel())
+                ));
+            }
         } else {
             $this->log = new Logger('JiraClient');
-            $this->log->pushHandler(new StreamHandler(
-                $this->configuration->getJiraLogFile(),
-                $this->convertLogLevel($this->configuration->getJiraLogLevel())
-            ));
+            $this->log->pushHandler(new NoOperationMonologHandler());
         }
 
         $this->http_response = 200;
