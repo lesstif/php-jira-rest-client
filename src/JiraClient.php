@@ -96,6 +96,9 @@ class JiraClient
                     $this->convertLogLevel($this->configuration->getJiraLogLevel())
                 ));
             }
+        } else {
+            $this->log = new Logger('JiraClient');
+            $this->log->pushHandler(new NoOperationMonologHandler);
         }
 
         $this->http_response = 200;
