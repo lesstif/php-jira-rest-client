@@ -562,7 +562,7 @@ class JiraClient
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
         if ($this->isRestApiV3()) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER,  ['x-atlassian-force-account-id: true']);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-atlassian-force-account-id: true']);
         }
 
         $this->log->debug('Curl exec='.$url);

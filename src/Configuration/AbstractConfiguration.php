@@ -290,5 +290,4 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     {
         return $this->useV3RestApi;
     }
-
 }

@@ -144,9 +144,9 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * get a user info details.
      *
-     * @return Reporter user Object
-     *
      * @throws \JiraRestApi\JiraException
+     *
+     * @return Reporter user Object
      */
     public function getMyself()
     {
