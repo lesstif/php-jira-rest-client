@@ -6,7 +6,6 @@ namespace JiraRestApi\Issue;
  * REST API V3 Issue description field.
  *
  * Class DescriptionV3
- * @package JiraRestApi\Issue
  */
 class DescriptionV3 implements \JsonSerializable
 {
@@ -14,7 +13,7 @@ class DescriptionV3 implements \JsonSerializable
     public $self;
 
     /* @var string */
-    public $type  = 'doc';
+    public $type = 'doc';
 
     /* @var integer */
     public $version = 1;
@@ -33,7 +32,7 @@ class DescriptionV3 implements \JsonSerializable
 
         $cf->type = $type;
 
-        if (!empty($attrs)){
+        if (!empty($attrs)) {
             $cf->attrs = $attrs;
         }
 

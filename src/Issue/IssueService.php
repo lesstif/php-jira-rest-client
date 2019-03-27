@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Issue;
 
-use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 
 class IssueService extends \JiraRestApi\JiraClient
@@ -367,10 +366,11 @@ class IssueService extends \JiraRestApi\JiraClient
      * Change a issue assignee for REST API V3.
      *
      * @param string|int  $issueIdOrKey
-     * @param string|null $accountId Assigns an issue to a user.
+     * @param string|null $accountId    Assigns an issue to a user.
+     *
+     * @throws JiraException
      *
      * @return string
-     * @throws JiraException
      */
     public function changeAssigneeByAccountId($issueIdOrKey, $accountId)
     {
