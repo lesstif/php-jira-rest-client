@@ -68,8 +68,7 @@ class IssueFieldV3 extends IssueField
     }
 
     /**
-     * @param integer $level heading level
-     *
+     * @param int    $level       heading level
      * @param string $description
      *
      * @return $this
@@ -87,6 +86,7 @@ class IssueFieldV3 extends IssueField
 
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $environment
+     *
      * @return $this
      */
     public function setEnvironment($environment)
