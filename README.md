@@ -73,6 +73,7 @@ PROXY_SERVER="your-proxy-server"
 PROXY_PORT="proxy-port"
 PROXY_USER="proxy-username"
 PROXY_PASSWORD="proxy-password"
+JIRA_REST_API_V3=false
 ```
 
 **Important Note:**
@@ -81,6 +82,14 @@ Instead of password, you should using [API token](https://confluence.atlassian.c
 
 **Laravel Users:** 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+
+**REST API V3 Note:**
+In accordance to the [Atlassian's deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/), After the 29th of april 2019, REST API no longer supported username and userKey, 
+and instead use the account ID.
+if you are JIRA Cloud users, you need to set *JIRA_REST_API_V3=true* in the .env file.
+
+**CAUTION**
+this library not fully supported JIRA REST API V3 yet. 
 
 ## use array
 
@@ -700,6 +709,89 @@ try {
 }
 ```
 
+#### Create Issue using REST API V3
+
+REST API V3' description field is complicated.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueFieldV3;
+use JiraRestApi\JiraException;
+
+try {
+    $issueField = new IssueFieldV3();
+
+    $paraDesc =<<< DESC
+
+Full description for issue
+- order list 1
+- order list 2
+-- sub order list 1
+-- sub order list 1
+- order list 3 
+DESC;
+    
+    $issueField->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setAssigneeAccountId("user-account-id-here")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->addDescriptionHeading(3, 'level 3 heading here')
+                ->addDescriptionParagraph($paraDesc)
+                ->addVersion(["1.0.1", "1.0.3"])
+                ->addComponents(['Component-1', 'Component-2'])
+                // set issue security if you need.
+                ->setDueDate('2019-06-19')
+            ;
+	
+    $issueService = new IssueService();
+
+    $ret = $issueService->create($issueField);
+	
+    //If success, Returns a link to the created issue.
+    var_dump($ret);
+} catch (JiraException $e) {
+	print("Error Occured! " . $e->getMessage());
+}
+```
+
+If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
+
+```php
+try {
+    $issueField = new IssueField();
+
+    $issueField->setProjectKey("TEST")
+                ->setSummary("something's wrong")
+                ->setAssigneeName("lesstif")
+                ->setPriorityName("Critical")
+                ->setIssueType("Bug")
+                ->setDescription("Full description for issue")
+                ->addVersion("1.0.1")
+                ->addVersion("1.0.3")
+                ->addCustomField('customfield_10100', 'text area body text']) // String type custom field
+                ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
+                ->addCustomField('customfield_10408', [
+                    ['value' => 'opt2'], ['value' => 'opt4']
+                ]) // Select List (multiple choice)
+    ;
+	
+    $issueService = new IssueService();
+
+    $ret = $issueService->create($issueField);
+	
+    //If success, Returns a link to the created issue.
+    var_dump($ret);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+```
+
+Currently, not tested for all custom field types.
+
 #### Add Attachment
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue/%7BissueIdOrKey%7D/attachments-addAttachment)
@@ -873,6 +965,30 @@ try {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
+
+REST API V3(JIRA Cloud) users must use *changeAssigneeByAccountId* method with accountId.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+	$issueService = new IssueService();
+
+    $accountId = 'usre-account-id';
+
+    $ret = $issueService->changeAssigneeByAccountId($issueKey, $accountId);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+}
+```   
 
 #### Remove Issue
 

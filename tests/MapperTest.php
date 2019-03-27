@@ -85,4 +85,33 @@ class MapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('작업 시작', $issue->transitions[0]->name);
 
     }
+
+    public function testApiV3()
+    {
+        $ret = file_get_contents('test-data/issueFieldV3.json');
+
+        $is = new \JiraRestApi\Issue\IssueService();
+        $issue = $this->mapper->map(
+            json_decode($ret), new Issue()
+        );
+
+        $this->assertInstanceOf(Issue::class, $issue);
+
+        $this->assertTrue(is_array($issue->renderedFields));
+        $this->assertArrayHasKey('description', $issue->renderedFields);
+        $this->assertEquals(10000, $issue->renderedFields['attachment'][0]->id);
+
+        $this->assertTrue(is_array($issue->names));
+        $this->assertArrayHasKey('issuetype', $issue->names);
+        $this->assertArrayHasKey('timespent', $issue->names);
+
+        $this->assertTrue(is_array($issue->schema));
+        $this->assertArrayHasKey('fixVersions', $issue->schema);
+        $this->assertEquals('array', $issue->schema['fixVersions']->type);
+
+        $this->assertTrue(is_array($issue->transitions));
+        $this->assertLessThan(3, count($issue->transitions));
+        $this->assertEquals('작업 시작', $issue->transitions[0]->name);
+
+    }
 }

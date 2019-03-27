@@ -35,6 +35,8 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->proxyPort = $this->env('PROXY_PORT');
         $this->proxyUser = $this->env('PROXY_USER');
         $this->proxyPassword = $this->env('PROXY_PASSWORD');
+
+        $this->useV3RestApi = $this->env('JIRA_REST_API_V3');
     }
 
     /**

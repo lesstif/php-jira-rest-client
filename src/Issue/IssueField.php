@@ -248,6 +248,28 @@ class IssueField implements \JsonSerializable
     }
 
     /**
+     * set issue assignee accountId.
+     *
+     * @param string $accountId
+     *
+     * @return $this
+     */
+    public function setAssigneeAccountId($accountId)
+    {
+        if (is_null($this->assignee)) {
+            $this->assignee = new Reporter();
+        }
+
+        $this->assignee->accountId = $accountId;
+
+        // REST API V3 must name field set to null.
+        $this->assignee->name = null;
+        $this->assignee->setWantUnassigned(true);
+
+        return $this;
+    }
+
+    /**
      * set issue priority name.
      *
      * @param string $name
@@ -266,6 +288,13 @@ class IssueField implements \JsonSerializable
     }
 
     /**
+     * set issue description.
+     *
+     * REST API V3 must use addDescriptionXXXX
+     *
+     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
+     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
+     *
      * @param string|null $description
      *
      * @return $this

@@ -131,4 +131,11 @@ interface ConfigurationInterface
      * @return string
      */
     public function getProxyPassword();
+
+    /**
+     * use REST v3 API.
+     *
+     * @return bool
+     */
+    public function getUseV3RestApi();
 }
