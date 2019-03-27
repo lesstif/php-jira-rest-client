@@ -44,6 +44,11 @@ class IssueFieldV3 extends IssueField
         return $vars;
     }
 
+    /**
+     * @param \JiraRestApi\Issue\DescriptionV3|null $description
+     *
+     * @return $this|IssueField
+     */
     public function setDescription($description)
     {
         $this->description = $description;
