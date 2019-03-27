@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\User;
 
+use JiraRestApi\Issue\Reporter;
+
 /**
  * Class to perform all user related queries.
  *
@@ -137,5 +139,23 @@ class UserService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.$queryParam, null, 'DELETE');
 
         return $ret;
+    }
+
+    /**
+     * get a user info details.
+     *
+     * @return Reporter user Object
+     *
+     * @throws \JiraRestApi\JiraException
+     */
+    public function getMyself()
+    {
+        $ret = $this->exec('myself', null);
+
+        $user = $this->json_mapper->map(
+            json_decode($ret), new Reporter()
+        );
+
+        return $user;
     }
 }

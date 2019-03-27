@@ -104,7 +104,7 @@ class JiraClient
         $this->http_response = 200;
 
         if ($this->configuration->getUseV3RestApi()) {
-            $this->useV3API();
+            $this->setRestApiV3();
         }
 
         $this->curl = curl_init();
@@ -561,6 +561,10 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
+        if ($this->isRestApiV3()) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER,  ['x-atlassian-force-account-id: true']);
+        }
+
         $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
@@ -637,10 +641,20 @@ class JiraClient
      *
      * @return $this
      */
-    public function useV3API()
+    public function setRestApiV3()
     {
         $this->api_uri = '/rest/api/3';
 
         return $this;
+    }
+
+    /**
+     * check whether current API is v3.
+     *
+     * @return bool
+     */
+    public function isRestApiV3()
+    {
+        return $this->configuration->getUseV3RestApi();
     }
 }

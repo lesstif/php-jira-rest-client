@@ -29,7 +29,7 @@ class IssueField implements \JsonSerializable
     /** @var \DateTimeInterface */
     public $updated;
 
-    /** @var \JiraRestApi\Issue\DescriptionV3|null */
+    /** @var string|null */
     public $description;
 
     /** @var \JiraRestApi\Issue\Priority|null */
@@ -262,6 +262,10 @@ class IssueField implements \JsonSerializable
 
         $this->assignee->accountId = $accountId;
 
+        // REST API V3 must name field set to null.
+        $this->assignee->name = null;
+        $this->assignee->setWantUnassigned(true);
+
         return $this;
     }
 
@@ -284,6 +288,13 @@ class IssueField implements \JsonSerializable
     }
 
     /**
+     * set issue description.
+     *
+     * REST API V3 must use addDescriptionXXXX
+     *
+     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
+     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
+     *
      * @param string|null $description
      *
      * @return $this
@@ -430,7 +441,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue's due date.
      *
-     * @param \DateTimeInterface|null $duedate due date string or DateTimeInterface object
+     * @param \DateTimeInterface|string|null $duedate due date string or DateTimeInterface object
      * @param string                  $format  datetime string format.
      *
      * @return $this

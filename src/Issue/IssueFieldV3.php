@@ -44,16 +44,43 @@ class IssueFieldV3 extends IssueField
         return $vars;
     }
 
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function addDescriptionParagraph($description)
     {
-        if (!empty($description)) {
-            $this->description = $description;
+        if (empty($this->description)) {
+            $this->description = new DescriptionV3();
         }
+
+        $this->description->addDescriptionContent('paragraph', $description);
+
+        return $this;
+    }
+
+    /**
+     * @param integer $level heading level
+     *
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function addDescriptionHeading($level, $description)
+    {
+        if (empty($this->description)) {
+            $this->description = new DescriptionV3();
+        }
+
+        $this->description->addDescriptionContent('heading', $description, ['level' => $level]);
 
         return $this;
     }

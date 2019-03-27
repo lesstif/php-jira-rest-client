@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 
 class IssueService extends \JiraRestApi\JiraClient
@@ -38,7 +39,12 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
-        $issueObject = ($issueObject) ? $issueObject : new Issue();
+        // for REST API V3
+        if ($this->isRestApiV3()) {
+            $issueObject = ($issueObject) ? $issueObject : new IssueV3();
+        } else {
+            $issueObject = ($issueObject) ? $issueObject : new Issue();
+        }
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
 
@@ -353,6 +359,30 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
 
         $this->log->info('change assignee of '.$issueIdOrKey.' to '.$assigneeName.' result='.var_export($ret, true));
+
+        return $ret;
+    }
+
+    /**
+     * Change a issue assignee for REST API V3.
+     *
+     * @param string|int  $issueIdOrKey
+     * @param string|null $accountId Assigns an issue to a user.
+     *
+     * @return string
+     * @throws JiraException
+     */
+    public function changeAssigneeByAccountId($issueIdOrKey, $accountId)
+    {
+        $this->log->info("changeAssigneeByAccountId=\n");
+
+        $ar = ['accountId' => $accountId];
+
+        $data = json_encode($ar);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+
+        $this->log->info('change assignee of '.$issueIdOrKey.' to '.$accountId.' result='.var_export($ret, true));
 
         return $ret;
     }
