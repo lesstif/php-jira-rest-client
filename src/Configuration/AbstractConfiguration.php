@@ -29,6 +29,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $jiraPassword;
 
     /**
+     * Enabled write to log.
+     *
+     * @var bool
+     */
+    protected $jiraLogEnabled;
+
+    /**
      * Path to log file.
      *
      * @var string
@@ -141,6 +148,14 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getJiraPassword()
     {
         return $this->jiraPassword;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getJiraLogEnabled()
+    {
+        return $this->jiraLogEnabled;
     }
 
     /**

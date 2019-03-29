@@ -11,14 +11,14 @@ namespace JiraRestApi\Sprint;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\JiraClient;
 use JiraRestApi\JiraException;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class SprintService extends JiraClient
 {
     //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
 
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
         $this->setAPIUri('/rest/agile/1.0');
@@ -47,7 +47,7 @@ class SprintService extends JiraClient
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
-        $this->log->addInfo("Result=\n".$ret);
+        $this->log->info("Result=\n".$ret);
 
         return $sprint = $this->json_mapper->map(
             json_decode($ret), new Sprint()

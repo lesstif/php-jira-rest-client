@@ -6,6 +6,7 @@ use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interact jira server with REST API.
@@ -58,13 +59,13 @@ class JiraClient
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
-     * @param Logger                 $logger
+     * @param LoggerInterface        $logger
      * @param string                 $path
      *
      * @throws JiraException
      * @throws \Exception
      */
-    public function __construct(ConfigurationInterface $configuration = null, Logger $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         if ($configuration === null) {
             if (!file_exists($path.'.env')) {
@@ -85,17 +86,24 @@ class JiraClient
         $this->json_mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
 
         // create logger
-        if ($logger) {
-            $this->log = $logger;
+        if ($this->configuration->getJiraLogEnabled()) {
+            if ($logger) {
+                $this->log = $logger;
+            } else {
+                $this->log = new Logger('JiraClient');
+                $this->log->pushHandler(new StreamHandler(
+                    $this->configuration->getJiraLogFile(),
+                    $this->convertLogLevel($this->configuration->getJiraLogLevel())
+                ));
+            }
         } else {
             $this->log = new Logger('JiraClient');
-            $this->log->pushHandler(new StreamHandler(
-                $this->configuration->getJiraLogFile(),
-                $this->convertLogLevel($this->configuration->getJiraLogLevel())
-            ));
+            $this->log->pushHandler(new NoOperationMonologHandler());
         }
 
         $this->http_response = 200;
+
+        $this->curl = curl_init();
     }
 
     /**
@@ -171,9 +179,14 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        $this->log->addInfo("Curl $custom_request: $url JsonData=".$post_data);
+        if (is_string($post_data)) {
+            $this->log->info("Curl $custom_request: $url JsonData=".$post_data);
+        } elseif (is_array($post_data)) {
+            $this->log->info("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
+        }
 
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -214,43 +227,33 @@ class JiraClient
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
         // Add proxy settings to the curl.
-        if ($this->getConfiguration()->getProxyServer()) {
-            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
-            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
+        $this->proxyConfigCurlHandle($ch);
 
-            $username = $this->getConfiguration()->getProxyUser();
-            $password = $this->getConfiguration()->getProxyPassword();
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
-        }
-
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
-        // if request failed.
+        // if request failed or have no result.
         if (!$response) {
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $body = curl_error($ch);
-            curl_close($ch);
 
             /*
              * 201: The request has been fulfilled, resulting in the creation of a new resource.
              * 204: The server successfully processed the request, but is not returning any content.
              */
-            if ($this->http_response === 204 || $this->http_response === 201) {
+            if ($this->http_response === 204 || $this->http_response === 201 || $this->http_response === 200) {
                 return true;
             }
 
             // HostNotFound, No route to Host, etc Network error
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
-            $this->log->addError($msg);
+            $this->log->error($msg);
 
             throw new JiraException($msg);
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            curl_close($ch);
 
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
@@ -273,7 +276,8 @@ class JiraClient
      */
     private function createUploadHandle($url, $upload_file)
     {
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -287,7 +291,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 ['file' => '@'.$attachments.';filename='.$filename]);
 
-            $this->log->addDebug('using legacy file upload');
+            $this->log->debug('using legacy file upload');
         } else {
             // CURLFile require PHP > 5.5
             $attachments = new \CURLFile(realpath($upload_file));
@@ -296,13 +300,15 @@ class JiraClient
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 ['file' => $attachments]);
 
-            $this->log->addDebug('using CURLFile='.var_export($attachments, true));
+            $this->log->debug('using CURLFile='.var_export($attachments, true));
         }
 
         $this->authorization($ch);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        $this->proxyConfigCurlHandle($ch);
 
         // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); cannot be activated when an open_basedir is set
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
@@ -316,7 +322,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
 
         return $ch;
     }
@@ -381,7 +387,7 @@ class JiraClient
                 // HostNotFound, No route to Host, etc Network error
                 $result_code = -1;
                 $body = 'CURL Error: = '.$body;
-                $this->log->addError($body);
+                $this->log->error($body);
             } else {
                 // if request was ok, parsing http response code.
                 $result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -391,7 +397,7 @@ class JiraClient
                     $body = 'CURL HTTP Request Failed: Status Code : '
                         .$this->http_response.', URL:'.$url;
 
-                    $this->log->addError($body);
+                    $this->log->error($body);
                 }
             }
         }
@@ -412,11 +418,10 @@ class JiraClient
     protected function closeCURLHandle(array $chArr, $mh, $body, $result_code)
     {
         foreach ($chArr as $ch) {
-            $this->log->addDebug('CURL Close handle..');
+            $this->log->debug('CURL Close handle..');
             curl_multi_remove_handle($mh, $ch);
-            curl_close($ch);
         }
-        $this->log->addDebug('CURL Multi Close handle..');
+        $this->log->debug('CURL Multi Close handle..');
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
@@ -454,7 +459,7 @@ class JiraClient
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
 
-            $this->log->addDebug('Using cookie..');
+            $this->log->debug('Using cookie..');
         }
 
         // if cookie file not exist, using id/pwd login
@@ -528,7 +533,8 @@ class JiraClient
     {
         $forceDownload = empty($outDir) || empty($file) ? true : false;
 
-        $ch = curl_init();
+        curl_reset($this->curl);
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -542,6 +548,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+        $this->proxyConfigCurlHandle($ch);
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
@@ -556,7 +563,7 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
-        $this->log->addDebug('Curl exec='.$url);
+        $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);
 
         // if request failed.
@@ -580,7 +587,7 @@ class JiraClient
             // HostNotFound, No route to Host, etc Network error
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
 
-            $this->log->addError($msg);
+            $this->log->error($msg);
 
             throw new JiraException($msg);
         } else {
@@ -620,5 +627,23 @@ class JiraClient
         $this->cookieFile = $cookieFile;
 
         return $this;
+    }
+
+    /**
+     * Config a curl handle with proxy configuration (if set) from ConfigurationInterface.
+     *
+     * @param $ch
+     */
+    private function proxyConfigCurlHandle($ch)
+    {
+        // Add proxy settings to the curl.
+        if ($this->getConfiguration()->getProxyServer()) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
+            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
+
+            $username = $this->getConfiguration()->getProxyUser();
+            $password = $this->getConfiguration()->getProxyPassword();
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
+        }
     }
 }
