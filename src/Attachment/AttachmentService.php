@@ -29,7 +29,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
     {
         $ret = $this->exec($this->uri.$id, null);
 
-        $this->log->addInfo("Result=\n".$ret);
+        $this->log->info("Result=\n".$ret);
 
         $attachment = $this->json_mapper->map(
                 json_decode($ret), new Attachment()
@@ -92,7 +92,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
     {
         $ret = $this->exec($this->uri.$id, null, 'DELETE');
 
-        $this->log->addInfo("Result=\n".$ret);
+        $this->log->info("Result=\n".$ret);
 
         return $ret;
     }

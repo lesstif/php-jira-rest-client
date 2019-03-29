@@ -58,6 +58,27 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateIssue
+     * @param $issueKey
+     */
+    public function testIssueGet($issueKey)
+    {
+        try {
+            $issueService = new IssueService();
+
+            $ret = $issueService->get($issueKey);
+
+            print_r($ret);
+
+            $issueKey = $ret->{'key'};
+
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testIssueGet
      */
     public function testCreateSubTask($issueKey)
     {

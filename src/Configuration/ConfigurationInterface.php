@@ -35,6 +35,13 @@ interface ConfigurationInterface
     public function getJiraPassword();
 
     /**
+     * Enabled write to log.
+     *
+     * @return bool
+     */
+    public function getJiraLogEnabled();
+
+    /**
      * Path to log file.
      *
      * @return string

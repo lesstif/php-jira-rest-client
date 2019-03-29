@@ -133,12 +133,9 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
-    - [Update Fix Versions](#update-fix versions)
+    - [Update Fix Versions](#update-fix-versions)
 - [Change assignee](#change-assignee)
 - [Remove issue](#remove-issue)
-- [Add comment](#add-comment)
-- [Get comment](#get-comment)
-- [Delete comment](#delete-comment)
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
     - [Simple JQL](#simple-query)
@@ -152,7 +149,14 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Edit worklog in Issue](#edit-worklog-in-issue)
 - [Get Issue worklog](#get-issue-worklog)
 - [Add watcher to Issue](#add-watcher-to-issue)
+- [Remove watcher from Issue](#remove-watcher-from-issue)
 - [Send a notification to the recipients](#issue-notify)
+
+### Comment
+- [Add comment](#add-comment)
+- [Get comment](#get-comment)
+- [Delete comment](#delete-comment)
+- [Update comment](#update-comment)
 
 ### IssueLink
 
@@ -170,6 +174,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Group](#create-group)
 - [Get Users from group](#get-users-from-group)
 - [Add User to group](#add-user-to-group)
+- [Remove User from group](#remove-user-from-group)
 
 ### Priority
 - [Get All Priority list](#get-all-priority-list)
@@ -986,6 +991,36 @@ try {
 
 ```
 
+#### Update comment
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-updateComment)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+use JiraRestApi\Issue\Comment;
+
+$issueKey = "TEST-879";
+
+try {
+    $commentId = 12345;
+
+    $issueService = new IssueService();
+        
+    $comment = new Comment();
+    $comment->setBody('Updated comments');
+    
+    $issueService->updateComment($issueKey, $commentId, $comment);
+
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
+}
+
+```
+
 #### Perform a transition on an issue
 
 Note: this library uses goal **status names** instead of **transition names**.
@@ -1359,6 +1394,32 @@ try {
 }
 ```
 
+#### Remove watcher from Issue
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-removeWatcher)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $issueService = new IssueService();
+    
+    // watcher's id
+    $watcher = 'lesstif';
+    
+    $issueService->removeWatcher($issueKey, $watcher);
+    
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
+}
+```
+
 #### issue notify
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-notify)
@@ -1681,6 +1742,33 @@ try {
 
     // print current state of the group.
     print_r($ret);
+
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+### Remove User from group
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/group-removeUserFromGroup)
+
+Removes given user from a group.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\Group\GroupService;
+
+try {
+    $groupName  = '한글 그룹 name';
+    $userName = 'lesstif';
+
+    $gs = new GroupService();
+
+    $gs->removeUserFromGroup($groupName, $userName);
 
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
