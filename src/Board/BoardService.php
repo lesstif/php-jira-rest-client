@@ -17,13 +17,13 @@ class BoardService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get all project list.
+     * get all boards list.
      *
      * @param array $paramArray
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return Project[] array of Project class
+     * @return Board[] array of Board class
      */
     public function getBoardList($paramArray = [])
     {
