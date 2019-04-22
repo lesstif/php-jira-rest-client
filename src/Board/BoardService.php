@@ -58,9 +58,11 @@ class BoardService extends \JiraRestApi\JiraClient
 
     public function getBoardSprints($boardId, $paramArray = [])
     {
-        $json = $this->exec($this->uri . '/' . $boardId . '/sprint' . $this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
         $sprints = $this->json_mapper->mapArray(
-            json_decode($json)->values, new \ArrayObject(), Sprint::class
+            json_decode($json)->values,
+            new \ArrayObject(),
+            Sprint::class
         );
 
         return $sprints;
