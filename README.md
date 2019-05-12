@@ -1114,7 +1114,7 @@ try {
     $page = $totalCount / $maxResult;
 
     for ($startAt = 1; $startAt < $page; $startAt++) {
-        $ret = $issueService->search($jql, $startAt, $maxResult);
+        $ret = $issueService->search($jql, $startAt * $maxResult, $maxResult);
 
         print ("\nPaging $startAt\n");
         print ("-------------------\n");
