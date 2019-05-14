@@ -347,8 +347,6 @@ class JiraClient
 
         $ch = curl_init();
 
-        $this->multi = NULL;
-
         $idx = 0;
         foreach ($filePathArray as $file) {
             $this->createUploadHandle($url, $file, $ch);
