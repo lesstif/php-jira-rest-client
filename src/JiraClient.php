@@ -347,7 +347,7 @@ class JiraClient
 
         $ch = curl_init();
 
-        $this->multi = NULL;
+        $this->multi = null;
 
         $idx = 0;
         foreach ($filePathArray as $file) {
