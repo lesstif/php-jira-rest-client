@@ -4,6 +4,7 @@ namespace JiraRestApi\Board;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Issue\Issue;
+use JiraRestApi\Sprint\Sprint;
 use Psr\Log\LoggerInterface;
 
 class BoardService extends \JiraRestApi\JiraClient
@@ -17,13 +18,13 @@ class BoardService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * get all project list.
+     * get all boards list.
      *
      * @param array $paramArray
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return Project[] array of Project class
+     * @return Board[] array of Board class
      */
     public function getBoardList($paramArray = [])
     {
@@ -48,10 +49,22 @@ class BoardService extends \JiraRestApi\JiraClient
     public function getBoardIssues($id, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
-        $board = $this->json_mapper->mapArray(
+        $issues = $this->json_mapper->mapArray(
             json_decode($json)->issues, new \ArrayObject(), Issue::class
         );
 
-        return $board;
+        return $issues;
+    }
+
+    public function getBoardSprints($boardId, $paramArray = [])
+    {
+        $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
+        $sprints = $this->json_mapper->mapArray(
+            json_decode($json)->values,
+            new \ArrayObject(),
+            Sprint::class
+        );
+
+        return $sprints;
     }
 }
