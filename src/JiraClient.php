@@ -278,10 +278,8 @@ class JiraClient
      *
      * @return resource
      */
-    private function createUploadHandle($url, $upload_file)
+    private function createUploadHandle($url, $upload_file, $ch)
     {
-        curl_reset($this->curl);
-        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -345,68 +343,39 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        // return value
-        $result_code = 200;
-
-        $chArr = [];
         $results = [];
-        $mh = curl_multi_init();
 
-        for ($idx = 0; $idx < count($filePathArray); $idx++) {
-            $file = $filePathArray[$idx];
-            if (file_exists($file) == false) {
-                $body = "File $file not found";
-                $result_code = -1;
-                $this->closeCURLHandle($chArr, $mh, $body, $result_code);
+        $ch = curl_init();
 
-                return $results;
-            }
-            $chArr[$idx] = $this->createUploadHandle($url, $filePathArray[$idx]);
+        $this->multi = NULL;
 
-            curl_multi_add_handle($mh, $chArr[$idx]);
-        }
+        $idx = 0;
+        foreach ($filePathArray as $file) {
+            $this->createUploadHandle($url, $file, $ch);
 
-        $running = null;
-        do {
-            curl_multi_exec($mh, $running);
-        } while ($running > 0);
+            $response = curl_exec($ch);
 
-        // Get content and remove handles.
-        $body = '';
-        for ($idx = 0; $idx < count($chArr); $idx++) {
-            $ch = $chArr[$idx];
-
-            $results[$idx] = curl_multi_getcontent($ch);
-
-            // if request failed.
-            if (!$results[$idx]) {
-                $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            // if request failed or have no result.
+            if (!$response) {
+                $http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 $body = curl_error($ch);
 
-                //The server successfully processed the request, but is not returning any content.
-                if ($this->http_response == 204) {
-                    continue;
-                }
+                if ($http_response === 204 || $http_response === 201 || $http_response === 200) {
+                    $results[$idx] = $response;
+                } else {
+                    $msg = sprintf('CURL Error: http response=%d, %s', $http_response, $body);
+                    $this->log->error($msg);
 
-                // HostNotFound, No route to Host, etc Network error
-                $result_code = -1;
-                $body = 'CURL Error: = '.$body;
-                $this->log->error($body);
+                    curl_close($ch);
+
+                    throw new JiraException($msg);
+                }
             } else {
-                // if request was ok, parsing http response code.
-                $result_code = $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-                // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
-                if ($this->http_response != 200 && $this->http_response != 201) {
-                    $body = 'CURL HTTP Request Failed: Status Code : '
-                        .$this->http_response.', URL:'.$url;
-
-                    $this->log->error($body);
-                }
+                $results[$idx] = $response;
             }
         }
 
-        $this->closeCURLHandle($chArr, $mh, $body, $result_code);
+        curl_close($ch);
 
         return $results;
     }
