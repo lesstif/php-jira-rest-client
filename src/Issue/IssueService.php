@@ -522,9 +522,16 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec('search', $data, 'POST');
         $json = json_decode($ret);
 
-        $result = $this->json_mapper->map(
-            $json, new IssueSearchResult()
-        );
+        $result = null;
+        if ($this->isRestApiV3()) {
+            $result = $this->json_mapper->map(
+                $json, new IssueSearchResultV3()
+            );
+        } else {
+            $result = $this->json_mapper->map(
+                $json, new IssueSearchResult()
+            );
+        }
 
         return $result;
     }

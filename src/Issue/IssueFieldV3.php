@@ -14,36 +14,6 @@ class IssueFieldV3 extends IssueField
     /** @var \JiraRestApi\Issue\DescriptionV3|null */
     public $environment;
 
-    public function jsonSerialize()
-    {
-        $vars = array_filter(get_object_vars($this), function ($var) {
-            return !is_null($var);
-        });
-
-        // if assignee property has empty value then remove it.
-        // @see https://github.com/lesstif/php-jira-rest-client/issues/126
-        // @see https://github.com/lesstif/php-jira-rest-client/issues/177
-        if (!empty($this->assignee)) {
-            // do nothing
-            if ($this->assignee->isWantUnassigned() === true) {
-            } elseif ($this->assignee->isEmpty()) {
-                unset($vars['assignee']);
-            }
-        }
-
-        // clear undefined json property
-        unset($vars['customFields']);
-
-        // repackaging custom field
-        if (!empty($this->customFields)) {
-            foreach ($this->customFields as $key => $value) {
-                $vars[$key] = $value;
-            }
-        }
-
-        return $vars;
-    }
-
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
