@@ -1386,7 +1386,7 @@ try {
 
 #### Add worklog in issue
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWorklog)
+[See Jira API V2 reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWorklog)
 
 ```php
 <?php
@@ -1417,6 +1417,55 @@ try {
 }
 
 ```
+
+[See Jira API V3 reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-issueIdOrKey-worklog-post)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+// Worklog example for API V3 assumes JIRA_REST_API_V3=true is configured in
+// your .env file.
+
+use JiraRestApi\Issue\ContentField;
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Worklog;
+use JiraRestApi\JiraException;
+
+$issueKey = 'TEST-961';
+
+try {
+    $workLog = new Worklog();
+
+    $paragraph = new ContentField();
+    $paragraph->type = 'paragraph';
+    $paragraph->content[] = [
+        'text' => 'I did some work here.',
+        'type' => 'text',
+    ];
+
+    $comment = new ContentField();
+    $comment->type = 'doc';
+    $comment->version = 1;
+    $comment->content[] = $paragraph;
+
+    $workLog->setComment($comment)
+            ->setStarted('2016-05-28 12:35:54')
+            ->setTimeSpent('1d 2h 3m');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->addWorklog($issueKey, $workLog);
+
+    $workLogid = $ret->{'id'};
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
+}
+
+```
+
 
 #### edit worklog in issue
 

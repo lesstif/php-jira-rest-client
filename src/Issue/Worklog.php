@@ -44,7 +44,10 @@ class Worklog
     public $timeSpent;
 
     /**
-     * @var string
+     * @var mixed
+     *
+     * API V2 accepts a string, whereas API V3 requires an Atlassian Document
+     * Format, defined in this project by the ContentField class.
      */
     public $comment;
 
@@ -76,7 +79,7 @@ class Worklog
     /**
      * Function to set comments.
      *
-     * @param string $comment
+     * @param mixed $comment
      *
      * @return Worklog
      */
