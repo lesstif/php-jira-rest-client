@@ -34,7 +34,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data, 'POST');
 
         return $this->json_mapper->map(
-            json_decode($ret), new Version()
+            json_decode($ret),
+            new Version()
         );
     }
 
@@ -66,7 +67,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         return $this->json_mapper->map(
-            json_decode($ret), new Version()
+            json_decode($ret),
+            new Version()
         );
     }
 
@@ -96,7 +98,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
 
         return $this->json_mapper->map(
-            json_decode($ret), new Version()
+            json_decode($ret),
+            new Version()
         );
     }
 
