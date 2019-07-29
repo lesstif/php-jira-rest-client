@@ -34,7 +34,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data, 'POST');
 
         return $this->json_mapper->map(
-            json_decode($ret), new Version()
+            json_decode($ret),
+            new Version()
         );
     }
 
@@ -65,12 +66,10 @@ class VersionService extends \JiraRestApi\JiraClient
 
         $this->log->info('Result='.$ret);
 
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
-            return $this->json_mapper->map($elem, new ProjectType());
-        }, $json);
-
-        return $results;
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new Version()
+        );
     }
 
     /**
@@ -99,7 +98,8 @@ class VersionService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
 
         return $this->json_mapper->map(
-            json_decode($ret), new Version()
+            json_decode($ret),
+            new Version()
         );
     }
 
