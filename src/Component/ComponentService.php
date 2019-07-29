@@ -75,21 +75,27 @@ class ComponentService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param Component $component
+     * @param Component       $component
+     * @param Component|false $moveIssuesTo
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function delete(Component $component)
+    public function delete(Component $component, $moveIssuesTo = false)
     {
         if (!$component->id || !is_numeric($component->id)) {
             throw new JiraException($component->id.' is not a valid component id.');
         }
 
         $data = [];
+        $paramArray = [];
 
-        $ret = $this->exec($this->uri.'/'.$component->id, json_encode($data), 'DELETE');
+        if ($moveIssuesTo && $moveIssuesTo instanceof Component) {
+            $paramArray['moveIssuesTo'] = $moveIssuesTo->id;
+        }
+
+        $ret = $this->exec($this->uri.'/'.$component->id.$this->toHttpQueryParameter($paramArray), json_encode($data), 'DELETE');
 
         return $ret;
     }
