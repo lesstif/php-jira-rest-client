@@ -68,6 +68,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $name
+     * 
      * @return Component
      */
     public function setName($name)
@@ -79,6 +80,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $description
+     *
      * @return Component
      */
     public function setDescription($description)
@@ -90,6 +92,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $leadUserName
+     *
      * @return Component
      */
     public function setLeadUserName($leadUserName)
@@ -105,6 +108,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $assigneeType
+     *
      * @return Component
      */
     public function setAssigneeType($assigneeType)
@@ -116,6 +120,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $projectKey
+     *
      * @return Component
      */
     public function setProjectKey($projectKey)
@@ -127,6 +132,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param Project $project
+     *
      * @return $this
      */
     public function setProject(Project $project)
