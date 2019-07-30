@@ -69,9 +69,9 @@ class Project implements \JsonSerializable
     public $lead;
 
     /**
-     * ComponentList [\JiraRestApi\Project\Component].
+     * ComponentList [\JiraRestApi\Component\Component].
      *
-     * @var \JiraRestApi\Project\Component[]
+     * @var \JiraRestApi\Component\Component[]
      */
     public $components;
 
