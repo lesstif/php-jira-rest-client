@@ -68,7 +68,7 @@ class Component implements \JsonSerializable
 
     /**
      * @param string $name
-     * 
+     *
      * @return Component
      */
     public function setName($name)
