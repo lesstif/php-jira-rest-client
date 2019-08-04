@@ -3,7 +3,6 @@
 namespace JiraRestApi\Component;
 
 use JiraRestApi\JiraException;
-use JiraRestApi\Project\Component;
 
 class ComponentService extends \JiraRestApi\JiraClient
 {
