@@ -389,6 +389,8 @@ class IssueField implements \JsonSerializable
         } elseif (is_string($keyOrId)) {
             $this->parent['key'] = $keyOrId;
         }
+
+        return $this;
     }
 
     public function setParent(Issue $parent)
