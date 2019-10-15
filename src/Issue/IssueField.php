@@ -92,7 +92,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $resolutiondate;
 
-    /** @var \DateTimeInterface|string|null */
+    /** @var string|null */
     public $duedate;
 
     /** @var array */
