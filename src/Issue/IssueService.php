@@ -225,7 +225,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("addComment=\n");
 
-        $data = json_encode($comment);
+        $data = json_encode(['body' => $comment]);
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
 
@@ -253,7 +253,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("updateComment=\n");
 
-        $data = json_encode($comment);
+        $data = json_encode(['body' => $comment]);
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id", $data, 'PUT');
 
