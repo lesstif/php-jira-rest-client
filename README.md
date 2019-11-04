@@ -167,6 +167,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get User Info](#get-user-info)
 - [Find Users](#find-users)
 - [Find Assignable Users](#find-assignable-users)
+- [Find Users by query](#find-users-by-query)
 - [Delete User](#delete-user)
 
 ### Group
