@@ -122,6 +122,38 @@ class UserService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Returns a list of users that match with a specific query.
+     *
+     * @param array $paramArray
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return User[]
+     *
+     * @see https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get
+     */
+    public function findUsersByQuery($paramArray)
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri.'/search/query'.$queryParam, null);
+
+        $this->log->info("Result=\n".$ret);
+
+        $userData = json_decode($ret);
+        $users = [];
+
+        foreach ($userData->values as $user) {
+            $users[] = $this->json_mapper->map(
+                $user, new User()
+            );
+        }
+
+        return $users;
+    }
+
+    /**
      * Delete a User.
      *
      * @param $paramArray

@@ -1603,6 +1603,35 @@ try {
 
 ```
 
+
+#### Find users by query
+
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get)
+
+Returns a list of users that match the search string.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $paramArray = [
+      'query' => 'is watcher of TEST',
+    ];
+
+    $users = $us->findUsersByQuery($paramArray);
+    var_dump($users);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
 #### delete User
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-removeUser)
