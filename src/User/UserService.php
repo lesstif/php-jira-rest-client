@@ -114,7 +114,8 @@ class UserService extends \JiraRestApi\JiraClient
 
         foreach ($userData as $user) {
             $users[] = $this->json_mapper->map(
-                $user, new User()
+                $user,
+                new User()
             );
         }
 
