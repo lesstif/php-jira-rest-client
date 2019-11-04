@@ -26,7 +26,7 @@ class Dumper
     public static function dd($x)
     {
         array_map(function ($x) {
-            (new Dumper())->dump($x);
+            (new self())->dump($x);
         }, func_get_args());
         die(1);
     }

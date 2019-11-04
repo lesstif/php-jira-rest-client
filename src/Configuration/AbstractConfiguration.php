@@ -29,6 +29,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $jiraPassword;
 
     /**
+     * Enabled write to log.
+     *
+     * @var bool
+     */
+    protected $jiraLogEnabled;
+
+    /**
      * Path to log file.
      *
      * @var string
@@ -120,6 +127,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected $proxyPassword;
 
     /**
+     * Use Jira Cloud REST API v3.
+     *
+     * @var bool
+     */
+    protected $useV3RestApi;
+
+    /**
      * @return string
      */
     public function getJiraHost()
@@ -141,6 +155,14 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getJiraPassword()
     {
         return $this->jiraPassword;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getJiraLogEnabled()
+    {
+        return $this->jiraLogEnabled;
     }
 
     /**
@@ -259,5 +281,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getProxyPassword()
     {
         return $this->proxyPassword;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUseV3RestApi()
+    {
+        return $this->useV3RestApi;
     }
 }

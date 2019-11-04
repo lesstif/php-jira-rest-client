@@ -4,12 +4,12 @@
     "type": "library",
     "keywords": ["jira", "rest", "jira-php", "jira-rest"],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.9",
         "ext-curl": "*",
         "ext-json": "*",
         "netresearch/jsonmapper": "~0.11|^1.0",
         "monolog/monolog": "~1.12",
-        "vlucas/phpdotenv": "~1.0|~2.0"
+        "vlucas/phpdotenv": "~1.0|~2.0|^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=5.7 <6",
@@ -21,7 +21,7 @@
         {
             "name": "KwangSeob Jeong",
             "email": "lesstif@gmail.com",
-            "homepage": "http://lesstif.com/"
+            "homepage": "https://lesstif.com/"
         }
     ],
     "autoload": {

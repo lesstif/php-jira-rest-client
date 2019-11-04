@@ -16,18 +16,7 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     public function __construct($path = '.')
     {
-        // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
-        if (class_exists('\Dotenv\Dotenv')) {
-            $dotenv = new \Dotenv\Dotenv($path);
-
-            $dotenv->load();
-            $dotenv->required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-        } elseif (class_exists('\Dotenv')) {
-            \Dotenv::load($path);
-            \Dotenv::required(['JIRA_HOST', 'JIRA_USER', 'JIRA_PASS']);
-        } else {
-            throw new JiraException('can not load PHP dotenv class.!');
-        }
+        $this->loadDotEnv($path);
 
         $this->jiraHost = $this->env('JIRA_HOST');
         $this->jiraUser = $this->env('JIRA_USER');
@@ -35,6 +24,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->oauthAccessToken = $this->env('OAUTH_ACCESS_TOKEN');
         $this->cookieAuthEnabled = $this->env('COOKIE_AUTH_ENABLED', false);
         $this->cookieFile = $this->env('COOKIE_FILE', 'jira-cookie.txt');
+        $this->jiraLogEnabled = $this->env('JIRA_LOG_ENABLED', true);
         $this->jiraLogFile = $this->env('JIRA_LOG_FILE', 'jira-rest-client.log');
         $this->jiraLogLevel = $this->env('JIRA_LOG_LEVEL', 'WARNING');
         $this->curlOptSslVerifyHost = $this->env('CURLOPT_SSL_VERIFYHOST', false);
@@ -45,6 +35,8 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->proxyPort = $this->env('PROXY_PORT');
         $this->proxyUser = $this->env('PROXY_USER');
         $this->proxyPassword = $this->env('PROXY_PASSWORD');
+
+        $this->useV3RestApi = $this->env('JIRA_REST_API_V3');
     }
 
     /**
@@ -124,5 +116,45 @@ class DotEnvConfiguration extends AbstractConfiguration
         }
 
         return false;
+    }
+
+    /**
+     * load dotenv.
+     *
+     * @param $path
+     *
+     * @throws JiraException
+     */
+    private function loadDotEnv($path)
+    {
+        $requireParam = [
+            'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',
+        ];
+
+        // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
+        if (class_exists('\Dotenv\Dotenv')) {
+
+            // dirty solution for check whether dotenv v3 or v2
+            try {
+                $method = new \ReflectionMethod('\Dotenv\Dotenv', 'create');
+
+                $dotenv = \Dotenv\Dotenv::create($path);
+
+                $dotenv->safeLoad();
+                $dotenv->required($requireParam);
+            } catch (\ReflectionException $re) {
+                // dotenv v2 doesn't have create method.
+                $dotenv = new \Dotenv\Dotenv($path);
+
+                $dotenv->load();
+
+                $dotenv->required($requireParam);
+            }
+        } elseif (class_exists('\Dotenv')) {    // DotEnv v1
+            \Dotenv::load($path);
+            \Dotenv::required($requireParam);
+        } else {
+            throw new JiraException('can not load PHP dotenv class.!');
+        }
     }
 }

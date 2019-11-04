@@ -35,6 +35,13 @@ interface ConfigurationInterface
     public function getJiraPassword();
 
     /**
+     * Enabled write to log.
+     *
+     * @return bool
+     */
+    public function getJiraLogEnabled();
+
+    /**
      * Path to log file.
      *
      * @return string
@@ -124,4 +131,11 @@ interface ConfigurationInterface
      * @return string
      */
     public function getProxyPassword();
+
+    /**
+     * use REST v3 API.
+     *
+     * @return bool
+     */
+    public function getUseV3RestApi();
 }

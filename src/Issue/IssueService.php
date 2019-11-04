@@ -38,7 +38,12 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
-        $issueObject = ($issueObject) ? $issueObject : new Issue();
+        // for REST API V3
+        if ($this->isRestApiV3()) {
+            $issueObject = ($issueObject) ? $issueObject : new IssueV3();
+        } else {
+            $issueObject = ($issueObject) ? $issueObject : new Issue();
+        }
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
 
@@ -358,6 +363,31 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * Change a issue assignee for REST API V3.
+     *
+     * @param string|int  $issueIdOrKey
+     * @param string|null $accountId    Assigns an issue to a user.
+     *
+     * @throws JiraException
+     *
+     * @return string
+     */
+    public function changeAssigneeByAccountId($issueIdOrKey, $accountId)
+    {
+        $this->log->info("changeAssigneeByAccountId=\n");
+
+        $ar = ['accountId' => $accountId];
+
+        $data = json_encode($ar);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+
+        $this->log->info('change assignee of '.$issueIdOrKey.' to '.$accountId.' result='.var_export($ret, true));
+
+        return $ret;
+    }
+
+    /**
      * Delete a issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
@@ -492,9 +522,16 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec('search', $data, 'POST');
         $json = json_decode($ret);
 
-        $result = $this->json_mapper->map(
-            $json, new IssueSearchResult()
-        );
+        $result = null;
+        if ($this->isRestApiV3()) {
+            $result = $this->json_mapper->map(
+                $json, new IssueSearchResultV3()
+            );
+        } else {
+            $result = $this->json_mapper->map(
+                $json, new IssueSearchResult()
+            );
+        }
 
         return $result;
     }
@@ -760,6 +797,27 @@ class IssueService extends \JiraRestApi\JiraClient
         $type = 'POST';
 
         $this->exec($url, $data, $type);
+
+        return $this->http_response == 204 ? true : false;
+    }
+
+    /**
+     * remove watcher from issue.
+     *
+     * @param string|int $issueIdOrKey
+     * @param string     $watcher      watcher id
+     *
+     * @throws JiraException
+     *
+     * @return bool
+     */
+    public function removeWatcher($issueIdOrKey, $watcher)
+    {
+        $this->log->addInfo("removeWatcher=\n");
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
+
+        $this->log->addInfo('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $this->http_response == 204 ? true : false;
     }
