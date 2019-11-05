@@ -205,6 +205,10 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Update component](#update-component)
 - [Delete component](#delete-component)
 
+### Board
+- [Get board list](#get-board-list)
+- [Get board info](#get-board-info)
+- [Get board issues](#get-board-issues)
 #### Create Project
 
 Create a new project.
@@ -2299,6 +2303,70 @@ try {
 
 ```
 
+
+#### Get board list
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+
+try {
+  $board_service = new BoardService();
+  $board = $board_service->getBoardList();
+  
+  var_dump($board);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+#### Get board info
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+
+try {
+  $board_service = new BoardService();
+  $board_id = 1;
+  $board = $board_service->getBoard($board_id);
+  
+  var_dump($board);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get board issues
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-issue-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+
+try {
+  $board_service = new BoardService();
+  $board_id = 1;
+  $board = $board_service->getBoardIssues($board_id, [
+    'maxResults' => 500,
+    'jql' => urlencode('status != Closed'),
+  ]);
+  
+  var_dump($board);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
 
 # License
 
