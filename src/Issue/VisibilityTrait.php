@@ -12,11 +12,11 @@ trait VisibilityTrait
      */
     public function setVisibility($type, $value = null)
     {
-        if (is_null($this->visibility)) {
+        if (\is_null($this->visibility)) {
             $this->visibility = new Visibility();
         }
 
-        if (is_array($type)) {
+        if (\is_array($type)) {
             $this->visibility->setType($type['type']);
             $this->visibility->setValue($type['value']);
         } elseif ($type instanceof Visibility) {

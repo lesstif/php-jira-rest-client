@@ -31,7 +31,7 @@ class ArrayConfiguration extends AbstractConfiguration
         $this->useV3RestApi = false;
 
         foreach ($configuration as $key => $value) {
-            if (property_exists($this, $key)) {
+            if (\property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }

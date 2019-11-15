@@ -17,9 +17,9 @@ class CurlTest extends PHPUnit_Framework_TestCase
             $post_data = ['name' => 'value'];
 
             $http_status = 0;
-            $ret = $j->exec('/', json_encode($post_data), $http_status);
+            $ret = $j->exec('/', \json_encode($post_data), $http_status);
 
-            var_dump($ret);
+            \var_dump($ret);
             $this->assertTrue(true);
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());

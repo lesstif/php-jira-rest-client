@@ -32,7 +32,7 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
 
             $atts->remove($attachmentId);
 
-            $this->assertGreaterThan(0, count(1));
+            $this->assertGreaterThan(0, \count(1));
 
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());

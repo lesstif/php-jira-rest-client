@@ -23,7 +23,7 @@ class IssueLink implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        $vars = array_filter(get_object_vars($this));
+        $vars = \array_filter(\get_object_vars($this));
 
         return $vars;
     }
@@ -71,7 +71,7 @@ class IssueLink implements \JsonSerializable
      */
     public function setComment($comment)
     {
-        if (is_string($comment)) {
+        if (\is_string($comment)) {
             $this->comment = new Comment();
             $this->comment->setBody($comment);
         } elseif ($comment instanceof Comment) {

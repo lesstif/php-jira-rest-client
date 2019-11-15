@@ -43,7 +43,7 @@ class Sprint implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        return \array_filter(\get_object_vars($this));
     }
 
     public function setName($sprintName)

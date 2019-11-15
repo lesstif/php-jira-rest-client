@@ -15,11 +15,11 @@ class CustomFieldsTest extends PHPUnit_Framework_TestCase
             $ret = $fieldService->getAllFields(Field::CUSTOM);
             Dumper::dump($ret);
 
-            file_put_contents("custom-field.json", json_encode($ret, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+            \file_put_contents("custom-field.json", \json_encode($ret, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
 
-            $ids = array_map(function($cf) {
+            $ids = \array_map(function($cf) {
                 // extract custom field id
-                    preg_match('/\d+/', $cf->id, $matches);
+                    \preg_match('/\d+/', $cf->id, $matches);
                     return $matches[0];
                 }, $ret);
 

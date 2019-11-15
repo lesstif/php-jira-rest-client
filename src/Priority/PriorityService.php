@@ -25,7 +25,7 @@ class PriorityService extends \JiraRestApi\JiraClient
 
         $this->log->info("Result=\n".$ret);
 
-        $priorityData = json_decode($ret);
+        $priorityData = \json_decode($ret);
         $priorities = [];
 
         foreach ($priorityData as $priority) {
@@ -51,7 +51,7 @@ class PriorityService extends \JiraRestApi\JiraClient
 
         $this->log->info("Result=\n".$ret);
 
-        $priority = $this->json_mapper->map(json_decode($ret), new Priority());
+        $priority = $this->json_mapper->map(\json_decode($ret), new Priority());
 
         return $priority;
     }

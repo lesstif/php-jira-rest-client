@@ -48,7 +48,7 @@ class groupTest extends PHPUnit_Framework_TestCase
 
             // print all users in the group
             foreach ($ret->values as $user) {
-                print_r($user);
+                \print_r($user);
             }
 
             return $groupName;
@@ -70,7 +70,7 @@ class groupTest extends PHPUnit_Framework_TestCase
             $ret = $gs->addUserToGroup($groupName, $userName);
 
             // print all users in the group
-            print_r($ret);
+            \print_r($ret);
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testAddUserToGroup Failed : '.$e->getMessage());
         }

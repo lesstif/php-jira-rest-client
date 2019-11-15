@@ -238,9 +238,9 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getDefaultUserAgentString()
     {
-        $curlVersion = curl_version();
+        $curlVersion = \curl_version();
 
-        return sprintf('curl/%s (%s)', $curlVersion['version'], $curlVersion['host']);
+        return \sprintf('curl/%s (%s)', $curlVersion['version'], $curlVersion['host']);
     }
 
     /**

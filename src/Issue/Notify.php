@@ -92,7 +92,7 @@ class Notify implements \JsonSerializable
         $user['name'] = $name;
         $user['active'] = $active;
 
-        array_push($this->to['users'], $user);
+        \array_push($this->to['users'], $user);
 
         return $this;
     }
@@ -101,7 +101,7 @@ class Notify implements \JsonSerializable
     {
         $group['name'] = $groupName;
 
-        array_push($this->to['groups'], $group);
+        \array_push($this->to['groups'], $group);
 
         return $this;
     }
@@ -110,7 +110,7 @@ class Notify implements \JsonSerializable
     {
         $group['name'] = $groupName;
 
-        array_push($this->restrict['groups'], $group);
+        \array_push($this->restrict['groups'], $group);
 
         return $this;
     }
@@ -119,13 +119,13 @@ class Notify implements \JsonSerializable
     {
         $perm['id'] = $id;
         $perm['key'] = $key;
-        array_push($this->restrict['permissions'], $perm);
+        \array_push($this->restrict['permissions'], $perm);
 
         return $this;
     }
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        return \array_filter(\get_object_vars($this));
     }
 }

@@ -17,9 +17,9 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             $issue = $issueService->get('TEST-867');
 
-            file_put_contents('jira-issue.json', json_encode($issue, JSON_PRETTY_PRINT));
+            \file_put_contents('jira-issue.json', \json_encode($issue, JSON_PRETTY_PRINT));
 
-            print_r($issue->fields->versions[0]);
+            \print_r($issue->fields->versions[0]);
         } catch (HTTPException $e) {
             $this->assertTrue(false, $e->getMessage());
         }
@@ -46,7 +46,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $ret = $issueService->create($issueField);
 
             //If success, Returns a link to the created issue.
-            print_r($ret);
+            \print_r($ret);
 
             $issueKey = $ret->{'key'};
 
@@ -67,7 +67,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->get($issueKey);
 
-            print_r($ret);
+            \print_r($ret);
 
             $issueKey = $ret->{'key'};
 
@@ -100,7 +100,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $ret = $issueService->create($issueField);
 
             //If success, Returns a link to the created issue.
-            print_r($ret);
+            \print_r($ret);
 
             $issueKey = $ret->{'key'};
 
@@ -121,7 +121,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
             $ret = $issueService->addAttachments($issueKey,
                 ['screen_capture.png', 'bug-description.pdf', 'README.md']);
 
-            print_r($ret);
+            \print_r($ret);
 
             return $issueKey;
         } catch (JiraException $e) {
@@ -167,7 +167,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->changeAssignee($issueKey, 'lesstif');
 
-            print_r($ret);
+            \print_r($ret);
 
             return $issueKey;
         } catch (JiraException $e) {
@@ -185,7 +185,7 @@ class IssueTest extends PHPUnit_Framework_TestCase
 
             $ret = $issueService->deleteIssue($issueKey);
 
-            print_r($ret);
+            \print_r($ret);
 
             return $issueKey;
         } catch (JiraException $e) {
@@ -215,7 +215,7 @@ COMMENT;
 
             $issueService = new IssueService();
             $ret = $issueService->addComment($issueKey, $comment);
-            print_r($ret);
+            \print_r($ret);
 
             return $issueKey;
         } catch (JiraException $e) {

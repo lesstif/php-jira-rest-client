@@ -14,11 +14,11 @@ class PriorityTest extends PHPUnit_Framework_TestCase
 
             $pl = $ps->getAll();
 
-            $this->assertGreaterThan(1, count($pl));
+            $this->assertGreaterThan(1, \count($pl));
 
-            var_dump($pl);
+            \var_dump($pl);
 
-            $priority = $pl[count($pl) - 1];
+            $priority = $pl[\count($pl) - 1];
 
             return $priority;
 

@@ -28,7 +28,7 @@ class SubTaskTest extends PHPUnit_Framework_TestCase
             $ret = $issueService->create($issueField);
 
             //If success, Returns a link to the created issue.
-            print_r($ret);
+            \print_r($ret);
 
             $issueKey = $ret->{'key'};
 

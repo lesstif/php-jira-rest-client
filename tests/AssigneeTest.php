@@ -52,7 +52,7 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
 
         $assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals(true, \property_exists($assignee, 'name'), "Reporter class has not 'name' property");
         $this->assertEquals(null, $assignee->name, "name field not equal to 'null'");
     }
 
@@ -71,7 +71,7 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
 
         $assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals(true, \property_exists($assignee, 'name'), "Reporter class has not 'name' property");
         $this->assertEquals("-1", $assignee->name, "name field not equal to '-1'");
     }
 
@@ -90,7 +90,7 @@ class AssigneeTest extends PHPUnit_Framework_TestCase
 
         $assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
+        $this->assertEquals(true, \property_exists($assignee, 'name'), "Reporter class has not 'name' property");
         $this->assertEquals("lesstif", $assignee->name, "name field not equal to ");
     }
 }

@@ -11,4 +11,4 @@
 $loader = require __DIR__.'/../vendor/autoload.php';
 $loader->addPsr4('JiraRestApi\\', __DIR__);
 
-date_default_timezone_set('UTC');
+\date_default_timezone_set('UTC');

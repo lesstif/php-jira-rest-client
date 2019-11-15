@@ -30,7 +30,7 @@ class Transition implements \JsonSerializable
 
     public function setTransitionName($name)
     {
-        if (is_null($this->transition)) {
+        if (\is_null($this->transition)) {
             $this->transition = [];
         }
 
@@ -39,7 +39,7 @@ class Transition implements \JsonSerializable
 
     public function setTransitionId($id)
     {
-        if (is_null($this->transition)) {
+        if (\is_null($this->transition)) {
             $this->transition = [];
         }
 
@@ -48,18 +48,18 @@ class Transition implements \JsonSerializable
 
     public function setCommentBody($commentBody)
     {
-        if (is_null($this->update)) {
+        if (\is_null($this->update)) {
             $this->update = [];
             $this->update['comment'] = [];
         }
 
         $ar = [];
         $ar['add']['body'] = $commentBody;
-        array_push($this->update['comment'], $ar);
+        \array_push($this->update['comment'], $ar);
     }
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        return \array_filter(\get_object_vars($this));
     }
 }

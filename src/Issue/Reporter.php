@@ -34,14 +34,14 @@ class Reporter implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        $vars = (get_object_vars($this));
+        $vars = (\get_object_vars($this));
 
         foreach ($vars as $key => $value) {
             if ($key === 'name' && ($this->isWantUnassigned() === true)) {
                 continue;
             } elseif ($key === 'wantUnassigned') {
                 unset($vars[$key]);
-            } elseif (is_null($value) || $value === '') {
+            } elseif (\is_null($value) || $value === '') {
                 unset($vars[$key]);
             }
         }

@@ -17,8 +17,8 @@ class IssueSecuritySechemTest extends PHPUnit_Framework_TestCase
 
             $securitySchemes = $issueService->getAllIssueSecuritySchemes();
 
-            $this->assertGreaterThan(1, count($securitySchemes), 'security scheme must greater than 1');
-            $this->assertEquals(true, array_key_exists('id', $securitySchemes[0]), 'security id not found');
+            $this->assertGreaterThan(1, \count($securitySchemes), 'security scheme must greater than 1');
+            $this->assertEquals(true, \array_key_exists('id', $securitySchemes[0]), 'security id not found');
 
             return $securitySchemes;
         } catch (HTTPException $e) {

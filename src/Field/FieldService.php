@@ -20,7 +20,7 @@ class FieldService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, null);
 
         $fields = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Field\Field'
+             \json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Field\Field'
         );
 
         // temp array
@@ -28,14 +28,14 @@ class FieldService extends \JiraRestApi\JiraClient
         if ($fieldType === Field::CUSTOM) {
             foreach ($fields as $f) {
                 if ($f->custom === true) {
-                    array_push($ar, $f);
+                    \array_push($ar, $f);
                 }
             }
             $fields = &$ar;
         } elseif ($fieldType === Field::SYSTEM) {
             foreach ($fields as $f) {
                 if ($f->custom === false) {
-                    array_push($ar, $f);
+                    \array_push($ar, $f);
                 }
             }
             $fields = &$ar;
@@ -78,14 +78,14 @@ class FieldService extends \JiraRestApi\JiraClient
      */
     public function create(Field $field)
     {
-        $data = json_encode($field);
+        $data = \json_encode($field);
 
         $this->log->info("Create Field=\n".$data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
         $cf = $this->json_mapper->map(
-            json_decode($ret), new Field()
+            \json_decode($ret), new Field()
         );
 
         return $cf;

@@ -73,7 +73,7 @@ class Worklog
      */
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        return \array_filter(\get_object_vars($this));
     }
 
     /**
@@ -104,12 +104,12 @@ class Worklog
      */
     public function setStarted($started)
     {
-        if (is_string($started)) {
+        if (\is_string($started)) {
             $dt = new \DateTime($started);
         } elseif ($started instanceof \DateTimeInterface) {
             $dt = $started;
         } else {
-            throw new JiraException('field only accept date string or DateTimeInterface object.'.get_class($started));
+            throw new JiraException('field only accept date string or DateTimeInterface object.'.\get_class($started));
         }
 
         // workround micro second

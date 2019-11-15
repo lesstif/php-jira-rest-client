@@ -51,7 +51,7 @@ class SprintService extends JiraClient
         $this->log->info("Result=\n".$ret);
 
         return $sprint = $this->json_mapper->map(
-            json_decode($ret), new Sprint()
+            \json_decode($ret), new Sprint()
         );
     }
 
@@ -60,7 +60,7 @@ class SprintService extends JiraClient
         $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 
         $issues = $this->json_mapper->mapArray(
-            json_decode($json)->issues,
+            \json_decode($json)->issues,
             new \ArrayObject(),
             Issue::class
         );

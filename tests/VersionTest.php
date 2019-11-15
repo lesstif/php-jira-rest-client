@@ -50,7 +50,7 @@ class VersionTest extends PHPUnit_Framework_TestCase
                 ->setDescription($ver->description . ' Updated description')
                 ->setReleased(false)
                 ->setReleaseDate(
-                    (new \DateTime())->add(date_interval_create_from_date_string('1 months 3 days'))
+                    (new \DateTime())->add(\date_interval_create_from_date_string('1 months 3 days'))
                     );
 
             $res = $versionService->update($ver);

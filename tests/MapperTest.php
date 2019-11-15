@@ -28,10 +28,10 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
     public function testComment()
     {
-        $ret = file_get_contents('test-data/comment.json');
+        $ret = \file_get_contents('test-data/comment.json');
 
         $comment = $this->mapper->map(
-            json_decode($ret), new Comment()
+            \json_decode($ret), new Comment()
         );
 
         $this->assertInstanceOf(Comment::class, $comment);
@@ -42,10 +42,10 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
     public function testIssueField()
     {
-        $ret = file_get_contents('test-data/issueField.json');
+        $ret = \file_get_contents('test-data/issueField.json');
 
         $issueField = $this->mapper->map(
-            json_decode($ret), new IssueField()
+            \json_decode($ret), new IssueField()
         );
 
         $this->assertInstanceOf(IssueField::class, $issueField);
@@ -59,39 +59,39 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
     public function testIssue()
     {
-        $ret = file_get_contents('test-data/issue.json');
+        $ret = \file_get_contents('test-data/issue.json');
 
         $is = new \JiraRestApi\Issue\IssueService();
         $issue = $this->mapper->map(
-                json_decode($ret), new Issue()
+                \json_decode($ret), new Issue()
             );
 
         $this->assertInstanceOf(Issue::class, $issue);
 
-        $this->assertTrue(is_array($issue->renderedFields));
+        $this->assertTrue(\is_array($issue->renderedFields));
         $this->assertArrayHasKey('description', $issue->renderedFields);
         $this->assertEquals(10000, $issue->renderedFields['attachment'][0]->id);
 
-        $this->assertTrue(is_array($issue->names));
+        $this->assertTrue(\is_array($issue->names));
         $this->assertArrayHasKey('issuetype', $issue->names);
         $this->assertArrayHasKey('timespent', $issue->names);
 
-        $this->assertTrue(is_array($issue->schema));
+        $this->assertTrue(\is_array($issue->schema));
         $this->assertArrayHasKey('fixVersions', $issue->schema);
         $this->assertEquals('array', $issue->schema['fixVersions']->type);
 
-        $this->assertTrue(is_array($issue->transitions));
-        $this->assertLessThan(3, count($issue->transitions));
+        $this->assertTrue(\is_array($issue->transitions));
+        $this->assertLessThan(3, \count($issue->transitions));
         $this->assertEquals('작업 시작', $issue->transitions[0]->name);
 
     }
 
     public function testApiV3()
     {
-        $ret = file_get_contents('test-data/issueFieldV3.json');
+        $ret = \file_get_contents('test-data/issueFieldV3.json');
 
         $issue = $this->mapper->map(
-            json_decode($ret), new \JiraRestApi\Issue\IssueV3()
+            \json_decode($ret), new \JiraRestApi\Issue\IssueV3()
         );
 
         $this->assertInstanceOf(\JiraRestApi\Issue\IssueV3::class, $issue);
@@ -113,7 +113,7 @@ class MapperTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('id', $field->versions[0]);
 
         $this->assertObjectHasAttribute('id', $field->assignee);
-        $this->assertGreaterThanOrEqual(1, count($field->environment->content));
+        $this->assertGreaterThanOrEqual(1, \count($field->environment->content));
         $this->assertObjectHasAttribute('id', $field->security);
 
         $this->assertObjectHasAttribute('labels', $field);

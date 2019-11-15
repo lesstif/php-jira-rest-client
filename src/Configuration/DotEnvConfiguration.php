@@ -49,13 +49,13 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     private function env($key, $default = null)
     {
-        $value = getenv($key);
+        $value = \getenv($key);
 
         if ($value === false) {
             return $default;
         }
 
-        switch (strtolower($value)) {
+        switch (\strtolower($value)) {
             case 'true':
             case '(true)':
                 return true;
@@ -74,7 +74,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         }
 
         if ($this->startsWith($value, '"') && $this->endsWith($value, '"')) {
-            return substr($value, 1, -1);
+            return \substr($value, 1, -1);
         }
 
         return $value;
@@ -91,7 +91,7 @@ class DotEnvConfiguration extends AbstractConfiguration
     public function startsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle != '' && strpos($haystack, $needle) === 0) {
+            if ($needle != '' && \strpos($haystack, $needle) === 0) {
                 return true;
             }
         }
@@ -110,7 +110,7 @@ class DotEnvConfiguration extends AbstractConfiguration
     public function endsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ((string) $needle === substr($haystack, -strlen($needle))) {
+            if ((string) $needle === \substr($haystack, -\strlen($needle))) {
                 return true;
             }
         }
@@ -132,7 +132,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         ];
 
         // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
-        if (class_exists('\Dotenv\Dotenv')) {
+        if (\class_exists('\Dotenv\Dotenv')) {
 
             // dirty solution for check whether dotenv v3 or v2
             try {
@@ -150,7 +150,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
                 $dotenv->required($requireParam);
             }
-        } elseif (class_exists('\Dotenv')) {    // DotEnv v1
+        } elseif (\class_exists('\Dotenv')) {    // DotEnv v1
             \Dotenv::load($path);
             \Dotenv::required($requireParam);
         } else {

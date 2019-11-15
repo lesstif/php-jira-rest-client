@@ -20,14 +20,14 @@ class ComponentService extends \JiraRestApi\JiraClient
      */
     public function create($component)
     {
-        $data = json_encode($component);
+        $data = \json_encode($component);
 
         $this->log->info("Create Component=\n".$data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
         return $this->json_mapper->map(
-            json_decode($ret),
+            \json_decode($ret),
             new Component()
         );
     }
@@ -46,7 +46,7 @@ class ComponentService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         return $this->json_mapper->map(
-            json_decode($ret),
+            \json_decode($ret),
             new Component()
         );
     }
@@ -60,15 +60,15 @@ class ComponentService extends \JiraRestApi\JiraClient
      */
     public function update(Component $component)
     {
-        if (!$component->id || !is_numeric($component->id)) {
+        if (!$component->id || !\is_numeric($component->id)) {
             throw new JiraException($component->id.' is not a valid component id.');
         }
 
-        $data = json_encode($component);
+        $data = \json_encode($component);
         $ret = $this->exec($this->uri.'/'.$component->id, $data, 'PUT');
 
         return $this->json_mapper->map(
-            json_decode($ret),
+            \json_decode($ret),
             new Component()
         );
     }
@@ -83,7 +83,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      */
     public function delete(Component $component, $moveIssuesTo = false)
     {
-        if (!$component->id || !is_numeric($component->id)) {
+        if (!$component->id || !\is_numeric($component->id)) {
             throw new JiraException($component->id.' is not a valid component id.');
         }
 
@@ -94,7 +94,7 @@ class ComponentService extends \JiraRestApi\JiraClient
             $paramArray['moveIssuesTo'] = $moveIssuesTo->id;
         }
 
-        $ret = $this->exec($this->uri.'/'.$component->id.$this->toHttpQueryParameter($paramArray), json_encode($data), 'DELETE');
+        $ret = $this->exec($this->uri.'/'.$component->id.$this->toHttpQueryParameter($paramArray), \json_encode($data), 'DELETE');
 
         return $ret;
     }

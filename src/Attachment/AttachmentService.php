@@ -32,7 +32,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         $attachment = $this->json_mapper->map(
-                json_decode($ret), new Attachment()
+                \json_decode($ret), new Attachment()
         );
 
         if ($outDir == null) {
@@ -40,14 +40,14 @@ class AttachmentService extends \JiraRestApi\JiraClient
         }
 
         // download contents
-        if (!file_exists($outDir)) {
-            mkdir($outDir, $mode, $recursive);
+        if (!\file_exists($outDir)) {
+            \mkdir($outDir, $mode, $recursive);
         }
 
         // extract filename
-        $file = substr(strrchr($attachment->content, '/'), 1);
+        $file = \substr(\strrchr($attachment->content, '/'), 1);
 
-        if (file_exists($outDir.DIRECTORY_SEPARATOR.$file) && $overwrite == false) {
+        if (\file_exists($outDir.DIRECTORY_SEPARATOR.$file) && $overwrite == false) {
             return $attachment;
         }
 

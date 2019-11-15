@@ -14,16 +14,16 @@ trait ClassSerialize
      */
     public function toArray($ignoreProperties = [], $excludeMode = true)
     {
-        $tmp = (get_object_vars($this));
+        $tmp = (\get_object_vars($this));
         $retAr = null;
 
         foreach ($tmp as $key => $value) {
             if ($excludeMode === true) {
-                if (!in_array($key, $ignoreProperties)) {
+                if (!\in_array($key, $ignoreProperties)) {
                     $retAr[$key] = $value;
                 }
             } else {    // include mode
-                if (in_array($key, $ignoreProperties)) {
+                if (\in_array($key, $ignoreProperties)) {
                     $retAr[$key] = $value;
                 }
             }
@@ -44,6 +44,6 @@ trait ClassSerialize
     {
         $ar = $this->toArray($ignoreProperties, $excludeMode);
 
-        return json_encode($ar, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return \json_encode($ar, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }

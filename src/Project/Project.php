@@ -117,8 +117,8 @@ class Project implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this), function ($var) {
-            return !is_null($var);
+        return \array_filter(\get_object_vars($this), function ($var) {
+            return !\is_null($var);
         });
     }
 
@@ -311,7 +311,7 @@ class Project implements \JsonSerializable
      */
     public function setAssigneeType($assigneeType)
     {
-        if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
+        if (!\in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
             throw new JiraException('invalid assigneeType:'.$assigneeType);
         }
 

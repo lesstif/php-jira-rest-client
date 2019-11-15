@@ -140,8 +140,8 @@ class IssueField implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        $vars = array_filter(get_object_vars($this), function ($var) {
-            return !is_null($var);
+        $vars = \array_filter(\get_object_vars($this), function ($var) {
+            return !\is_null($var);
         });
 
         // if assignee property has empty value then remove it.
@@ -220,7 +220,7 @@ class IssueField implements \JsonSerializable
      */
     public function setReporterName($name)
     {
-        if (is_null($this->reporter)) {
+        if (\is_null($this->reporter)) {
             $this->reporter = new Reporter();
         }
 
@@ -238,7 +238,7 @@ class IssueField implements \JsonSerializable
      */
     public function setAssigneeName($name)
     {
-        if (is_null($this->assignee)) {
+        if (\is_null($this->assignee)) {
             $this->assignee = new Reporter();
         }
 
@@ -256,7 +256,7 @@ class IssueField implements \JsonSerializable
      */
     public function setAssigneeAccountId($accountId)
     {
-        if (is_null($this->assignee)) {
+        if (\is_null($this->assignee)) {
             $this->assignee = new Reporter();
         }
 
@@ -278,7 +278,7 @@ class IssueField implements \JsonSerializable
      */
     public function setPriorityName($name)
     {
-        if (is_null($this->priority)) {
+        if (\is_null($this->priority)) {
             $this->priority = new Priority();
         }
 
@@ -317,15 +317,15 @@ class IssueField implements \JsonSerializable
      */
     public function addVersion($name)
     {
-        if (is_null($this->versions)) {
+        if (\is_null($this->versions)) {
             $this->versions = [];
         }
 
-        if (is_string($name)) {
-            array_push($this->versions, new Version($name));
-        } elseif (is_array($name)) {
+        if (\is_string($name)) {
+            \array_push($this->versions, new Version($name));
+        } elseif (\is_array($name)) {
             foreach ($name as $v) {
-                array_push($this->versions, new Version($v));
+                \array_push($this->versions, new Version($v));
             }
         }
 
@@ -341,11 +341,11 @@ class IssueField implements \JsonSerializable
      */
     public function addLabel($label)
     {
-        if (is_null($this->labels)) {
+        if (\is_null($this->labels)) {
             $this->labels = [];
         }
 
-        array_push($this->labels, $label);
+        \array_push($this->labels, $label);
 
         return $this;
     }
@@ -359,8 +359,8 @@ class IssueField implements \JsonSerializable
      */
     public function setIssueType($name)
     {
-        if (is_string($name)) {
-            if (is_null($this->issuetype)) {
+        if (\is_string($name)) {
+            if (\is_null($this->issuetype)) {
                 $this->issuetype = new IssueType();
             }
 
@@ -384,9 +384,9 @@ class IssueField implements \JsonSerializable
      */
     public function setParentKeyOrId($keyOrId)
     {
-        if (is_numeric($keyOrId)) {
+        if (\is_numeric($keyOrId)) {
             $this->parent['id'] = $keyOrId;
-        } elseif (is_string($keyOrId)) {
+        } elseif (\is_string($keyOrId)) {
             $this->parent['key'] = $keyOrId;
         }
 
@@ -407,15 +407,15 @@ class IssueField implements \JsonSerializable
      */
     public function addComponents($component)
     {
-        if (is_null($this->components)) {
+        if (\is_null($this->components)) {
             $this->components = [];
         }
 
-        if (is_string($component)) {
-            array_push($this->components, new Component($component));
-        } elseif (is_array($component)) {
+        if (\is_string($component)) {
+            \array_push($this->components, new Component($component));
+        } elseif (\is_array($component)) {
             foreach ($component as $c) {
-                array_push($this->components, new Component($c));
+                \array_push($this->components, new Component($c));
             }
         }
 
@@ -450,7 +450,7 @@ class IssueField implements \JsonSerializable
      */
     public function setDueDate($duedate, $format = 'Y-m-d')
     {
-        if (is_string($duedate)) {
+        if (\is_string($duedate)) {
             $this->duedate = $duedate;
         } elseif ($duedate instanceof \DateTimeInterface) {
             $this->duedate = $duedate->format($format);
@@ -468,7 +468,7 @@ class IssueField implements \JsonSerializable
      */
     public function setAssigneeToUnassigned()
     {
-        if (is_null($this->assignee)) {
+        if (\is_null($this->assignee)) {
             $this->assignee = new Reporter();
         }
 
@@ -479,7 +479,7 @@ class IssueField implements \JsonSerializable
 
     public function setAssigneeToDefault()
     {
-        if (is_null($this->assignee)) {
+        if (\is_null($this->assignee)) {
             $this->assignee = new Reporter();
         }
 

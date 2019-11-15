@@ -24,12 +24,12 @@ class RemoteIssueLink implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        return \array_filter(\get_object_vars($this));
     }
 
     public function setUrl($url)
     {
-        if (is_null($this->object)) {
+        if (\is_null($this->object)) {
             $this->object = new self();
         }
 

@@ -15,7 +15,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
     {
         $this->log->info("addIssueLink=\n");
 
-        $data = json_encode($issueLink);
+        $data = \json_encode($issueLink);
 
         $this->log->debug("Create IssueLink=\n".$data);
 
@@ -38,10 +38,10 @@ class IssueLinkService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($url);
 
-        $data = json_encode(json_decode($ret)->issueLinkTypes);
+        $data = \json_encode(\json_decode($ret)->issueLinkTypes);
 
         $linkTypes = $this->json_mapper->mapArray(
-            json_decode($data, false), new \ArrayObject(), '\JiraRestApi\IssueLink\IssueLinkType'
+            \json_decode($data, false), new \ArrayObject(), '\JiraRestApi\IssueLink\IssueLinkType'
         );
 
         return $linkTypes;

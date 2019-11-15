@@ -22,14 +22,14 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function get($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
         return $this->json_mapper->map(
-                json_decode($ret), new Group()
+                \json_decode($ret), new Group()
         );
     }
 
@@ -45,13 +45,13 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function getMembers($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.'/member'.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
-        $userData = json_decode($ret);
+        $userData = \json_decode($ret);
 
         $res = $this->json_mapper->map($userData, new GroupSearchResult());
 
@@ -70,14 +70,14 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function createGroup($group)
     {
-        $data = json_encode($group);
+        $data = \json_encode($group);
 
         $ret = $this->exec($this->uri, $data);
 
         $this->log->info("Result=\n".$ret);
 
         $group = $this->json_mapper->map(
-            json_decode($ret), new Group()
+            \json_decode($ret), new Group()
         );
 
         return $group;
@@ -96,14 +96,14 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function addUserToGroup($groupName, $userName)
     {
-        $data = json_encode(['name' => $userName]);
+        $data = \json_encode(['name' => $userName]);
 
-        $ret = $this->exec($this->uri.'/user?groupname='.urlencode($groupName), $data);
+        $ret = $this->exec($this->uri.'/user?groupname='.\urlencode($groupName), $data);
 
         $this->log->info("Result=\n".$ret);
 
         $group = $this->json_mapper->map(
-            json_decode($ret), new Group()
+            \json_decode($ret), new Group()
         );
 
         return $group;
@@ -121,7 +121,7 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function removeUserFromGroup($groupName, $userName)
     {
-        $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
+        $param = \http_build_query(['groupname' => $groupName, 'username' => $userName]);
 
         $ret = $this->exec($this->uri.'/user?'.$param, [], 'DELETE');
 

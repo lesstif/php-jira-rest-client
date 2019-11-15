@@ -25,14 +25,14 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function create($user)
     {
-        $data = json_encode($user);
+        $data = \json_encode($user);
 
         $this->log->info("Create User=\n".$data);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
         return $this->json_mapper->map(
-            json_decode($ret), new User()
+            \json_decode($ret), new User()
         );
     }
 
@@ -49,14 +49,14 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function get($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
         return $this->json_mapper->map(
-                json_decode($ret), new User()
+                \json_decode($ret), new User()
         );
     }
 
@@ -72,13 +72,13 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function findUsers($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.'/search'.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
-        $userData = json_decode($ret);
+        $userData = \json_decode($ret);
         $users = [];
 
         foreach ($userData as $user) {
@@ -105,13 +105,13 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function findAssignableUsers($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.'/assignable/search'.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
-        $userData = json_decode($ret);
+        $userData = \json_decode($ret);
         $users = [];
 
         foreach ($userData as $user) {
@@ -138,13 +138,13 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function findUsersByQuery($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.'/search/query'.$queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
-        $userData = json_decode($ret);
+        $userData = \json_decode($ret);
         $users = [];
 
         foreach ($userData->values as $user) {
@@ -167,7 +167,7 @@ class UserService extends \JiraRestApi\JiraClient
      */
     public function deleteUser($paramArray)
     {
-        $queryParam = '?'.http_build_query($paramArray);
+        $queryParam = '?'.\http_build_query($paramArray);
 
         $ret = $this->exec($this->uri.$queryParam, null, 'DELETE');
 
@@ -186,7 +186,7 @@ class UserService extends \JiraRestApi\JiraClient
         $ret = $this->exec('myself', null);
 
         $user = $this->json_mapper->map(
-            json_decode($ret), new Reporter()
+            \json_decode($ret), new Reporter()
         );
 
         return $user;

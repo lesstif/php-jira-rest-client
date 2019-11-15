@@ -42,7 +42,7 @@ class JqlFunction
      */
     public static function approver($user)
     {
-        return new self('approver('.implode(', ', func_get_args()).')');
+        return new self('approver('.\implode(', ', \func_get_args()).')');
     }
 
     /**
@@ -336,7 +336,7 @@ class JqlFunction
      */
     public static function pendingBy($user)
     {
-        return new self('pendingBy('.implode(', ', func_get_args()).')');
+        return new self('pendingBy('.\implode(', ', \func_get_args()).')');
     }
 
     /**

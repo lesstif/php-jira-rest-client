@@ -41,7 +41,7 @@ class RemoteIssueLinkTest extends PHPUnit_Framework_TestCase
 
             $rils = $issueService->getRemoteIssueLink($issueKey);
 
-            $this->assertGreaterThan(0, count($rils));
+            $this->assertGreaterThan(0, \count($rils));
 
             $this->assertInstanceOf(RemoteIssueLink::class, $rils[0]);
 
@@ -61,7 +61,7 @@ class RemoteIssueLinkTest extends PHPUnit_Framework_TestCase
             $issueService = new IssueService();
 
             $rils = $issueService->getRemoteIssueLink($issueKey);
-            $countBefore = count($rils);
+            $countBefore = \count($rils);
 
             /** @var RemoteIssueLink $firstRil */
             $firstRil = $rils[0];
@@ -72,7 +72,7 @@ class RemoteIssueLinkTest extends PHPUnit_Framework_TestCase
 
             $rilsAfter = $issueService->getRemoteIssueLink($issueKey);
 
-            $this->assertLessThan($countBefore, count($rilsAfter));
+            $this->assertLessThan($countBefore, \count($rilsAfter));
 
             return $issueKey;
         } catch (JiraException $e) {

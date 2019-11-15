@@ -15,19 +15,19 @@ class Dumper
      */
     public static function dump($value)
     {
-        if (class_exists(CliDumper::class)) {
+        if (\class_exists(CliDumper::class)) {
             $dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
             $dumper->dump((new VarCloner())->cloneVar($value));
         } else {
-            var_dump($value);
+            \var_dump($value);
         }
     }
 
     public static function dd($x)
     {
-        array_map(function ($x) {
+        \array_map(function ($x) {
             (new self())->dump($x);
-        }, func_get_args());
+        }, \func_get_args());
         die(1);
     }
 }

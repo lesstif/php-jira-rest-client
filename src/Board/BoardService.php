@@ -30,7 +30,7 @@ class BoardService extends \JiraRestApi\JiraClient
     {
         $json = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
         $boards = $this->json_mapper->mapArray(
-            json_decode($json)->values, new \ArrayObject(), Board::class
+            \json_decode($json)->values, new \ArrayObject(), Board::class
         );
 
         return $boards;
@@ -40,7 +40,7 @@ class BoardService extends \JiraRestApi\JiraClient
     {
         $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
         $board = $this->json_mapper->map(
-            json_decode($json), new Board()
+            \json_decode($json), new Board()
         );
 
         return $board;
@@ -50,7 +50,7 @@ class BoardService extends \JiraRestApi\JiraClient
     {
         $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
         $issues = $this->json_mapper->mapArray(
-            json_decode($json)->issues, new \ArrayObject(), Issue::class
+            \json_decode($json)->issues, new \ArrayObject(), Issue::class
         );
 
         return $issues;
@@ -60,7 +60,7 @@ class BoardService extends \JiraRestApi\JiraClient
     {
         $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
         $sprints = $this->json_mapper->mapArray(
-            json_decode($json)->values,
+            \json_decode($json)->values,
             new \ArrayObject(),
             Sprint::class
         );

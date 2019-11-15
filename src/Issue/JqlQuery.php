@@ -452,7 +452,7 @@ class JqlQuery
             return $value->expression;
         }
 
-        $value = str_replace('"', '\\\\"', $value);
+        $value = \str_replace('"', '\\\\"', $value);
 
         return '"'.$value.'"';
     }
@@ -471,8 +471,8 @@ class JqlQuery
      */
     public static function quoteField($name)
     {
-        $first = substr($name, 0, 1);
-        $last = substr($name, -1, 1);
+        $first = \substr($name, 0, 1);
+        $last = \substr($name, -1, 1);
 
         if ($first === '"' && $last === '"') {
             return $name; // already "quoted"
@@ -563,7 +563,7 @@ class JqlQuery
         foreach ($values as $value) {
             $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression(self::quoteField($field).' in ('.implode(', ', $valuesQuoted).')',
+        $this->joinExpression(self::quoteField($field).' in ('.\implode(', ', $valuesQuoted).')',
             $logicLinkKeyword);
 
         return $this;
@@ -587,7 +587,7 @@ class JqlQuery
         foreach ($values as $value) {
             $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression(self::quoteField($field).' not in ('.implode(', ', $valuesQuoted).')',
+        $this->joinExpression(self::quoteField($field).' not in ('.\implode(', ', $valuesQuoted).')',
             $logicLinkKeyword);
 
         return $this;

@@ -25,7 +25,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
 
         $prjs = $this->json_mapper->mapArray(
-            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
+            \json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
         );
 
         return $prjs;
@@ -49,7 +49,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $prj = $this->json_mapper->map(
-            json_decode($ret), new Project()
+            \json_decode($ret), new Project()
         );
 
         return $prj;
@@ -68,8 +68,8 @@ class ProjectService extends \JiraRestApi\JiraClient
     public function getAssignable($projectIdOrKey)
     {
         $ret = $this->exec("/user/assignable/search?project=$projectIdOrKey", null);
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
+        $json = \json_decode($ret);
+        $results = \array_map(function ($elem) {
             return $this->json_mapper->map($elem, new Reporter());
         }, $json);
 
@@ -86,8 +86,8 @@ class ProjectService extends \JiraRestApi\JiraClient
     public function getStatuses($projectIdOrKey)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
+        $json = \json_decode($ret);
+        $results = \array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
         }, $json);
 
@@ -105,8 +105,8 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         $this->log->info('Result='.$ret);
 
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
+        $json = \json_decode($ret);
+        $results = \array_map(function ($elem) {
             return $this->json_mapper->map($elem, new ProjectType());
         }, $json);
 
@@ -128,7 +128,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $type = $this->json_mapper->map(
-            json_decode($ret, false), new ProjectType()
+            \json_decode($ret, false), new ProjectType()
         );
 
         return $type;
@@ -149,7 +149,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $type = $this->json_mapper->map(
-            json_decode($ret, false), new ProjectType()
+            \json_decode($ret, false), new ProjectType()
         );
 
         return $type;
@@ -176,7 +176,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         ];
 
         $param = $this->toHttpQueryParameter(
-            array_merge($default, $queryParam)
+            \array_merge($default, $queryParam)
         );
 
         $ret = $this->exec($this->uri."/$projectIdOrKey/version".$param);
@@ -184,7 +184,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         //@see https://docs.atlassian.com/jira/REST/server/#api/2/project-getProjectVersions
-        $json = json_decode($ret);
+        $json = \json_decode($ret);
 
         $versions = $this->json_mapper->mapArray(
             $json->values, new \ArrayObject(), '\JiraRestApi\Issue\Version'
@@ -209,7 +209,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $versions = $this->json_mapper->mapArray(
-            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
+            \json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
         );
 
         return $versions;
@@ -232,7 +232,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $versions = $this->json_mapper->mapArray(
-            json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
+            \json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Issue\Version'
         );
 
         foreach ($versions as $v) {
@@ -255,14 +255,14 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function createProject($project)
     {
-        $data = json_encode($project);
+        $data = \json_encode($project);
 
         $ret = $this->exec($this->uri, $data, 'POST');
 
         $this->log->info('createProject Result='.$ret);
 
         return $this->json_mapper->map(
-            json_decode($ret), new Project()
+            \json_decode($ret), new Project()
         );
     }
 
@@ -281,14 +281,14 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function updateProject($project, $projectIdOrKey)
     {
-        $data = json_encode($project);
+        $data = \json_encode($project);
 
         $ret = $this->exec($this->uri.'/'.$projectIdOrKey, $data, 'PUT');
 
         $this->log->info('updateProject Result='.$ret);
 
         return $this->json_mapper->map(
-            json_decode($ret), new Project()
+            \json_decode($ret), new Project()
         );
     }
 
