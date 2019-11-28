@@ -613,7 +613,7 @@ try {
                 ->setDescription("Full description for issue")
                 ->addVersion("1.0.1")
                 ->addVersion("1.0.3")
-                ->addCustomField('customfield_10100', 'text area body text']) // String type custom field
+                ->addCustomField('customfield_10100', 'text area body text') // String type custom field
                 ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
                 ->addCustomField('customfield_10408', [
                     ['value' => 'opt2'], ['value' => 'opt4']
@@ -782,7 +782,7 @@ try {
                 ->setDescription("Full description for issue")
                 ->addVersion("1.0.1")
                 ->addVersion("1.0.3")
-                ->addCustomField('customfield_10100', 'text area body text']) // String type custom field
+                ->addCustomField('customfield_10100', 'text area body text') // String type custom field
                 ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
                 ->addCustomField('customfield_10408', [
                     ['value' => 'opt2'], ['value' => 'opt4']
