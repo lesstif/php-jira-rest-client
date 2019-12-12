@@ -214,7 +214,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * Adds a new comment to an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param Comment     $comment
+     * @param Comment    $comment
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -225,8 +225,8 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("addComment=\n");
 
-        if (! ($comment instanceof Comment) || empty($comment->body)) {
-            throw new JiraException("comment param must instance of Comment and have to body text.!");
+        if (!($comment instanceof Comment) || empty($comment->body)) {
+            throw new JiraException('comment param must instance of Comment and have to body text.!');
         }
 
         $data = json_encode($comment);
@@ -246,7 +246,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param string|int $issueIdOrKey Issue id or key
      * @param string|int $id           Comment id
-     * @param Comment     $comment
+     * @param Comment    $comment
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
@@ -257,8 +257,8 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("updateComment=\n");
 
-        if (! ($comment instanceof Comment) || empty($comment->body)) {
-            throw new JiraException("comment param must instance of Comment and have to body text.!");
+        if (!($comment instanceof Comment) || empty($comment->body)) {
+            throw new JiraException('comment param must instance of Comment and have to body text.!');
         }
 
         $data = json_encode($comment);
