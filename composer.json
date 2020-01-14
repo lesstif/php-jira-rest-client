@@ -8,7 +8,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "netresearch/jsonmapper": "~0.11|^1.0",
-        "monolog/monolog": "~1.12",
+        "monolog/monolog": "~1.12|^2.0",
         "vlucas/phpdotenv": "~1.0|~2.0|^3.0"
     },
     "require-dev": {
