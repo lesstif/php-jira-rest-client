@@ -871,7 +871,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $queryParam = '?'.http_build_query([
             'overrideEditableFlag'   => $overrideEditableFlag,
             'overrideScreenSecurity' => $overrideScreenSecurity,
-            ]);
+        ]);
 
         $uri = sprintf('%s/%s/editmeta', $this->uri, $idOrKey).$queryParam;
 
