@@ -191,4 +191,32 @@ class UserService extends \JiraRestApi\JiraClient
 
         return $user;
     }
+
+    /**
+     * @param array $paramArray
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return User[]
+     */
+    public function getUsers($paramArray)
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec('/users'.$queryParam, null);
+
+        $this->log->info("Result=\n".$ret);
+
+        $userData = json_decode($ret);
+        $users = [];
+
+        foreach ($userData as $user) {
+            $users[] = $this->json_mapper->map(
+                $user, new User()
+            );
+        }
+
+        return $users;
+    }
 }
