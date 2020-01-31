@@ -422,14 +422,17 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
      * @param string|int $issueIdOrKey Issue id or key
+     * @param array      $paramArray   Query Parameter key-value Array.
      *
      * @throws JiraException
      *
      * @return Transition[] array of Transition class
      */
-    public function getTransition($issueIdOrKey)
+    public function getTransition($issueIdOrKey, $paramArray = [])
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions");
+        $queryParam = '?'.http_build_query($paramArray);
+        
+        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions".$queryParam);
 
         $this->log->debug('getTransitions result='.var_export($ret, true));
 
