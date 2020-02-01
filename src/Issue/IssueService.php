@@ -431,7 +431,7 @@ class IssueService extends \JiraRestApi\JiraClient
     public function getTransition($issueIdOrKey, $paramArray = [])
     {
         $queryParam = '?'.http_build_query($paramArray);
-        
+
         $ret = $this->exec($this->uri."/$issueIdOrKey/transitions".$queryParam);
 
         $this->log->debug('getTransitions result='.var_export($ret, true));
