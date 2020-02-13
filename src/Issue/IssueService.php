@@ -514,12 +514,9 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param array  $expand
      * @param bool   $validateQuery
      *
-     * @throws JiraException
-     * @throws \JsonMapper_Exception
-     *
-     * @return IssueSearchResult|object
+     * @return string
      */
-    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
+    public function searchToJson($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
         $data = json_encode([
             'jql'           => $jql,
@@ -531,6 +528,27 @@ class IssueService extends \JiraRestApi\JiraClient
         ]);
 
         $ret = $this->exec('search', $data, 'POST');
+        return $ret;
+    }
+
+    /**
+     * Search issues.
+     *
+     * @param string $jql
+     * @param int    $startAt
+     * @param int    $maxResults
+     * @param array  $fields
+     * @param array  $expand
+     * @param bool   $validateQuery
+     *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return IssueSearchResult|object
+     */
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
+    {
+        $ret = $this->searchToJson($jql, $startAt, $maxResults, $fields, $expand, $validateQuery);
         $json = json_decode($ret);
 
         $result = null;
