@@ -210,6 +210,11 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get board list](#get-board-list)
 - [Get board info](#get-board-info)
 - [Get board issues](#get-board-issues)
+- [Get board epics](#get-board-epics)
+
+### Epic
+- [Get epic info](#)
+
 #### Create Project
 
 Create a new project.
@@ -250,7 +255,7 @@ try {
     var_dump($pj->self);
     // 10042 
     var_dump($pj->id);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -289,7 +294,7 @@ try {
     $pj = $proj->updateProject($p, 'EX');
    
     var_dump($pj);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -313,7 +318,7 @@ try {
     $pj = $proj->deleteProject('EX');
    
     var_dump($pj);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -335,7 +340,7 @@ try {
     $p = $proj->get('TEST');
 	
     var_dump($p);			
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -361,7 +366,7 @@ try {
             $p->key, $p->id, $p->name, $p->projectCategory['name']
         );			
     }			
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -394,7 +399,7 @@ try {
     $pt = $proj->getProjectType('software');
     var_dump($pt);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -422,7 +427,7 @@ try {
         // $v is  JiraRestApi\Issue\Version
         var_dump($v);
     }
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -455,7 +460,7 @@ try {
         // $v is  JiraRestApi\Issue\Version
         var_dump($v);
     }
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -481,7 +486,7 @@ try {
     $ret = $fieldService->getAllFields(Field::CUSTOM); 
     	
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -511,7 +516,7 @@ try {
     $ret = $fieldService->create($field);
     
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
 }
 ```
@@ -553,7 +558,7 @@ try {
     $issue = $issueService->get('TEST-867', $queryParam);
 	
     var_dump($issue->fields);	
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -594,7 +599,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -626,7 +631,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -668,7 +673,7 @@ try {
     
     //If success, returns an array of the created issues
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -714,7 +719,7 @@ try {
 
     //If success, Returns a link to the created sub task.
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -763,7 +768,7 @@ DESC;
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -795,7 +800,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -824,7 +829,7 @@ try {
     );
 
     print_r($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
 }
 
@@ -868,7 +873,7 @@ try {
     $ret = $issueService->update($issueKey, $issueField, $editParams);
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 ```
@@ -907,7 +912,7 @@ try {
         );
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'updateLabels Failed : '.$e->getMessage());
 }
 ```
@@ -943,7 +948,7 @@ try {
         );
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'updateFixVersions Failed : '.$e->getMessage());
 }
 ```
@@ -971,7 +976,7 @@ try {
     $ret = $issueService->changeAssignee($issueKey, $assignee);
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
@@ -995,7 +1000,7 @@ try {
     $ret = $issueService->changeAssigneeByAccountId($issueKey, $accountId);
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```   
@@ -1021,7 +1026,7 @@ try {
     //$ret = $issueService->deleteIssue($issueKey, array('deleteSubtasks' => 'true'));
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
@@ -1059,7 +1064,7 @@ COMMENT;
     $issueService = new IssueService();
     $ret = $issueService->addComment($issueKey, $comment);
     print_r($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
@@ -1085,7 +1090,7 @@ try {
 
     var_dump($comments);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
 }
 
@@ -1111,7 +1116,7 @@ try {
 
     $ret = $issueService->deleteComment($issueKey, $commentId);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
 }
 
@@ -1141,7 +1146,7 @@ try {
     
     $issueService->updateComment($issueKey, $commentId, $comment);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
 }
 
@@ -1175,7 +1180,7 @@ try {
     $issueService = new IssueService();
 
     $issueService->transition($issueKey, $transition);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 ```
@@ -1200,7 +1205,7 @@ try {
 
     $ret = $issueService->search($jql);
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1248,7 +1253,7 @@ try {
             print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
         }
     }     
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1287,7 +1292,7 @@ try {
     $ret = $issueService->search($jql->getQuery());
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1315,7 +1320,7 @@ try {
         
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, $e->getMessage());
 }
 
@@ -1350,7 +1355,7 @@ try {
 
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 ```
@@ -1388,7 +1393,7 @@ try {
     // add time tracking
     $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -1422,7 +1427,7 @@ try {
     $workLogid = $ret->{'id'};
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 
@@ -1470,7 +1475,7 @@ try {
     $workLogid = $ret->{'id'};
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 
@@ -1504,7 +1509,7 @@ try {
     $ret = $issueService->editWorklog($issueKey, $workLog, $workLogid);
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Edit worklog Failed : '.$e->getMessage());
 }
 
@@ -1537,7 +1542,7 @@ try {
     $wl = $issueService->getWorklogById($issueKey, $wlId);
     var_dump($wl);
     
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -1564,7 +1569,7 @@ try {
     
     $issueService->addWatcher($issueKey, $watcher);
     
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
 ```
@@ -1590,7 +1595,7 @@ try {
     
     $issueService->removeWatcher($issueKey, $watcher);
     
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
 ```
@@ -1625,7 +1630,7 @@ try {
 
     $issueService->notify($issueKey, $noti);
     
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'Issue notify Failed : '.$e->getMessage());
 }
 ```
@@ -1655,7 +1660,7 @@ try {
 
     $ret = $ils->addIssueLink($il);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -1679,7 +1684,7 @@ try {
     $ret = $ils->getIssueLinkTypes();
     
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -1710,7 +1715,7 @@ try {
         ]);
 
     var_dump($user);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1735,7 +1740,7 @@ try {
     $user = $us->get(['username' => 'lesstif']);
 
     var_dump($user);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1767,7 +1772,7 @@ try {
 
     // get the user info.
     $users = $us->findUsers($paramArray);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1799,7 +1804,7 @@ try {
     ];
 
     $users = $us->findAssignableUsers($paramArray);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1828,7 +1833,7 @@ try {
 
     $users = $us->findUsersByQuery($paramArray);
     var_dump($users);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1853,7 +1858,7 @@ try {
     $paramArray = ['username' => 'user@example.com'];
 
     $users = $us->deleteUser($paramArray);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1882,7 +1887,7 @@ try {
     $ret = $gs->createGroup($g);
 
     var_dump($ret);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1917,7 +1922,7 @@ try {
     foreach($ret->values as $user) {
         print_r($user);
     }
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1947,7 +1952,7 @@ try {
     // print current state of the group.
     print_r($ret);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1974,7 +1979,7 @@ try {
 
     $gs->removeUserFromGroup($groupName, $userName);
 
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1997,7 +2002,7 @@ try {
     $p = $ps->getAll();
 	
     var_dump($p);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2019,7 +2024,7 @@ try {
     $p = $ps->get(1);
 	
     var_dump($p);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2042,7 +2047,7 @@ try {
     $att = $atts->get($attachmentId);
 
     var_dump($att);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2066,7 +2071,7 @@ try {
     $att = $atts->get($attachmentId, $outDir, $overwrite = true);
 
     var_dump($att);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2089,7 +2094,7 @@ try {
     $atts = new AttachmentService();
 
     $atts->remove($attachmentId);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2124,7 +2129,7 @@ try {
     $res = $versionService->create($version);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2159,7 +2164,7 @@ try {
     $res = $versionService->update($ver);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2186,7 +2191,7 @@ try {
     $res = $versionService->delete($version);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2213,7 +2218,7 @@ try {
     $res = $versionService->getRelatedIssues($version);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2240,7 +2245,7 @@ try {
     $res = $versionService->getUnresolvedIssues($version);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2270,7 +2275,7 @@ try {
     $res = $componentService->create($component);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2300,7 +2305,7 @@ try {
     $res = $componentService->update($component);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2327,7 +2332,7 @@ try {
     $res = $componentService->delete($component);
 
     var_dump($res);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2348,7 +2353,7 @@ try {
   $board = $board_service->getBoardList();
   
   var_dump($board);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2368,7 +2373,7 @@ try {
   $board = $board_service->getBoard($board_id);
   
   var_dump($board);
-} catch (JiraException $e) {
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2386,13 +2391,81 @@ use JiraRestApi\Board\BoardService;
 try {
   $board_service = new BoardService();
   $board_id = 1;
-  $board = $board_service->getBoardIssues($board_id, [
+  $issues = $board_service->getBoardIssues($board_id, [
     'maxResults' => 500,
     'jql' => urlencode('status != Closed'),
   ]);
   
-  var_dump($board);
-} catch (JiraException $e) {
+  foreach ($issues as $issue) {
+    var_dump($issue);
+  }
+} catch (JiraRestApi\JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get board epics
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-board-boardId-epic-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+try {
+  $board_service = new JiraRestApi\Board\BoardService();
+  $board_id = 1;
+  $epics = $board_service->getBoardEpics($board_id, [
+    'maxResults' => 500,
+  ]);
+  
+  foreach ($epics as $epic) {
+    var_dump($epic);
+  }
+} catch (JiraRestApi\JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get epic info
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-epic-epicIdOrKey-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+try {
+  $epic_service = new JiraRestApi\Epic\EpicService();
+  $epic_id = 1;
+  $epic = $epic_service->getEpic($epic_id);
+  
+  var_dump($epic);
+} catch (JiraRestApi\JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get epic issues
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-epic-epicIdOrKey-issue-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+try {
+  $epic_service = new JiraRestApi\Epic\EpicService();
+  $epic_id = 1;
+  $issues = $epic_service->getEpicIssues($epic_id, [
+    'maxResults' => 500,
+    'jql' => urlencode('status != Closed'),
+  ]);
+  
+  foreach ($issues as $issue) {
+    var_dump($issue);
+  }
+} catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 

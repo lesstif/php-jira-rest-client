@@ -3,6 +3,7 @@
 namespace JiraRestApi\Board;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\Epic\Epic;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Sprint\Sprint;
 use Psr\Log\LoggerInterface;
@@ -66,5 +67,17 @@ class BoardService extends \JiraRestApi\JiraClient
         );
 
         return $sprints;
+    }
+
+    public function getBoardEpics($boardId, $paramArray = [])
+    {
+        $json = $this->exec($this->uri.'/'.$boardId.'/epic'.$this->toHttpQueryParameter($paramArray), null);
+        $epics = $this->json_mapper->mapArray(
+            json_decode($json)->values,
+            new \ArrayObject(),
+            Epic::class
+        );
+
+        return $epics;
     }
 }
