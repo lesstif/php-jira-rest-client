@@ -11,7 +11,7 @@ class EpicService extends \JiraRestApi\JiraClient
 {
     use AgileApiTrait;
 
-    private $uri = '/board';
+    private $uri = '/epic';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
