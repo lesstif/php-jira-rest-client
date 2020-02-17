@@ -210,6 +210,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Get board list](#get-board-list)
 - [Get board info](#get-board-info)
 - [Get board issues](#get-board-issues)
+- [Get board epics](#get-board-epics)
 #### Create Project
 
 Create a new project.
@@ -2386,12 +2387,39 @@ use JiraRestApi\Board\BoardService;
 try {
   $board_service = new BoardService();
   $board_id = 1;
-  $board = $board_service->getBoardIssues($board_id, [
+  $issues = $board_service->getBoardIssues($board_id, [
     'maxResults' => 500,
     'jql' => urlencode('status != Closed'),
   ]);
   
-  var_dump($board);
+  foreach ($issues as $issue) {
+    var_dump($issue);
+  }
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get board epics
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-board-boardId-epic-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+
+try {
+  $board_service = new BoardService();
+  $board_id = 1;
+  $epics = $board_service->getBoardEpics($board_id, [
+    'maxResults' => 500,
+  ]);
+  
+  foreach ($epics as $epic) {
+    var_dump($epic);
+  }
 } catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
