@@ -13,7 +13,7 @@ class NoOperationMonologHandler extends AbstractProcessingHandler
      *
      * @return void
      */
-    protected function write(array $record)
+    protected function write(array $record) : void
     {
         // do nothing
     }

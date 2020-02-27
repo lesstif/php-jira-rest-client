@@ -13,7 +13,7 @@
 
 # Requirements
 
-- PHP >= 5.5.9
+- PHP >= 7.1
 - [php JsonMapper](https://github.com/netresearch/jsonmapper)
 - [phpdotenv](https://github.com/vlucas/phpdotenv)
 
