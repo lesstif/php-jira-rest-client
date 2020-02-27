@@ -832,12 +832,12 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $this->http_response == 204 ? true : false;
     }
-    
+
     /**
      * remove watcher from issue by watcher account id.
      *
      * @param string|int $issueIdOrKey
-     * @param string $accountId    Watcher account id.
+     * @param string     $accountId    Watcher account id.
      *
      * @throws JiraException
      *
