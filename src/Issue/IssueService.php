@@ -832,6 +832,27 @@ class IssueService extends \JiraRestApi\JiraClient
 
         return $this->http_response == 204 ? true : false;
     }
+    
+    /**
+     * remove watcher from issue.
+     *
+     * @param string|int $issueIdOrKey
+     * @param string     $accountId      watcher account id
+     *
+     * @throws JiraException
+     *
+     * @return bool
+     */
+    public function removeWatcherByAccountId($issueIdOrKey, $accountId)
+    {
+        $this->log->info("removeWatcher=\n");
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
+
+        $this->log->info('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
+
+        return $this->http_response == 204 ? true : false;   
+    }
 
     /**
      * Get the meta data for creating issues.
