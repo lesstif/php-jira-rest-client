@@ -834,10 +834,10 @@ class IssueService extends \JiraRestApi\JiraClient
     }
     
     /**
-     * remove watcher from issue.
+     * remove watcher from issue by watcher account id.
      *
      * @param string|int $issueIdOrKey
-     * @param string     $accountId      watcher account id
+     * @param string $accountId    Watcher account id.
      *
      * @throws JiraException
      *
