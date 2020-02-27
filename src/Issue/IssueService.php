@@ -851,7 +851,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->info('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
-        return $this->http_response == 204 ? true : false;   
+        return $this->http_response == 204 ? true : false;
     }
 
     /**
