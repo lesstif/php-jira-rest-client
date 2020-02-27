@@ -347,25 +347,25 @@ class IssueService extends \JiraRestApi\JiraClient
      * Change a issue assignee.
      *
      * @param string|int  $issueIdOrKey
-     * @param string|null $assigneeId Assigns an issue to a user.
-     *                                  If the assigneeId is "-1" automatic assignee is used.
+     * @param string|null $assigneeName Assigns an issue to a user.
+     *                                  If the assigneeName is "-1" automatic assignee is used.
      *                                  A null name will remove the assignee.
      *
      * @throws JiraException
      *
      * @return string|bool
      */
-    public function changeAssignee($issueIdOrKey, $assigneeId)
+    public function changeAssignee($issueIdOrKey, $assigneeName)
     {
         $this->log->info("changeAssignee=\n");
 
-        $ar = ['assigneeId' => $assigneeId];
+        $ar = ['name' => $assigneeName];
 
         $data = json_encode($ar);
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
 
-        $this->log->info('change assignee of '.$issueIdOrKey.' to '.$assigneeId.' result='.var_export($ret, true));
+        $this->log->info('change assignee of '.$issueIdOrKey.' to '.$assigneeName.' result='.var_export($ret, true));
 
         return $ret;
     }
