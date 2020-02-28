@@ -384,7 +384,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("changeAssigneeByAccountId=\n");
 
-        $ar = ['assigneeId' => $accountId];
+        $ar = ['accountId' => $accountId];
 
         $data = json_encode($ar);
 
