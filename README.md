@@ -1027,7 +1027,7 @@ try {
 
     var_dump($ret);
 } catch (JiraRestApi\JiraException $e) {
-    $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
+    $this->assertTrue(FALSE, "Remove Issue Failed : " . $e->getMessage());
 }
 ```
 
@@ -1147,7 +1147,7 @@ try {
     $issueService->updateComment($issueKey, $commentId, $comment);
 
 } catch (JiraRestApi\JiraException $e) {
-    $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
+    $this->assertTrue(false, 'Update comment Failed : '.$e->getMessage());
 }
 
 ```
