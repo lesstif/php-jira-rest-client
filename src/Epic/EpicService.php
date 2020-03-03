@@ -36,16 +36,17 @@ class EpicService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @return AgileIssue[]|null
+     * @return \ArrayObject|AgileIssue[]|null
      */
-    public function getEpicIssues($id, $paramArray = []): ?array
+    public function getEpicIssues($id, $paramArray = []): ?\ArrayObject
     {
         $response = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
                 json_decode($response, false, 512, JSON_THROW_ON_ERROR)->issues,
-                new \ArrayObject(), AgileIssue::class
+                new \ArrayObject(),
+                AgileIssue::class
             );
         } catch (\JsonException $exception) {
             $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");

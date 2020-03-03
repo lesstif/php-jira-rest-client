@@ -2,20 +2,23 @@
 
 namespace JiraRestApi\Board;
 
+use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Epic\Epic;
-use JiraRestApi\Issue\Issue;
+use JiraRestApi\Issue\AgileIssue;
 use JiraRestApi\Sprint\Sprint;
 use Psr\Log\LoggerInterface;
 
 class BoardService extends \JiraRestApi\JiraClient
 {
+    use AgileApiTrait;
+
     private $uri = '/board';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/1.0');
+        $this->setupAPIUri();
     }
 
     /**
@@ -25,59 +28,98 @@ class BoardService extends \JiraRestApi\JiraClient
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return Board[] array of Board class
+     * @return \ArrayObject|Board[]|null array of Board class
      */
-    public function getBoardList($paramArray = [])
+    public function getBoardList($paramArray = []): ?\ArrayObject
     {
         $json = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
-        $boards = $this->json_mapper->mapArray(
-            json_decode($json)->values, new \ArrayObject(), Board::class
-        );
 
-        return $boards;
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                new \ArrayObject(),
+                Board::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 
-    public function getBoard($id, $paramArray = [])
+    public function getBoard($id, $paramArray = []): ?Board
     {
         $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
-        $board = $this->json_mapper->map(
-            json_decode($json), new Board()
-        );
 
-        return $board;
+        try {
+            return $this->json_mapper->map(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR),
+                new Board()
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 
-    public function getBoardIssues($id, $paramArray = [])
+    /**
+     * @return \ArrayObject|AgileIssue[]|null
+     */
+    public function getBoardIssues($id, $paramArray = []): ?\ArrayObject
     {
         $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
-        $issues = $this->json_mapper->mapArray(
-            json_decode($json)->issues, new \ArrayObject(), Issue::class
-        );
 
-        return $issues;
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->issues,
+                new \ArrayObject(),
+                AgileIssue::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 
-    public function getBoardSprints($boardId, $paramArray = [])
+    /**
+     * @return \ArrayObject|Sprint[]|null
+     */
+    public function getBoardSprints($boardId, $paramArray = []): ?\ArrayObject
     {
         $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
-        $sprints = $this->json_mapper->mapArray(
-            json_decode($json)->values,
-            new \ArrayObject(),
-            Sprint::class
-        );
 
-        return $sprints;
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                new \ArrayObject(),
+                Sprint::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 
-    public function getBoardEpics($boardId, $paramArray = [])
+    /**
+     * @return \ArrayObject|Epic[]|null
+     */
+    public function getBoardEpics($boardId, $paramArray = []): ?\ArrayObject
     {
         $json = $this->exec($this->uri.'/'.$boardId.'/epic'.$this->toHttpQueryParameter($paramArray), null);
-        $epics = $this->json_mapper->mapArray(
-            json_decode($json)->values,
-            new \ArrayObject(),
-            Epic::class
-        );
 
-        return $epics;
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                new \ArrayObject(),
+                Epic::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 }
