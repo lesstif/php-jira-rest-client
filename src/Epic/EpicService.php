@@ -4,7 +4,7 @@ namespace JiraRestApi\Epic;
 
 use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
-use JiraRestApi\Issue\Issue;
+use JiraRestApi\Issue\AgileIssue;
 use Psr\Log\LoggerInterface;
 
 class EpicService extends \JiraRestApi\JiraClient
@@ -19,19 +19,39 @@ class EpicService extends \JiraRestApi\JiraClient
         $this->setupAPIUri();
     }
 
-    public function getEpic($id, $paramArray = [])
+    public function getEpic($id, $paramArray = []): ?Epic
     {
-        $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
-        $epic = $this->json_mapper->map(json_decode($json), new Epic());
+        $response = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
 
-        return $epic;
+        try {
+            return $this->json_mapper->map(
+                json_decode($response, false, 512, JSON_THROW_ON_ERROR),
+                new Epic()
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 
-    public function getEpicIssues($id, $paramArray = [])
+    /**
+     * @return \ArrayObject|AgileIssue[]|null
+     */
+    public function getEpicIssues($id, $paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
-        $issues = $this->json_mapper->mapArray(json_decode($json)->issues, new \ArrayObject(), Issue::class);
+        $response = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 
-        return $issues;
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($response, false, 512, JSON_THROW_ON_ERROR)->issues,
+                new \ArrayObject(),
+                AgileIssue::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
     }
 }

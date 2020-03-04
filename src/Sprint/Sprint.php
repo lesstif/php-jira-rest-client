@@ -8,26 +8,20 @@
 
 namespace JiraRestApi\Sprint;
 
+use JiraRestApi\JsonSerializableTrait;
+
 class Sprint implements \JsonSerializable
 {
-    /**
-     * return only if Project query by key(not id).
-     *
-     * @var string
-     */
-    public $expand;
+    use JsonSerializableTrait;
 
     /* @var string */
     public $self;
 
-    /* @var string */
+    /* @var int */
     public $id;
 
-    /* @var string*/
-    public $name;
-
     /* @var string */
-    //public $type;
+    public $name;
 
     /* @var string */
     public $state;
@@ -39,21 +33,22 @@ class Sprint implements \JsonSerializable
     public $endDate;
 
     /* @var string */
-    public $originalBoardiD;
+    public $completeDate;
 
-    public function jsonSerialize()
-    {
-        return array_filter(get_object_vars($this));
-    }
+    /* @var int */
+    public $originBoardId;
 
-    public function setName($sprintName)
+    /** @var string */
+    public $goal;
+
+    public function setName(string $sprintName): string
     {
         $this->name = $sprintName;
 
         return $sprintName;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
