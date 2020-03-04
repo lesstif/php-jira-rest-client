@@ -7,7 +7,7 @@
         "php": "^7.1",
         "ext-curl": "*",
         "ext-json": "*",
-        "netresearch/jsonmapper": "dev-master@dev",
+        "netresearch/jsonmapper": "^2.0",
         "monolog/monolog": "~1.12|^2.0",
         "vlucas/phpdotenv": "~1.0|~2.0|^3.0"
     },
