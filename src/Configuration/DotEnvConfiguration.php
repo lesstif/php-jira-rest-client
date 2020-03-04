@@ -138,7 +138,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
                 $dotenv->safeLoad();
                 $dotenv->required($requireParam);
-            } else if (method_exists('\Dotenv\Dotenv', 'create')) {    // v3
+            } elseif (method_exists('\Dotenv\Dotenv', 'create')) {    // v3
                 $dotenv = \Dotenv\Dotenv::create($path);
 
                 $dotenv->safeLoad();
