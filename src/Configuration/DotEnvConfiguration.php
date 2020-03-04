@@ -133,21 +133,20 @@ class DotEnvConfiguration extends AbstractConfiguration
 
         // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
         if (class_exists('\Dotenv\Dotenv')) {
+            if (method_exists('\Dotenv\Dotenv', 'createImmutable')) {    // v4
+                $dotenv = \Dotenv\Dotenv::createImmutable($path);
 
-            // dirty solution for check whether dotenv v3 or v2
-            try {
-                $method = new \ReflectionMethod('\Dotenv\Dotenv', 'create');
-
+                $dotenv->safeLoad();
+                $dotenv->required($requireParam);
+            } elseif (method_exists('\Dotenv\Dotenv', 'create')) {    // v3
                 $dotenv = \Dotenv\Dotenv::create($path);
 
                 $dotenv->safeLoad();
                 $dotenv->required($requireParam);
-            } catch (\ReflectionException $re) {
-                // dotenv v2 doesn't have create method.
+            } else {    // v2
                 $dotenv = new \Dotenv\Dotenv($path);
 
                 $dotenv->load();
-
                 $dotenv->required($requireParam);
             }
         } elseif (class_exists('\Dotenv')) {    // DotEnv v1
