@@ -2,8 +2,8 @@
 
 namespace JiraRestApi\RapidCharts;
 
-use JiraRestApi\GreenHopperTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\GreenHopperTrait;
 use Psr\Log\LoggerInterface;
 
 class ScopeChangeBurnDownChartService extends \JiraRestApi\JiraClient
@@ -18,7 +18,7 @@ class ScopeChangeBurnDownChartService extends \JiraRestApi\JiraClient
         $this->setupAPIUri();
     }
 
-    public function getBurnDownChartData($rapidViewId, $sprintId, $paramArray=[])
+    public function getBurnDownChartData($rapidViewId, $sprintId, $paramArray = [])
     {
         $paramArray['rapidViewId'] = $rapidViewId;
         $paramArray['sprintId'] = $sprintId;
