@@ -700,6 +700,28 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * delete worklog.
+     *
+     * @param string|int $issueIdOrKey
+     * @param string|int $worklogId
+     *
+     * @throws JiraException
+     *
+     * @return bool
+     */
+    public function deleteWorklog($issueIdOrKey, $worklogId)
+    {
+        $this->log->info("deleteWorklog=\n");
+
+        $url = $this->uri."/$issueIdOrKey/worklog/$worklogId";
+        $type = 'DELETE';
+
+        $ret = $this->exec($url, null, $type);
+
+        return (bool)$ret;
+    }
+
+    /**
      * Get all priorities.
      *
      * @throws JiraException
