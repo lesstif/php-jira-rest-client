@@ -32,7 +32,7 @@ class Schema
      */
     public $custom;
 
-    /** custom filed id. Ex: 10201
+    /** custom filed id. Ex: 10201.
      * @var string
      */
     public $customId;

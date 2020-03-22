@@ -32,7 +32,8 @@ class UserService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data, 'POST');
 
         return $this->json_mapper->map(
-            json_decode($ret), new User()
+            json_decode($ret),
+            new User()
         );
     }
 
@@ -56,7 +57,8 @@ class UserService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         return $this->json_mapper->map(
-                json_decode($ret), new User()
+            json_decode($ret),
+            new User()
         );
     }
 
@@ -83,7 +85,8 @@ class UserService extends \JiraRestApi\JiraClient
 
         foreach ($userData as $user) {
             $users[] = $this->json_mapper->map(
-                $user, new User()
+                $user,
+                new User()
             );
         }
 
@@ -149,7 +152,8 @@ class UserService extends \JiraRestApi\JiraClient
 
         foreach ($userData->values as $user) {
             $users[] = $this->json_mapper->map(
-                $user, new User()
+                $user,
+                new User()
             );
         }
 
@@ -186,7 +190,8 @@ class UserService extends \JiraRestApi\JiraClient
         $ret = $this->exec('myself', null);
 
         $user = $this->json_mapper->map(
-            json_decode($ret), new Reporter()
+            json_decode($ret),
+            new Reporter()
         );
 
         return $user;

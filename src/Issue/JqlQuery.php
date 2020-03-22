@@ -539,8 +539,10 @@ class JqlQuery
      */
     public function addExpression($field, $operator, $value, $logicLinkKeyword = self::KEYWORD_AND)
     {
-        $this->joinExpression(self::quoteField($field)." $operator ".self::quote($value),
-            $logicLinkKeyword);
+        $this->joinExpression(
+            self::quoteField($field)." $operator ".self::quote($value),
+            $logicLinkKeyword
+        );
 
         return $this;
     }
@@ -563,8 +565,10 @@ class JqlQuery
         foreach ($values as $value) {
             $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression(self::quoteField($field).' in ('.implode(', ', $valuesQuoted).')',
-            $logicLinkKeyword);
+        $this->joinExpression(
+            self::quoteField($field).' in ('.implode(', ', $valuesQuoted).')',
+            $logicLinkKeyword
+        );
 
         return $this;
     }
@@ -587,8 +591,10 @@ class JqlQuery
         foreach ($values as $value) {
             $valuesQuoted[] = self::quote($value);
         }
-        $this->joinExpression(self::quoteField($field).' not in ('.implode(', ', $valuesQuoted).')',
-            $logicLinkKeyword);
+        $this->joinExpression(
+            self::quoteField($field).' not in ('.implode(', ', $valuesQuoted).')',
+            $logicLinkKeyword
+        );
 
         return $this;
     }

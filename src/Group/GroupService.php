@@ -29,7 +29,8 @@ class GroupService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         return $this->json_mapper->map(
-                json_decode($ret), new Group()
+            json_decode($ret),
+            new Group()
         );
     }
 
@@ -77,7 +78,8 @@ class GroupService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         $group = $this->json_mapper->map(
-            json_decode($ret), new Group()
+            json_decode($ret),
+            new Group()
         );
 
         return $group;
@@ -103,7 +105,8 @@ class GroupService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         $group = $this->json_mapper->map(
-            json_decode($ret), new Group()
+            json_decode($ret),
+            new Group()
         );
 
         return $group;
