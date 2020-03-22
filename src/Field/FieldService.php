@@ -20,7 +20,9 @@ class FieldService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, null);
 
         $fields = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Field\Field'
+            json_decode($ret, false),
+            new \ArrayObject(),
+            '\JiraRestApi\Field\Field'
         );
 
         // temp array
@@ -85,7 +87,8 @@ class FieldService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, $data, 'POST');
 
         $cf = $this->json_mapper->map(
-            json_decode($ret), new Field()
+            json_decode($ret),
+            new Field()
         );
 
         return $cf;

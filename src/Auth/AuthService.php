@@ -102,7 +102,8 @@ class AuthService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri);
 
         $user = $this->json_mapper->map(
-            json_decode($ret), new CurrentUser()
+            json_decode($ret),
+            new CurrentUser()
         );
 
         return $user;
@@ -157,7 +158,8 @@ class AuthService extends \JiraRestApi\JiraClient
         ]), 'POST');
 
         $session = $this->json_mapper->map(
-            json_decode($ret), new AuthSession()
+            json_decode($ret),
+            new AuthSession()
         );
 
         return $session;

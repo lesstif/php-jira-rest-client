@@ -28,7 +28,8 @@ class SprintService extends JiraClient
     public function getSprintFromJSON($json)
     {
         $sprint = $this->json_mapper->map(
-            $json, new Sprint()
+            $json,
+            new Sprint()
         );
 
         return $sprint;
@@ -51,7 +52,8 @@ class SprintService extends JiraClient
         $this->log->info("Result=\n".$ret);
 
         return $sprint = $this->json_mapper->map(
-            json_decode($ret), new Sprint()
+            json_decode($ret),
+            new Sprint()
         );
     }
 
