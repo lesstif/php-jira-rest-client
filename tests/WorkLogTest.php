@@ -91,4 +91,20 @@ class WorkLogTest extends PHPUnit_Framework_TestCase
             $this->assertTrue(false, 'testGetWorkLogById Failed : '.$e->getMessage());
         }
     }
+
+    /**
+     * @depends testUpdateWorkLogInIssue
+     */
+    public function testDeleteWorkLogById($workLogid)
+    {
+        try {
+            $issueService = new IssueService();
+
+            $worklog = $issueService->deleteWorklog($this->issueKey, $workLogid);
+
+            Dumper::dump($worklog);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testDeleteWorkLogById Failed : '.$e->getMessage());
+        }
+    }
 }
