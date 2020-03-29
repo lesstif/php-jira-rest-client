@@ -169,8 +169,10 @@ class IssueService extends \JiraRestApi\JiraClient
                     array_push($attachArr, $t);
                 }
             } elseif (is_object($ret)) {
-                array_push($attachArr, $this->json_mapper->map(
-                    $ret, new Attachment()
+                array_push($attachArr,
+                    $this->json_mapper->map(
+                        $ret,
+                        new Attachment()
                     )
                 );
             }
