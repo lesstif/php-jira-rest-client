@@ -18,7 +18,8 @@ class IssueService extends \JiraRestApi\JiraClient
     public function getIssueFromJSON($json)
     {
         $issue = $this->json_mapper->map(
-            $json, new Issue()
+            $json,
+            new Issue()
         );
 
         return $issue;
