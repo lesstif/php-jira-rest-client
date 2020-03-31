@@ -225,8 +225,11 @@ class JiraClient
         }
 
         curl_setopt($ch, CURLOPT_ENCODING, '');
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
+        );
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -290,8 +293,11 @@ class JiraClient
             $attachments = realpath($upload_file);
             $filename = basename($upload_file);
 
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                ['file' => '@'.$attachments.';filename='.$filename]);
+            curl_setopt(
+                $ch,
+                CURLOPT_POSTFIELDS,
+                ['file' => '@'.$attachments.';filename='.$filename]
+            );
 
             $this->log->debug('using legacy file upload');
         } else {
@@ -299,8 +305,11 @@ class JiraClient
             $attachments = new \CURLFile(realpath($upload_file));
             $attachments->setPostFilename(basename($upload_file));
 
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                ['file' => $attachments]);
+            curl_setopt(
+                $ch,
+                CURLOPT_POSTFIELDS,
+                ['file' => $attachments]
+            );
 
             $this->log->debug('using CURLFile='.var_export($attachments, true));
         }
@@ -524,8 +533,11 @@ class JiraClient
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
+        );
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
