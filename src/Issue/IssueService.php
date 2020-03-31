@@ -51,7 +51,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->info("Result=\n".$ret);
 
         return $issue = $this->json_mapper->map(
-            json_decode($ret), $issueObject
+            json_decode($ret),
+            $issueObject
         );
     }
 
@@ -163,7 +164,9 @@ class IssueService extends \JiraRestApi\JiraClient
             $ret = json_decode($ret);
             if (is_array($ret)) {
                 $tmpArr = $this->json_mapper->mapArray(
-                    $ret, new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
+                    $ret,
+                    new \ArrayObject(),
+                    '\JiraRestApi\Issue\Attachment'
                 );
 
                 foreach ($tmpArr as $t) {
@@ -239,7 +242,8 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->debug('add comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
-           json_decode($ret), new Comment()
+           json_decode($ret),
+           new Comment()
         );
 
         return $comment;
@@ -271,7 +275,8 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->debug('update comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
-            json_decode($ret), new Comment()
+            json_decode($ret),
+            new Comment()
         );
 
         return $comment;
@@ -296,8 +301,9 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->debug('get comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
-                json_decode($ret), new Comment()
-                );
+            json_decode($ret),
+            new Comment()
+        );
 
         return $comment;
     }
@@ -444,7 +450,9 @@ class IssueService extends \JiraRestApi\JiraClient
         $data = json_encode(json_decode($ret)->transitions);
 
         $transitions = $this->json_mapper->mapArray(
-           json_decode($data), new \ArrayObject(), '\JiraRestApi\Issue\Transition'
+           json_decode($data),
+           new \ArrayObject(),
+           '\JiraRestApi\Issue\Transition'
         );
 
         return $transitions;
@@ -541,11 +549,13 @@ class IssueService extends \JiraRestApi\JiraClient
         $result = null;
         if ($this->isRestApiV3()) {
             $result = $this->json_mapper->map(
-                $json, new IssueSearchResultV3()
+                $json,
+                new IssueSearchResultV3()
             );
         } else {
             $result = $this->json_mapper->map(
-                $json, new IssueSearchResult()
+                $json,
+                new IssueSearchResult()
             );
         }
 
@@ -568,7 +578,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+             json_decode($ret),
+             new Issue()
         );
 
         return $issue->fields->timeTracking;
@@ -619,7 +630,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
         $this->log->debug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
-            json_decode($ret), new PaginatedWorklog()
+            json_decode($ret),
+            new PaginatedWorklog()
         );
 
         return $worklog;
@@ -641,7 +653,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey/worklog/$workLogId");
         $this->log->debug("getWorklogById res=$ret\n");
         $worklog = $this->json_mapper->map(
-            json_decode($ret), new Worklog()
+            json_decode($ret),
+            new Worklog()
         );
 
         return $worklog;
@@ -669,7 +682,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($url, $data, $type);
 
         $ret_worklog = $this->json_mapper->map(
-           json_decode($ret), new Worklog()
+           json_decode($ret),
+           new Worklog()
         );
 
         return $ret_worklog;
@@ -698,7 +712,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($url, $data, $type);
 
         $ret_worklog = $this->json_mapper->map(
-            json_decode($ret), new Worklog()
+            json_decode($ret),
+            new Worklog()
         );
 
         return $ret_worklog;
@@ -740,7 +755,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $prio = $this->json_mapper->map(
-             json_decode($ret), new Priority()
+             json_decode($ret),
+             new Priority()
         );
 
         return $prio;
@@ -764,7 +780,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->info('Result='.$ret);
 
         $prio = $this->json_mapper->map(
-            json_decode($ret), new Priority()
+            json_decode($ret),
+            new Priority()
         );
 
         return $prio;
@@ -996,7 +1013,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($full_uri, $data, 'POST');
 
         $res = $this->json_mapper->map(
-            json_decode($ret), new RemoteIssueLink()
+            json_decode($ret),
+            new RemoteIssueLink()
         );
 
         return $res;
@@ -1073,7 +1091,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($url);
 
         $res = $this->json_mapper->map(
-            json_decode($ret), new SecurityScheme()
+            json_decode($ret),
+            new SecurityScheme()
         );
 
         return $res;
