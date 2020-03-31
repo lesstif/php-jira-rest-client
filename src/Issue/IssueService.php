@@ -170,7 +170,8 @@ class IssueService extends \JiraRestApi\JiraClient
                     array_push($attachArr, $t);
                 }
             } elseif (is_object($ret)) {
-                array_push($attachArr,
+                array_push(
+                    $attachArr,
                     $this->json_mapper->map(
                         $ret,
                         new Attachment()
@@ -319,7 +320,8 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->debug('get comments result='.var_export($ret, true));
         $comments = $this->json_mapper->map(
-            json_decode($ret), new Comments()
+            json_decode($ret),
+            new Comments()
         );
 
         return $comments;
