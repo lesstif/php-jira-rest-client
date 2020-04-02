@@ -380,7 +380,6 @@ class JiraClient
             } else {
                 $results[$idx] = $response;
             }
-            $idx++;
         }
 
         curl_close($ch);
