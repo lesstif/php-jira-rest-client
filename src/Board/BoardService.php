@@ -84,6 +84,26 @@ class BoardService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * @return \ArrayObject|AgileIssue[]|null
+     */
+    public function getBoardBacklogIssues($id, $paramArray = []): ?\ArrayObject
+    {
+        $json = $this->exec($this->uri.'/'.$id.'/backlog'.$this->toHttpQueryParameter($paramArray), null);
+
+        try {
+            return $this->json_mapper->mapArray(
+                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->issues,
+                new \ArrayObject(),
+                AgileIssue::class
+            );
+        } catch (\JsonException $exception) {
+            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
+
+            return null;
+        }
+    }
+
+    /**
      * @return \ArrayObject|Sprint[]|null
      */
     public function getBoardSprints($boardId, $paramArray = []): ?\ArrayObject
