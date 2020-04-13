@@ -92,7 +92,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->issues,
+                json_decode($json, false, 512, $this->getJsonOptions())->issues,
                 new \ArrayObject(),
                 AgileIssue::class
             );
