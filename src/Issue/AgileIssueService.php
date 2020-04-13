@@ -24,7 +24,7 @@ class AgileIssueService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->map(
-                json_decode($response, false, 512, JSON_THROW_ON_ERROR),
+                json_decode($response, false, 512, $this->getJsonOptions()),
                 new AgileIssue()
             );
         } catch (\JsonException $exception) {

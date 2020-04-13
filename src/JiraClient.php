@@ -56,6 +56,13 @@ class JiraClient
     protected $configuration;
 
     /**
+     * json en/decode options
+     *
+     * @var int
+     */
+    protected $jsonOptions;
+
+    /**
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
@@ -108,6 +115,18 @@ class JiraClient
         }
 
         $this->curl = curl_init();
+
+        $this->jsonOptions = JSON_UNESCAPED_UNICODE;
+
+        if (PHP_MAJOR_VERSION >= 7)
+        {
+            if (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION >= 3)
+            {
+                $this->jsonOptions |= JSON_THROW_ON_ERROR ;
+            } else { // if php major great than 7 then always setting JSON_THROW_ON_ERROR
+                $this->jsonOptions |= JSON_THROW_ON_ERROR ;
+            }
+        }
     }
 
     /**
@@ -635,5 +654,28 @@ class JiraClient
     public function isRestApiV3()
     {
         return $this->configuration->getUseV3RestApi();
+    }
+
+    /**
+     * setting JSON en/decoding options
+     *
+     * @param int $jsonOptions
+     * @return $this
+     */
+    public function setJsonOptions(int $jsonOptions)
+    {
+        $this->jsonOptions = $jsonOptions;
+
+        return $this;
+    }
+
+    /**
+     * get json en/decode options
+     *
+     * @return int
+     */
+    public function getJsonOptions()
+    {
+        return $this->jsonOptions;
     }
 }

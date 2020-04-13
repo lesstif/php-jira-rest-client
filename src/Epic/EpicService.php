@@ -25,7 +25,7 @@ class EpicService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->map(
-                json_decode($response, false, 512, JSON_THROW_ON_ERROR),
+                json_decode($response, false, 512, $this->getJsonOptions()),
                 new Epic()
             );
         } catch (\JsonException $exception) {
@@ -44,7 +44,7 @@ class EpicService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($response, false, 512, JSON_THROW_ON_ERROR)->issues,
+                json_decode($response, false, 512, $this->getJsonOptions())->issues,
                 new \ArrayObject(),
                 AgileIssue::class
             );

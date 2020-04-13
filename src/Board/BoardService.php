@@ -36,7 +36,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                json_decode($json, false, 512, $this->getJsonOptions())->values,
                 new \ArrayObject(),
                 Board::class
             );
@@ -53,7 +53,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->map(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR),
+                json_decode($json, false, 512, $this->getJsonOptions()),
                 new Board()
             );
         } catch (\JsonException $exception) {
@@ -72,7 +72,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->issues,
+                json_decode($json, false, 512, $this->getJsonOptions())->issues,
                 new \ArrayObject(),
                 AgileIssue::class
             );
@@ -92,7 +92,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                json_decode($json, false, 512, $this->getJsonOptions())->values,
                 new \ArrayObject(),
                 Sprint::class
             );
@@ -112,7 +112,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, JSON_THROW_ON_ERROR)->values,
+                json_decode($json, false, 512, $this->getJsonOptions())->values,
                 new \ArrayObject(),
                 Epic::class
             );
