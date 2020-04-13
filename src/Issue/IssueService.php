@@ -323,7 +323,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("getComments=\n");
 
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment' . $this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment'.$this->toHttpQueryParameter($paramArray), null);
 
         $this->log->debug('get comments result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
