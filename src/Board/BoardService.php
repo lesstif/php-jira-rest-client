@@ -86,7 +86,7 @@ class BoardService extends \JiraRestApi\JiraClient
     /**
      * @return \ArrayObject|AgileIssue[]|null
      */
-    public function getBoardBacklogIssues($id, $paramArray = []): ?\ArrayObject
+    public function getBoardBacklogIssues($id, array $paramArray = []): ?\ArrayObject
     {
         $json = $this->exec($this->uri.'/'.$id.'/backlog'.$this->toHttpQueryParameter($paramArray), null);
 
