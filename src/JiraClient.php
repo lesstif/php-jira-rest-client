@@ -121,7 +121,7 @@ class JiraClient
         if (PHP_MAJOR_VERSION >= 7) {
             if (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION >= 3) {
                 $this->jsonOptions |= JSON_THROW_ON_ERROR;
-            } elseif(PHP_MAJOR_VERSION >= 8) { // if php major great than 7 then always setting JSON_THROW_ON_ERROR
+            } elseif (PHP_MAJOR_VERSION >= 8) { // if php major great than 7 then always setting JSON_THROW_ON_ERROR
                 $this->jsonOptions |= JSON_THROW_ON_ERROR;
             }
         }
