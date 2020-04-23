@@ -521,16 +521,17 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
-        $data = json_encode([
+        $data = [
             'jql'           => $jql,
             'startAt'       => $startAt,
             'maxResults'    => $maxResults,
             'fields'        => $fields,
             'expand'        => $expand,
             'validateQuery' => $validateQuery,
-        ]);
+        ];
+        $queryParam = '?'.http_build_query($data);
 
-        $ret = $this->exec('search', $data, 'POST');
+        $ret = $this->exec('search'.$queryParam, null, 'POST');
         $json = json_decode($ret);
 
         $result = null;
