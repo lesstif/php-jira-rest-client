@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Static method Dotenv\\\\Dotenv\\:\\:create\\(\\) invoked with 1 parameter, 2\\-4 required\\.$#"
+			count: 1
+			path: src/Configuration/DotEnvConfiguration.php
+
+		-
+			message: "#^Class Dotenv\\\\Dotenv constructor invoked with 1 parameter, 3 required\\.$#"
+			count: 1
+			path: src/Configuration/DotEnvConfiguration.php
+
+		-
+			message: "#^Access to an undefined property JiraRestApi\\\\JiraClient\\:\\:\\$cookieFile\\.$#"
+			count: 1
+			path: src/JiraClient.php
+
