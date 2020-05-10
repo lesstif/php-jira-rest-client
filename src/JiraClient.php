@@ -130,11 +130,11 @@ class JiraClient
     /**
      * Convert log level.
      *
-     * @param $log_level
+     * @param string $log_level
      *
      * @return int
      */
-    private function convertLogLevel($log_level)
+    private function convertLogLevel(string $log_level)
     {
         $log_level = strtoupper($log_level);
 
@@ -407,13 +407,13 @@ class JiraClient
 
     /**
      * @param array $chArr
-     * @param $mh
-     * @param $body
-     * @param $result_code
+     * @param resource $mh
+     * @param string $body
+     * @param int $result_code
      *
      * @throws \JiraRestApi\JiraException
      */
-    protected function closeCURLHandle(array $chArr, $mh, $body, $result_code)
+    protected function closeCURLHandle(array $chArr, $mh, string $body, int $result_code)
     {
         foreach ($chArr as $ch) {
             $this->log->debug('CURL Close handle..');
@@ -445,8 +445,9 @@ class JiraClient
      * Add authorize to curl request.
      *
      * @param resource $ch
+     * @param string|null $cookieFile
      */
-    protected function authorization($ch, $cookieFile = null)
+    protected function authorization($ch, string $cookieFile = null)
     {
         // use cookie
         if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
@@ -491,11 +492,11 @@ class JiraClient
     /**
      * convert to query array to http query parameter.
      *
-     * @param $paramArray
+     * @param array $paramArray
      *
      * @return string
      */
-    public function toHttpQueryParameter($paramArray)
+    public function toHttpQueryParameter(array $paramArray)
     {
         $queryParam = '?';
 
@@ -518,16 +519,16 @@ class JiraClient
     /**
      * download and save into outDir.
      *
-     * @param $url full url
-     * @param $outDir save dir
-     * @param $file save filename
-     * @param $cookieFile cookie filename
+     * @param string $url full url
+     * @param string $outDir save dir
+     * @param string $file save filename
+     * @param string|null $cookieFile cookie filename
      *
      * @throws JiraException
      *
      * @return bool|mixed
      */
-    public function download($url, $outDir, $file, $cookieFile = null)
+    public function download(string $url, string $outDir, string $file, string $cookieFile = null)
     {
         $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
 
@@ -602,23 +603,9 @@ class JiraClient
     }
 
     /**
-     * setting cookie file path.
-     *
-     * @param $cookieFile
-     *
-     * @return $this
-     */
-    public function setCookieFile($cookieFile)
-    {
-        $this->cookieFile = $cookieFile;
-
-        return $this;
-    }
-
-    /**
      * Config a curl handle with proxy configuration (if set) from ConfigurationInterface.
      *
-     * @param $ch
+     * @param resource $ch curl handle
      */
     private function proxyConfigCurlHandle($ch)
     {

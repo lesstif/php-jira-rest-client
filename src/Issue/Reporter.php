@@ -46,10 +46,6 @@ class Reporter implements \JsonSerializable
             }
         }
 
-        if (empty($vars)) {
-            return;
-        }
-
         return $vars;
     }
 
@@ -82,11 +78,11 @@ class Reporter implements \JsonSerializable
     }
 
     /**
-     * @param $param boolean
+     * @param bool $wantUnassigned
      */
-    public function setWantUnassigned($param)
+    public function setWantUnassigned(bool $wantUnassigned)
     {
-        $this->wantUnassigned = $param;
+        $this->wantUnassigned = $wantUnassigned;
         $this->name = null;
     }
 }

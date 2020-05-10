@@ -62,14 +62,14 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Creates a group by given group parameter.
      *
-     * @param $group \JiraRestApi\Group\Group
+     * @param \JiraRestApi\Group\Group $group
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group|object
+     * @return Group
      */
-    public function createGroup($group)
+    public function createGroup(Group $group)
     {
         $data = json_encode($group);
 
@@ -115,14 +115,14 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Removes given user from a group.
      *
-     * @param $groupName
-     * @param $userName
+     * @param string $groupName
+     * @param string $userName
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return null Returns no content
      */
-    public function removeUserFromGroup($groupName, $userName)
+    public function removeUserFromGroup(string $groupName, string $userName)
     {
         $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
 

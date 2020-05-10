@@ -16,6 +16,9 @@ class Component implements \JsonSerializable
 {
     use ClassSerialize;
 
+    /** @var int|null */
+    public $id;
+
     /**
      * uri which was hit.
      *

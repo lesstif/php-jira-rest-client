@@ -815,13 +815,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * get watchers.
      *
-     * @param $issueIdOrKey
+     * @param string $issueIdOrKey
      *
      * @throws JiraException
      *
      * @return Reporter[]
      */
-    public function getWatchers($issueIdOrKey)
+    public function getWatchers(string $issueIdOrKey)
     {
         $this->log->info("getWatchers=\n");
 
@@ -864,14 +864,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * remove watcher from issue.
      *
-     * @param string|int $issueIdOrKey
-     * @param string     $watcher      watcher id
+     * @param string    $issueIdOrKey
+     * @param string    $watcher      watcher id
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function removeWatcher($issueIdOrKey, $watcher)
+    public function removeWatcher(string $issueIdOrKey, string $watcher)
     {
         $this->log->addInfo("removeWatcher=\n");
 

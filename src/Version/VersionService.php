@@ -42,7 +42,7 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * Modify a version's sequence within a project.
      *
-     * @param $version
+     * @param Version|array $version
      *
      * @throws JiraException
      */
@@ -54,13 +54,13 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * get project version.
      *
-     * @param $id version id
+     * @param string $id version id
      *
      * @return Version
      *
      * @see ProjectService::getVersions()
      */
-    public function get($id)
+    public function get(string $id)
     {
         $ret = $this->exec($this->uri.'/'.$id);
 

@@ -38,14 +38,14 @@ class SprintService extends JiraClient
     /**
      *  get all Sprint list.
      *
-     * @param Sprint $sprintObject
+     * @param string $sprintId
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return object
      */
-    public function getSprint($sprintId)
+    public function getSprint(string $sprintId)
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 

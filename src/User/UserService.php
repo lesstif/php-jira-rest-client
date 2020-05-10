@@ -163,13 +163,13 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * Delete a User.
      *
-     * @param $paramArray
+     * @param array $paramArray
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return bool
      */
-    public function deleteUser($paramArray)
+    public function deleteUser(array $paramArray)
     {
         $queryParam = '?'.http_build_query($paramArray);
 

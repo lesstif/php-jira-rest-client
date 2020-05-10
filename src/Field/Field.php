@@ -47,11 +47,11 @@ class Field implements \JsonSerializable
      *
      * @see https://confluence.atlassian.com/jira064/changing-custom-field-types-720415917.html
      *
-     * @param $type
+     * @param string $type
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->type = $type;
 
@@ -61,11 +61,11 @@ class Field implements \JsonSerializable
     /**
      * atlassian supplied poor documentation.
      *
-     * @param $searcherKey
+     * @param string $searcherKey
      *
      * @return $this
      */
-    public function setSearcherKey($searcherKey)
+    public function setSearcherKey(string $searcherKey)
     {
         $this->searcherKey = $searcherKey;
 
@@ -96,6 +96,7 @@ class Field implements \JsonSerializable
     /* @var boolean */
     public $searchable;
 
+    /** @var string */
     public $searcherKey;
 
     /**

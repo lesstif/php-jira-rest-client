@@ -229,11 +229,11 @@ class JqlFunction
      * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-latestReleasedVersionlatestReleasedVersion()
      *      jql function reference
      *
-     * @param $project
+     * @param string $project
      *
      * @return JqlFunction
      */
-    public static function latestReleasedVersion($project)
+    public static function latestReleasedVersion(string $project)
     {
         return new self("latestReleasedVersion($project)");
     }
@@ -247,7 +247,7 @@ class JqlFunction
      *
      * @return JqlFunction
      */
-    public static function linkedIssues($issueKey, $linkType = null)
+    public static function linkedIssues(string $issueKey, $linkType = null)
     {
         $expression = "cascadeOption($issueKey";
         if ($linkType !== null) {

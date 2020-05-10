@@ -14,18 +14,18 @@ class AttachmentService extends \JiraRestApi\JiraClient
     /**
      * Returns the meta-data for an attachment, including the URI of the actual attached file.
      *
-     * @param $id string|int attachment Id
-     * @outDir string downloads the content and store into outDir
-     * @overwrite boolean determines whether to overwrite the file if it already exists.
-     * @mode int outDir creation mode.
-     * @recursive boolean Allows the creation of nested directories specified in the pathname.
+     * @param string|int $id attachment Id
+     * @param string|null $outDir string downloads the content and store into outDir
+     * @param bool $overwrite   boolean determines whether to overwrite the file if it already exists.
+     * @param int $mode creation mode.
+     * @param bool $recursive   Allows the creation of nested directories specified in the pathname.
+     *
+     * @return \JiraRestApi\Issue\Attachment
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
-     *
-     * @return \JiraRestApi\Issue\Attachment
      */
-    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true)
+    public function get($id, string $outDir = null, bool $overwrite = false, int $mode = 0777, bool $recursive = true)
     {
         $ret = $this->exec($this->uri.$id, null);
 
@@ -60,7 +60,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
     /**
      * Remove an attachment from an issue.
      *
-     * @param $id string|int attachment id
+     * @param string|int $id attachment id
      *
      * @throws \JiraRestApi\JiraException
      *

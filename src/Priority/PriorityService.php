@@ -14,10 +14,10 @@ class PriorityService extends \JiraRestApi\JiraClient
     /**
      * Function to get all priorities.
      *
-     * @throws \JiraRestApi\JiraException
-     * @throws \JsonMapper_Exception
+     * @return array
+     *@throws \JsonMapper_Exception
      *
-     * @return Priority|object Priority class
+     * @throws \JiraRestApi\JiraException
      */
     public function getAll()
     {
@@ -38,14 +38,13 @@ class PriorityService extends \JiraRestApi\JiraClient
     /**
      *  get specific priority info.
      *
-     * @param $priorityId priority id
+     * @param string $priorityId priority id
      *
+     * @return \JiraRestApi\Issue\Priority
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
-     *
-     * @return \JiraRestApi\Priority\Priority
      */
-    public function get($priorityId)
+    public function get(string $priorityId)
     {
         $ret = $this->exec($this->uri."/$priorityId", null);
 

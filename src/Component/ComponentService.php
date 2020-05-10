@@ -35,11 +35,11 @@ class ComponentService extends \JiraRestApi\JiraClient
     /**
      * get component.
      *
-     * @param $id component id
+     * @param string $id component id
      *
      * @return Component
      */
-    public function get($id)
+    public function get(string $id)
     {
         $ret = $this->exec($this->uri.'/'.$id);
 

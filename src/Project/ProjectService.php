@@ -62,7 +62,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get assignable Users for a given project.
      * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
      *
-     * @param string|int projectIdOrKey Project Key
+     * @param string|int $projectIdOrKey Project Id Or Key
      *
      * @throws \JiraRestApi\JiraException
      *
