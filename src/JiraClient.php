@@ -14,6 +14,11 @@ use Psr\Log\LoggerInterface;
 class JiraClient
 {
     /**
+     * @var string
+     */
+    public $cookieFile;
+
+    /**
      * Json Mapper.
      *
      * @var \JsonMapper

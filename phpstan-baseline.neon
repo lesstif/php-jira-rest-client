@@ -9,9 +9,3 @@ parameters:
 			message: "#^Class Dotenv\\\\Dotenv constructor invoked with 1 parameter, 3 required\\.$#"
 			count: 1
 			path: src/Configuration/DotEnvConfiguration.php
-
-		-
-			message: "#^Access to an undefined property JiraRestApi\\\\JiraClient\\:\\:\\$cookieFile\\.$#"
-			count: 1
-			path: src/JiraClient.php
-
