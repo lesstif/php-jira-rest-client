@@ -38,7 +38,7 @@ class Transition implements \JsonSerializable
     }
 
     /**
-     * set none translated transition name
+     * set none translated transition name.
      *
      * @param string $untranslatedName
      */
