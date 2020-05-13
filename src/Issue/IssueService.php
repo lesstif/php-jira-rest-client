@@ -3,6 +3,7 @@
 namespace JiraRestApi\Issue;
 
 use JiraRestApi\JiraException;
+use JiraRestApi\Project\ProjectService;
 
 class IssueService extends \JiraRestApi\JiraClient
 {
@@ -480,7 +481,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
             $this->log->debug('getTransitions result='.var_export($ret, true));
 
-            if (strcmp($toName, $transitionToName) == 0) {
+            if (strcasecmp($toName, $transitionToName) === 0) {
                 return $trans->id;
             }
         }
@@ -504,7 +505,13 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug('transition='.var_export($transition, true));
 
         if (!isset($transition->transition['id'])) {
-            $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
+            if (isset($transition->transition['untranslatedName'])) {
+                $transition->transition['id'] = $this->findTransitonIdByUntranslatedName($issueIdOrKey, $transition->transition['untranslatedName']);
+            } elseif (isset($transition->transition['untranslatedName'])) {
+                $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
+            } else {
+                throw new JiraException("you must set either name or untranslatedName for performing transition.");
+            }
         }
 
         $data = json_encode($transition);
@@ -1203,5 +1210,38 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
 
         return $ret;
+    }
+
+    /**
+     * find transition id by transition's untranslatedName.
+     *
+     * @param string|int $issueIdOrKey
+     * @param string     $untranslatedName
+     *
+     * @throws JiraException
+     *
+     * @return string
+     */
+    public function findTransitonIdByUntranslatedName($issueIdOrKey, $untranslatedName)
+    {
+        $this->log->debug('findTransitonIdByUntranslatedName=');
+
+        $prj = new ProjectService();
+        $pkey = explode('-', $issueIdOrKey);
+        $transitionArray = $prj->getProjectTransitionsToArray($pkey[0]);
+
+        $this->log->debug('getTransitions result='.var_export($transitionArray, true));
+
+        foreach ($transitionArray as $trans) {
+
+            if (strcasecmp($trans['name'], $untranslatedName) === 0 ||
+                strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
+
+                return $trans['id'];
+            }
+        }
+
+        // transition keyword not found
+        throw new JiraException("Transition name '$untranslatedName' not found on JIRA Server.");
     }
 }

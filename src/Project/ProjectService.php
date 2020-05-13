@@ -98,6 +98,38 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * make transition info array for project issue transition.
+     *
+     * @param $projectIdOrKey
+     * @return array
+     * @throws JiraException
+     */
+    public function getProjectTransitionsToArray($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
+        $json = json_decode($ret);
+        $results = array_map(function ($elem) {
+            return $this->json_mapper->map($elem, new IssueType());
+        }, $json);
+
+        $transitions = [];
+        foreach ($results as $issueType) {
+            foreach ($issueType->statuses as $status) {
+
+                if (! in_array($status->id, array_column($transitions, 'id'))) {
+                    $transitions[] = [
+                        'id' => $status->id,
+                        'name' => $status->name,
+                        'untranslatedName' => $status->untranslatedName ?? $status->name,
+                    ];
+                }
+            }
+        }
+
+        return $transitions;
+    }
+
+    /**
      * @throws \JiraRestApi\JiraException
      *
      * @return ProjectType[]
