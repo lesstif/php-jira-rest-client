@@ -1185,6 +1185,10 @@ try {
 }
 ```
 
+Note: If you are JIRA with local language profiles, you must use *setUntranslatedName* instead of *setTransitionName*.
+
+i.e. `$transition->setUntranslatedName('Done')`
+
 #### Perform an advanced search
 
 ##### Simple Query
