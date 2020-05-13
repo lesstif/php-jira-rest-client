@@ -507,7 +507,7 @@ class IssueService extends \JiraRestApi\JiraClient
         if (!isset($transition->transition['id'])) {
             if (isset($transition->transition['untranslatedName'])) {
                 $transition->transition['id'] = $this->findTransitonIdByUntranslatedName($issueIdOrKey, $transition->transition['untranslatedName']);
-            } elseif (isset($transition->transition['untranslatedName'])) {
+            } elseif (isset($transition->transition['name'])) {
                 $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
             } else {
                 throw new JiraException("you must set either name or untranslatedName for performing transition.");
