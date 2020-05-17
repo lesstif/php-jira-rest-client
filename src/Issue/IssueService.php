@@ -287,18 +287,18 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get a comment on an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param string|int $id           Comment id
-     *
-     * @throws JiraException
-     * @throws \JsonMapper_Exception
+     * @param string|int $id Comment id
+     * @param array $paramArray query parameter
      *
      * @return Comment|object Comment class
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
      */
-    public function getComment($issueIdOrKey, $id)
+    public function getComment($issueIdOrKey, $id, array $paramArray = [])
     {
         $this->log->info("getComment=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id");
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id".$this->toHttpQueryParameter($paramArray));
 
         $this->log->debug('get comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -320,7 +320,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Comment|object Comment class
      */
-    public function getComments($issueIdOrKey, $paramArray = [])
+    public function getComments($issueIdOrKey, array $paramArray = [])
     {
         $this->log->info("getComments=\n");
 

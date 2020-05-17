@@ -1085,15 +1085,50 @@ $issueKey = "TEST-879";
 
 try {
     $issueService = new IssueService();
-
-    $comments = $issueService->getComments($issueKey);
+    
+    $param = [
+         'startAt' => 0, 
+         'maxResults' => 3,
+         'expand' => 'renderedBody',
+    ];
+   
+    $comments = $issueService->getComments($issueKey, $param);
 
     var_dump($comments);
 
 } catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
 }
+```
 
+get comment by comment id
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+    $issueService = new IssueService();
+    
+    $param = [
+         'startAt' => 0, 
+         'maxResults' => 3,
+         'expand' => 'renderedBody',
+    ];
+    $commentId = 13805;
+
+    $comments = $issueService->getComment($issueKey, $commentId, $param);
+
+    var_dump($comments);
+
+} catch (JiraRestApi\JiraException $e) {
+    $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
+}
 ```
 
 #### Delete comment
