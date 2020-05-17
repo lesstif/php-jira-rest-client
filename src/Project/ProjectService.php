@@ -101,8 +101,10 @@ class ProjectService extends \JiraRestApi\JiraClient
      * make transition info array for project issue transition.
      *
      * @param $projectIdOrKey
-     * @return array
+     *
      * @throws JiraException
+     *
+     * @return array
      */
     public function getProjectTransitionsToArray($projectIdOrKey)
     {
@@ -115,11 +117,10 @@ class ProjectService extends \JiraRestApi\JiraClient
         $transitions = [];
         foreach ($results as $issueType) {
             foreach ($issueType->statuses as $status) {
-
-                if (! in_array($status->id, array_column($transitions, 'id'))) {
+                if (!in_array($status->id, array_column($transitions, 'id'))) {
                     $transitions[] = [
-                        'id' => $status->id,
-                        'name' => $status->name,
+                        'id'               => $status->id,
+                        'name'             => $status->name,
                         'untranslatedName' => $status->untranslatedName ?? $status->name,
                     ];
                 }
