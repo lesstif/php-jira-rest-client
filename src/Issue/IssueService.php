@@ -287,12 +287,13 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get a comment on an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param string|int $id Comment id
-     * @param array $paramArray query parameter
+     * @param string|int $id           Comment id
+     * @param array      $paramArray   query parameter
      *
-     * @return Comment|object Comment class
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Comment|object Comment class
      */
     public function getComment($issueIdOrKey, $id, array $paramArray = [])
     {
@@ -510,7 +511,7 @@ class IssueService extends \JiraRestApi\JiraClient
             } elseif (isset($transition->transition['name'])) {
                 $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
             } else {
-                throw new JiraException("you must set either name or untranslatedName for performing transition.");
+                throw new JiraException('you must set either name or untranslatedName for performing transition.');
             }
         }
 
@@ -1233,10 +1234,8 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug('getTransitions result='.var_export($transitionArray, true));
 
         foreach ($transitionArray as $trans) {
-
             if (strcasecmp($trans['name'], $untranslatedName) === 0 ||
                 strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
-
                 return $trans['id'];
             }
         }
