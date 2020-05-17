@@ -33,7 +33,7 @@
    ```json
    {
        "require": {
-           "lesstif/php-jira-rest-client": "^1.19"
+           "lesstif/php-jira-rest-client": "^2.0"
        }
    }
    ```
