@@ -4,7 +4,7 @@ namespace JiraRestApi\Issue;
 
 class CommentV3 extends Comment
 {
-    /** @var \JiraRestApi\Issue\DescriptionV3|null  */
+    /** @var \JiraRestApi\Issue\DescriptionV3|null */
     public $body;
 
     public function setBody($body)
