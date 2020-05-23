@@ -239,6 +239,19 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+        if($this->getConfiguration()->isCurlOptSslCert()) {
+            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
+        }
+        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
+        }
+        if($this->getConfiguration()->isCurlOptSslKey()) {
+            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
+        }
+        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
+
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getConfiguration()->getCurlOptUserAgent());
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
@@ -340,6 +353,19 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        if($this->getConfiguration()->isCurlOptSslCert()) {
+            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
+        }
+        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
+        }
+        if($this->getConfiguration()->isCurlOptSslKey()) {
+            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
+        }
+        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
 
         $this->proxyConfigCurlHandle($ch);
 
@@ -548,6 +574,20 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+
+        if($this->getConfiguration()->isCurlOptSslCert()) {
+            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
+        }
+        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
+        }
+        if($this->getConfiguration()->isCurlOptSslKey()) {
+            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
+        }
+        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
+
         $this->proxyConfigCurlHandle($ch);
 
         // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set

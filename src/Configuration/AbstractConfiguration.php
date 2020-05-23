@@ -198,6 +198,38 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
+     * @return string
+     */
+    public function isCurlOptSslCert()
+    {
+        return $this->curlOptSslCert;
+    }
+
+    /**
+     * @return string
+     */
+    public function isCurlOptSslCertPassword()
+    {
+        return $this->curlOptSslCertPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function isCurlOptSslKey()
+    {
+        return $this->curlOptSslKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function isCurlOptSslKeyPassword()
+    {
+        return $this->curlOptSslKeyPassword;
+    }
+
+    /**
      * @return bool
      */
     public function isCurlOptVerbose()
