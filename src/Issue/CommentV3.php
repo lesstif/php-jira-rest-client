@@ -11,7 +11,7 @@ class CommentV3 extends Comment
     {
         return $this->addCommentParagraph($body);
     }
-    
+
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
@@ -22,7 +22,7 @@ class CommentV3 extends Comment
         if (empty($this->body)) {
             $this->body = new DescriptionV3();
         }
-        
+
         $this->body->addDescriptionContent('paragraph', $description);
 
         return $this;
