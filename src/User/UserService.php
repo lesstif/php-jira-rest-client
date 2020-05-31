@@ -167,7 +167,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return bool
+     * @return string
      */
     public function deleteUser(array $paramArray)
     {

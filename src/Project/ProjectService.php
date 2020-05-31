@@ -62,7 +62,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get assignable Users for a given project.
      * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
      *
-     * @param string|int projectIdOrKey Project Key
+     * @param string|int $projectIdOrKey Project Key
      *
      * @throws \JiraRestApi\JiraException
      *
@@ -100,8 +100,8 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * make transition info array for project issue transition.
      *
-     * @param $projectIdOrKey
-     *
+     * @param string|int $projectIdOrKey
+     * @return array
      * @throws JiraException
      *
      * @return array
@@ -343,7 +343,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return int response status
+     * @return string response status
      *
      * STATUS 401 Returned if the user is not logged in.
      * STATUS 204 - application/json Returned if the project is successfully deleted.

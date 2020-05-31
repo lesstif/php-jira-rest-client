@@ -42,11 +42,11 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * Modify a version's sequence within a project.
      *
-     * @param $version
+     * @param Version $version
      *
      * @throws JiraException
      */
-    public function move($version)
+    public function move(Version $version)
     {
         throw new JiraException('move version not yet implemented');
     }
@@ -54,13 +54,15 @@ class VersionService extends \JiraRestApi\JiraClient
     /**
      * get project version.
      *
-     * @param $id version id
+     * @param string $id version id
      *
      * @return Version
      *
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
      * @see ProjectService::getVersions()
      */
-    public function get($id)
+    public function get(string $id)
     {
         $ret = $this->exec($this->uri.'/'.$id);
 
@@ -112,7 +114,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return bool
+     * @return string
      */
     public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false)
     {

@@ -10,7 +10,7 @@ class IssueService extends \JiraRestApi\JiraClient
     private $uri = '/issue';
 
     /**
-     * @param $json
+     * @param object $json
      *
      * @throws \JsonMapper_Exception
      *
@@ -823,13 +823,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * get watchers.
      *
-     * @param $issueIdOrKey
-     *
-     * @throws JiraException
+     * @param string $issueIdOrKey
      *
      * @return Reporter[]
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
      */
-    public function getWatchers($issueIdOrKey)
+    public function getWatchers(string $issueIdOrKey)
     {
         $this->log->info("getWatchers=\n");
 
@@ -1147,7 +1147,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return Issue|object class
+     * @return bool
      */
     public function updateLabels($issueIdOrKey, $addLablesParam, $removeLabelsParam, $notifyUsers = true)
     {
@@ -1185,7 +1185,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return Issue|object class
+     * @return bool
      */
     public function updateFixVersions($issueIdOrKey, $addFixVersionsParam, $removeFixVersionsParam, $notifyUsers = true)
     {

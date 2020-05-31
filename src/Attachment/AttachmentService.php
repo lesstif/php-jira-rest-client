@@ -14,7 +14,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
     /**
      * Returns the meta-data for an attachment, including the URI of the actual attached file.
      *
-     * @param $id string|int attachment Id
+     * @param string|int $id attachment Id
      * @outDir string downloads the content and store into outDir
      * @overwrite boolean determines whether to overwrite the file if it already exists.
      * @mode int outDir creation mode.
@@ -60,11 +60,11 @@ class AttachmentService extends \JiraRestApi\JiraClient
     /**
      * Remove an attachment from an issue.
      *
-     * @param $id string|int attachment id
+     * @param string|int $id attachment id
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return bool
+     * @return string
      */
     public function remove($id)
     {

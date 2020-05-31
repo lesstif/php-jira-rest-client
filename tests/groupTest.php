@@ -13,7 +13,7 @@ class groupTest extends PHPUnit_Framework_TestCase
         try {
             $g = new Group();
 
-            $g->name = 'Test 한글 group for REST API';
+            $g->name = 'Test 한글 group for REST API q';
 
             $gs = new GroupService();
 

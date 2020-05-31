@@ -125,11 +125,11 @@ class DotEnvConfiguration extends AbstractConfiguration
     /**
      * load dotenv.
      *
-     * @param $path
+     * @param string $path
      *
      * @throws JiraException
      */
-    private function loadDotEnv($path)
+    private function loadDotEnv(string $path)
     {
         $requireParam = [
             'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',

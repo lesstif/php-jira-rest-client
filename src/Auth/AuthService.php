@@ -12,12 +12,12 @@ class AuthService extends \JiraRestApi\JiraClient
     private $uri = 'session';
 
     /**
-     * @var string
+     * @var string|null
      */
     private $_sessionCookieName;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $_sessionCookieValue;
 

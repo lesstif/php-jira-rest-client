@@ -23,6 +23,9 @@ class Component implements \JsonSerializable
      */
     public $self;
 
+    /** @var string */
+    public $id;
+
     /**
      * @var string
      */
