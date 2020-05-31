@@ -101,9 +101,10 @@ class ProjectService extends \JiraRestApi\JiraClient
      * make transition info array for project issue transition.
      *
      * @param string|int $projectIdOrKey
-     * @return array
+     *
      * @throws JiraException
      *
+     * @return array
      * @return array
      */
     public function getProjectTransitionsToArray($projectIdOrKey)

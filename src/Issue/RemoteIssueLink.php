@@ -29,6 +29,7 @@ class RemoteIssueLink implements \JsonSerializable
 
     /**
      * @param string $url
+     *
      * @return $this
      */
     public function setUrl(string $url)
