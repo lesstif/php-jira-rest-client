@@ -18,7 +18,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group|object
+     * @return Group
      */
     public function get($paramArray)
     {
@@ -42,7 +42,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return GroupSearchResult|object
+     * @return GroupSearchResult
      */
     public function getMembers($paramArray)
     {
@@ -67,7 +67,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group|object
+     * @return Group
      */
     public function createGroup(Group $group)
     {
@@ -94,7 +94,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group|object Returns the current state of the group.
+     * @return Group Returns the current state of the group.
      */
     public function addUserToGroup(string $groupName, string $userName)
     {

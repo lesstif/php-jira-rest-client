@@ -21,7 +21,7 @@ class UserService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return User|object User class
+     * @return User User class
      */
     public function create($user)
     {
@@ -46,7 +46,7 @@ class UserService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return User|object User class
+     * @return User User class
      */
     public function get($paramArray)
     {

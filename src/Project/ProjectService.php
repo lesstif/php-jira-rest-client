@@ -42,7 +42,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Project|object
+     * @return Project
      */
     public function get($projectIdOrKey)
     {
@@ -155,7 +155,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return ProjectType|object
+     * @return ProjectType
      */
     public function getProjectType($key)
     {
@@ -177,7 +177,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return ProjectType|object
+     * @return ProjectType
      */
     public function getAccessibleProjectType($key)
     {
