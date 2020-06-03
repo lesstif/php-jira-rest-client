@@ -825,9 +825,10 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param string $issueIdOrKey
      *
-     * @return Reporter[]
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Reporter[]
      */
     public function getWatchers(string $issueIdOrKey)
     {

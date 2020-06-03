@@ -239,16 +239,16 @@ class JiraClient
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-        if($this->getConfiguration()->isCurlOptSslCert()) {
+        if ($this->getConfiguration()->isCurlOptSslCert()) {
             curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
         }
-        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
             curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
         }
-        if($this->getConfiguration()->isCurlOptSslKey()) {
+        if ($this->getConfiguration()->isCurlOptSslKey()) {
             curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
         }
-        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
         }
 
@@ -354,16 +354,16 @@ class JiraClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
-        if($this->getConfiguration()->isCurlOptSslCert()) {
+        if ($this->getConfiguration()->isCurlOptSslCert()) {
             curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
         }
-        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
             curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
         }
-        if($this->getConfiguration()->isCurlOptSslKey()) {
+        if ($this->getConfiguration()->isCurlOptSslKey()) {
             curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
         }
-        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
         }
 
@@ -437,10 +437,10 @@ class JiraClient
     }
 
     /**
-     * @param array $chArr
+     * @param array    $chArr
      * @param resource $mh
-     * @param string $body
-     * @param int $result_code
+     * @param string   $body
+     * @param int      $result_code
      *
      * @throws \JiraRestApi\JiraException
      */
@@ -549,9 +549,9 @@ class JiraClient
     /**
      * download and save into outDir.
      *
-     * @param string $url full url
-     * @param string $outDir save dir
-     * @param string $file save filename
+     * @param string $url        full url
+     * @param string $outDir     save dir
+     * @param string $file       save filename
      * @param string $cookieFile cookie filename
      *
      * @throws JiraException
@@ -575,16 +575,16 @@ class JiraClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
 
-        if($this->getConfiguration()->isCurlOptSslCert()) {
+        if ($this->getConfiguration()->isCurlOptSslCert()) {
             curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
         }
-        if($this->getConfiguration()->isCurlOptSslCertPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
             curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
         }
-        if($this->getConfiguration()->isCurlOptSslKey()) {
+        if ($this->getConfiguration()->isCurlOptSslKey()) {
             curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
         }
-        if($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
         }
 

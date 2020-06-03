@@ -56,10 +56,11 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @param string $id version id
      *
-     * @return Version
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Version
+     *
      * @see ProjectService::getVersions()
      */
     public function get(string $id)
