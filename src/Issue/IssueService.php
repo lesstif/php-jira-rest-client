@@ -14,7 +14,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws \JsonMapper_Exception
      *
-     * @return Issue|object
+     * @return Issue
      */
     public function getIssueFromJSON($json)
     {
@@ -36,7 +36,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Issue|object class
+     * @return Issue class
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
@@ -65,7 +65,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Issue|object created issue key
+     * @return Issue created issue key
      */
     public function create($issueField)
     {
@@ -227,7 +227,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment|object Comment class
+     * @return Comment Comment class
      */
     public function addComment($issueIdOrKey, $comment)
     {
@@ -260,7 +260,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment|object Comment class
+     * @return Comment Comment class
      */
     public function updateComment($issueIdOrKey, $id, $comment)
     {
@@ -293,7 +293,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment|object Comment class
+     * @return Comment Comment class
      */
     public function getComment($issueIdOrKey, $id, array $paramArray = [])
     {
@@ -319,7 +319,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment|object Comment class
+     * @return Comment Comment class
      */
     public function getComments($issueIdOrKey, array $paramArray = [])
     {
@@ -539,7 +539,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return IssueSearchResult|object
+     * @return IssueSearchResult
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
@@ -632,7 +632,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return PaginatedWorklog|object
+     * @return PaginatedWorklog
      */
     public function getWorklog($issueIdOrKey)
     {
@@ -655,7 +655,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog|object PaginatedWorklog object
+     * @return Worklog PaginatedWorklog object
      */
     public function getWorklogById($issueIdOrKey, $workLogId)
     {
@@ -678,7 +678,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog|object Worklog Object
+     * @return Worklog Worklog Object
      */
     public function addWorklog($issueIdOrKey, $worklog)
     {
@@ -708,7 +708,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog|object
+     * @return Worklog
      */
     public function editWorklog($issueIdOrKey, $worklog, $worklogId)
     {
@@ -779,7 +779,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Priority|object priority
+     * @return Priority priority
      */
     public function getPriority($priorityId)
     {
@@ -804,7 +804,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Priority|object priority
+     * @return Priority priority
      */
     public function getCustomFields($priorityId)
     {

@@ -95,7 +95,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return CurrentUser|object
+     * @return CurrentUser
      */
     public function getCurrentUser()
     {
@@ -140,7 +140,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return AuthSession|object
+     * @return AuthSession
      */
     public function login($username = null, $password = null)
     {
