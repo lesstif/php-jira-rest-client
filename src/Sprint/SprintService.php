@@ -25,6 +25,12 @@ class SprintService extends JiraClient
         $this->setAPIUri('/rest/agile/1.0');
     }
 
+    /**
+     * @param object $json JSON object structure from json_decode
+     * @return Sprint
+     *
+     * @throws \JsonMapper_Exception
+     */
     public function getSprintFromJSON($json)
     {
         $sprint = $this->json_mapper->map(
@@ -43,7 +49,7 @@ class SprintService extends JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return object
+     * @return Sprint
      */
     public function getSprint(string $sprintId)
     {
@@ -57,6 +63,13 @@ class SprintService extends JiraClient
         );
     }
 
+    /**
+     * @param string|int    $sprintId
+     * @param array $paramArray
+     * @return Issue[]  array of Issue
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     */
     public function getSprintIssues($sprintId, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
