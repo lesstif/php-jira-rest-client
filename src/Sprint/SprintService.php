@@ -27,9 +27,10 @@ class SprintService extends JiraClient
 
     /**
      * @param object $json JSON object structure from json_decode
-     * @return Sprint
      *
      * @throws \JsonMapper_Exception
+     *
+     * @return Sprint
      */
     public function getSprintFromJSON($json)
     {
@@ -64,11 +65,13 @@ class SprintService extends JiraClient
     }
 
     /**
-     * @param string|int    $sprintId
-     * @param array $paramArray
-     * @return Issue[]  array of Issue
+     * @param string|int $sprintId
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Issue[] array of Issue
      */
     public function getSprintIssues($sprintId, $paramArray = [])
     {
