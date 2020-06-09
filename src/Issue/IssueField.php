@@ -371,7 +371,7 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type.
      *
-     * @param IssueType $issueType mixed IssueType or string
+     * @param IssueType|string $issueType mixed IssueType or string
      *
      * @return $this
      */
