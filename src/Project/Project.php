@@ -69,6 +69,13 @@ class Project implements \JsonSerializable
     public $lead;
 
     /**
+     * The account ID of the project lead.
+     *
+     * @var string
+     */
+    public $leadAccountId;
+
+    /**
      * ComponentList [\JiraRestApi\Project\Component].
      *
      * @var \JiraRestApi\Project\Component[]
@@ -202,6 +209,18 @@ class Project implements \JsonSerializable
     public function setLead($lead)
     {
         $this->lead = $lead;
+
+        return $this;
+    }
+
+    /**
+     * @param string $lead
+     *
+     * @return Project
+     */
+    public function setLeadAccountId($leadAccountId)
+    {
+        $this->leadAccountId = $leadAccountId;
 
         return $this;
     }
