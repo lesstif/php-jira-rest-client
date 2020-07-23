@@ -882,11 +882,11 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function removeWatcher($issueIdOrKey, $watcher)
     {
-        $this->log->addInfo("removeWatcher=\n");
+        $this->log->debug("removeWatcher=\n");
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
 
-        $this->log->addInfo('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
+        $this->log->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $this->http_response == 204 ? true : false;
     }
@@ -903,11 +903,11 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function removeWatcherByAccountId($issueIdOrKey, $accountId)
     {
-        $this->log->info("removeWatcher=\n");
+        $this->log->debug("removeWatcher=\n");
 
         $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
 
-        $this->log->info('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
+        $this->log->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $this->http_response == 204 ? true : false;
     }
