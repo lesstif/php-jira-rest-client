@@ -1,6 +1,5 @@
 <?php
 
-
 namespace JiraRestApi\Status;
 
 
@@ -23,6 +22,7 @@ class StatusService extends \JiraRestApi\JiraClient
         if ($this->isRestApiV3()) {
             throw new JiraException('V3 is currently not supported');
         }
+
         else {
             $statusObject = new Status();
         }
@@ -37,5 +37,4 @@ class StatusService extends \JiraRestApi\JiraClient
             '\JiraRestApi\Status\status'
         );
     }
-
 }

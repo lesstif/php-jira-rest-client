@@ -1,6 +1,5 @@
 <?php
 
-
 namespace JiraRestApi\Status;
 
 
@@ -19,5 +18,4 @@ class Status implements \JsonSerializable
     {
         return array_filter(get_object_vars($this));
     }
-
 }
