@@ -19,14 +19,6 @@ class StatusService extends \JiraRestApi\JiraClient
      */
     public function getAll()
     {
-        if ($this->isRestApiV3()) {
-            throw new JiraException('V3 is currently not supported');
-        }
-
-        else {
-            $statusObject = new Status();
-        }
-
         $ret = $this->exec($this->uri.'/', null);
         $this->log->info("Result=\n".$ret);
 
@@ -34,7 +26,7 @@ class StatusService extends \JiraRestApi\JiraClient
         return $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            '\JiraRestApi\Status\status'
+            \JiraRestApi\Status\Status::class
         );
     }
 }
