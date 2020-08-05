@@ -234,7 +234,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->info("addComment=\n");
 
         if (!($comment instanceof Comment) || empty($comment->body)) {
-            throw new JiraException('comment param must instance of Comment and have to body text.!');
+            throw new JiraException('comment param must be instance of Comment and have body text.');
         }
 
         $data = json_encode($comment);
