@@ -17,8 +17,8 @@ class RequestService extends \JiraRestApi\JiraClient
      * Constructor.
      *
      * @param ConfigurationInterface $configuration
-     * @param LoggerInterface $logger
-     * @param string $path
+     * @param LoggerInterface        $logger
+     * @param string                 $path
      *
      * @throws JiraException
      * @throws \Exception
@@ -33,11 +33,13 @@ class RequestService extends \JiraRestApi\JiraClient
      * Add the given comment to the specified request based on the provided $issueIdOrKey value. Returns a new
      * RequestComment with the response.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int     $issueIdOrKey
      * @param RequestComment $requestComment
-     * @return RequestComment
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return RequestComment
      */
     public function addComment($issueIdOrKey, RequestComment $requestComment): RequestComment
     {
@@ -49,9 +51,9 @@ class RequestService extends \JiraRestApi\JiraClient
 
         $data = json_encode($requestComment);
 
-        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
 
-        $this->log->debug('add comment result=' . var_export($ret, true));
+        $this->log->debug('add comment result='.var_export($ret, true));
         $requestComment = $this->json_mapper->map(
             json_decode($ret),
             new RequestComment()

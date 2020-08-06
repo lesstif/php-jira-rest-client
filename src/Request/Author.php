@@ -16,7 +16,7 @@ class Author implements \JsonSerializable
     /** @var string */
     public $displayName;
 
-    /** @var boolean */
+    /** @var bool */
     public $active;
 
     /** @var string */

@@ -10,7 +10,7 @@ class RequestComment implements \JsonSerializable
     /** @var string */
     public $body;
 
-    /** @var boolean */
+    /** @var bool */
     public $public;
 
     /** @var \JiraRestApi\Request\Author */
@@ -21,16 +21,18 @@ class RequestComment implements \JsonSerializable
 
     /**
      * @param string $body
+     *
      * @return $this
      */
     public function setBody(string $body)
     {
         $this->body = $body;
+
         return $this;
     }
 
     /**
-     * @param boolean $public   True for is public, false otherwise
+     * @param bool $public True for is public, false otherwise
      * @return $this
      */
     public function setIsPublic(bool $public)

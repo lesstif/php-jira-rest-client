@@ -7,7 +7,7 @@ trait ServiceDeskTrait
     private function setupAPIUri($version = '')
     {
         $uri = '/rest/servicedeskapi';
-        $uri .= ($version != '') ? '/' . $version : '';
+        $uri .= ($version != '') ? '/'.$version : '';
         $this->setAPIUri($uri);
     }
 }
