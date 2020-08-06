@@ -60,5 +60,4 @@ class RequestService extends \JiraRestApi\JiraClient
         return $requestComment;
 
     }
-
 }
