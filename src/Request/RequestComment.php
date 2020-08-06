@@ -19,8 +19,6 @@ class RequestComment implements \JsonSerializable
     /** @var \DateTimeInterface */
     public $created;
 
-    public $_links;
-
     /**
      * @param string $body
      * @return $this
@@ -32,7 +30,7 @@ class RequestComment implements \JsonSerializable
     }
 
     /**
-     * @param boolena $public
+     * @param boolean $public   True for is public, false otherwise
      * @return $this
      */
     public function setIsPublic(bool $public)

@@ -29,6 +29,16 @@ class RequestService extends \JiraRestApi\JiraClient
         $this->setupAPIUri();
     }
 
+    /**
+     * Add the given comment to the specified request based on the provided $issueIdOrKey value. Returns a new
+     * RequestComment with the response.
+     *
+     * @param string|int $issueIdOrKey
+     * @param RequestComment $requestComment
+     * @return RequestComment
+     * @throws JiraException
+     * @throws \JsonMapper_Exception
+     */
     public function addComment($issueIdOrKey, RequestComment $requestComment): RequestComment
     {
         $this->log->info("addComment=\n");
