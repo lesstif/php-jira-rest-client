@@ -33,7 +33,7 @@ class RequestComment implements \JsonSerializable
 
     /**
      * @param bool $public True for is public, false otherwise
-     * 
+     *
      * @return $this
      */
     public function setIsPublic(bool $public)
