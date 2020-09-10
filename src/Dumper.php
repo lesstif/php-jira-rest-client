@@ -28,6 +28,6 @@ class Dumper
         array_map(function ($x) {
             (new self())->dump($x);
         }, func_get_args());
-        die(1);
+        exit(1);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Status;
 
-
 class Status implements \JsonSerializable
 {
     /** @var int */
