@@ -53,7 +53,7 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     private function env($key, $default = null)
     {
-        $value = getenv($key);
+        $value = $_ENV[$key] ?? null ;
 
         if ($value === false) {
             return $default;
@@ -74,7 +74,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
             case 'null':
             case '(null)':
-                return;
+                return null;
         }
 
         if ($this->startsWith($value, '"') && $this->endsWith($value, '"')) {
