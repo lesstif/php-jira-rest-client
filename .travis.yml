@@ -23,12 +23,16 @@ jobs:
     - php: 7.1
       env: TYPE=phpstan
       script:
-        - vendor/bin/phpstan analyse
+        - ./vendor/bin/phpstan analyse
     - php: 7.2
       env: TYPE=phpstan
       script:
-        - vendor/bin/phpstan analyse
+        - ./vendor/bin/phpstan analyse
     - php: 7.3
       env: TYPE=phpstan
       script:
-        - vendor/bin/phpstan analyse
+        - ./vendor/bin/phpstan analyse
+    - php: 7.4
+      env: TYPE=phpstan
+      script:
+        - ./vendor/bin/phpstan analyse
