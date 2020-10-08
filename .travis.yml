@@ -8,7 +8,7 @@ php:
 
 before_install:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry composer update --no-interaction --prefer-dist
 
 before_script:
   - cp .env.example .env
