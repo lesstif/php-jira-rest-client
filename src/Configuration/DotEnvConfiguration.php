@@ -53,7 +53,7 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     private function env($key, $default = null)
     {
-        $value = $_ENV[$key] ?? null ;
+        $value = $_ENV[$key] ?? null;
 
         if ($value === false) {
             return $default;
