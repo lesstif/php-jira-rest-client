@@ -3,21 +3,15 @@
 namespace JiraRestApi;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Stream;
-use GuzzleHttp\Psr7\UploadedFile;
 use GuzzleHttp\Psr7\Uri;
-use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Utils;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger as Logger;
+use Monolog\Logger;
 use Psr\Http\Client\ClientInterface;
 use Psr\Log\LoggerInterface;
 use Http\Adapter\Guzzle7\Client as GuzzleAdapter;
