@@ -299,7 +299,7 @@ class JiraClient
         $this->http_response = $response->getStatusCode();
         $content = $response->getBody()->getContents();
 
-        if(!$content) {
+        if (!$content) {
             if (in_array($this->http_response, [204,201,200], true)) {
                 return true;
             }
@@ -310,7 +310,7 @@ class JiraClient
             throw new JiraException($msg);
         }
 
-        if (!in_array($this->http_response, [201,200], true)){
+        if (!in_array($this->http_response, [201,200], true)) {
             throw new JiraException('CURL HTTP Request Failed: Status Code : '
                 .$this->http_response.', URL:'.$url
                 ."\nError Message : ".$content, $this->http_response);
@@ -336,7 +336,7 @@ class JiraClient
         $idx = 0;
         $results = [];
         foreach ($filePathArray as $file) {
-            $request = new Request("POST",$url,['Content-Type' => 'multipart/form-data'],new Stream(fopen($file, "r+b")));
+            $request = new Request("POST", $url, ['Content-Type' => 'multipart/form-data'], new Stream(fopen($file, "r+b")));
             $response = $this->client->sendRequest($request);
             $this->http_response = $response->getStatusCode();
             $contents = $response->getBody()->getContents();
@@ -420,19 +420,19 @@ class JiraClient
     {
         $outputFile = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w+b');
 
-        $response = $this->client->sendRequest(new Request("GET",$url));
+        $response = $this->client->sendRequest(new Request("GET", $url));
         $this->http_response = $response->getStatusCode();
 
         $stream = $response->getBody();
 
-        if (!in_array($this->http_response,[200,201], true)) {
+        if (!in_array($this->http_response, [200,201], true)) {
             $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $stream->getContents());
             $this->log->error($msg);
             throw new JiraException($msg);
         }
 
         while (!$stream->eof()) {
-            fwrite($outputFile,$stream->read(4096));
+            fwrite($outputFile, $stream->read(4096));
         }
         fclose($outputFile);
 
