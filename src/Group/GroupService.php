@@ -24,7 +24,7 @@ class GroupService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.$queryParam, null);
+        $ret = $this->exec($this->uri . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -48,7 +48,7 @@ class GroupService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.'/member'.$queryParam, null);
+        $ret = $this->exec($this->uri . '/member' . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -100,7 +100,7 @@ class GroupService extends \JiraRestApi\JiraClient
     {
         $data = json_encode(['name' => $userName]);
 
-        $ret = $this->exec($this->uri.'/user?groupname='.urlencode($groupName), $data);
+        $ret = $this->exec($this->uri . '/user?groupname=' . urlencode($groupName), $data);
 
         $this->log->info("Result=\n".$ret);
 
@@ -126,7 +126,7 @@ class GroupService extends \JiraRestApi\JiraClient
     {
         $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
 
-        $ret = $this->exec($this->uri.'/user?'.$param, [], 'DELETE');
+        $ret = $this->exec($this->uri . '/user?' . $param, [], 'DELETE');
 
         $this->log->info("Result=\n".$ret);
 

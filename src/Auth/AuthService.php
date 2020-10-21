@@ -142,16 +142,8 @@ class AuthService extends \JiraRestApi\JiraClient
      *
      * @return AuthSession
      */
-    public function login($username = null, $password = null)
+    public function login($username, $password)
     {
-        if (!$username) {
-            $username = $this->getConfiguration()->getJiraUser();
-        }
-
-        if (!$password) {
-            $password = $this->getConfiguration()->getJiraPassword();
-        }
-
         $ret = $this->exec($this->uri, json_encode([
             'username' => $username,
             'password' => $password,

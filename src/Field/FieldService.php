@@ -61,7 +61,7 @@ class FieldService extends \JiraRestApi\JiraClient
      */
     public function getCustomFieldOption($id)
     {
-        $ret = $this->exec('/customFieldOption/'.$id);
+        $ret = $this->exec('/customFieldOption/' . $id);
 
         $this->log->debug("get custom Field Option=\n".$ret);
 

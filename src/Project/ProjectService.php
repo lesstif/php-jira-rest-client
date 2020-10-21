@@ -22,7 +22,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getAllProjects($paramArray = [])
     {
-        $ret = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec($this->uri . $this->toHttpQueryParameter($paramArray), null);
 
         $prjs = $this->json_mapper->mapArray(
             json_decode($ret, false),
@@ -46,7 +46,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function get($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey", null);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey", null);
 
         $this->log->info('Result='.$ret);
 
@@ -88,7 +88,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getStatuses($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
@@ -109,7 +109,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getProjectTransitionsToArray($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
@@ -138,7 +138,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getProjectTypes()
     {
-        $ret = $this->exec($this->uri.'/type');
+        $ret = $this->exec($this->uri . '/type');
 
         $this->log->info('Result='.$ret);
 
@@ -160,7 +160,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getProjectType($key)
     {
-        $ret = $this->exec($this->uri."/type/$key");
+        $ret = $this->exec($this->uri . "/type/$key");
 
         $this->log->info('Result='.$ret);
 
@@ -182,7 +182,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getAccessibleProjectType($key)
     {
-        $ret = $this->exec($this->uri."/type/$key/accessible");
+        $ret = $this->exec($this->uri . "/type/$key/accessible");
 
         $this->log->info('Result='.$ret);
 
@@ -218,7 +218,7 @@ class ProjectService extends \JiraRestApi\JiraClient
             array_merge($default, $queryParam)
         );
 
-        $ret = $this->exec($this->uri."/$projectIdOrKey/version".$param);
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/version" . $param);
 
         $this->log->info('Result='.$ret);
 
@@ -245,7 +245,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getVersions($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/versions");
 
         $this->log->info('Result='.$ret);
 
@@ -270,7 +270,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function getVersion($projectIdOrKey, $versionName)
     {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
+        $ret = $this->exec($this->uri . "/$projectIdOrKey/versions");
 
         $this->log->info('Result='.$ret);
 
@@ -329,7 +329,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     {
         $data = json_encode($project);
 
-        $ret = $this->exec($this->uri.'/'.$projectIdOrKey, $data, 'PUT');
+        $ret = $this->exec($this->uri . '/' . $projectIdOrKey, $data, 'PUT');
 
         $this->log->info('updateProject Result='.$ret);
 
@@ -353,7 +353,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function deleteProject($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri.'/'.$projectIdOrKey, null, 'DELETE');
+        $ret = $this->exec($this->uri . '/' . $projectIdOrKey, null, 'DELETE');
 
         return $ret;
     }

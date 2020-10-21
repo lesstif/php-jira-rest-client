@@ -47,7 +47,7 @@ class PriorityService extends \JiraRestApi\JiraClient
      */
     public function get($priorityId)
     {
-        $ret = $this->exec($this->uri."/$priorityId", null);
+        $ret = $this->exec($this->uri . "/$priorityId", null);
 
         $this->log->info("Result=\n".$ret);
 

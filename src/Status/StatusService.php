@@ -19,7 +19,7 @@ class StatusService extends \JiraRestApi\JiraClient
      */
     public function getAll()
     {
-        $ret = $this->exec($this->uri.'/', null);
+        $ret = $this->exec($this->uri . '/', null);
         $this->log->info("Result=\n".$ret);
 
         return $this->json_mapper->mapArray(

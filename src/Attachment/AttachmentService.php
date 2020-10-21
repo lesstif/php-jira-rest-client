@@ -27,7 +27,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
      */
     public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true)
     {
-        $ret = $this->exec($this->uri.$id, null);
+        $ret = $this->exec($this->uri . $id, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -68,7 +68,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
      */
     public function remove($id)
     {
-        $ret = $this->exec($this->uri.$id, null, 'DELETE');
+        $ret = $this->exec($this->uri . $id, null, 'DELETE');
 
         $this->log->info("Result=\n".$ret);
 

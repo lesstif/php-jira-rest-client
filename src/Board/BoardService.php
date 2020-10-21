@@ -32,7 +32,7 @@ class BoardService extends \JiraRestApi\JiraClient
      */
     public function getBoardList($paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
@@ -49,7 +49,7 @@ class BoardService extends \JiraRestApi\JiraClient
 
     public function getBoard($id, $paramArray = []): ?Board
     {
-        $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $id . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->map(
@@ -68,7 +68,7 @@ class BoardService extends \JiraRestApi\JiraClient
      */
     public function getBoardIssues($id, $paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $id . '/issue' . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
@@ -88,7 +88,7 @@ class BoardService extends \JiraRestApi\JiraClient
      */
     public function getBoardBacklogIssues($id, array $paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.'/'.$id.'/backlog'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $id . '/backlog' . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
@@ -108,7 +108,7 @@ class BoardService extends \JiraRestApi\JiraClient
      */
     public function getBoardSprints($boardId, $paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $boardId . '/sprint' . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
@@ -128,7 +128,7 @@ class BoardService extends \JiraRestApi\JiraClient
      */
     public function getBoardEpics($boardId, $paramArray = []): ?\ArrayObject
     {
-        $json = $this->exec($this->uri.'/'.$boardId.'/epic'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $boardId . '/epic' . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(

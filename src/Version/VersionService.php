@@ -65,7 +65,7 @@ class VersionService extends \JiraRestApi\JiraClient
      */
     public function get(string $id)
     {
-        $ret = $this->exec($this->uri.'/'.$id);
+        $ret = $this->exec($this->uri . '/' . $id);
 
         $this->log->info('Result='.$ret);
 
@@ -98,7 +98,7 @@ class VersionService extends \JiraRestApi\JiraClient
         $version->userReleaseDate = null;
 
         $data = json_encode($version);
-        $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
+        $ret = $this->exec($this->uri . '/' . $version->id, $data, 'PUT');
 
         return $this->json_mapper->map(
             json_decode($ret),
@@ -133,7 +133,7 @@ class VersionService extends \JiraRestApi\JiraClient
             $data['moveFixIssuesTo'] = $moveFixIssuesTo->name;
         }
 
-        $ret = $this->exec($this->uri.'/'.$version->id, json_encode($data), 'DELETE');
+        $ret = $this->exec($this->uri . '/' . $version->id, json_encode($data), 'DELETE');
 
         return $ret;
     }
@@ -158,7 +158,7 @@ class VersionService extends \JiraRestApi\JiraClient
             throw new JiraException($version->id.' is not a valid version id.');
         }
 
-        $ret = $this->exec($this->uri.'/'.$version->id.'/relatedIssueCounts');
+        $ret = $this->exec($this->uri . '/' . $version->id . '/relatedIssueCounts');
 
         return $this->json_mapper->map(
             json_decode($ret),
@@ -183,7 +183,7 @@ class VersionService extends \JiraRestApi\JiraClient
             throw new JiraException($version->id.' is not a valid version id.');
         }
 
-        $ret = $this->exec($this->uri.'/'.$version->id.'/unresolvedIssueCount');
+        $ret = $this->exec($this->uri . '/' . $version->id . '/unresolvedIssueCount');
 
         return $this->json_mapper->map(
             json_decode($ret),

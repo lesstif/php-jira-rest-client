@@ -21,7 +21,7 @@ class EpicService extends \JiraRestApi\JiraClient
 
     public function getEpic($id, $paramArray = []): ?Epic
     {
-        $response = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
+        $response = $this->exec($this->uri . '/' . $id . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->map(
@@ -40,7 +40,7 @@ class EpicService extends \JiraRestApi\JiraClient
      */
     public function getEpicIssues($id, $paramArray = []): ?\ArrayObject
     {
-        $response = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
+        $response = $this->exec($this->uri . '/' . $id . '/issue' . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(

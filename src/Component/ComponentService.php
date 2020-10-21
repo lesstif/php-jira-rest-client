@@ -41,7 +41,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      */
     public function get($id)
     {
-        $ret = $this->exec($this->uri.'/'.$id);
+        $ret = $this->exec($this->uri . '/' . $id);
 
         $this->log->info('Result='.$ret);
 
@@ -65,7 +65,7 @@ class ComponentService extends \JiraRestApi\JiraClient
         }
 
         $data = json_encode($component);
-        $ret = $this->exec($this->uri.'/'.$component->id, $data, 'PUT');
+        $ret = $this->exec($this->uri . '/' . $component->id, $data, 'PUT');
 
         return $this->json_mapper->map(
             json_decode($ret),
@@ -94,7 +94,7 @@ class ComponentService extends \JiraRestApi\JiraClient
             $paramArray['moveIssuesTo'] = $moveIssuesTo->id;
         }
 
-        $ret = $this->exec($this->uri.'/'.$component->id.$this->toHttpQueryParameter($paramArray), json_encode($data), 'DELETE');
+        $ret = $this->exec($this->uri . '/' . $component->id . $this->toHttpQueryParameter($paramArray), json_encode($data), 'DELETE');
 
         return $ret;
     }

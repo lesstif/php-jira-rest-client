@@ -52,7 +52,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.$queryParam, null);
+        $ret = $this->exec($this->uri . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -76,7 +76,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.'/search'.$queryParam, null);
+        $ret = $this->exec($this->uri . '/search' . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -110,7 +110,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.'/assignable/search'.$queryParam, null);
+        $ret = $this->exec($this->uri . '/assignable/search' . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -143,7 +143,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.'/search/query'.$queryParam, null);
+        $ret = $this->exec($this->uri . '/search/query' . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -173,7 +173,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.$queryParam, null, 'DELETE');
+        $ret = $this->exec($this->uri . $queryParam, null, 'DELETE');
 
         return $ret;
     }
@@ -209,7 +209,7 @@ class UserService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec('/users'.$queryParam, null);
+        $ret = $this->exec('/users' . $queryParam, null);
 
         $this->log->info("Result=\n".$ret);
 

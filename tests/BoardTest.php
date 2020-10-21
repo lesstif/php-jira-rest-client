@@ -21,7 +21,8 @@ class BoardTest extends PHPUnit_Framework_TestCase
         $board_list = $board_service->getBoardList();
         $this->assertInstanceOf(ArrayObject::class, $board_list, 'We receive a board list.');
         /** @var \JiraRestApi\Board\Board $first_board */
-        $first_board = reset($board_list);
+        $this->assertNotEmpty($board_list);
+        $first_board = $board_list->offsetGet(0);
         $this->assertInstanceOf(Board::class, $first_board, 'Each element of the list is a Board instance.');
 
     }

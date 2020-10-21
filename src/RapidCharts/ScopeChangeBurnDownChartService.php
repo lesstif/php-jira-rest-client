@@ -22,7 +22,7 @@ class ScopeChangeBurnDownChartService extends \JiraRestApi\JiraClient
     {
         $paramArray['rapidViewId'] = $rapidViewId;
         $paramArray['sprintId'] = $sprintId;
-        $json = $this->exec($this->uri.'/'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $this->toHttpQueryParameter($paramArray), null);
         $burnDownChart = json_decode($json);
 
         return $burnDownChart;

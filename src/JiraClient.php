@@ -2,11 +2,26 @@
 
 namespace JiraRestApi;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\FileCookieJar;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\UploadedFile;
+use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
+use Psr\Http\Client\ClientInterface;
 use Psr\Log\LoggerInterface;
+use Http\Adapter\Guzzle7\Client as GuzzleAdapter;
+
 
 /**
  * Interact jira server with REST API.
@@ -54,13 +69,6 @@ class JiraClient
     protected $log;
 
     /**
-     * Jira Rest API Configuration.
-     *
-     * @var ConfigurationInterface
-     */
-    protected $configuration;
-
-    /**
      * json en/decode options.
      *
      * @var int
@@ -68,26 +76,36 @@ class JiraClient
     protected $jsonOptions;
 
     /**
+     * @var ClientInterface
+     */
+    private $client;
+    /**
+     * @var bool
+     */
+    private $useRestApiV3 = false;
+
+    /**
      * Constructor.
      *
-     * @param ConfigurationInterface $configuration
-     * @param LoggerInterface        $logger
-     * @param string                 $path
+     * @param ConfigurationInterface|ClientInterface|null $configuration
+     * @param LoggerInterface|null $logger
+     * @param string $path
      *
+     * @param bool $useJiraV3
+     * @param bool $jiraLogEnabled
      * @throws JiraException
-     * @throws \Exception
      */
-    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
+    public function __construct($configuration = null, LoggerInterface $logger = null, $path = './', bool $useJiraV3 = false, bool $jiraLogEnabled = true)
     {
-        if ($configuration === null) {
-            if (!file_exists($path.'.env')) {
-                // If calling the getcwd() on laravel it will returning the 'public' directory.
-                $path = '../';
-            }
-            $this->configuration = new DotEnvConfiguration($path);
-        } else {
-            $this->configuration = $configuration;
+        if (!$configuration) {
+            $configuration = new DotEnvConfiguration();
         }
+
+        if ($useJiraV3 || ($configuration instanceof ConfigurationInterface && $configuration->getUseV3RestApi())) {
+            $this->setRestApiV3();
+        }
+
+        $this->configureClient($configuration, $path);
 
         $this->json_mapper = new \JsonMapper();
 
@@ -98,14 +116,14 @@ class JiraClient
         $this->json_mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
 
         // create logger
-        if ($this->configuration->getJiraLogEnabled()) {
+        if ($jiraLogEnabled || ($configuration instanceof ConfigurationInterface && $configuration->getJiraLogEnabled())) {
             if ($logger) {
                 $this->log = $logger;
             } else {
                 $this->log = new Logger('JiraClient');
                 $this->log->pushHandler(new StreamHandler(
-                    $this->configuration->getJiraLogFile(),
-                    $this->convertLogLevel($this->configuration->getJiraLogLevel())
+                    $configuration->getJiraLogFile(),
+                    $this->convertLogLevel($configuration->getJiraLogLevel())
                 ));
             }
         } else {
@@ -114,12 +132,6 @@ class JiraClient
         }
 
         $this->http_response = 200;
-
-        if ($this->configuration->getUseV3RestApi()) {
-            $this->setRestApiV3();
-        }
-
-        $this->curl = curl_init();
 
         $this->jsonOptions = JSON_UNESCAPED_UNICODE;
 
@@ -130,6 +142,83 @@ class JiraClient
                 $this->jsonOptions |= JSON_THROW_ON_ERROR;
             }
         }
+    }
+
+    /**
+     * @param ConfigurationInterface|ClientInterface|null $configuration
+     * @throws JiraException
+     */
+    private function configureClient($configuration = null, string $path ="./"): void {
+        if ($configuration instanceof ClientInterface) {
+            $this->client = $configuration;
+            return;
+        }
+
+        if ($configuration === null) {
+            if (!file_exists($path.'.env')) {
+                // If calling the getcwd() on laravel it will returning the 'public' directory.
+                $path = '../';
+            }
+            $configuration = new DotEnvConfiguration($path);
+        }
+
+        $config = [
+            'handler' => HandlerStack::create(),
+            'base_uri' => $configuration->getJiraHost(),
+            'verify' => $configuration->isCurlOptSslVerifyHost(),
+            'http_errors' => false,
+            'headers' => [
+                'User-Agent' => $configuration->getCurlOptUserAgent(),
+                'Accept' => '*/*',
+                'Content-Type' => 'application/json',
+                'X-Atlassian-Token' => 'no-check'
+            ]
+        ];
+
+        if ($this->useRestApiV3) {
+            $config['headers']['x-atlassian-force-account-id'] = true;
+        }
+
+        if ($configuration->getProxyServer()) {
+            $uri = (new Uri($configuration->getProxyServer()))
+                ->withPort($configuration->getProxyPort());
+
+            if ($configuration->getProxyUser()) {
+                $uri = $uri->withUserInfo($configuration->getProxyUser(), $configuration->getProxyPassword());
+            }
+
+            $config['proxy'] = (string) $uri;
+        }
+
+        if ($configuration->isCurlOptSslCert()) {
+            $config['cert'] = $configuration->isCurlOptSslCert();
+
+            if ($configuration->isCurlOptSslCertPassword()) {
+                $config['cert'] = [$configuration->isCurlOptSslCert(), $configuration->isCurlOptSslCertPassword()];
+            }
+        }
+
+        if ($configuration->isCurlOptSslKey()) {
+            $config['ssl_key'] = $configuration->isCurlOptSslKey();
+
+            if ($configuration->isCurlOptSslCertPassword()) {
+                $config['ssl_key'] = [$configuration->isCurlOptSslKey(), $configuration->isCurlOptSslKeyPassword()];
+            }
+        }
+
+
+        if ($configuration->isCookieAuthorizationEnabled()) {
+            $jar = new FileCookieJar($configuration->getCookieFile());
+            $config['cookies'] = $jar;
+
+            $this->log->debug('Using cookie..');
+        }
+
+        if (!file_exists($configuration->getCookieFile())) {
+            $config['auth'] = [$configuration->getJiraUser(), $configuration->getJiraPassword()];
+        }
+
+        $this->client = new GuzzleAdapter(new Client($config));
     }
 
     /**
@@ -192,16 +281,13 @@ class JiraClient
     /**
      * Execute REST request.
      *
-     * @param string $context        Rest API context (ex.:issue, search, etc..)
-     * @param string $post_data
-     * @param string $custom_request [PUT|DELETE]
-     * @param string $cookieFile     cookie file
-     *
-     * @throws JiraException
-     *
+     * @param string $context Rest API context (ex.:issue, search, etc..)
+     * @param null $post_data
+     * @param null $custom_request [PUT|DELETE]
      * @return string|bool
+     * @throws JiraException
      */
-    public function exec($context, $post_data = null, $custom_request = null, $cookieFile = null)
+    public function exec($context, $post_data = null, $custom_request = null)
     {
         $url = $this->createUrlByContext($context);
 
@@ -211,179 +297,31 @@ class JiraClient
             $this->log->info("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
         }
 
-        curl_reset($this->curl);
-        $ch = $this->curl;
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $method = $custom_request ?? "GET";
+        $body = $method !== "GET" ? $post_data : null;
 
-        // post_data
-        if (!is_null($post_data)) {
-            // PUT REQUEST
-            if (!is_null($custom_request) && $custom_request == 'PUT') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
-            if (!is_null($custom_request) && $custom_request == 'DELETE') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            } else {
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
-        } else {
-            if (!is_null($custom_request) && $custom_request == 'DELETE') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            }
-        }
+        $response = $this->client->sendRequest(new Request($method, $url, [], $body));
+        $this->http_response = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
 
-        $this->authorization($ch, $cookieFile);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-        if ($this->getConfiguration()->isCurlOptSslCert()) {
-            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
-        }
-        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
-            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKey()) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
-            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
-        }
-
-        curl_setopt($ch, CURLOPT_USERAGENT, $this->getConfiguration()->getCurlOptUserAgent());
-
-        // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
-        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        }
-
-        curl_setopt($ch, CURLOPT_ENCODING, '');
-        curl_setopt(
-            $ch,
-            CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
-        );
-
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        // Add proxy settings to the curl.
-        $this->proxyConfigCurlHandle($ch);
-
-        $this->log->debug('Curl exec='.$url);
-        $response = curl_exec($ch);
-
-        // if request failed or have no result.
-        if (!$response) {
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $body = curl_error($ch);
-
-            /*
-             * 201: The request has been fulfilled, resulting in the creation of a new resource.
-             * 204: The server successfully processed the request, but is not returning any content.
-             */
-            if ($this->http_response === 204 || $this->http_response === 201 || $this->http_response === 200) {
+        if(!$content) {
+            if (in_array($this->http_response, [204,201,200], true)) {
                 return true;
             }
 
             // HostNotFound, No route to Host, etc Network error
-            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
-
+            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $content);
             $this->log->error($msg);
-
             throw new JiraException($msg);
-        } else {
-            // if request was ok, parsing http response code.
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
-            if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                    .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response);
-            }
         }
 
-        return $response;
-    }
-
-    /**
-     * Create upload handle.
-     *
-     * @param string $url         Request URL
-     * @param string $upload_file Filename
-     *
-     * @return resource
-     */
-    private function createUploadHandle($url, $upload_file, $ch)
-    {
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        // send file
-        curl_setopt($ch, CURLOPT_POST, true);
-
-        if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
-            $attachments = realpath($upload_file);
-            $filename = basename($upload_file);
-
-            curl_setopt(
-                $ch,
-                CURLOPT_POSTFIELDS,
-                ['file' => '@'.$attachments.';filename='.$filename]
-            );
-
-            $this->log->debug('using legacy file upload');
-        } else {
-            // CURLFile require PHP > 5.5
-            $attachments = new \CURLFile(realpath($upload_file));
-            $attachments->setPostFilename(basename($upload_file));
-
-            curl_setopt(
-                $ch,
-                CURLOPT_POSTFIELDS,
-                ['file' => $attachments]
-            );
-
-            $this->log->debug('using CURLFile='.var_export($attachments, true));
+        if (!in_array($this->http_response, [201,200], true)){
+            throw new JiraException('CURL HTTP Request Failed: Status Code : '
+                .$this->http_response.', URL:'.$url
+                ."\nError Message : ".$content, $this->http_response);
         }
 
-        $this->authorization($ch);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-
-        if ($this->getConfiguration()->isCurlOptSslCert()) {
-            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
-        }
-        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
-            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKey()) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
-            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
-        }
-
-        $this->proxyConfigCurlHandle($ch);
-
-        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); cannot be activated when an open_basedir is set
-        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: */*',
-            'Content-Type: multipart/form-data',
-            'X-Atlassian-Token: nocheck',
-        ]);
-
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        $this->log->debug('Curl exec='.$url);
-
-        return $ch;
+        return $content;
     }
 
     /**
@@ -400,62 +338,26 @@ class JiraClient
     {
         $url = $this->createUrlByContext($context);
 
-        $results = [];
-
-        $ch = curl_init();
-
         $idx = 0;
+        $results = [];
         foreach ($filePathArray as $file) {
-            $this->createUploadHandle($url, $file, $ch);
+            $request = new Request("POST",$url,['Content-Type' => 'multipart/form-data'],new Stream(fopen($file, "r+b")));
+            $response = $this->client->sendRequest($request);
+            $this->http_response = $response->getStatusCode();
+            $contents = $response->getBody()->getContents();
 
-            $response = curl_exec($ch);
-
-            // if request failed or have no result.
-            if (!$response) {
-                $http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $body = curl_error($ch);
-
-                if ($http_response === 204 || $http_response === 201 || $http_response === 200) {
-                    $results[$idx] = $response;
-                } else {
-                    $msg = sprintf('CURL Error: http response=%d, %s', $http_response, $body);
-                    $this->log->error($msg);
-
-                    curl_close($ch);
-
-                    throw new JiraException($msg);
-                }
+            if (in_array($this->http_response, [204,201,202], true)) {
+                $results[$idx] = $contents;
             } else {
-                $results[$idx] = $response;
+                $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $contents);
+                $this->log->error($msg);
+
+                throw new JiraException($msg);
             }
             $idx++;
         }
 
-        curl_close($ch);
-
         return $results;
-    }
-
-    /**
-     * @param array    $chArr
-     * @param resource $mh
-     * @param string   $body
-     * @param int      $result_code
-     *
-     * @throws \JiraRestApi\JiraException
-     */
-    protected function closeCURLHandle(array $chArr, $mh, string $body, int $result_code)
-    {
-        foreach ($chArr as $ch) {
-            $this->log->debug('CURL Close handle..');
-            curl_multi_remove_handle($mh, $ch);
-        }
-        $this->log->debug('CURL Multi Close handle..');
-        curl_multi_close($mh);
-        if ($result_code != 200) {
-            // @TODO $body might have not been defined
-            throw new JiraException('CURL Error: = '.$body, $result_code);
-        }
     }
 
     /**
@@ -467,46 +369,7 @@ class JiraClient
      */
     protected function createUrlByContext($context)
     {
-        $host = $this->getConfiguration()->getJiraHost();
-
-        return $host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
-    }
-
-    /**
-     * Add authorize to curl request.
-     *
-     * @param resource $ch
-     */
-    protected function authorization($ch, $cookieFile = null)
-    {
-        // use cookie
-        if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
-            if ($cookieFile === null) {
-                $cookieFile = $this->getConfiguration()->getCookieFile();
-            }
-
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
-
-            $this->log->debug('Using cookie..');
-        }
-
-        // if cookie file not exist, using id/pwd login
-        if (!file_exists($cookieFile)) {
-            $username = $this->getConfiguration()->getJiraUser();
-            $password = $this->getConfiguration()->getJiraPassword();
-            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        }
-    }
-
-    /**
-     * Jira Rest API Configuration.
-     *
-     * @return ConfigurationInterface
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
+        return $this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
     }
 
     /**
@@ -558,90 +421,25 @@ class JiraClient
      *
      * @return bool|mixed
      */
-    public function download(string $url, string $outDir, string $file, string $cookieFile = null)
+    public function download(string $url, string $outDir, string $file)
     {
-        $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
+        $outputFile = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w+b');
 
-        curl_reset($this->curl);
-        $ch = $this->curl;
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $response = $this->client->sendRequest(new Request("GET",$url));
+        $this->http_response = $response->getStatusCode();
 
-        // output to file handle
-        curl_setopt($ch, CURLOPT_FILE, $file);
+        $stream = $response->getBody();
 
-        $this->authorization($ch, $cookieFile);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-
-        if ($this->getConfiguration()->isCurlOptSslCert()) {
-            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
-        }
-        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
-            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKey()) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
-            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
-        }
-
-        $this->proxyConfigCurlHandle($ch);
-
-        // curl_setopt(): CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set
-        if (!function_exists('ini_get') || !ini_get('open_basedir')) {
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        }
-
-        curl_setopt(
-            $ch,
-            CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
-        );
-
-        curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        if ($this->isRestApiV3()) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-atlassian-force-account-id: true']);
-        }
-
-        $this->log->debug('Curl exec='.$url);
-        $response = curl_exec($ch);
-
-        // if request failed.
-        if (!$response) {
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $body = curl_error($ch);
-            fclose($file);
-
-            /*
-             * 201: The request has been fulfilled, resulting in the creation of a new resource.
-             * 204: The server successfully processed the request, but is not returning any content.
-             */
-            if ($this->http_response === 204 || $this->http_response === 201) {
-                return true;
-            }
-
-            // HostNotFound, No route to Host, etc Network error
-            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $body);
-
+        if (!in_array($this->http_response,[200,201], true)) {
+            $msg = sprintf('CURL Error: http response=%d, %s', $this->http_response, $stream->getContents());
             $this->log->error($msg);
-
             throw new JiraException($msg);
-        } else {
-            // if request was ok, parsing http response code.
-            $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            fclose($file);
-
-            // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
-            if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new JiraException('CURL HTTP Request Failed: Status Code : '
-                    .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response);
-            }
         }
+
+        while (!$stream->eof()) {
+            fwrite($outputFile,$stream->read(4096));
+        }
+        fclose($outputFile);
 
         return $response;
     }
@@ -661,24 +459,6 @@ class JiraClient
     }
 
     /**
-     * Config a curl handle with proxy configuration (if set) from ConfigurationInterface.
-     *
-     * @param resource $ch
-     */
-    private function proxyConfigCurlHandle($ch)
-    {
-        // Add proxy settings to the curl.
-        if ($this->getConfiguration()->getProxyServer()) {
-            curl_setopt($ch, CURLOPT_PROXY, $this->getConfiguration()->getProxyServer());
-            curl_setopt($ch, CURLOPT_PROXYPORT, $this->getConfiguration()->getProxyPort());
-
-            $username = $this->getConfiguration()->getProxyUser();
-            $password = $this->getConfiguration()->getProxyPassword();
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
-        }
-    }
-
-    /**
      * setting REST API url to V3.
      *
      * @return $this
@@ -686,6 +466,7 @@ class JiraClient
     public function setRestApiV3()
     {
         $this->api_uri = '/rest/api/3';
+        $this->useRestApiV3 = true;
 
         return $this;
     }
@@ -697,7 +478,7 @@ class JiraClient
      */
     public function isRestApiV3()
     {
-        return $this->configuration->getUseV3RestApi();
+        return $this->useRestApiV3;
     }
 
     /**

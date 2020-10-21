@@ -51,7 +51,7 @@ class RequestService extends \JiraRestApi\JiraClient
 
         $data = json_encode($requestComment);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
 
         $this->log->debug('add comment result='.var_export($ret, true));
         $requestComment = $this->json_mapper->map(

@@ -54,7 +54,7 @@ class SprintService extends JiraClient
      */
     public function getSprint(string $sprintId)
     {
-        $ret = $this->exec($this->uri.'/'.$sprintId, null);
+        $ret = $this->exec($this->uri . '/' . $sprintId, null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -75,7 +75,7 @@ class SprintService extends JiraClient
      */
     public function getSprintIssues($sprintId, $paramArray = [])
     {
-        $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
+        $json = $this->exec($this->uri . '/' . $sprintId . '/issue' . $this->toHttpQueryParameter($paramArray), null);
 
         $issues = $this->json_mapper->mapArray(
             json_decode($json)->issues,

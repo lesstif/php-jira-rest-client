@@ -20,7 +20,7 @@ class AgileIssueService extends \JiraRestApi\JiraClient
 
     public function get($issueIdOrKey, $paramArray = []): ?AgileIssue
     {
-        $response = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
+        $response = $this->exec($this->uri . '/' . $issueIdOrKey . $this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->map(

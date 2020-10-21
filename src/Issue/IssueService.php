@@ -47,7 +47,7 @@ class IssueService extends \JiraRestApi\JiraClient
             $issueObject = ($issueObject) ? $issueObject : new Issue();
         }
 
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec($this->uri . '/' . $issueIdOrKey . $this->toHttpQueryParameter($paramArray), null);
 
         $this->log->info("Result=\n".$ret);
 
@@ -129,7 +129,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $data = json_encode(['issueUpdates' => $issues]);
 
         $this->log->info("Create Issues=\n".$data);
-        $results = $this->exec($this->uri.'/bulk', $data, 'POST');
+        $results = $this->exec($this->uri . '/bulk', $data, 'POST');
 
         $issues = [];
         foreach (json_decode($results)->issues as $result) {
@@ -213,7 +213,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey" . $queryParam, $data, 'PUT');
 
         return $ret;
     }
@@ -239,7 +239,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $data = json_encode($comment);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment", $data);
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment", $data);
 
         $this->log->debug('add comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -272,7 +272,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $data = json_encode($comment);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id", $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment/$id", $data, 'PUT');
 
         $this->log->debug('update comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -299,7 +299,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("getComment=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id".$this->toHttpQueryParameter($paramArray));
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment/$id" . $this->toHttpQueryParameter($paramArray));
 
         $this->log->debug('get comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -325,7 +325,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("getComments=\n");
 
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment'.$this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec($this->uri . '/' . $issueIdOrKey . '/comment' . $this->toHttpQueryParameter($paramArray), null);
 
         $this->log->debug('get comments result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -350,7 +350,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->info("deleteComment=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id", '', 'DELETE');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/comment/$id", '', 'DELETE');
 
         $this->log->info('delete comment '.$issueIdOrKey.' '.$id.' result='.var_export($ret, true));
 
@@ -377,7 +377,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $data = json_encode($ar);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/assignee", $data, 'PUT');
 
         $this->log->info('change assignee of '.$issueIdOrKey.' to '.$assigneeName.' result='.var_export($ret, true));
 
@@ -402,7 +402,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $data = json_encode($ar);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/assignee", $data, 'PUT');
 
         $this->log->info('change assignee of '.$issueIdOrKey.' to '.$accountId.' result='.var_export($ret, true));
 
@@ -425,7 +425,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, '', 'DELETE');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey" . $queryParam, '', 'DELETE');
 
         $this->log->info('delete issue '.$issueIdOrKey.' result='.var_export($ret, true));
 
@@ -446,7 +446,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions".$queryParam);
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions" . $queryParam);
 
         $this->log->debug('getTransitions result='.var_export($ret, true));
 
@@ -519,7 +519,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->debug("transition req=$data\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/transitions", $data, 'POST');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/transitions", $data, 'POST');
 
         $this->log->debug('getTransitions result='.var_export($ret, true));
 
@@ -583,7 +583,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getTimeTracking($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", null);
         $this->log->debug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
@@ -619,7 +619,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
@@ -636,7 +636,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getWorklog($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog");
         $this->log->debug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
             json_decode($ret),
@@ -659,7 +659,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getWorklogById($issueIdOrKey, $workLogId)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog/$workLogId");
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog/$workLogId");
         $this->log->debug("getWorklogById res=$ret\n");
         $worklog = $this->json_mapper->map(
             json_decode($ret),
@@ -884,7 +884,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->debug("removeWatcher=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
 
         $this->log->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
@@ -905,7 +905,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->debug("removeWatcher=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
 
         $this->log->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
@@ -929,7 +929,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->exec($this->uri.'/createmeta'.$queryParam, null);
+        $ret = $this->exec($this->uri . '/createmeta' . $queryParam, null);
 
         return json_decode($ret);
     }
@@ -987,10 +987,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
         // set self value
         foreach ($notify->to['groups'] as &$g) {
-            $g['self'] = $this->getConfiguration()->getJiraHost().'/rest/api/2/group?groupname='.$g['name'];
+            $g['self'] = '/rest/api/2/group?groupname='.$g['name'];
         }
         foreach ($notify->restrict['groups'] as &$g) {
-            $g['self'] = $this->getConfiguration()->getJiraHost().'/rest/api/2/group?groupname='.$g['name'];
+            $g['self'] = '/rest/api/2/group?groupname='.$g['name'];
         }
 
         $data = json_encode($notify, JSON_UNESCAPED_SLASHES);
@@ -1171,7 +1171,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey" . $queryParam, $postData, 'PUT');
 
         return $ret;
     }
@@ -1209,7 +1209,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
+        $ret = $this->exec($this->uri . "/$issueIdOrKey" . $queryParam, $postData, 'PUT');
 
         return $ret;
     }
