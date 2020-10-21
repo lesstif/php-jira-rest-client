@@ -16,7 +16,6 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Log\LoggerInterface;
 use Http\Adapter\Guzzle7\Client as GuzzleAdapter;
 
-
 /**
  * Interact jira server with REST API.
  */
@@ -140,9 +139,11 @@ class JiraClient
 
     /**
      * @param ConfigurationInterface|ClientInterface|null $configuration
+     * @param string $path
      * @throws JiraException
      */
-    private function configureClient($configuration = null, string $path ="./"): void {
+    private function configureClient($configuration = null, string $path = "./"): void
+    {
         if ($configuration instanceof ClientInterface) {
             $this->client = $configuration;
             return;
