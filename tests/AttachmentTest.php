@@ -3,7 +3,7 @@
 use JiraRestApi\Attachment\AttachmentService;
 use JiraRestApi\JiraException;
 
-class AttachmentTest extends PHPUnit_Framework_TestCase
+class AttachmentTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetAttachment()
     {

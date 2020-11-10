@@ -8,7 +8,7 @@ use JiraRestApi\Issue\Issue;
 /**
  * Test agile boards integration.
  */
-class BoardTest extends PHPUnit_Framework_TestCase
+class BoardTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

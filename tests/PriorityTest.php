@@ -1,11 +1,11 @@
 <?php
 
 use JiraRestApi\Dumper;
-use JiraRestApi\HTTPException;
 
+use JiraRestApi\JiraException;
 use JiraRestApi\Priority\PriorityService;
 
-class PriorityTest extends PHPUnit_Framework_TestCase
+class PriorityTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllPriority()
     {

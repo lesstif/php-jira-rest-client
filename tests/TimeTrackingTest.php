@@ -4,7 +4,7 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
 use JiraRestApi\JiraException;
 
-class TimeTrackingTest extends PHPUnit_Framework_TestCase
+class TimeTrackingTest extends \PHPUnit\Framework\TestCase
 {
     private $issueKey = 'TEST-76';
 

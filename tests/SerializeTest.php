@@ -3,7 +3,7 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Reporter;
 
-class SerializeTest extends PHPUnit_Framework_TestCase
+class SerializeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @see https://github.com/lesstif/php-jira-rest-client/issues/18

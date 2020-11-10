@@ -13,7 +13,7 @@
 
 # Requirements
 
-- PHP >= 7.1
+- PHP >= 7.3
 - [php JsonMapper](https://github.com/netresearch/jsonmapper)
 - [phpdotenv](https://github.com/vlucas/phpdotenv)
 
@@ -33,7 +33,7 @@
    ```json
    {
        "require": {
-           "lesstif/php-jira-rest-client": "^2.0"
+           "lesstif/php-jira-rest-client": "^3.0"
        }
    }
    ```
@@ -61,27 +61,9 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 
 copy .env.example file to .env on your project root.	
 
-```sh
-JIRA_HOST="https://your-jira.host.com"
-JIRA_USER="jira-username"
-JIRA_PASS="jira-password-OR-api-token"
-# to enable session cookie authorization
-# COOKIE_AUTH_ENABLED=true
-# COOKIE_FILE=storage/jira-cookie.txt
-# if you are behind a proxy, add proxy settings
-PROXY_SERVER="your-proxy-server"
-PROXY_PORT="proxy-port"
-PROXY_USER="proxy-username"
-PROXY_PASSWORD="proxy-password"
-JIRA_REST_API_V3=false
-```
-
 **Important Note:**
 As of March 15, 2018, in accordance to the [Atlassian REST API Policy](https://developer.atlassian.com/platform/marketplace/atlassian-rest-api-policy/), Basic auth with password to be deprecated.
 Instead of password, you should using [API token](https://confluence.atlassian.com/cloud/api-tokens-938839638.html).
-
-**Laravel Users:** 
-If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
 
 **REST API V3 Note:**
 In accordance to the [Atlassian's deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/), After the 29th of april 2019, REST API no longer supported username and userKey, 
@@ -90,6 +72,45 @@ if you are JIRA Cloud users, you need to set *JIRA_REST_API_V3=true* in the .env
 
 **CAUTION**
 this library not fully supported JIRA REST API V3 yet. 
+
+### JIRA Server or JIRA Data Center
+
+```sh
+JIRA_HOST="https://your-jira.host.com"
+JIRA_USER="jira-username"
+JIRA_PASS="jira-password-OR-api-token"
+JIRA_REST_API_V3=false
+
+# to enable session cookie authorization
+# COOKIE_AUTH_ENABLED=true
+# COOKIE_FILE=storage/jira-cookie.txt
+
+# if you are behind a proxy, add proxy settings
+# PROXY_SERVER="your-proxy-server"
+# PROXY_PORT="proxy-port"
+# PROXY_USER="proxy-username"
+# PROXY_PASSWORD="proxy-password"
+```
+
+### JIRA Cloud
+
+```sh
+JIRA_HOST="https://your-jira.atlassian.net"
+JIRA_USER="your-jira-username@yourmail.com"
+JIRA_PASS="jira-api-token"
+JIRA_REST_API_V3=true
+# to enable session cookie authorization
+# COOKIE_AUTH_ENABLED=true
+# COOKIE_FILE=storage/jira-cookie.txt
+# if you are behind a proxy, add proxy settings
+# PROXY_SERVER="your-proxy-server"
+# PROXY_PORT="proxy-port"
+# PROXY_USER="proxy-username"
+# PROXY_PASSWORD="proxy-password"
+```
+
+**Laravel Users:** 
+If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
 
 ## use array
 

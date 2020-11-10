@@ -4,7 +4,7 @@ use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Version\VersionService;
 
-class VersionTest extends PHPUnit_Framework_TestCase
+class VersionTest extends \PHPUnit\Framework\TestCase
 {
     private $versionName = '1.0.0';
     private $project = 'TEST';

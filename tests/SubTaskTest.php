@@ -4,7 +4,7 @@ use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
-class SubTaskTest extends PHPUnit_Framework_TestCase
+class SubTaskTest extends \PHPUnit\Framework\TestCase
 {
     public $issueKey = 'TEST-143';
 

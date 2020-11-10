@@ -8,7 +8,7 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
-class IssueSecuritySechemTest extends PHPUnit_Framework_TestCase
+class IssueSecuritySechemTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetAllSecuritySchemes()
     {

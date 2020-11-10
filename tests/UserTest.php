@@ -5,7 +5,7 @@ use JiraRestApi\JiraException;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreateUser()
     {
