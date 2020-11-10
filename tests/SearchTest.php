@@ -3,9 +3,10 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
-class IssueTest extends PHPUnit_Framework_TestCase
+class SearchTest extends \PHPUnit\Framework\TestCase
 {
     public function testSearch()
     {

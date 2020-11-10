@@ -6,7 +6,8 @@ use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class IssueSecuritySechemTest extends \PHPUnit\Framework\TestCase
 {
@@ -70,14 +71,14 @@ class IssueSecuritySechemTest extends \PHPUnit\Framework\TestCase
         try {
             $issueField = new IssueField();
 
-            $issueField->setProjectKey('TEST')
-                        ->setSummary("issue security level test")
-                        ->setAssigneeName('lesstif')
-                        ->setPriorityName('Critical')
-                        ->setIssueType('Bug')
-                        ->setDescription('Full description for issue')
-                        ->addVersion(['1.0.1', '1.0.3'])
-                        ->addComponents(['Component-1', 'Component-2'])
+            $issueField->set_ProjectKey('TEST')
+                        ->set_Summary("issue security level test")
+                        ->set_AssigneeName('lesstif')
+                        ->set_PriorityName('Critical')
+                        ->set_IssueType('Bug')
+                        ->set_Description('Full description for issue')
+                        ->add_Version(['1.0.1', '1.0.3'])
+                        ->add_Components(['Component-1', 'Component-2'])
                         ->setSecurity($securityId)
             ;
 

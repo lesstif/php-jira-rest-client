@@ -1,11 +1,11 @@
 <?php
 
 use JiraRestApi\Dumper;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
-use JiraRestApi\JiraException;
 
 class IssueTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +20,7 @@ class IssueTest extends \PHPUnit\Framework\TestCase
             file_put_contents('jira-issue.json', json_encode($issue, JSON_PRETTY_PRINT));
 
             print_r($issue->fields->versions[0]);
-        } catch (HTTPException $e) {
+        } catch (JiraException $e) {
             $this->assertTrue(false, $e->getMessage());
         }
     }
@@ -30,15 +30,15 @@ class IssueTest extends \PHPUnit\Framework\TestCase
         try {
             $issueField = new IssueField();
 
-            $issueField->setProjectKey('TEST')
-                        ->setSummary("something's wrong")
-                        ->setAssigneeName('lesstif')
-                        ->setPriorityName('Critical')
-                        ->setIssueType('Bug')
-                        ->setDescription('Full description for issue')
-                        ->addVersion(['1.0.1', '1.0.3'])
-                        ->addComponents(['Component-1', 'Component-2'])
-                        ->setDueDate('2019-06-19')
+            $issueField->set_ProjectKey('TEST')
+                        ->set_Summary("something's wrong")
+                        ->set_AssigneeName('lesstif')
+                        ->set_PriorityName('Critical')
+                        ->set_IssueType('Bug')
+                        ->set_Description('Full description for issue')
+                        ->add_Version(['1.0.1', '1.0.3'])
+                        ->add_Components(['Component-1', 'Component-2'])
+                        ->set_DueDate('2019-06-19')
             ;
 
             $issueService = new IssueService();
@@ -85,15 +85,15 @@ class IssueTest extends \PHPUnit\Framework\TestCase
         try {
             $issueField = new IssueField();
 
-            $issueField->setProjectKey('TEST')
-                ->setSummary("Subtask - something's wrong")
-                ->setAssigneeName('lesstif')
-                ->setPriorityName('Critical')
-                ->setDescription('Subtask - Full description for issue')
-                ->addVersion('1.0.1')
-                ->addVersion('1.0.3')
-                ->setIssueType('Sub-task')
-                ->setParentKeyOrId($issueKey);
+            $issueField->set_ProjectKey('TEST')
+                ->set_Summary("Subtask - something's wrong")
+                ->set_AssigneeName('lesstif')
+                ->set_PriorityName('Critical')
+                ->set_Description('Subtask - Full description for issue')
+                ->add_Version('1.0.1')
+                ->add_Version('1.0.3')
+                ->set_IssueType('Sub-task')
+                ->set_ParentKeyOrId($issueKey);
 
             $issueService = new IssueService();
 
@@ -138,14 +138,14 @@ class IssueTest extends \PHPUnit\Framework\TestCase
         try {
             $issueField = new IssueField(true);
 
-            $issueField->setAssigneeName('lesstif')
-                        ->setPriorityName('Major')
-                        ->setIssueType('Task')
-                        ->addLabel('test-label-first')
-                        ->addLabel('test-label-second')
-                        ->addVersion('1.0.1')
-                        ->addVersion('1.0.2')
-                        ->setDescription('This is a shorthand for a set operation on the summary field');
+            $issueField->set_AssigneeName('lesstif')
+                        ->set_PriorityName('Major')
+                        ->set_IssueType('Task')
+                        ->add_Label('test-label-first')
+                        ->add_Label('test-label-second')
+                        ->add_Version('1.0.1')
+                        ->add_Version('1.0.2')
+                        ->set_Description('This is a shorthand for a set operation on the summary field');
 
             $issueService = new IssueService();
 

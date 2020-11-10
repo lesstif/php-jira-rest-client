@@ -1,9 +1,10 @@
 <?php
 
 use JiraRestApi\Dumper;
-use JiraRestApi\JiraException;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class UserTest extends \PHPUnit\Framework\TestCase
 {

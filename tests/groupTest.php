@@ -3,7 +3,8 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Group\Group;
 use JiraRestApi\Group\GroupService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class groupTest extends \PHPUnit\Framework\TestCase
 {

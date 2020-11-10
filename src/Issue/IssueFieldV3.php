@@ -19,7 +19,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this|IssueField
      */
-    public function setDescription($description)
+    public function set_Description($description)
     {
         $this->description = $description;
 

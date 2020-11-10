@@ -2,7 +2,8 @@
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\RemoteIssueLink;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class RemoteIssueLinkTest extends \PHPUnit\Framework\TestCase
 {

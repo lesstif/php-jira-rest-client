@@ -601,17 +601,17 @@ use JiraRestApi\JiraException;
 try {
     $issueField = new IssueField();
 
-    $issueField->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setAssigneeName("lesstif")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
-                ->setDescription("Full description for issue")
-                ->addVersion(["1.0.1", "1.0.3"])
-                ->addComponents(['Component-1', 'Component-2'])
+    $issueField->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_AssigneeName("lesstif")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
+                ->set_Description("Full description for issue")
+                ->add_Version(["1.0.1", "1.0.3"])
+                ->add_Components(['Component-1', 'Component-2'])
                 // set issue security if you need.
-                ->setSecurityId(10001 /* security scheme id */)
-                ->setDueDate('2019-06-19')
+                ->set_SecurityId(10001 /* security scheme id */)
+                ->set_DueDate('2019-06-19')
             ;
 	
     $issueService = new IssueService();
@@ -674,19 +674,19 @@ use JiraRestApi\JiraException;
 try {
     $issueFieldOne = new IssueField();
 
-    $issueFieldOne->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
-                ->setDescription("Full description for issue");
+    $issueFieldOne->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
+                ->set_Description("Full description for issue");
 
     $issueFieldTwo = new IssueField();
 
-    $issueFieldTwo->setProjectKey("TEST")
-                ->setSummary("something else is wrong")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
-                ->setDescription("Full description for second issue");
+    $issueFieldTwo->set_ProjectKey("TEST")
+                ->set_Summary("something else is wrong")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
+                ->set_Description("Full description for second issue");
     
     $issueService = new IssueService();
 
@@ -723,15 +723,15 @@ use JiraRestApi\JiraException;
 try {
     $issueField = new IssueField();
 
-    $issueField->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setAssigneeName("lesstif")
-                ->setPriorityName("Critical")
-                ->setDescription("Full description for issue")
-                ->addVersion("1.0.1")
-                ->addVersion("1.0.3")
-                ->setIssueType("Sub-task")  //issue type must be Sub-task
-                ->setParentKeyOrId('TEST-143')  //Issue Key
+    $issueField->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_AssigneeName("lesstif")
+                ->set_PriorityName("Critical")
+                ->set_Description("Full description for issue")
+                ->add_Version("1.0.1")
+                ->add_Version("1.0.3")
+                ->set_IssueType("Sub-task")  //issue type must be Sub-task
+                ->set_ParentKeyOrId('TEST-143')  //Issue Key
     ;
 
     $issueService = new IssueService();
@@ -770,17 +770,17 @@ Full description for issue
 - order list 3 
 DESC;
     
-    $issueField->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setAssigneeAccountId("user-account-id-here")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
+    $issueField->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_AssigneeAccountId("user-account-id-here")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
                 ->addDescriptionHeading(3, 'level 3 heading here')
                 ->addDescriptionParagraph($paraDesc)
-                ->addVersion(["1.0.1", "1.0.3"])
-                ->addComponents(['Component-1', 'Component-2'])
+                ->add_Version(["1.0.1", "1.0.3"])
+                ->add_Components(['Component-1', 'Component-2'])
                 // set issue security if you need.
-                ->setDueDate('2019-06-19')
+                ->set_DueDate('2019-06-19')
             ;
 	
     $issueService = new IssueService();
@@ -873,14 +873,14 @@ $issueKey = "TEST-879";
 try {			
     $issueField = new IssueField(true);
 
-    $issueField->setAssigneeName("admin")
-                ->setPriorityName("Blocker")
-                ->setIssueType("Task")
-                ->addLabel("test-label-first")
-                ->addLabel("test-label-second")
-                ->addVersion("1.0.1")
-                ->addVersion("1.0.2")
-                ->setDescription("This is a shorthand for a set operation on the summary field")
+    $issueField->set_AssigneeName("admin")
+                ->set_PriorityName("Blocker")
+                ->set_IssueType("Task")
+                ->add_Label("test-label-first")
+                ->add_Label("test-label-second")
+                ->add_Version("1.0.1")
+                ->add_Version("1.0.2")
+                ->set_Description("This is a shorthand for a set operation on the summary field")
     ;
 
     // optionally set some query params

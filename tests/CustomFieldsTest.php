@@ -3,7 +3,8 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class CustomFieldsTest extends \PHPUnit\Framework\TestCase
 {

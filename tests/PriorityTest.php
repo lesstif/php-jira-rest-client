@@ -2,8 +2,9 @@
 
 use JiraRestApi\Dumper;
 
-use JiraRestApi\JiraException;
 use JiraRestApi\Priority\PriorityService;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class PriorityTest extends \PHPUnit\Framework\TestCase
 {

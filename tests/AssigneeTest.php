@@ -28,8 +28,8 @@ class AssigneeTest extends \PHPUnit\Framework\TestCase
     {
         $issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueType('Bug')
+        $issueField->set_ProjectKey('TEST')
+            ->set_IssueType('Bug')
         ;
 
         $js = $issueField->jsonSerialize();
@@ -41,9 +41,9 @@ class AssigneeTest extends \PHPUnit\Framework\TestCase
     {
         $issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueType('Bug')
-            ->setAssigneeToUnassigned()
+        $issueField->set_ProjectKey('TEST')
+            ->set_IssueType('Bug')
+            ->set_AssigneeToUnassigned()
         ;
 
         $js = $issueField->jsonSerialize();
@@ -60,9 +60,9 @@ class AssigneeTest extends \PHPUnit\Framework\TestCase
     {
         $issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueType('Bug')
-            ->setAssigneeToDefault()
+        $issueField->set_ProjectKey('TEST')
+            ->set_IssueType('Bug')
+            ->set_AssigneeToDefault()
         ;
 
         $js = $issueField->jsonSerialize();
@@ -79,9 +79,9 @@ class AssigneeTest extends \PHPUnit\Framework\TestCase
     {
         $issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueType('Bug')
-            ->setAssigneeName('lesstif')
+        $issueField->set_ProjectKey('TEST')
+            ->set_IssueType('Bug')
+            ->set_AssigneeName('lesstif')
         ;
 
         $js = $issueField->jsonSerialize();

@@ -3,6 +3,8 @@
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Version\VersionService;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class VersionTest extends \PHPUnit\Framework\TestCase
 {

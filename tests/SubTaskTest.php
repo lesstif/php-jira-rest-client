@@ -2,7 +2,8 @@
 
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class SubTaskTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,15 +14,15 @@ class SubTaskTest extends \PHPUnit\Framework\TestCase
         try {
             $issueField = new IssueField();
 
-            $issueField->setProjectKey('TEST')
-                ->setSummary("Subtask - something's wrong")
-                ->setAssigneeName('lesstif')
-                ->setPriorityName('Critical')
-                ->setIssueType('Sub-task')
-                ->setDescription('Subtask - Full description for issue')
-                ->addVersion('1.0.1')
-                ->addVersion('1.0.3')
-                ->setParentKeyOrId($this->issueKey);
+            $issueField->set_ProjectKey('TEST')
+                ->set_Summary("Subtask - something's wrong")
+                ->set_AssigneeName('lesstif')
+                ->set_PriorityName('Critical')
+                ->set_IssueType('Sub-task')
+                ->set_Description('Subtask - Full description for issue')
+                ->add_Version('1.0.1')
+                ->add_Version('1.0.3')
+                ->set_ParentKeyOrId($this->issueKey);
 
             $issueService = new IssueService();
 

@@ -3,7 +3,8 @@
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class WorkLogTest extends \PHPUnit\Framework\TestCase
 {

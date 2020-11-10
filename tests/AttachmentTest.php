@@ -1,7 +1,8 @@
 <?php
 
 use JiraRestApi\Attachment\AttachmentService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class AttachmentTest extends \PHPUnit\Framework\TestCase
 {

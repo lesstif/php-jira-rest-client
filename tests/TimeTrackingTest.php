@@ -2,7 +2,8 @@
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
+use JiraRestApi\Exceptions\HTTPException;
 
 class TimeTrackingTest extends \PHPUnit\Framework\TestCase
 {
