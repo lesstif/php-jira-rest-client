@@ -1,6 +1,6 @@
 <?php
 
-namespace JiraRestApi\Request;
+namespace JiraRestApi\ServiceDesk;
 
 class RequestComment implements \JsonSerializable
 {
@@ -13,7 +13,7 @@ class RequestComment implements \JsonSerializable
     /** @var bool */
     public $public;
 
-    /** @var \JiraRestApi\Request\Author */
+    /** @var \JiraRestApi\ServiceDesk\Author */
     public $author;
 
     /** @var \DateTimeInterface */

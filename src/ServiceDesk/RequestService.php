@@ -1,6 +1,6 @@
 <?php
 
-namespace JiraRestApi\Request;
+namespace JiraRestApi\ServiceDesk;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\JiraException;
