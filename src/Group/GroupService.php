@@ -98,7 +98,10 @@ class GroupService extends \JiraRestApi\JiraClient
      */
     public function addUserToGroup(string $groupName, string $userName)
     {
-        $data = json_encode(['name' => $userName]);
+        $data = json_encode([
+            'name' => $userName,
+            'accountId' => $userName,
+        ]);
 
         $ret = $this->exec($this->uri.'/user?groupname='.urlencode($groupName), $data);
 
