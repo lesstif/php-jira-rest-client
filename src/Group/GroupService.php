@@ -99,7 +99,7 @@ class GroupService extends \JiraRestApi\JiraClient
     public function addUserToGroup(string $groupName, string $userName)
     {
         $data = json_encode([
-            'name' => $userName,
+            'name'      => $userName,
             'accountId' => $userName,
         ]);
 
