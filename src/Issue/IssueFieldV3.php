@@ -19,7 +19,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this|IssueFieldV3
      */
-    public function set_DescriptionV3($description) :IssueFieldV3
+    public function set_DescriptionV3($description): IssueFieldV3
     {
         $this->description = $description;
 
@@ -31,7 +31,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function add_DescriptionParagraph($description) : IssueFieldV3
+    public function add_DescriptionParagraph($description): IssueFieldV3
     {
         if (empty($this->description)) {
             $this->description = new DescriptionV3();
@@ -52,7 +52,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function add_DescriptionHeading(int $level, string $description) : IssueFieldV3
+    public function add_DescriptionHeading(int $level, string $description): IssueFieldV3
     {
         if (empty($this->description)) {
             $this->description = new DescriptionV3();
@@ -68,7 +68,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function set_Environment(?DescriptionV3 $environment) : IssueFieldV3
+    public function set_Environment(?DescriptionV3 $environment): IssueFieldV3
     {
         if (!empty($environment)) {
             $this->environment = $environment;
