@@ -121,7 +121,7 @@ use JiraRestApi\Configuration\ArrayConfiguration;
 use JiraRestApi\Issue\IssueService;
 
 $iss = new IssueService(new ArrayConfiguration(
-          array(
+          [
                'jiraHost' => 'https://your-jira.host.com',
                // for basic authorization:
                'jiraUser' => 'jira-username',
@@ -134,7 +134,7 @@ $iss = new IssueService(new ArrayConfiguration(
                "proxyPort" => 'proxy-port',
                "proxyUser" => 'proxy-username',
                "proxyPassword" => 'proxy-password',
-          )
+          ]
    ));
 ```
 
@@ -248,24 +248,24 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Project\Project;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $p = new Project();
 
-    $p->setKey('EX')
-        ->setName('Example')
-        ->setProjectTypeKey('business')
-        ->setProjectTemplateKey('com.atlassian.jira-core-project-templates:jira-core-project-management')
-        ->setDescription('Example Project description')
-        ->setLead('lesstif')
-        ->setUrl('http://example.com')
-        ->setAssigneeType('PROJECT_LEAD')
-        ->setAvatarId(10130)
-        ->setIssueSecurityScheme(10000)
-        ->setPermissionScheme(10100)
-        ->setNotificationScheme(10100)
-        ->setCategoryId(10100)
+    $p->set_Key('EX')
+        ->set_Name('Example')
+        ->set_ProjectTypeKey('business')
+        ->set_ProjectTemplateKey('com.atlassian.jira-core-project-templates:jira-core-project-management')
+        ->set_Description('Example Project description')
+        ->set_Lead('lesstif')
+        ->set_Url('http://example.com')
+        ->set_AssigneeType('PROJECT_LEAD')
+        ->set_AvatarId(10130)
+        ->set_IssueSecurityScheme(10000)
+        ->set_PermissionScheme(10100)
+        ->set_NotificationScheme(10100)
+        ->set_CategoryId(10100)
     ;
 
     $proj = new ProjectService();
@@ -276,7 +276,7 @@ try {
     var_dump($pj->self);
     // 10042 
     var_dump($pj->id);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -296,18 +296,18 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Project\Project;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $p = new Project();
 
-    $p->setName('Updated Example')
-        ->setProjectTypeKey('software')
-        ->setProjectTemplateKey('com.atlassian.jira-software-project-templates:jira-software-project-management')
-        ->setDescription('Updated Example Project description')
-        ->setLead('new-leader')
-        ->setUrl('http://new.example.com')
-        ->setAssigneeType('UNASSIGNED')
+    $p->set_Name('Updated Example')
+        ->set_ProjectTypeKey('software')
+        ->set_ProjectTemplateKey('com.atlassian.jira-software-project-templates:jira-software-project-management')
+        ->set_Description('Updated Example Project description')
+        ->set_Lead('new-leader')
+        ->set_Url('http://new.example.com')
+        ->set_AssigneeType('UNASSIGNED')
     ;
 
     $proj = new ProjectService();
@@ -315,7 +315,7 @@ try {
     $pj = $proj->updateProject($p, 'EX');
    
     var_dump($pj);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -331,7 +331,7 @@ Deletes a project.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $proj = new ProjectService();
@@ -339,7 +339,7 @@ try {
     $pj = $proj->deleteProject('EX');
    
     var_dump($pj);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -353,7 +353,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $proj = new ProjectService();
@@ -361,7 +361,7 @@ try {
     $p = $proj->get('TEST');
 	
     var_dump($p);			
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -375,7 +375,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $proj = new ProjectService();
@@ -387,7 +387,7 @@ try {
             $p->key, $p->id, $p->name, $p->projectCategory['name']
         );			
     }			
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -404,7 +404,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $proj = new ProjectService();
@@ -420,7 +420,7 @@ try {
     $pt = $proj->getProjectType('software');
     var_dump($pt);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -437,7 +437,7 @@ get all project's versions.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $proj = new ProjectService();
@@ -448,7 +448,7 @@ try {
         // $v is  JiraRestApi\Issue\Version
         var_dump($v);
     }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -463,7 +463,7 @@ or get pagenated project's versions.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $param = [
@@ -481,7 +481,7 @@ try {
         // $v is  JiraRestApi\Issue\Version
         var_dump($v);
     }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 
@@ -498,7 +498,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $fieldService = new FieldService();
@@ -507,7 +507,7 @@ try {
     $ret = $fieldService->getAllFields(Field::CUSTOM); 
     	
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -522,22 +522,22 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $field = new Field();
     
-    $field->setName("New custom field")
-            ->setDescription("Custom field for picking groups")
-            ->setType("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
-            ->setSearcherKey("com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher");
+    $field->set_Name("New custom field")
+            ->set_Description("Custom field for picking groups")
+            ->set_Type("com.atlassian.jira.plugin.system.customfieldtypes:grouppicker")
+            ->set_SearcherKey("com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher");
 
     $fieldService = new FieldService();
 
     $ret = $fieldService->create($field);
     
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());
 }
 ```
@@ -555,7 +555,7 @@ Returns a full representation of the issue for the given issue key.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueService = new IssueService();
@@ -579,7 +579,7 @@ try {
     $issue = $issueService->get('TEST-867', $queryParam);
 	
     var_dump($issue->fields);	
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -596,7 +596,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueField = new IssueField();
@@ -620,7 +620,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -628,20 +628,27 @@ try {
 If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
 
 ```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+use JiraRestApi\Exceptions\JiraException;
+
 try {
     $issueField = new IssueField();
 
-    $issueField->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setAssigneeName("lesstif")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
-                ->setDescription("Full description for issue")
-                ->addVersion("1.0.1")
-                ->addVersion("1.0.3")
-                ->addCustomField('customfield_10100', 'text area body text') // String type custom field
-                ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
-                ->addCustomField('customfield_10408', [
+    $issueField->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_AssigneeName("lesstif")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
+                ->set_Description("Full description for issue")
+                ->add_Version("1.0.1")
+                ->add_Version("1.0.3")
+                ->add_CustomField('customfield_10100', 'text area body text') // String type custom field
+                ->add_CustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
+                ->add_CustomField('customfield_10408', [
                     ['value' => 'opt2'], ['value' => 'opt4']
                 ]) // Select List (multiple choice)
     ;
@@ -652,7 +659,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -669,7 +676,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueFieldOne = new IssueField();
@@ -694,7 +701,7 @@ try {
     
     //If success, returns an array of the created issues
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -706,19 +713,19 @@ try {
 Creating a sub-task is similar to creating a regular issue, with two important method calls:
 
 ```php
-->setIssueType('Sub-task')
-->setParentKeyOrId($issueKeyOrId)
+->set_IssueType('Sub-task')
+->set_ParentKeyOrId($issueKeyOrId)
 ```
 
 for example
-​                
+                
 ```php
 <?php
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueField = new IssueField();
@@ -740,7 +747,7 @@ try {
 
     //If success, Returns a link to the created sub task.
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -755,7 +762,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueFieldV3;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueField = new IssueFieldV3();
@@ -775,8 +782,8 @@ DESC;
                 ->set_AssigneeAccountId("user-account-id-here")
                 ->set_PriorityName("Critical")
                 ->set_IssueType("Bug")
-                ->addDescriptionHeading(3, 'level 3 heading here')
-                ->addDescriptionParagraph($paraDesc)
+                ->add_DescriptionHeading(3, 'level 3 heading here')
+                ->add_DescriptionParagraph($paraDesc)
                 ->add_Version(["1.0.1", "1.0.3"])
                 ->add_Components(['Component-1', 'Component-2'])
                 // set issue security if you need.
@@ -789,7 +796,7 @@ DESC;
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -797,20 +804,27 @@ DESC;
 If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
 
 ```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\IssueField;
+use JiraRestApi\Exceptions\JiraException;
+
 try {
     $issueField = new IssueField();
 
-    $issueField->setProjectKey("TEST")
-                ->setSummary("something's wrong")
-                ->setAssigneeName("lesstif")
-                ->setPriorityName("Critical")
-                ->setIssueType("Bug")
-                ->setDescription("Full description for issue")
-                ->addVersion("1.0.1")
-                ->addVersion("1.0.3")
-                ->addCustomField('customfield_10100', 'text area body text') // String type custom field
-                ->addCustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
-                ->addCustomField('customfield_10408', [
+    $issueField->set_ProjectKey("TEST")
+                ->set_Summary("something's wrong")
+                ->set_AssigneeName("lesstif")
+                ->set_PriorityName("Critical")
+                ->set_IssueType("Bug")
+                ->set_Description("Full description for issue")
+                ->add_Version("1.0.1")
+                ->add_Version("1.0.3")
+                ->add_CustomField('customfield_10100', 'text area body text') // String type custom field
+                ->add_CustomField('customfield_10200', ['value' => 'Linux']) // Select List (single choice)
+                ->add_CustomField('customfield_10408', [
                     ['value' => 'opt2'], ['value' => 'opt4']
                 ]) // Select List (multiple choice)
     ;
@@ -821,7 +835,7 @@ try {
 	
     //If success, Returns a link to the created issue.
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -837,7 +851,7 @@ Currently, not tested for all custom field types.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -850,7 +864,7 @@ try {
     );
 
     print_r($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "Attach Failed : " . $e->getMessage());
 }
 
@@ -866,7 +880,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueField;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -894,7 +908,7 @@ try {
     $ret = $issueService->update($issueKey, $issueField, $editParams);
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "update Failed : " . $e->getMessage());
 }
 ```
@@ -911,7 +925,7 @@ This function is a convenient wrapper for add or remove label in the issue.
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueKey = 'TEST-123';
@@ -933,7 +947,7 @@ try {
         );
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'updateLabels Failed : '.$e->getMessage());
 }
 ```
@@ -947,7 +961,7 @@ This function is a convenient wrapper for add or remove fix version in the issue
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $issueKey = 'TEST-123';
@@ -969,7 +983,7 @@ try {
         );
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(false, 'updateFixVersions Failed : '.$e->getMessage());
 }
 ```
@@ -983,7 +997,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -997,7 +1011,7 @@ try {
     $ret = $issueService->changeAssignee($issueKey, $assignee);
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```
@@ -1009,7 +1023,7 @@ REST API V3(JIRA Cloud) users must use *changeAssigneeByAccountId* method with a
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1021,7 +1035,7 @@ try {
     $ret = $issueService->changeAssigneeByAccountId($issueKey, $accountId);
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "Change Assignee Failed : " . $e->getMessage());
 }
 ```   
@@ -1035,7 +1049,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1047,7 +1061,7 @@ try {
     //$ret = $issueService->deleteIssue($issueKey, array('deleteSubtasks' => 'true'));
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraException $e) {
     $this->assertTrue(FALSE, "Remove Issue Failed : " . $e->getMessage());
 }
 ```
@@ -1062,7 +1076,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Comment;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1085,7 +1099,7 @@ COMMENT;
     $issueService = new IssueService();
     $ret = $issueService->addComment($issueKey, $comment);
     print_r($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 
@@ -1100,7 +1114,7 @@ COMMENT;
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1117,7 +1131,7 @@ try {
 
     var_dump($comments);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
 }
 ```
@@ -1129,7 +1143,7 @@ get comment by comment id
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1147,7 +1161,7 @@ try {
 
     var_dump($comments);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'get Comment Failed : '.$e->getMessage());
 }
 ```
@@ -1161,7 +1175,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1172,7 +1186,7 @@ try {
 
     $ret = $issueService->deleteComment($issueKey, $commentId);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Delete comment Failed : '.$e->getMessage());
 }
 
@@ -1187,7 +1201,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\Comment;
 
 $issueKey = "TEST-879";
@@ -1202,7 +1216,7 @@ try {
     
     $issueService->updateComment($issueKey, $commentId, $comment);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Update comment Failed : '.$e->getMessage());
 }
 
@@ -1224,7 +1238,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = "TEST-879";
 
@@ -1236,7 +1250,7 @@ try {
     $issueService = new IssueService();
 
     $issueService->transition($issueKey, $transition);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(FALSE, "add Comment Failed : " . $e->getMessage());
 }
 ```
@@ -1256,7 +1270,7 @@ i.e. `$transition->setUntranslatedName('Done')`
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
 
@@ -1265,7 +1279,7 @@ try {
 
     $ret = $issueService->search($jql);
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1279,7 +1293,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
 
@@ -1313,7 +1327,7 @@ try {
             print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
         }
     }     
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1334,7 +1348,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\JqlQuery;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\JqlFunction;
 
 try {
@@ -1352,7 +1366,7 @@ try {
     $ret = $issueService->search($jql->getQuery());
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 ```
@@ -1369,7 +1383,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-316';
 
@@ -1380,7 +1394,7 @@ try {
         
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, $e->getMessage());
 }
 
@@ -1396,7 +1410,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\RemoteIssueLink;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-316';
 
@@ -1415,7 +1429,7 @@ try {
 
     // rils is array of RemoteIssueLink classes
     var_dump($rils);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 ```
@@ -1434,7 +1448,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1453,7 +1467,7 @@ try {
     // add time tracking
     $ret = $issueService->timeTracking($this->issueKey, $timeTracking);
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -1469,7 +1483,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1487,7 +1501,7 @@ try {
     $workLogid = $ret->{'id'};
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 
@@ -1505,7 +1519,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\ContentField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1535,7 +1549,7 @@ try {
     $workLogid = $ret->{'id'};
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
 }
 
@@ -1552,7 +1566,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 $workLogid = '12345';
@@ -1569,7 +1583,7 @@ try {
     $ret = $issueService->editWorklog($issueKey, $workLog, $workLogid);
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Edit worklog Failed : '.$e->getMessage());
 }
 
@@ -1586,7 +1600,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1602,7 +1616,7 @@ try {
     $wl = $issueService->getWorklogById($issueKey, $wlId);
     var_dump($wl);
     
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
 
@@ -1617,7 +1631,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1629,7 +1643,7 @@ try {
     
     $issueService->addWatcher($issueKey, $watcher);
     
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
 ```
@@ -1643,7 +1657,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1655,7 +1669,7 @@ try {
     
     $issueService->removeWatcher($issueKey, $watcher);
     
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'add watcher Failed : '.$e->getMessage());
 }
 ```
@@ -1670,7 +1684,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Notify;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 $issueKey = 'TEST-961';
 
@@ -1690,7 +1704,7 @@ try {
 
     $issueService->notify($issueKey, $noti);
     
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     $this->assertTrue(false, 'Issue notify Failed : '.$e->getMessage());
 }
 ```
@@ -1706,7 +1720,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\IssueLink\IssueLink;
 use JiraRestApi\IssueLink\IssueLinkService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $il = new IssueLink();
@@ -1720,7 +1734,7 @@ try {
 
     $ret = $ils->addIssueLink($il);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -1736,7 +1750,7 @@ Rest resource to retrieve a list of issue link types.
 require 'vendor/autoload.php';
 
 use JiraRestApi\IssueLink\IssueLinkService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $ils = new IssueLinkService();
@@ -1744,7 +1758,7 @@ try {
     $ret = $ils->getIssueLinkTypes();
     
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -1760,7 +1774,7 @@ By default created user will not be notified with email. If password field is no
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1775,7 +1789,7 @@ try {
         ]);
 
     var_dump($user);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1791,7 +1805,7 @@ Returns a user.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1800,7 +1814,7 @@ try {
     $user = $us->get(['username' => 'lesstif']);
 
     var_dump($user);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1816,7 +1830,7 @@ Returns a list of users that match the search string and/or property.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1832,7 +1846,7 @@ try {
 
     // get the user info.
     $users = $us->findUsers($paramArray);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1848,7 +1862,7 @@ Returns a list of users that match the search string.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1864,7 +1878,7 @@ try {
     ];
 
     $users = $us->findAssignableUsers($paramArray);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1881,7 +1895,7 @@ Returns a list of users that match the search string.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1893,7 +1907,7 @@ try {
 
     $users = $us->findUsersByQuery($paramArray);
     var_dump($users);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1909,7 +1923,7 @@ Removes user.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\User\UserService;
 
 try {
@@ -1918,7 +1932,7 @@ try {
     $paramArray = ['username' => 'user@example.com'];
 
     $users = $us->deleteUser($paramArray);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1934,7 +1948,7 @@ Create new group.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Group\GroupService;
 use JiraRestApi\Group\Group;
 
@@ -1947,7 +1961,7 @@ try {
     $ret = $gs->createGroup($g);
 
     var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1963,7 +1977,7 @@ returns a paginated list of users who are members of the specified group and its
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Group\GroupService;
 
 try {
@@ -1982,7 +1996,7 @@ try {
     foreach($ret->values as $user) {
         print_r($user);
     }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -1998,7 +2012,7 @@ add user to given group.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Group\GroupService;
 
 try {
@@ -2012,7 +2026,7 @@ try {
     // print current state of the group.
     print_r($ret);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2028,7 +2042,7 @@ Removes given user from a group.
 <?php
 require 'vendor/autoload.php';
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Group\GroupService;
 
 try {
@@ -2039,7 +2053,7 @@ try {
 
     $gs->removeUserFromGroup($groupName, $userName);
 
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2054,7 +2068,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Priority\PriorityService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $ps = new PriorityService();
@@ -2062,7 +2076,7 @@ try {
     $p = $ps->getAll();
 	
     var_dump($p);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2076,7 +2090,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Priority\PriorityService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $ps = new PriorityService();
@@ -2084,7 +2098,7 @@ try {
     $p = $ps->get(1);
 	
     var_dump($p);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2098,7 +2112,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $attachmentId = 12345;
@@ -2107,7 +2121,7 @@ try {
     $att = $atts->get($attachmentId);
 
     var_dump($att);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2121,7 +2135,7 @@ Gets the attachment information and saves the attachment into the outDir directo
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $attachmentId = 12345;
@@ -2131,7 +2145,7 @@ try {
     $att = $atts->get($attachmentId, $outDir, $overwrite = true);
 
     var_dump($att);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2146,7 +2160,7 @@ try {
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $attachmentId = 12345;
@@ -2154,7 +2168,7 @@ try {
     $atts = new AttachmentService();
 
     $atts->remove($attachmentId);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
 }
 ```
@@ -2170,7 +2184,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Version\VersionService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $projectService = new ProjectService();
@@ -2189,7 +2203,7 @@ try {
     $res = $versionService->create($version);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2205,7 +2219,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $versionService = new VersionService();
@@ -2224,7 +2238,7 @@ try {
     $res = $versionService->update($ver);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2240,7 +2254,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $versionService = new VersionService();
@@ -2251,7 +2265,7 @@ try {
     $res = $versionService->delete($version);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2267,7 +2281,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $versionService = new VersionService();
@@ -2278,7 +2292,7 @@ try {
     $res = $versionService->getRelatedIssues($version);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2294,7 +2308,7 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
 use JiraRestApi\Project\ProjectService;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $versionService = new VersionService();
@@ -2305,7 +2319,7 @@ try {
     $res = $versionService->getUnresolvedIssues($version);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2322,7 +2336,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Component\ComponentService;
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\Component;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $componentService = new ComponentService();
@@ -2335,7 +2349,7 @@ try {
     $res = $componentService->create($component);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2352,7 +2366,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Component\ComponentService;
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\Component;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $componentService = new ComponentService();
@@ -2365,7 +2379,7 @@ try {
     $res = $componentService->update($component);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2382,7 +2396,7 @@ require 'vendor/autoload.php';
 use JiraRestApi\Component\ComponentService;
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\Component;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 try {
     $componentService = new ComponentService();
@@ -2392,7 +2406,7 @@ try {
     $res = $componentService->delete($component);
 
     var_dump($res);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2413,7 +2427,7 @@ try {
   $board = $board_service->getBoardList();
   
   var_dump($board);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2433,7 +2447,7 @@ try {
   $board = $board_service->getBoard($board_id);
   
   var_dump($board);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2459,7 +2473,7 @@ try {
   foreach ($issues as $issue) {
     var_dump($issue);
   }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2482,7 +2496,7 @@ try {
   foreach ($epics as $epic) {
     var_dump($epic);
   }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2501,7 +2515,7 @@ try {
   $epic = $epic_service->getEpic($epic_id);
   
   var_dump($epic);
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 
@@ -2525,7 +2539,7 @@ try {
   foreach ($issues as $issue) {
     var_dump($issue);
   }
-} catch (JiraRestApi\JiraException $e) {
+} catch (JiraRestApi\Exceptions\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
 

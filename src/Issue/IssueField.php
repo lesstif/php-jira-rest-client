@@ -209,7 +209,7 @@ class IssueField implements \JsonSerializable
      * @param string|integer $key
      * @return $this
      */
-    public function set_ProjectKey(string $key) : self
+    public function set_ProjectKey(string $key) : IssueField
     {
         $this->project->key = $key;
 
@@ -220,7 +220,7 @@ class IssueField implements \JsonSerializable
      * @param string|integer $id
      * @return $this
      */
-    public function set_ProjectId(string $id) : self
+    public function set_ProjectId(string $id) : IssueField
     {
         $this->project->id = $id;
 
@@ -231,7 +231,7 @@ class IssueField implements \JsonSerializable
      * @param string $summary
      * @return $this
      */
-    public function set_Summary(string $summary) : self
+    public function set_Summary(string $summary) : IssueField
     {
         $this->summary = $summary;
 
@@ -245,7 +245,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_ReporterName(string $name) : self
+    public function set_ReporterName(string $name) : IssueField
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -263,7 +263,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_ReporterAccountId(string $accountId) : self
+    public function set_ReporterAccountId(string $accountId) : IssueField
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -281,7 +281,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_AssigneeName(string $name) : self
+    public function set_AssigneeName(string $name) : IssueField
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -299,7 +299,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_AssigneeAccountId(string $accountId): self
+    public function set_AssigneeAccountId(string $accountId): IssueField
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -321,7 +321,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_PriorityName(string $name) : self
+    public function set_PriorityName(string $name) : IssueField
     {
         if (is_null($this->priority)) {
             $this->priority = new Priority();
@@ -337,14 +337,14 @@ class IssueField implements \JsonSerializable
      *
      * REST API V3 must use addDescriptionXXXX
      *
-     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
-     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
+     * @see \JiraRestApi\Issue\IssueFieldV3::add_DescriptionHeading
+     * @see \JiraRestApi\Issue\IssueFieldV3::add_DescriptionParagraph
      *
      * @param string|null $description
      *
      * @return $this
      */
-    public function set_Description(string $description) : self
+    public function set_Description(string $description) : IssueField
     {
         if (!empty($description)) {
             $this->description = $description;
@@ -360,7 +360,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function add_Version($version) : self
+    public function add_Version($version) : IssueField
     {
         if (is_null($this->versions)) {
             $this->versions = [];
@@ -384,7 +384,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function add_Label(string $label) : self
+    public function add_Label(string $label) : IssueField
     {
         if (is_null($this->labels)) {
             $this->labels = [];
@@ -402,7 +402,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_IssueType($issueType) : self
+    public function set_IssueType($issueType) : IssueField
     {
         if (is_string($issueType)) {
             if (is_null($this->issuetype)) {
@@ -430,7 +430,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string|integer $keyOrId
      */
-    public function set_ParentKeyOrId($keyOrId) : self
+    public function set_ParentKeyOrId($keyOrId) : IssueField
     {
         if (is_numeric($keyOrId)) {
             $this->parent['id'] = $keyOrId;
@@ -445,7 +445,7 @@ class IssueField implements \JsonSerializable
      * @param Issue $parent
      * @return $this
      */
-    public function set_Parent(Issue $parent) : self
+    public function set_Parent(Issue $parent) : IssueField
     {
         $this->parent = $parent;
 
@@ -459,7 +459,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function add_Components($component) : self
+    public function add_Components($component) : IssueField
     {
         if (is_null($this->components)) {
             $this->components = [];
@@ -483,7 +483,7 @@ class IssueField implements \JsonSerializable
      *
      * @return $this
      */
-    public function set_SecurityId($id) : self
+    public function set_SecurityId($id) : IssueField
     {
         if (empty($this->security)) {
             $this->security = new SecurityScheme();
@@ -499,7 +499,7 @@ class IssueField implements \JsonSerializable
      * @param string $format datetime string format.
      * @return $this
      */
-    public function set_DueDate($duedate, string $format = 'Y-m-d') : self
+    public function set_DueDate($duedate, string $format = 'Y-m-d') : IssueField
     {
         if (is_string($duedate)) {
             $this->duedate = $duedate;
@@ -517,7 +517,7 @@ class IssueField implements \JsonSerializable
      *
      * @see https://confluence.atlassian.com/jirakb/how-to-set-assignee-to-unassigned-via-rest-api-in-jira-744721880.html
      */
-    public function set_AssigneeToUnassigned() : self
+    public function set_AssigneeToUnassigned() : IssueField
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -531,7 +531,7 @@ class IssueField implements \JsonSerializable
     /**
      * @return $this
      */
-    public function set_AssigneeToDefault() : self
+    public function set_AssigneeToDefault() : IssueField
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();

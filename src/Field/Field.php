@@ -28,14 +28,22 @@ class Field implements \JsonSerializable
      */
     const BOTH = 3;
 
-    public function setName($name)
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function set_Name(string $name) : Field
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function setDescription($description)
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function set_Description(string $description) :Field
     {
         $this->description = $description;
 
@@ -51,7 +59,7 @@ class Field implements \JsonSerializable
      *
      * @return $this
      */
-    public function setType(string $type)
+    public function set_Type(string $type) :Field
     {
         $this->type = $type;
 
@@ -65,7 +73,7 @@ class Field implements \JsonSerializable
      *
      * @return $this
      */
-    public function setSearcherKey(string $searcherKey)
+    public function set_SearcherKey(string $searcherKey) :Field
     {
         $this->searcherKey = $searcherKey;
 
@@ -111,7 +119,7 @@ class Field implements \JsonSerializable
     /* @var Schema */
     public $schema;
 
-    public function jsonSerialize()
+    public function jsonSerialize() :array
     {
         return array_filter(get_object_vars($this));
     }

@@ -17,9 +17,9 @@ class IssueFieldV3 extends IssueField
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
-     * @return $this|IssueField
+     * @return $this|IssueFieldV3
      */
-    public function set_Description($description)
+    public function set_DescriptionV3($description) :IssueFieldV3
     {
         $this->description = $description;
 
@@ -27,17 +27,21 @@ class IssueFieldV3 extends IssueField
     }
 
     /**
-     * @param \JiraRestApi\Issue\DescriptionV3|null $description
+     * @param \JiraRestApi\Issue\DescriptionV3|string $description
      *
      * @return $this
      */
-    public function addDescriptionParagraph($description)
+    public function add_DescriptionParagraph($description) : IssueFieldV3
     {
         if (empty($this->description)) {
             $this->description = new DescriptionV3();
         }
 
-        $this->description->addDescriptionContent('paragraph', $description);
+        if (is_string($description)) {
+            $this->description->addDescriptionContent('paragraph', $description);
+        } else {
+            $this->description = $description;
+        }
 
         return $this;
     }
@@ -48,7 +52,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function addDescriptionHeading($level, $description)
+    public function add_DescriptionHeading(int $level, string $description) : IssueFieldV3
     {
         if (empty($this->description)) {
             $this->description = new DescriptionV3();
@@ -64,7 +68,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function setEnvironment($environment)
+    public function set_Environment(?DescriptionV3 $environment) : IssueFieldV3
     {
         if (!empty($environment)) {
             $this->environment = $environment;

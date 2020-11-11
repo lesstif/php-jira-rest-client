@@ -3,7 +3,7 @@
 namespace JiraRestApi\Project;
 
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 class Project implements \JsonSerializable
 {
@@ -122,7 +122,7 @@ class Project implements \JsonSerializable
     /** @var int */
     public $categoryId;
 
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);
@@ -134,7 +134,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setId($id)
+    public function set_Id(string $id) : Project
     {
         $this->id = $id;
 
@@ -146,7 +146,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setKey($key)
+    public function set_Key(string $key) : Project
     {
         $this->key = $key;
 
@@ -158,7 +158,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setName($name)
+    public function set_Name(string $name) : Project
     {
         $this->name = $name;
 
@@ -170,7 +170,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setAvatarUrls($avatarUrls)
+    public function set_AvatarUrls(array $avatarUrls) : Project
     {
         $this->avatarUrls = $avatarUrls;
 
@@ -182,7 +182,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setProjectCategory($projectCategory)
+    public function set_ProjectCategory(array $projectCategory) : Project
     {
         $this->projectCategory = $projectCategory;
 
@@ -194,7 +194,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setDescription($description)
+    public function set_Description(?string $description)
     {
         $this->description = $description;
 
@@ -202,13 +202,17 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param array $lead
+     * @param string|array $lead
      *
      * @return Project
      */
-    public function setLead($lead)
+    public function set_Lead($lead) : Project
     {
-        $this->lead = $lead;
+        if (is_string($lead)) {
+            $this->lead = [$lead];
+        } elseif (is_array($lead)) {
+            $this->lead = $lead;
+        }
 
         return $this;
     }
@@ -218,7 +222,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setLeadAccountId($leadAccountId)
+    public function set_LeadAccountId(string $leadAccountId) :Project
     {
         $this->leadAccountId = $leadAccountId;
 
@@ -230,7 +234,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setUrl($url)
+    public function set_Url(string $url) : Project
     {
         $this->url = $url;
 
@@ -242,7 +246,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setProjectTypeKey($projectTypeKey)
+    public function set_ProjectTypeKey(string $projectTypeKey) : Project
     {
         $this->projectTypeKey = $projectTypeKey;
 
@@ -254,7 +258,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setProjectTemplateKey($projectTemplateKey)
+    public function set_ProjectTemplateKey(string $projectTemplateKey) :Project
     {
         $this->projectTemplateKey = $projectTemplateKey;
 
@@ -266,7 +270,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setAvatarId($avatarId)
+    public function set_AvatarId(int $avatarId) :Project
     {
         $this->avatarId = $avatarId;
 
@@ -278,7 +282,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setIssueSecurityScheme($issueSecurityScheme)
+    public function set_IssueSecurityScheme(int $issueSecurityScheme) :Project
     {
         $this->issueSecurityScheme = $issueSecurityScheme;
 
@@ -290,7 +294,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setPermissionScheme($permissionScheme)
+    public function set_PermissionScheme(int $permissionScheme) :Project
     {
         $this->permissionScheme = $permissionScheme;
 
@@ -302,7 +306,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setNotificationScheme($notificationScheme)
+    public function set_NotificationScheme(int $notificationScheme) :Project
     {
         $this->notificationScheme = $notificationScheme;
 
@@ -314,7 +318,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setCategoryId($categoryId)
+    public function set_CategoryId(int $categoryId) :Project
     {
         $this->categoryId = $categoryId;
 
@@ -328,7 +332,7 @@ class Project implements \JsonSerializable
      *
      * @return Project
      */
-    public function setAssigneeType($assigneeType)
+    public function set_AssigneeType(?string $assigneeType) :Project
     {
         if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
             throw new JiraException('invalid assigneeType:'.$assigneeType);

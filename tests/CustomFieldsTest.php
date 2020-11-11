@@ -58,9 +58,9 @@ class CustomFieldsTest extends \PHPUnit\Framework\TestCase
         try {
             $field = new Field();
 
-            $field->setName('다중 선택이')
-                ->setDescription('Custom field for picking groups')
-                ->setType("com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect")
+            $field->set_Name('다중 선택이')
+                ->set_Description('Custom field for picking groups')
+                ->set_Type("com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect")
             //    ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher')
             ;
 
