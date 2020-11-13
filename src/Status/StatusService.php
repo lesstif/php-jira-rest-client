@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Status;
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JsonMapper_Exception;
 
 class StatusService extends \JiraRestApi\JiraClient

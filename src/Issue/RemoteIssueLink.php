@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -20,7 +20,7 @@ class RemoteIssueLink implements \JsonSerializable
     public $relationship;
 
     /** @var \JiraRestApi\Issue\RemoteIssueLinkObject|null */
-    public $object;
+    public $remoteIssueLinkObject;
 
     public function jsonSerialize()
     {
@@ -34,25 +34,25 @@ class RemoteIssueLink implements \JsonSerializable
      */
     public function setUrl(string $url)
     {
-        if (is_null($this->object)) {
-            $this->object = new self();
+        if (is_null($this->remoteIssueLinkObject)) {
+            $this->remoteIssueLinkObject = new RemoteIssueLinkObject();
         }
 
-        $this->object->url = $url;
+        $this->remoteIssueLinkObject->url = $url;
 
         return $this;
     }
 
     public function setTitle($title)
     {
-        $this->object->title = $title;
+        $this->remoteIssueLinkObject->title = $title;
 
         return $this;
     }
 
     public function setSummary($summary)
     {
-        $this->object->summary = $summary;
+        $this->remoteIssueLinkObject->summary = $summary;
 
         return $this;
     }

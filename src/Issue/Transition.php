@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -22,10 +22,10 @@ class Transition implements \JsonSerializable
     /** @var \JiraRestApi\Issue\IssueField */
     public $issueFields;
 
-    /** @var array */
+    /** @var array|null */
     public $transition;
 
-    /** @var array */
+    /** @var array|null */
     public $update;
 
     public function setTransitionName($name)

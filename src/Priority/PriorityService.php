@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Priority;
 
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\Priority;
 
 /**
@@ -14,12 +15,12 @@ class PriorityService extends \JiraRestApi\JiraClient
     /**
      * Function to get all priorities.
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array Priority class
+     * @return Priority[] array of Priority class
      */
-    public function getAll()
+    public function getAll() :array
     {
         $ret = $this->exec($this->uri, null);
 
@@ -40,12 +41,12 @@ class PriorityService extends \JiraRestApi\JiraClient
      *
      * @param string|int $priorityId priority id
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return \JiraRestApi\Issue\Priority
      */
-    public function get($priorityId)
+    public function get($priorityId) :Priority
     {
         $ret = $this->exec($this->uri."/$priorityId", null);
 

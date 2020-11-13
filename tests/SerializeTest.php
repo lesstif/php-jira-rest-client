@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Reporter;

@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Attachment;
 
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\Attachment;
 
 /**
@@ -20,12 +21,12 @@ class AttachmentService extends \JiraRestApi\JiraClient
      * @mode int outDir creation mode.
      * @recursive boolean Allows the creation of nested directories specified in the pathname.
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return \JiraRestApi\Issue\Attachment
      */
-    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true)
+    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true) :Attachment
     {
         $ret = $this->exec($this->uri.$id, null);
 
@@ -62,11 +63,11 @@ class AttachmentService extends \JiraRestApi\JiraClient
      *
      * @param string|int $id attachment id
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      *
      * @return string
      */
-    public function remove($id)
+    public function remove($id) :string
     {
         $ret = $this->exec($this->uri.$id, null, 'DELETE');
 

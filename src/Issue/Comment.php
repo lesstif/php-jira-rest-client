@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -27,7 +27,7 @@ class Comment implements \JsonSerializable
     /** @var \DateTimeInterface */
     public $updated;
 
-    /** @var \JiraRestApi\Issue\Visibility */
+    /** @var \JiraRestApi\Issue\Visibility|null */
     public $visibility;
 
     public function setBody($body)

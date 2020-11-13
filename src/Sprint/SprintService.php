@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: meshulam
@@ -9,9 +9,9 @@
 namespace JiraRestApi\Sprint;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\JiraClient;
-use JiraRestApi\JiraException;
 use Psr\Log\LoggerInterface;
 
 class SprintService extends JiraClient
@@ -32,7 +32,7 @@ class SprintService extends JiraClient
      *
      * @return Sprint
      */
-    public function getSprintFromJSON($json)
+    public function getSprintFromJSON(object $json) :Sprint
     {
         $sprint = $this->json_mapper->map(
             $json,
@@ -52,7 +52,7 @@ class SprintService extends JiraClient
      *
      * @return Sprint
      */
-    public function getSprint(string $sprintId)
+    public function getSprint(string $sprintId) :Sprint
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
@@ -73,7 +73,7 @@ class SprintService extends JiraClient
      *
      * @return Issue[] array of Issue
      */
-    public function getSprintIssues($sprintId, $paramArray = [])
+    public function getSprintIssues($sprintId, array $paramArray = []) :array
     {
         $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 

@@ -58,20 +58,11 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 
 ## use dotenv
 
-
 copy .env.example file to .env on your project root.	
 
 **Important Note:**
 As of March 15, 2018, in accordance to the [Atlassian REST API Policy](https://developer.atlassian.com/platform/marketplace/atlassian-rest-api-policy/), Basic auth with password to be deprecated.
 Instead of password, you should using [API token](https://confluence.atlassian.com/cloud/api-tokens-938839638.html).
-
-**REST API V3 Note:**
-In accordance to the [Atlassian's deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/), After the 29th of april 2019, REST API no longer supported username and userKey, 
-and instead use the account ID.
-if you are JIRA Cloud users, you need to set *JIRA_REST_API_V3=true* in the .env file.
-
-**CAUTION**
-this library not fully supported JIRA REST API V3 yet. 
 
 ### JIRA Server or JIRA Data Center
 
@@ -109,8 +100,13 @@ JIRA_REST_API_V3=true
 # PROXY_PASSWORD="proxy-password"
 ```
 
-**Laravel Users:** 
-If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+**REST API V3 Note:**
+In accordance to the [Atlassian's deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/), After the 29th of april 2019, REST API no longer supported username and userKey, 
+and instead use the account ID.
+if you are JIRA Cloud users, you need to set *JIRA_REST_API_V3=true* in the .env file.
+
+**CAUTION**
+this library not fully supported JIRA REST API V3 yet. 
 
 ## use array
 
@@ -137,6 +133,9 @@ $iss = new IssueService(new ArrayConfiguration(
           ]
    ));
 ```
+
+**Laravel Users:** 
+If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
 
 # Usage
 
@@ -243,7 +242,7 @@ Create a new project.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-createProject)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -291,7 +290,7 @@ Values available for the assigneeType field are: "PROJECT_LEAD" and "UNASSIGNED"
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-updateProject)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -327,7 +326,7 @@ Deletes a project.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-deleteProject)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -349,7 +348,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProject)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -371,7 +370,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getAllProjects)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -400,7 +399,7 @@ try {
 [See Jira API reference (get type)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project/type-getProjectTypeByKey)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -433,7 +432,7 @@ get all project's versions.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProjectVersions)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -459,7 +458,7 @@ or get pagenated project's versions.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/project-getProjectVersionsPaginated)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Project\ProjectService;
@@ -493,7 +492,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/field-getFields)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
@@ -517,7 +516,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/field-createCustomField)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Field\Field;
@@ -551,7 +550,7 @@ If you need a list of custom field types(ex. *com.atlassian.jira.plugin.system.c
 Returns a full representation of the issue for the given issue key.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -591,7 +590,7 @@ You can access the custom field associated with issue through *$issue->fields->c
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-createIssue)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -628,7 +627,7 @@ try {
 If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -671,7 +670,7 @@ Currently, not tested for all custom field types.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-createIssues)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -720,7 +719,7 @@ Creating a sub-task is similar to creating a regular issue, with two important m
 for example
                 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -757,7 +756,7 @@ try {
 REST API V3' description field is complicated.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -804,7 +803,7 @@ DESC;
 If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -847,7 +846,7 @@ Currently, not tested for all custom field types.
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue/%7BissueIdOrKey%7D/attachments-addAttachment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -875,7 +874,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-editIssue)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -921,7 +920,7 @@ If you want to change the custom field type when updating an issue, you can call
 This function is a convenient wrapper for add or remove label in the issue.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -957,7 +956,7 @@ try {
 This function is a convenient wrapper for add or remove fix version in the issue.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -993,7 +992,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-assign)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1019,7 +1018,7 @@ try {
 REST API V3(JIRA Cloud) users must use *changeAssigneeByAccountId* method with accountId.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1045,7 +1044,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-deleteIssue)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1071,7 +1070,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addComment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1110,7 +1109,7 @@ COMMENT;
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getComments)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1139,7 +1138,7 @@ try {
 get comment by comment id
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1171,7 +1170,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-deleteComment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1197,7 +1196,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-updateComment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1233,7 +1232,7 @@ i.e. `$transition->setTransitionName('Some Status')`
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-doTransition)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1266,7 +1265,7 @@ i.e. `$transition->setUntranslatedName('Done')`
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-searchUsingSearchRequest)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1289,7 +1288,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-search)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1343,7 +1342,7 @@ defined as constants in `JqlQuery` and static methods in `JqlFunciton` classes.
 For more info see the Jira docs (link above).
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1379,7 +1378,7 @@ try {
 * [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1405,7 +1404,7 @@ try {
 * [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1443,7 +1442,7 @@ This methods use `get issue` and `edit issue` methods internally.
 [See Jira API reference (edit issue)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-editIssue)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1478,7 +1477,7 @@ try {
 [See Jira API V2 reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWorklog)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1510,7 +1509,7 @@ try {
 [See Jira API V3 reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-issueIdOrKey-worklog-post)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 // Worklog example for API V3 assumes JIRA_REST_API_V3=true is configured in
@@ -1561,7 +1560,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-updateWorklog)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1596,7 +1595,7 @@ try {
 [See Jira API reference (get worklog by id)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getWorklog)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1627,7 +1626,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-addWatcher)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1653,7 +1652,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-removeWatcher)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1679,7 +1678,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-notify)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
@@ -1715,7 +1714,7 @@ try {
 The Link Issue Resource provides functionality to manage issue links.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\IssueLink\IssueLink;
@@ -1746,7 +1745,7 @@ try {
 Rest resource to retrieve a list of issue link types.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\IssueLink\IssueLinkService;
@@ -1771,7 +1770,7 @@ Create user.
 By default created user will not be notified with email. If password field is not set then password will be randomly generated.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1802,7 +1801,7 @@ try {
 Returns a user.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1827,7 +1826,7 @@ try {
 Returns a list of users that match the search string and/or property. 
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1859,7 +1858,7 @@ try {
 Returns a list of users that match the search string. 
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1892,7 +1891,7 @@ try {
 Returns a list of users that match the search string.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1920,7 +1919,7 @@ try {
 Removes user.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1945,7 +1944,7 @@ try {
 Create new group.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -1974,7 +1973,7 @@ try {
 returns a paginated list of users who are members of the specified group and its subgroups.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -2009,7 +2008,7 @@ try {
 add user to given group.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -2039,7 +2038,7 @@ try {
 Removes given user from a group.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Exceptions\JiraException;
@@ -2064,7 +2063,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/priority)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Priority\PriorityService;
@@ -2086,7 +2085,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/priority)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Priority\PriorityService;
@@ -2108,7 +2107,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/attachment-getAttachment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
@@ -2131,7 +2130,7 @@ try {
 Gets the attachment information and saves the attachment into the outDir directory.
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
@@ -2156,7 +2155,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/attachment-removeAttachment)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Attachment\AttachmentService;
@@ -2178,7 +2177,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-createVersion)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\Version;
@@ -2214,7 +2213,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-updateVersion)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
@@ -2249,7 +2248,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-delete)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
@@ -2276,7 +2275,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionRelatedIssues)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
@@ -2303,7 +2302,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Version\VersionService;
@@ -2330,7 +2329,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/component-createComponent)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Component\ComponentService;
@@ -2360,7 +2359,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/component-updateComponent)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Component\ComponentService;
@@ -2390,7 +2389,7 @@ try {
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/component-deleteComponent)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Component\ComponentService;
@@ -2417,7 +2416,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Board\BoardService;
@@ -2436,7 +2435,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Board\BoardService;
@@ -2457,7 +2456,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-issue-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 use JiraRestApi\Board\BoardService;
@@ -2483,7 +2482,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-board-boardId-epic-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 try {
@@ -2506,7 +2505,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-epic-epicIdOrKey-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 try {
@@ -2525,7 +2524,7 @@ try {
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-agile-1-0-epic-epicIdOrKey-issue-get)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 try {

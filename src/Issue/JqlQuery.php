@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -442,7 +442,7 @@ class JqlQuery
      *
      * JqlQuery::quote(JqlFunction::now()) returns 'now()'
      *
-     * @param string $value
+     * @param string|object $value
      *
      * @return string
      */

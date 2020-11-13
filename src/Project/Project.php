@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Project;
 
@@ -218,7 +218,7 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param string $lead
+     * @param string $leadAccountId
      *
      * @return Project
      */

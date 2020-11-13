@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\ServiceDesk;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\ServiceDeskTrait;
 use Psr\Log\LoggerInterface;
 

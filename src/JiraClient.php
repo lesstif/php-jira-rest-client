@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
+use JiraRestApi\Exceptions\JiraException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Logger;
 use Psr\Log\LoggerInterface;
@@ -193,7 +194,7 @@ class JiraClient
      * Execute REST request.
      *
      * @param string $context        Rest API context (ex.:issue, search, etc..)
-     * @param string $post_data
+     * @param string|array $post_data
      * @param string $custom_request [PUT|DELETE]
      * @param string $cookieFile     cookie file
      *
@@ -442,7 +443,7 @@ class JiraClient
      * @param string   $body
      * @param int      $result_code
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      */
     protected function closeCURLHandle(array $chArr, $mh, string $body, int $result_code)
     {
@@ -492,7 +493,7 @@ class JiraClient
         }
 
         // if cookie file not exist, using id/pwd login
-        if (!file_exists($cookieFile)) {
+        if (!empty($cookieFile) && !file_exists($cookieFile)) {
             $username = $this->getConfiguration()->getJiraUser();
             $password = $this->getConfiguration()->getJiraPassword();
             curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");

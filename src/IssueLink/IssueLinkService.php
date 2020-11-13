@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\IssueLink;
+
+use JiraRestApi\Exceptions\JiraException;
 
 class IssueLinkService extends \JiraRestApi\JiraClient
 {
@@ -9,7 +11,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
     /**
      * @param IssueLink $issueLink
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      */
     public function addIssueLink($issueLink)
     {
@@ -26,11 +28,11 @@ class IssueLinkService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      *
      * @return IssueLinkType[]
      */
-    public function getIssueLinkTypes()
+    public function getIssueLinkTypes() :array
     {
         $this->log->info("getIssueLinkTYpes=\n");
 

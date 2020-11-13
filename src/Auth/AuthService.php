@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Auth;
 
 use JiraRestApi\Configuration\ConfigurationInterface;
+use JiraRestApi\Exceptions\JiraException;
 use Psr\Log\LoggerInterface;
 
 class AuthService extends \JiraRestApi\JiraClient
@@ -47,7 +48,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @param null|string $username
      * @param null|string $password
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      */
     public function authorizeWithCookie($username = null, $password = null)
@@ -78,7 +79,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @param string                        $path
      *
      * @throws \Exception
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      */
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
@@ -92,7 +93,7 @@ class AuthService extends \JiraRestApi\JiraClient
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/session-currentUser Jira Reference
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return CurrentUser
@@ -114,7 +115,7 @@ class AuthService extends \JiraRestApi\JiraClient
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/session-logout Jira Reference
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \Exception
      *
      * @return bool
@@ -137,12 +138,12 @@ class AuthService extends \JiraRestApi\JiraClient
      * @param string|null $username If null - takes username from configuration.
      * @param string|null $password If null - takes password from configuration.
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return AuthSession
      */
-    public function login($username = null, $password = null)
+    public function login(string $username = null, string $password = null)
     {
         if (!$username) {
             $username = $this->getConfiguration()->getJiraUser();
@@ -170,11 +171,11 @@ class AuthService extends \JiraRestApi\JiraClient
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#auth/1/websudo-release Jira Reference
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      *
      * @return bool
      */
-    public function release()
+    public function release() :bool
     {
         $this->exec('websudo', '', 'DELETE');
 

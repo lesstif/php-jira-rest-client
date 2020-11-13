@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Field;
 
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\IssueService;
 
 class FieldService extends \JiraRestApi\JiraClient
@@ -11,18 +12,18 @@ class FieldService extends \JiraRestApi\JiraClient
     /**
      * get all field list.
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      *
-     * @return array of Filed class
+     * @return Field[] array of Filed class
      */
-    public function getAllFields($fieldType = Field::BOTH)
+    public function getAllFields($fieldType = Field::BOTH) :array
     {
         $ret = $this->exec($this->uri, null);
 
         $fields = $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            '\JiraRestApi\Field\Field'
+            \JiraRestApi\Field\Field::class
         );
 
         // temp array
@@ -55,11 +56,11 @@ class FieldService extends \JiraRestApi\JiraClient
      *
      * @param string $id custom field option id
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      *
      * @return string
      */
-    public function getCustomFieldOption($id)
+    public function getCustomFieldOption($id) :string
     {
         $ret = $this->exec('/customFieldOption/'.$id);
 
@@ -73,12 +74,12 @@ class FieldService extends \JiraRestApi\JiraClient
      *
      * @param Field $field object of Field class
      *
-     * @throws \JiraRestApi\JiraException
+     * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return Field created field class
      */
-    public function create(Field $field)
+    public function create(Field $field) :Field
     {
         $data = json_encode($field);
 

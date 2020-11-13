@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 
 /**
  * Class Worklog.
@@ -62,7 +62,7 @@ class Worklog
     public $timeSpentSeconds;
 
     /**
-     * @var \JiraRestApi\Issue\Visibility
+     * @var \JiraRestApi\Issue\Visibility|null
      */
     public $visibility;
 
@@ -96,13 +96,13 @@ class Worklog
     /**
      * Function to set start time of worklog.
      *
-     * @param mixed $started started time value(\DateTimeInterface|string)  e.g. -  new \DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
+     * @param \DateTimeInterface|string $started started time value(\DateTimeInterface|string)  e.g. -  new \DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
      *
      * @throws JiraException
      *
      * @return Worklog
      */
-    public function setStarted($started)
+    public function setStarted($started) :Worklog
     {
         if (is_string($started)) {
             $dt = new \DateTime($started);
@@ -125,7 +125,7 @@ class Worklog
      *
      * @return Worklog
      */
-    public function setStartedDateTime($started)
+    public function setStartedDateTime(\DateTimeInterface $started) :Worklog
     {
         // workround micro second
         $this->started = $started->format("Y-m-d\TH:i:s").'.000'.$started->format('O');
@@ -154,7 +154,7 @@ class Worklog
      *
      * @return Worklog
      */
-    public function setTimeSpentSeconds($timeSpentSeconds)
+    public function setTimeSpentSeconds(int $timeSpentSeconds) :Worklog
     {
         $this->timeSpentSeconds = $timeSpentSeconds;
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use JiraRestApi\Dumper;
 use JiraRestApi\Exceptions\JiraException;
@@ -25,20 +25,26 @@ class IssueTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testCreateIssue()
+    /**
+     * @test
+     * @return string Issue key
+     *
+     * @throws JsonMapper_Exception
+     */
+    public function create_issue() :string
     {
         try {
             $issueField = new IssueField();
 
             $issueField->set_ProjectKey('TEST')
-                        ->set_Summary("something's wrong")
-                        ->set_AssigneeName('lesstif')
-                        ->set_PriorityName('Critical')
-                        ->set_IssueType('Bug')
-                        ->set_Description('Full description for issue')
-                        ->add_Version(['1.0.1', '1.0.3'])
-                        ->add_Components(['Component-1', 'Component-2'])
-                        ->set_DueDate('2019-06-19')
+                ->set_Summary("something's wrong")
+                ->set_AssigneeName('lesstif')
+                ->set_PriorityName('Critical')
+                ->set_IssueType('Bug')
+                ->set_Description('Full description for issue')
+                ->add_Version(['1.0.1', '1.0.3'])
+                ->add_Components(['Component-1', 'Component-2'])
+                ->set_DueDate('2019-06-19')
             ;
 
             $issueService = new IssueService();
@@ -57,15 +63,22 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testCreateIssue
-     * @param $issueKey
+     * @test
+     * @depends create_issue
+     *
+     * @param string $issueKey
+     * @return string
+     * @throws JsonMapper_Exception
      */
-    public function testIssueGet($issueKey)
+    public function get_previous_created_issue(string $issueKey) :string
     {
         try {
             $issueService = new IssueService();
 
             $ret = $issueService->get($issueKey);
+
+            $this->assertEmpty($ret->fields->assignee);
+            $this->assertEquals($ret->fields->issuetype->name, 'Bugs');
 
             print_r($ret);
 
@@ -78,9 +91,13 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testIssueGet
+     * @test
+     *
+     * @depends get_previous_created_issue
+     * @param string $issueKey
+     * @return string $issueKey
      */
-    public function testCreateSubTask($issueKey)
+    public function create_subtask_type_issue(string $issueKey) :string
     {
         try {
             $issueField = new IssueField();
@@ -111,9 +128,14 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testCreateIssue
+     * @test
+     *
+     * @depends create_issue
+     * @param string $issueKey
+     * @recursive string $issueKey
+     *
      */
-    public function testAddAttachment($issueKey)
+    public function add_attachment(string $issueKey) :string
     {
         try {
             $issueService = new IssueService();
@@ -130,22 +152,24 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testAddAttachment
+     * @test
+     * @depends add_attachment
+     * @param string $issueKey
+     * @return string
      */
-    public function testUpdateIssue($issueKey)
+    public function update_issue(string $issueKey) :string
     {
-        //$this->markTestIncomplete();
         try {
             $issueField = new IssueField(true);
 
             $issueField->set_AssigneeName('lesstif')
-                        ->set_PriorityName('Major')
-                        ->set_IssueType('Task')
-                        ->add_Label('test-label-first')
-                        ->add_Label('test-label-second')
-                        ->add_Version('1.0.1')
-                        ->add_Version('1.0.2')
-                        ->set_Description('This is a shorthand for a set operation on the summary field');
+                ->set_PriorityName('Major')
+                ->set_IssueType('Task')
+                ->add_Label('test-label-first')
+                ->add_Label('test-label-second')
+                ->add_Version('1.0.1')
+                ->add_Version('1.0.2')
+                ->set_Description('This is a shorthand for a set operation on the summary field');
 
             $issueService = new IssueService();
 
@@ -158,9 +182,13 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testChangeAssignee
+     * @test
+     *
+     * @depends update_issue
+     * @param string $issueKey
+     * @return string
      */
-    public function testChangeAssignee($issueKey)
+    public function change_assignee(string $issueKey) :string
     {
         try {
             $issueService = new IssueService();
@@ -176,9 +204,14 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testDeleteIssue
+     * @test
+     * @depends change_assignee
+     * @depends search_issue_by_jql
+     *
+     * @param string $issueKey
+     * @return string
      */
-    public function testDeleteIssue($issueKey)
+    public function delete_issue(string $issueKey):string
     {
         try {
             $issueService = new IssueService();
@@ -194,11 +227,14 @@ class IssueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends testUpdateIssue
+     * @test
+     * @depends update_issue
+     *
+     * @param string $issueKey
+     * @return string
      */
-    public function testAddcomment($issueKey)
+    public function add_comment(string $issueKey) :string
     {
-        //$this->markTestIncomplete();
         try {
             $comment = new Comment();
 
@@ -224,9 +260,13 @@ COMMENT;
     }
 
     /**
-     * @depends testAddcomment
+     * @test
+     * @depends add_comment
+     *
+     * @param string $issueKey
+     * @return string
      */
-    public function testTransition($issueKey)
+    public function transit_issue(string $issueKey) :string
     {
         try {
             $transition = new Transition();
@@ -243,25 +283,29 @@ COMMENT;
     }
 
     /**
-     * @depends testTransition
+     * @test
+     * @depends transit_issue
      */
-    public function testSearch()
+    public function search_issue_by_jql()
     {
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
         try {
             $issueService = new IssueService();
 
             $ret = $issueService->search($jql);
-            Dumper::dump($ret);
+            //Dumper::dump($ret);
+
+            $this->assertIsArray();
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @depends testSearch
+     * @test
+     * @depends search_issue_by_jql
      */
-    public function testCustomField()
+    public function custom_field()
     {
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
         try {

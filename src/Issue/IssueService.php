@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
-use JiraRestApi\JiraException;
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Project\ProjectService;
 
 class IssueService extends \JiraRestApi\JiraClient

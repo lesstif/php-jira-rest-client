@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -17,7 +17,7 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\TimeTracking */
     public $timeTracking;
 
-    /** @var \JiraRestApi\Issue\IssueType */
+    /** @var \JiraRestApi\Issue\IssueType|null */
     public $issuetype;
 
     /** @var Reporter|null */
@@ -38,7 +38,7 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\IssueStatus */
     public $status;
 
-    /** @var array */
+    /** @var array|null */
     public $labels;
 
     /** @var \JiraRestApi\Project\Project */
@@ -47,7 +47,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $environment;
 
-    /** @var \JiraRestApi\Issue\Component[] */
+    /** @var \JiraRestApi\Issue\Component[]|null */
     public $components;
 
     /** @var \JiraRestApi\Issue\Comments */
@@ -74,10 +74,10 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Reporter|null */
     public $assignee;
 
-    /** @var \JiraRestApi\Issue\Version[] */
+    /** @var \JiraRestApi\Issue\Version[]|null */
     public $versions;
 
-    /** @var \JiraRestApi\Issue\Attachment[] */
+    /** @var \JiraRestApi\Issue\Attachment[]|null */
     public $attachment;
 
     /** @var string|null */
@@ -92,7 +92,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $resolutiondate;
 
-    /** @var \DateTimeInterface|null */
+    /** @var \DateTimeInterface|string|null */
     public $duedate;
 
     /** @var array */
@@ -208,9 +208,9 @@ class IssueField implements \JsonSerializable
     /**
      * @param string|int $key
      *
-     * @return $this
+     * @return IssueField
      */
-    public function set_ProjectKey(string $key): IssueField
+    public function set_ProjectKey($key): IssueField
     {
         $this->project->key = $key;
 
@@ -220,9 +220,9 @@ class IssueField implements \JsonSerializable
     /**
      * @param string|int $id
      *
-     * @return $this
+     * @return IssueField
      */
-    public function set_ProjectId(string $id): IssueField
+    public function set_ProjectId($id): IssueField
     {
         $this->project->id = $id;
 
@@ -232,7 +232,7 @@ class IssueField implements \JsonSerializable
     /**
      * @param string $summary
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_Summary(string $summary): IssueField
     {
@@ -246,7 +246,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $name
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_ReporterName(string $name): IssueField
     {
@@ -264,7 +264,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $accountId
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_ReporterAccountId(string $accountId): IssueField
     {
@@ -282,7 +282,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $name
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_AssigneeName(string $name): IssueField
     {
@@ -300,7 +300,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $accountId
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_AssigneeAccountId(string $accountId): IssueField
     {
@@ -322,7 +322,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $name
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_PriorityName(string $name): IssueField
     {
@@ -343,9 +343,9 @@ class IssueField implements \JsonSerializable
      * @see \JiraRestApi\Issue\IssueFieldV3::add_DescriptionHeading
      * @see \JiraRestApi\Issue\IssueFieldV3::add_DescriptionParagraph
      *
-     * @param string|null $description
+     * @param string $description
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_Description(string $description): IssueField
     {
@@ -361,7 +361,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string|array $version mixed string or array
      *
-     * @return $this
+     * @return IssueField
      */
     public function add_Version($version): IssueField
     {
@@ -385,7 +385,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string $label
      *
-     * @return $this
+     * @return IssueField
      */
     public function add_Label(string $label): IssueField
     {
@@ -403,7 +403,7 @@ class IssueField implements \JsonSerializable
      *
      * @param IssueType|string $issueType mixed IssueType or string
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_IssueType($issueType): IssueField
     {
@@ -447,7 +447,7 @@ class IssueField implements \JsonSerializable
     /**
      * @param Issue $parent
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_Parent(Issue $parent): IssueField
     {
@@ -461,7 +461,7 @@ class IssueField implements \JsonSerializable
      *
      * @param string|array $component mixed string or array
      *
-     * @return $this
+     * @return IssueField
      */
     public function add_Components($component): IssueField
     {
@@ -485,7 +485,7 @@ class IssueField implements \JsonSerializable
      *
      * @param int $id issue's security id
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_SecurityId($id): IssueField
     {
@@ -502,7 +502,7 @@ class IssueField implements \JsonSerializable
      * @param \DateTimeInterface|string $duedate due date string or DateTimeInterface object
      * @param string                    $format  datetime string format.
      *
-     * @return $this
+     * @return IssueField
      */
     public function set_DueDate($duedate, string $format = 'Y-m-d'): IssueField
     {
@@ -534,7 +534,7 @@ class IssueField implements \JsonSerializable
     }
 
     /**
-     * @return $this
+     * @return IssueField
      */
     public function set_AssigneeToDefault(): IssueField
     {
