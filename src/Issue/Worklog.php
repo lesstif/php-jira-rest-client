@@ -64,7 +64,7 @@ class Worklog
     public $timeSpentSeconds;
 
     /**
-     * @var \JiraRestApi\Issue\Visibility|null
+     * @var \JiraRestApi\Issue\Visibility
      */
     public $visibility;
 

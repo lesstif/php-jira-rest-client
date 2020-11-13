@@ -29,7 +29,7 @@ class Comment implements \JsonSerializable
     /** @var \DateTimeInterface */
     public $updated;
 
-    /** @var \JiraRestApi\Issue\Visibility|null */
+    /** @var \JiraRestApi\Issue\Visibility */
     public $visibility;
 
     public function setBody($body)

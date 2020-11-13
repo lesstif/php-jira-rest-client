@@ -13,6 +13,9 @@ class MapperTest extends \PHPUnit\Framework\TestCase
     /** @var JsonMapper */
     public $mapper;
 
+    /**
+     * @before
+     */
     public function setUp() : void
     {
         $this->mapper = new JsonMapper();
@@ -20,13 +23,21 @@ class MapperTest extends \PHPUnit\Framework\TestCase
         $this->mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
     }
 
+    /**
+     * @after
+     */
     public function tearDown() : void
     {
         $this->mapper = null;
         m::close();
     }
 
-    public function testComment()
+    /**
+     * @test
+     *
+     * @throws JsonMapper_Exception
+     */
+    public function map_comment_object()
     {
         $ret = file_get_contents('test-data/comment.json');
 
@@ -40,7 +51,12 @@ class MapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('KwangSeob Jeong', $comment->updateAuthor->name);
     }
 
-    public function testIssueField()
+    /**
+     * @test
+     *
+     * @throws JsonMapper_Exception
+     */
+    public function map_issue_field()
     {
         $ret = file_get_contents('test-data/issueField.json');
 
@@ -57,7 +73,12 @@ class MapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(12345, $issueField->security->id);
     }
 
-    public function testIssue()
+    /**
+     * @test
+     *
+     * @throws JsonMapper_Exception
+     */
+    public function map_issue()
     {
         $ret = file_get_contents('test-data/issue.json');
 
@@ -86,7 +107,11 @@ class MapperTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    public function testApiV3()
+    /**
+     * @test
+     * @throws JsonMapper_Exception
+     */
+    public function map_issue_field_v3()
     {
         $ret = file_get_contents('test-data/issueFieldV3.json');
 

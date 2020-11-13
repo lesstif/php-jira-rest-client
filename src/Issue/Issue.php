@@ -25,16 +25,16 @@ class Issue implements \JsonSerializable
     /** @var \JiraRestApi\Issue\IssueField */
     public $fields;
 
-    /** @var array|null */
+    /** @var array */
     public $renderedFields;
 
-    /** @var array|null */
+    /** @var array */
     public $names;
 
-    /** @var array|null */
+    /** @var array */
     public $schema;
 
-    /** @var array|null */
+    /** @var array */
     public $transitions;
 
     /** @var array|null */
@@ -43,7 +43,7 @@ class Issue implements \JsonSerializable
     /** @var array|null */
     public $editmeta;
 
-    /** @var \JiraRestApi\Issue\ChangeLog|null */
+    /** @var \JiraRestApi\Issue\ChangeLog */
     public $changelog;
 
     public function jsonSerialize()

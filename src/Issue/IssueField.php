@@ -16,10 +16,10 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $progress;
 
-    /** @var \JiraRestApi\Issue\TimeTracking */
+    /** @var \JiraRestApi\Issue\TimeTracking|null */
     public $timeTracking;
 
-    /** @var \JiraRestApi\Issue\IssueType|null */
+    /** @var \JiraRestApi\Issue\IssueType */
     public $issuetype;
 
     /** @var Reporter|null */
@@ -34,7 +34,7 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $description;
 
-    /** @var \JiraRestApi\Issue\Priority|null */
+    /** @var \JiraRestApi\Issue\Priority */
     public $priority;
 
     /** @var \JiraRestApi\Issue\IssueStatus */
@@ -52,16 +52,16 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Component[]|null */
     public $components;
 
-    /** @var \JiraRestApi\Issue\Comments */
+    /** @var \JiraRestApi\Issue\Comments|null */
     public $comment;
 
-    /** @var object */
+    /** @var object|null */
     public $votes;
 
     /** @var object|null */
     public $resolution;
 
-    /** @var array */
+    /** @var array|null */
     public $fixVersions;
 
     /** @var \JiraRestApi\Issue\Reporter|null */
@@ -94,13 +94,13 @@ class IssueField implements \JsonSerializable
     /** @var string|null */
     public $resolutiondate;
 
-    /** @var \DateTimeInterface|string|null */
+    /** @var \DateTimeInterface|null */
     public $duedate;
 
-    /** @var array */
+    /** @var array|null */
     public $issuelinks;
 
-    /** @var \JiraRestApi\Issue\Issue[] */
+    /** @var \JiraRestApi\Issue\Issue[]|null */
     public $subtasks;
 
     /** @var int */
