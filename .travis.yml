@@ -1,8 +1,6 @@
 language: php
 
 php:
-  - 7.1
-  - 7.2
   - 7.3
   - 7.4
 
@@ -20,14 +18,6 @@ script:
 
 jobs:
   include:
-    - php: 7.1
-      env: TYPE=phpstan
-      script:
-        - ./vendor/bin/phpstan analyse
-    - php: 7.2
-      env: TYPE=phpstan
-      script:
-        - ./vendor/bin/phpstan analyse
     - php: 7.3
       env: TYPE=phpstan
       script:
