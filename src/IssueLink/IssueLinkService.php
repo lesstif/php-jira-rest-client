@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\IssueLink;
 
@@ -32,7 +34,7 @@ class IssueLinkService extends \JiraRestApi\JiraClient
      *
      * @return IssueLinkType[]
      */
-    public function getIssueLinkTypes() :array
+    public function getIssueLinkTypes(): array
     {
         $this->log->info("getIssueLinkTYpes=\n");
 

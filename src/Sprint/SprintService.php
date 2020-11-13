@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: meshulam
@@ -32,7 +34,7 @@ class SprintService extends JiraClient
      *
      * @return Sprint
      */
-    public function getSprintFromJSON(object $json) :Sprint
+    public function getSprintFromJSON(object $json): Sprint
     {
         $sprint = $this->json_mapper->map(
             $json,
@@ -52,7 +54,7 @@ class SprintService extends JiraClient
      *
      * @return Sprint
      */
-    public function getSprint(string $sprintId) :Sprint
+    public function getSprint(string $sprintId): Sprint
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
@@ -73,7 +75,7 @@ class SprintService extends JiraClient
      *
      * @return Issue[] array of Issue
      */
-    public function getSprintIssues($sprintId, array $paramArray = []) :array
+    public function getSprintIssues($sprintId, array $paramArray = []): array
     {
         $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 

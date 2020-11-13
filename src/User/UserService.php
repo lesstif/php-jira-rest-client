@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\User;
 
@@ -24,7 +26,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return User User class
      */
-    public function create($user) :User
+    public function create($user): User
     {
         $data = json_encode($user);
 
@@ -49,7 +51,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return User User class
      */
-    public function get(array $paramArray) :User
+    public function get(array $paramArray): User
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -73,7 +75,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return User[]
      */
-    public function findUsers(array $paramArray) :array
+    public function findUsers(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -107,7 +109,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @see https://docs.atlassian.com/jira/REST/cloud/#api/2/user-findAssignableUsers
      */
-    public function findAssignableUsers(array $paramArray) :array
+    public function findAssignableUsers(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -140,7 +142,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get
      */
-    public function findUsersByQuery(array $paramArray) :array
+    public function findUsersByQuery(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -170,7 +172,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function deleteUser(array $paramArray) :string
+    public function deleteUser(array $paramArray): string
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -186,7 +188,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return Reporter user Object
      */
-    public function getMyself() :Reporter
+    public function getMyself(): Reporter
     {
         $ret = $this->exec('myself', null);
 
@@ -206,7 +208,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return User[]
      */
-    public function getUsers($paramArray) :array
+    public function getUsers($paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 

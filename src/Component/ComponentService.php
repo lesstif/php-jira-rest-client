@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Component;
 
@@ -18,7 +20,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      *
      * @return Component class
      */
-    public function create($component) :Component
+    public function create($component): Component
     {
         $data = json_encode($component);
 
@@ -39,7 +41,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      *
      * @return Component
      */
-    public function get($id) :Component
+    public function get($id): Component
     {
         $ret = $this->exec($this->uri.'/'.$id);
 
@@ -58,7 +60,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      *
      * @return Component
      */
-    public function update(Component $component) :Component
+    public function update(Component $component): Component
     {
         if (!$component->id || !is_numeric($component->id)) {
             throw new JiraException($component->id.' is not a valid component id.');
@@ -81,7 +83,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function delete(Component $component, $moveIssuesTo = false) :string
+    public function delete(Component $component, $moveIssuesTo = false): string
     {
         if (!$component->id || !is_numeric($component->id)) {
             throw new JiraException($component->id.' is not a valid component id.');

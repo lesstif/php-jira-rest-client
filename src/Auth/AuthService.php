@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Auth;
 
@@ -175,7 +177,7 @@ class AuthService extends \JiraRestApi\JiraClient
      *
      * @return bool
      */
-    public function release() :bool
+    public function release(): bool
     {
         $this->exec('websudo', '', 'DELETE');
 
