@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Field;
 
@@ -16,7 +18,7 @@ class FieldService extends \JiraRestApi\JiraClient
      *
      * @return Field[] array of Filed class
      */
-    public function getAllFields($fieldType = Field::BOTH) :array
+    public function getAllFields($fieldType = Field::BOTH): array
     {
         $ret = $this->exec($this->uri, null);
 
@@ -60,7 +62,7 @@ class FieldService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function getCustomFieldOption($id) :string
+    public function getCustomFieldOption($id): string
     {
         $ret = $this->exec('/customFieldOption/'.$id);
 
@@ -79,7 +81,7 @@ class FieldService extends \JiraRestApi\JiraClient
      *
      * @return Field created field class
      */
-    public function create(Field $field) :Field
+    public function create(Field $field): Field
     {
         $data = json_encode($field);
 

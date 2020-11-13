@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Version;
 
@@ -22,7 +24,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return Version Version class
      */
-    public function create($version) :Version
+    public function create($version): Version
     {
         if ($version->releaseDate instanceof \DateTimeInterface) {
             $version->releaseDate = $version->releaseDate->format('Y-m-d');
@@ -46,7 +48,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      */
-    public function move(Version $version) :Version
+    public function move(Version $version): Version
     {
         throw new JiraException('move version not yet implemented');
     }
@@ -63,7 +65,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @see ProjectService::getVersions()
      */
-    public function get(string $id) :Version
+    public function get(string $id): Version
     {
         $ret = $this->exec($this->uri.'/'.$id);
 
@@ -84,7 +86,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return Version
      */
-    public function update(Version $version) :Version
+    public function update(Version $version): Version
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');
@@ -117,7 +119,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false) :string
+    public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false): string
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');
@@ -140,10 +142,12 @@ class VersionService extends \JiraRestApi\JiraClient
 
     /**
      * @param Version $version
-     * @return Version
+     *
      * @throws JiraException
+     *
+     * @return Version
      */
-    public function merge(Version $version) :Version
+    public function merge(Version $version): Version
     {
         throw new JiraException('merge version not yet implemented');
     }
@@ -157,7 +161,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @see https://docs.atlassian.com/jira/REST/server/#api/2/version-getVersionRelatedIssues
      */
-    public function getRelatedIssues(Version $version) :Version
+    public function getRelatedIssues(Version $version): Version
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');
@@ -182,7 +186,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return VersionUnresolvedCount
      */
-    public function getUnresolvedIssues(Version $version) :VersionUnresolvedCount
+    public function getUnresolvedIssues(Version $version): VersionUnresolvedCount
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');

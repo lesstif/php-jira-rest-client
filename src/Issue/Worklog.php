@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -102,7 +104,7 @@ class Worklog
      *
      * @return Worklog
      */
-    public function setStarted($started) :Worklog
+    public function setStarted($started): Worklog
     {
         if (is_string($started)) {
             $dt = new \DateTime($started);
@@ -125,7 +127,7 @@ class Worklog
      *
      * @return Worklog
      */
-    public function setStartedDateTime(\DateTimeInterface $started) :Worklog
+    public function setStartedDateTime(\DateTimeInterface $started): Worklog
     {
         // workround micro second
         $this->started = $started->format("Y-m-d\TH:i:s").'.000'.$started->format('O');
@@ -154,7 +156,7 @@ class Worklog
      *
      * @return Worklog
      */
-    public function setTimeSpentSeconds(int $timeSpentSeconds) :Worklog
+    public function setTimeSpentSeconds(int $timeSpentSeconds): Worklog
     {
         $this->timeSpentSeconds = $timeSpentSeconds;
 

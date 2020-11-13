@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Priority;
 
@@ -20,7 +22,7 @@ class PriorityService extends \JiraRestApi\JiraClient
      *
      * @return Priority[] array of Priority class
      */
-    public function getAll() :array
+    public function getAll(): array
     {
         $ret = $this->exec($this->uri, null);
 
@@ -46,7 +48,7 @@ class PriorityService extends \JiraRestApi\JiraClient
      *
      * @return \JiraRestApi\Issue\Priority
      */
-    public function get($priorityId) :Priority
+    public function get($priorityId): Priority
     {
         $ret = $this->exec($this->uri."/$priorityId", null);
 

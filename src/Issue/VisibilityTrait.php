@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Issue;
 
@@ -6,7 +8,7 @@ trait VisibilityTrait
 {
     /**
      * @param Visibility|string $type
-     * @param null $value
+     * @param null              $value
      *
      * @return $this
      */
@@ -18,7 +20,7 @@ trait VisibilityTrait
 
         if ($type instanceof Visibility) {
             $this->visibility = $type;
-        } elseif(is_string($type)){
+        } elseif (is_string($type)) {
             $this->visibility->setType($type);
             $this->visibility->setValue($value);
         }

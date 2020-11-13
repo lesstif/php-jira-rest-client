@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Attachment;
 
@@ -26,7 +28,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
      *
      * @return \JiraRestApi\Issue\Attachment
      */
-    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true) :Attachment
+    public function get($id, $outDir = null, $overwrite = false, $mode = 0777, $recursive = true): Attachment
     {
         $ret = $this->exec($this->uri.$id, null);
 
@@ -67,7 +69,7 @@ class AttachmentService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function remove($id) :string
+    public function remove($id): string
     {
         $ret = $this->exec($this->uri.$id, null, 'DELETE');
 

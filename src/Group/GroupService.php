@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Group;
 
@@ -22,7 +24,7 @@ class GroupService extends \JiraRestApi\JiraClient
      *
      * @return Group
      */
-    public function get(array $paramArray) :Group
+    public function get(array $paramArray): Group
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -46,7 +48,7 @@ class GroupService extends \JiraRestApi\JiraClient
      *
      * @return GroupSearchResult
      */
-    public function getMembers(array $paramArray) :GroupSearchResult
+    public function getMembers(array $paramArray): GroupSearchResult
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -71,7 +73,7 @@ class GroupService extends \JiraRestApi\JiraClient
      *
      * @return Group
      */
-    public function createGroup(Group $group) :Group
+    public function createGroup(Group $group): Group
     {
         $data = json_encode($group);
 
@@ -98,7 +100,7 @@ class GroupService extends \JiraRestApi\JiraClient
      *
      * @return Group Returns the current state of the group.
      */
-    public function addUserToGroup(string $groupName, string $userName) :Group
+    public function addUserToGroup(string $groupName, string $userName): Group
     {
         $data = json_encode([
             'name'      => $userName,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Board;
 
@@ -51,10 +53,12 @@ class BoardService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $id
-     * @param array $paramArray
-     * @return Board
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return Board
      */
     public function getBoard($id, array $paramArray = []): Board
     {
@@ -68,10 +72,12 @@ class BoardService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $id
-     * @param array $paramArray
-     * @return \ArrayObject array of AgileIssue
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \ArrayObject array of AgileIssue
      */
     public function getBoardIssues($id, array $paramArray = []): ArrayObject
     {
@@ -86,10 +92,12 @@ class BoardService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $id
-     * @param array $paramArray
-     * @return \ArrayObject array of AgileIssue
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \ArrayObject array of AgileIssue
      */
     public function getBoardBacklogIssues($id, array $paramArray = []): \ArrayObject
     {
@@ -104,10 +112,12 @@ class BoardService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $boardId
-     * @param array $paramArray
-     * @return \ArrayObject array of Sprint
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \ArrayObject array of Sprint
      */
     public function getBoardSprints($boardId, array $paramArray = []): \ArrayObject
     {
@@ -122,10 +132,12 @@ class BoardService extends \JiraRestApi\JiraClient
 
     /**
      * @param string|int $boardId
-     * @param array $paramArray
-     * @return \ArrayObject array of Epic
+     * @param array      $paramArray
+     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
+     *
+     * @return \ArrayObject array of Epic
      */
     public function getBoardEpics($boardId, array $paramArray = []): \ArrayObject
     {

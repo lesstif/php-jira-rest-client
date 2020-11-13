@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\Exceptions\JiraException;
 use JiraRestApi\Issue\IssueType;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
-use JiraRestApi\Exceptions\JiraException;
 
 class ProjectService extends \JiraRestApi\JiraClient
 {
@@ -44,7 +46,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project
      */
-    public function get($projectIdOrKey) :Project
+    public function get($projectIdOrKey): Project
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey", null);
 
@@ -68,7 +70,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Reporter[]
      */
-    public function getAssignable($projectIdOrKey) :array
+    public function getAssignable($projectIdOrKey): array
     {
         $ret = $this->exec("/user/assignable/search?project=$projectIdOrKey", null);
         $json = json_decode($ret);
@@ -86,7 +88,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return IssueType[]
      */
-    public function getStatuses($projectIdOrKey) :array
+    public function getStatuses($projectIdOrKey): array
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
@@ -136,7 +138,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return ProjectType[]
      */
-    public function getProjectTypes() :array
+    public function getProjectTypes(): array
     {
         $ret = $this->exec($this->uri.'/type');
 
@@ -158,7 +160,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return ProjectType
      */
-    public function getProjectType($key) :ProjectType
+    public function getProjectType($key): ProjectType
     {
         $ret = $this->exec($this->uri."/type/$key");
 
@@ -180,7 +182,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return ProjectType
      */
-    public function getAccessibleProjectType($key) :ProjectType
+    public function getAccessibleProjectType($key): ProjectType
     {
         $ret = $this->exec($this->uri."/type/$key/accessible");
 
@@ -204,7 +206,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Version[] array of version
      */
-    public function getVersionsPagenated($projectIdOrKey, $queryParam = []) :array
+    public function getVersionsPagenated($projectIdOrKey, $queryParam = []): array
     {
         $default = [
             'startAt'    => 0,
@@ -243,7 +245,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Version[] array of version
      */
-    public function getVersions($projectIdOrKey) :array
+    public function getVersions($projectIdOrKey): array
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
@@ -268,7 +270,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Version version
      */
-    public function getVersion($projectIdOrKey, $versionName) :Version
+    public function getVersion($projectIdOrKey, $versionName): Version
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
@@ -298,7 +300,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project project
      */
-    public function createProject($project) :Project
+    public function createProject($project): Project
     {
         $data = json_encode($project);
 
@@ -325,7 +327,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project project
      */
-    public function updateProject($project, $projectIdOrKey) :Project
+    public function updateProject($project, $projectIdOrKey): Project
     {
         $data = json_encode($project);
 
