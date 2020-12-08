@@ -25,7 +25,7 @@ class IssueTypeService extends \JiraRestApi\JiraClient
         return $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            \JiraRestApi\IssueType\IssueType::class
+            \JiraRestApi\Issue\IssueType::class
         );
     }
 }
