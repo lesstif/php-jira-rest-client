@@ -25,6 +25,9 @@ class IssueType implements \JsonSerializable
     /** @var \JiraRestApi\Issue\IssueStatus[] */
     public $statuses;
 
+    /** @var integer */
+    public $avatarId;
+
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
