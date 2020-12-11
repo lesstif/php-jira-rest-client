@@ -222,4 +222,31 @@ class UserService extends \JiraRestApi\JiraClient
 
         return $users;
     }
+
+    /**
+     * Function to update an existing user.
+     *
+     * @param array $paramArray
+     * @param User|array $user
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return User User class
+     */
+    public function update($paramArray, $user)
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $data = json_encode($user);
+
+        $this->log->info("Update User (".$queryParam.") =\n".$data);
+
+        $ret = $this->exec($this->uri.$queryParam, $data, 'PUT');
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new User()
+        );
+    }
 }
