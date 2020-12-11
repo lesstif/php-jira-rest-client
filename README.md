@@ -179,6 +179,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Find Assignable Users](#find-assignable-users)
 - [Find Users by query](#find-users-by-query)
 - [Delete User](#delete-user)
+- [Update User](#update-user)
 
 ### Group
 - [Create Group](#create-group)
@@ -1897,6 +1898,42 @@ try {
     $paramArray = ['username' => 'user@example.com'];
 
     $users = $us->deleteUser($paramArray);
+} catch (JiraRestApi\JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### update User
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user-updateUser)
+
+Updates user.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $paramArray = ['username' => 'user@example.com'];
+
+    // create new user
+    $user = [
+            'name'=>'charli',
+            'password' => 'abracada',
+            'emailAddress' => 'charli@atlassian.com',
+            'displayName' => 'Charli of Atlassian',
+        ];
+
+    $updatedUser = $us->update($paramArray, $user)
+
+    var_dump($updatedUser);
+
 } catch (JiraRestApi\JiraException $e) {
     print("Error Occured! " . $e->getMessage());
 }
