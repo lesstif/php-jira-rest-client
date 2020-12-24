@@ -301,7 +301,7 @@ class JiraClient
             if ($this->http_response != 200 && $this->http_response != 201) {
                 throw new JiraException('CURL HTTP Request Failed: Status Code : '
                     .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response);
+                    ."\nError Message : ".$response, $this->http_response, null, $response);
             }
         }
 
