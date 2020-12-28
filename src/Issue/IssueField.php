@@ -20,7 +20,7 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\IssueType */
     public $issuetype;
 
-    /** @var Reporter|null */
+    /** @var \JiraRestApi\Issue\Reporter|null */
     public $reporter;
 
     /** @var \DateTimeInterface */
