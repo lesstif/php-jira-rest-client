@@ -23,10 +23,11 @@ class JiraException extends \Exception
     /**
      * Create a new Jira exception instance.
      *
-     * @param  string  $message
-     * @param  int  $code
-     * @param  \Throwable  $previous
-     * @param  string  $response
+     * @param string     $message
+     * @param int        $code
+     * @param \Throwable $previous
+     * @param string     $response
+     *
      * @return void
      */
     public function __construct($message = null, $code = 0, \Throwable $previous = null, $response = null)

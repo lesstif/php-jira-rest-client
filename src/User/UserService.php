@@ -226,7 +226,7 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * Function to update an existing user.
      *
-     * @param array $paramArray
+     * @param array      $paramArray
      * @param User|array $user
      *
      * @throws \JiraRestApi\JiraException
@@ -240,7 +240,7 @@ class UserService extends \JiraRestApi\JiraClient
 
         $data = json_encode($user);
 
-        $this->log->info("Update User (".$queryParam.") =\n".$data);
+        $this->log->info('Update User ('.$queryParam.") =\n".$data);
 
         $ret = $this->exec($this->uri.$queryParam, $data, 'PUT');
 
