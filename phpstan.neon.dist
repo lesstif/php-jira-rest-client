@@ -5,8 +5,5 @@ parameters:
     level: 3
     paths:
         - src
-    bootstrapFiles:
-        - _ide_helper.php
-        - _ide_helper_models.php
     excludes_analyse:
         - src/JiraRestApiServiceProvider.php
