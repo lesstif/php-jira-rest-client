@@ -16,3 +16,6 @@ parameters:
             message: "#^Property JiraRestApi\\\\Issue\\\\RemoteIssueLink::\\$object \\(JiraRestApi\\\\Issue\\\\RemoteIssueLinkObject|null\\) does not accept JiraRestApi\\\\Issue\\\\RemoteIssueLink\\.$#"
             count: 1
             path: src/Issue/RemoteIssueLink.php
+        -
+            message: "#^Call to function is_.+ with .+ will always evaluate to false\\.$#"
+            path: src
