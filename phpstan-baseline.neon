@@ -1,26 +1,9 @@
 parameters:
     ignoreErrors:
         -
-            message: "#^Static method Dotenv\\\\Dotenv\\:\\:create\\(\\) invoked with 1 parameter, 2\\-4 required\\.$#"
-            count: 1
-            path: src/Configuration/DotEnvConfiguration.php
-
-        -
-            message: "#^Class Dotenv\\\\Dotenv constructor invoked with 1 parameter, 3 required\\.$#"
-            count: 1
-            path: src/Configuration/DotEnvConfiguration.php
-        -
-            message: "#^Call to an undefined method Monolog\\\\Logger::addInfo\\(\\)\\.$#"
-            count: 2
-            path: src/Issue/IssueService.php
-        -
             message: "#^Property JiraRestApi\\\\Issue\\\\IssueField::\\$duedate \\(DateTimeInterface|null\\) does not accept string\\.$#"
             count: 1
             path: src/Issue/IssueField.php
-        -
-            message: "#^Cannot access offset 'key' on JiraRestApi\\\\Issue\\\\Issue\\.$#"
-            count: 2
-            path: src/IssueLink/IssueLink.php
         -
             message: "#^Property JiraRestApi\\\\Issue\\\\Version::\\$releaseDate \\(DateTimeInterface|null\\) does not accept string\\.$#"
             count: 1
@@ -29,3 +12,10 @@ parameters:
             message: "#^Property JiraRestApi\\\\JiraClient::\\$log \\(Monolog\\\\Logger\\) does not accept Psr\\\\Log\\\\LoggerInterface\\.$#"
             count: 1
             path: src/JiraClient.php
+        -
+            message: "#^Property JiraRestApi\\\\Issue\\\\RemoteIssueLink::\\$object \\(JiraRestApi\\\\Issue\\\\RemoteIssueLinkObject|null\\) does not accept JiraRestApi\\\\Issue\\\\RemoteIssueLink\\.$#"
+            count: 1
+            path: src/Issue/RemoteIssueLink.php
+        -
+            message: "#^Call to function is_.+ with .+ will always evaluate to false\\.$#"
+            path: src

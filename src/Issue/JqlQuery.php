@@ -442,7 +442,7 @@ class JqlQuery
      *
      * JqlQuery::quote(JqlFunction::now()) returns 'now()'
      *
-     * @param string $value
+     * @param string|JqlFunction $value
      *
      * @return string
      */
