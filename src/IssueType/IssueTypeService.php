@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\IssueType;
 
+use JiraRestApi\Issue\IssueType;
 use JiraRestApi\JiraException;
 use JsonMapper_Exception;
 
@@ -25,7 +26,7 @@ class IssueTypeService extends \JiraRestApi\JiraClient
         return $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            \JiraRestApi\Issue\IssueType::class
+            IssueType::class
         );
     }
 }

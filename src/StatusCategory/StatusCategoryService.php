@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\StatusCategory;
 
+use JiraRestApi\Issue\Statuscategory;
 use JiraRestApi\JiraException;
 use JsonMapper_Exception;
 

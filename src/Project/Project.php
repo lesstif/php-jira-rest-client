@@ -214,7 +214,7 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param string $lead
+     * @param string $leadAccountId
      *
      * @return Project
      */
