@@ -13,7 +13,6 @@ before_script:
   - cp .env.example .env
 
 script:
-  - ./vendor/bin/phpunit --verbose tests/MockTest
   - ./vendor/bin/phpunit --verbose tests/SerializeTest
   - ./vendor/bin/phpunit --verbose tests/MapperTest
 
