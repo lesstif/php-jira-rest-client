@@ -1,5 +1,8 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Board\BoardService;
 use JiraRestApi\Board\Board;

@@ -1,5 +1,9 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use Exception;
+use JsonMapper_Exception;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;

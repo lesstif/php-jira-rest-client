@@ -30,6 +30,11 @@
             "JiraRestApi\\" : "src"
         }
     },
+    "autoload-dev": {
+        "psr-4" : {
+            "JiraRestApi\\Test\\" : "tests"
+        }
+    },
      "extra": {
         "laravel": {
             "providers": [

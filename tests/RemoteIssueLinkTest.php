@@ -1,5 +1,7 @@
 <?php
 
+namespace JiraRestApi\Test;
+
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\RemoteIssueLink;

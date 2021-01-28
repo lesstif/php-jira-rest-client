@@ -1,12 +1,14 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use JsonMapper;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\SecurityScheme;
-use JiraRestApi\Issue\Version;
 use \Mockery as m;
 
 class MapperTest extends TestCase

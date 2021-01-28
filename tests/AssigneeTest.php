@@ -1,5 +1,8 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use JsonMapper;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueField;

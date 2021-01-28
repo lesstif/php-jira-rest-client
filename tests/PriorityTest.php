@@ -1,5 +1,7 @@
 <?php
 
+namespace JiraRestApi\Test;
+
 use JiraRestApi\JiraException;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
