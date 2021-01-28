@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Group\Group;
 use JiraRestApi\Group\GroupService;
 use JiraRestApi\JiraException;
 
-class groupTest extends PHPUnit_Framework_TestCase
+class GroupTest extends TestCase
 {
     public function testCreateGroup()
     {

@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
 use JiraRestApi\JiraException;
 
-class WorkLogTest extends PHPUnit_Framework_TestCase
+class WorkLogTest extends TestCase
 {
     public $issueKey = 'TEST-165';
 

@@ -33,3 +33,5 @@ Vagrantfile
 # Ignore scotch.io box and the folders of them
 public/
 storage/
+
+.phpunit.result.cache

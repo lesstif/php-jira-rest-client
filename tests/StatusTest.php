@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Status\StatusService;
 
-class StatusTest extends PHPUnit_Framework_TestCase
+class StatusTest extends TestCase
 {
     public function testStatus()
     {

@@ -1,8 +1,10 @@
 <?php
 
+use JiraRestApi\JiraException;
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Project\ProjectService;
 
-class ProjectTest extends PHPUnit_Framework_TestCase
+class ProjectTest extends TestCase
 {
     public function testGetProject()
     {
@@ -62,12 +64,11 @@ class ProjectTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(strlen($prjtyp->icon) > 0);
     }
 
-    /**
-     * @expectedException JiraRestApi\JiraException
-     */
     public function testGetProjectTypeException()
     {
         $proj = new ProjectService();
+
+        $this->expectException(JiraException::class);
 
         $prjtyp = $proj->getProjectType('foobar');
     }
@@ -86,12 +87,11 @@ class ProjectTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(strlen($prjtyp->icon) > 0);
     }
 
-    /**
-     * @expectedException JiraRestApi\JiraException
-     */
     public function testGetProjectAccessibleException()
     {
         $proj = new ProjectService();
+
+        $this->expectException(JiraException::class);
 
         $prjtyp = $proj->getAccessibleProjectType('foobar');
     }
