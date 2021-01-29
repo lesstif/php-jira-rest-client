@@ -1,5 +1,8 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\IssueField;
@@ -7,7 +10,7 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
-class IssueTest extends PHPUnit_Framework_TestCase
+class IssueTest extends TestCase
 {
     public function testIssue()
     {

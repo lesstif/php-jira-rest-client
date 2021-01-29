@@ -1,26 +1,29 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use JsonMapper;
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\SecurityScheme;
-use JiraRestApi\Issue\Version;
 use \Mockery as m;
 
-class MapperTest extends PHPUnit_Framework_TestCase
+class MapperTest extends TestCase
 {
     /** @var JsonMapper */
     public $mapper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mapper = new JsonMapper();
         $this->mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
         $this->mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->mapper = null;
         m::close();

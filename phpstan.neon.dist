@@ -7,3 +7,4 @@ parameters:
         - src
     excludes_analyse:
         - src/JiraRestApiServiceProvider.php
+    reportUnmatchedIgnoredErrors: false

@@ -1,10 +1,13 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
-class SubTaskTest extends PHPUnit_Framework_TestCase
+class SubTaskTest extends TestCase
 {
     public $issueKey = 'TEST-143';
 

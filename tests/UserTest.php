@@ -1,11 +1,14 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
     public function testCreateUser()
     {

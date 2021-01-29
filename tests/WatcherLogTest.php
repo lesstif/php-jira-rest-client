@@ -1,11 +1,13 @@
 <?php
 
+namespace JiraRestApi\Test;
+
+use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Reporter;
 use JiraRestApi\JiraException;
 
-class WatcherLogTest extends PHPUnit_Framework_TestCase
+class WatcherLogTest extends TestCase
 {
     public $issueKey = 'TEST-315';
 

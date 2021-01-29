@@ -19,3 +19,11 @@ parameters:
         -
             message: "#^Call to function is_.+ with .+ will always evaluate to false\\.$#"
             path: src
+
+        -
+            message: "#expects Curl.*?Handle, resource given#"
+            path: src/JiraClient.php
+
+        -
+            message: "#\\(resource\\) does not accept CurlHandle#"
+            path: src/JiraClient.php
