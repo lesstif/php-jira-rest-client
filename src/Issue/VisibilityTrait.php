@@ -5,8 +5,8 @@ namespace JiraRestApi\Issue;
 trait VisibilityTrait
 {
     /**
-     * @param Visibility  $type
-     * @param mixed|null  $value
+     * @param Visibility $type
+     * @param mixed|null $value
      *
      * @return $this
      */
