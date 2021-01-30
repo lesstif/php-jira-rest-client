@@ -192,10 +192,10 @@ class JiraClient
     /**
      * Execute REST request.
      *
-     * @param string $context        Rest API context (ex.:issue, search, etc..)
+     * @param string            $context        Rest API context (ex.:issue, search, etc..)
      * @param string|array|null $post_data
-     * @param string $custom_request [PUT|DELETE]
-     * @param string $cookieFile     cookie file
+     * @param string            $custom_request [PUT|DELETE]
+     * @param string            $cookieFile     cookie file
      *
      * @throws JiraException
      *
