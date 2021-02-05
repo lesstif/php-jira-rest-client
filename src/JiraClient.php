@@ -732,5 +732,4 @@ class JiraClient
     {
         return $this->jsonOptions;
     }
-
 }
