@@ -145,6 +145,9 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /** @var string */
     protected $curlOptSslKeyPassword;
 
+    /** @var int */
+    protected $timeout;
+
     /**
      * @return string
      */
@@ -333,5 +336,13 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getUseV3RestApi()
     {
         return $this->useV3RestApi;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 }

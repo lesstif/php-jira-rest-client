@@ -158,4 +158,11 @@ interface ConfigurationInterface
      * @return bool
      */
     public function getUseV3RestApi();
+
+    /**
+     * The number of seconds to wait while trying to connect.
+     *
+     * @return int
+     */
+    public function getTimeout();
 }

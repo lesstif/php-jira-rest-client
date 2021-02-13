@@ -251,6 +251,9 @@ class JiraClient
         if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
         }
+        if ($this->getConfiguration()->getTimeout()) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
+        }
 
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getConfiguration()->getCurlOptUserAgent());
 
@@ -365,6 +368,9 @@ class JiraClient
         }
         if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
+        if ($this->getConfiguration()->getTimeout()) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
         }
 
         $this->proxyConfigCurlHandle($ch);
@@ -586,6 +592,9 @@ class JiraClient
         }
         if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
+        if ($this->getConfiguration()->getTimeout()) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
         }
 
         $this->proxyConfigCurlHandle($ch);
