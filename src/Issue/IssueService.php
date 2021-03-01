@@ -1228,7 +1228,7 @@ class IssueService extends \JiraRestApi\JiraClient
     {
         $this->log->debug('findTransitonIdByUntranslatedName=');
 
-        $prj = new ProjectService();
+        $prj = new ProjectService($this->getConfiguration());
         $pkey = explode('-', $issueIdOrKey);
         $transitionArray = $prj->getProjectTransitionsToArray($pkey[0]);
 
