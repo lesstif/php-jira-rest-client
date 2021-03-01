@@ -628,7 +628,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * get getWorklog.
      *
      * @param string|int $issueIdOrKey
-     * @param array $paramArray Possible keys for $paramArray: 'startAt', 'maxResults', 'startedAfter', 'expand'.
+     * @param array      $paramArray   Possible keys for $paramArray: 'startAt', 'maxResults', 'startedAfter', 'expand'
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
