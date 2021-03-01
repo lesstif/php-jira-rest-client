@@ -628,15 +628,16 @@ class IssueService extends \JiraRestApi\JiraClient
      * get getWorklog.
      *
      * @param string|int $issueIdOrKey
+     * @param array $paramArray Possible keys for $paramArray: 'startAt', 'maxResults', 'startedAfter', 'expand'.
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return PaginatedWorklog
      */
-    public function getWorklog($issueIdOrKey)
+    public function getWorklog($issueIdOrKey, array $paramArray = [])
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog");
+        $ret = $this->exec($this->uri."/$issueIdOrKey/worklog".$this->toHttpQueryParameter($paramArray));
         $this->log->debug("getWorklog res=$ret\n");
         $worklog = $this->json_mapper->map(
             json_decode($ret),
