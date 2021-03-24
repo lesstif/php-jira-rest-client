@@ -55,7 +55,14 @@ class DotEnvConfiguration extends AbstractConfiguration
      */
     private function env($key, $default = null)
     {
-        $value = $_ENV[$key] ?? null;
+
+        // Fallback for frameworks like Laravel as the $_ENV method might not work in all
+        // circumstances. ie when running scheduled jobs.
+        if (function_exists('env') && is_callable('env')) {
+            $value = call_user_func('env', $key) ?? null;
+        } else {
+            $value = $_ENV[$key] ?? null;
+        }
 
         if ($value === false) {
             return $default;
