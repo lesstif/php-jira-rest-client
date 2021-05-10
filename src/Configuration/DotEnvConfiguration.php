@@ -43,6 +43,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->useV3RestApi = $this->env('JIRA_REST_API_V3', false);
 
         $this->timeout = $this->env('JIRA_TIMEOUT', 30);
+        $this->serviceDeskId = $this->env('JIRA_SERVICE_DESK_ID', null);
     }
 
     /**

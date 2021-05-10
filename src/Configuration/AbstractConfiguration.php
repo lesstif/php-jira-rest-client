@@ -148,6 +148,9 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /** @var int */
     protected $timeout;
 
+    /** @var int|null */
+    protected $serviceDeskId;
+
     /**
      * @return string
      */
@@ -344,5 +347,10 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getTimeout()
     {
         return $this->timeout;
+    }
+
+    public function getServiceDeskId(): int
+    {
+        return $this->serviceDeskId;
     }
 }

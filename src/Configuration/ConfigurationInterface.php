@@ -165,4 +165,6 @@ interface ConfigurationInterface
      * @return int
      */
     public function getTimeout();
+
+    public function getServiceDeskId(): int;
 }

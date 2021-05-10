@@ -31,6 +31,7 @@ class ArrayConfiguration extends AbstractConfiguration
         $this->cookieAuthEnabled = false;
         $this->cookieFile = 'jira-cookie.txt';
         $this->curlOptUserAgent = $this->getDefaultUserAgentString();
+        $this->serviceDeskId = null;
 
         $this->useV3RestApi = false;
 
