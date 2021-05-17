@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\ServiceDesk\Request;
 
-use DateTime;
 use DateTimeInterface;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\ServiceDesk\Customer\Customer;
@@ -35,7 +34,7 @@ class Request implements JsonSerializable
     public $serviceDeskId;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     public $createdDate;
 
@@ -75,7 +74,7 @@ class Request implements JsonSerializable
     {
         if (!$createdDate instanceof DateTimeInterface)
         {
-            $createdDate = new DateTime($createdDate['iso8601']);
+            $createdDate = new \DateTime($createdDate->iso8601);
         }
 
         $this->createdDate = $createdDate;

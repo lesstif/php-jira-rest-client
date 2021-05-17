@@ -79,10 +79,10 @@ class OrganisationService
 
         $this->client->log("Result=\n" . $result);
 
-        $organisationData = json_decode($result, true);
+        $organisationData = json_decode($result, false);
         $organisations = [];
 
-        foreach ($organisationData['values'] as $organisation) {
+        foreach ($organisationData->values as $organisation) {
             $organisations[] = $this->client->mapWithoutDecode($organisation, new Organisation());
         }
 
@@ -104,7 +104,7 @@ class OrganisationService
 
         $this->client->log("Result=\n" . $result);
 
-        $customerData = json_decode($result, true);
+        $customerData = json_decode($result, false);
         $customers = [];
 
         foreach ($customerData as $customer) {

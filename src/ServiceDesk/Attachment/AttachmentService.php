@@ -80,12 +80,12 @@ class AttachmentService
      */
     private function createAttachmentsFromJson(string $result): array
     {
-        $attachmentData = json_decode($result, true);
+        $attachmentData = json_decode($result, false);
 
         $attachments = [];
         foreach($attachmentData as $attachment)
         {
-            $attachments[] = $this->client->mapWithoutDecode($attachments, new Attachment());
+            $attachments[] = $this->client->mapWithoutDecode($attachment, new Attachment());
         }
 
         return $attachments;

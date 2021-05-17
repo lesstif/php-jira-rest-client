@@ -95,7 +95,7 @@ class CommentService
 
         $this->client->getLogger()->debug('get comments result=' . var_export($result, true));
 
-        $commentData = json_decode($result, true);
+        $commentData = json_decode($result, false);
 
         $comments = [];
         foreach ($commentData as $comment) {

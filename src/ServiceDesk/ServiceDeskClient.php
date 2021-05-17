@@ -52,7 +52,7 @@ class ServiceDeskClient extends JiraClient
      */
     public function map(string $jsonData, $dataObject)
     {
-        $data = json_decode($jsonData, true);
+        $data = json_decode($jsonData, false);
 
         return $this->mapWithoutDecode($data, $dataObject);
     }
@@ -62,7 +62,7 @@ class ServiceDeskClient extends JiraClient
      * @return mixed
      * @throws JsonMapper_Exception
      */
-    public function mapWithoutDecode(array $jsonData, $dataObject)
+    public function mapWithoutDecode(object $jsonData, $dataObject)
     {
         return $this->json_mapper->map(
             $jsonData,

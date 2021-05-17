@@ -66,7 +66,7 @@ class RequestService
     /**
      * @throws JsonMapper_Exception
      */
-    public function getRequestFromJSON(array $jsonData): Request
+    public function getRequestFromJSON(object $jsonData): Request
     {
         return $this->client->mapWithoutDecode($jsonData, new Request());
     }
@@ -112,10 +112,10 @@ class RequestService
             $this->client->createUrl('%s?%s', [$this->uri,], $searchParameters)
         );
 
-        $requestData = json_decode($result, true);
+        $requestData = json_decode($result, false);
         $requests = [];
 
-        foreach ($requestData['values'] as $request) {
+        foreach ($requestData->values as $request) {
             $requests[] = $this->client->mapWithoutDecode(
                 $request,
                 new Request()
