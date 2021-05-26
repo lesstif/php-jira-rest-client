@@ -40,7 +40,7 @@ class ServiceDeskClient extends JiraClient
             $parameters[] = http_build_query($urlParameters);
         }
 
-        array_unshift($format, $parameters);
+        array_unshift($parameters, $format);
 
         return call_user_func_array("sprintf", $parameters);
     }

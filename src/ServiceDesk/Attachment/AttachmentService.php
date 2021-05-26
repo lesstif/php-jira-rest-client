@@ -34,7 +34,7 @@ class AttachmentService
         $fileNames = $this->getFilenamesFromAttachments($attachments);
 
         return $this->client->upload(
-            $this->client->createUrl('/servicedeskapi/servicedesk/%d/attachTemporaryFile', [$this->serviceDeskId,]),
+            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$this->serviceDeskId,]),
             $fileNames
         );
     }
@@ -46,14 +46,20 @@ class AttachmentService
      */
     public function addAttachmentToRequest(int $requestId, array $temporaryFiles): array
     {
+        $attachment_ids = array_map(function (string $upload): string {
+            $upload = json_decode($upload, true);
+
+            return $upload['temporaryAttachments'][0]['temporaryAttachmentId'];
+        }, $temporaryFiles);
+
         $parameters = [
-            'temporaryAttachmentIds' => $temporaryFiles,
+            'temporaryAttachmentIds' => $attachment_ids,
             'public' => false,
         ];
 
         $result = $this->client->exec(
-            $this->client->createUrl('servicedeskapi/request/%d/attachment', [$requestId,]),
-            $parameters,
+            $this->client->createUrl('/request/%d/attachment', [$requestId,]),
+            json_encode($parameters, JSON_UNESCAPED_UNICODE),
             'POST'
         );
 
