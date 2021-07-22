@@ -1170,7 +1170,35 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->info("Update labels=\n".$postData);
 
-        $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
+        /* orignal code was
+         * $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
+         * which results in 
+         * /issue/ISSUE-1234?notifyUsers=0 or
+         * /issue/ISSUE-1234?notifyUsers=1
+         * 
+         * this has two issues:
+         * 
+         * #1
+         * the rest-api is expecting a string. any other value than
+         * /issue/ISSUE-1234?notifyUsers=false or
+         * /issue/ISSUE-1234?notifyUsers=true
+         * will cause a 403 response with the errorMessage
+         * "To discard the user notification either admin or project admin permissions are required."
+         * but only if you dont have admin or project admin permissions. (!)
+         * 
+         * #2
+         * this is default
+         * /issue/ISSUE-1234?notifyUsers=true
+         * so there's no need to add this
+         */ 
+        $queryParam = ''; 
+        if ($notifyUsers === false) {
+            $queryParam = '?'.http_build_query(['notifyUsers' => 'false']);
+        }
+        /* optional passing the default argument explicitly */
+        // else {
+        //     $queryParam = '?'.http_build_query(['notifyUsers' => 'true']);
+        // }
 
         $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
 
