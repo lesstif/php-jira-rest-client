@@ -566,7 +566,7 @@ class JiraClient
      */
     public function download(string $url, string $outDir, string $file, string $cookieFile = null)
     {
-        $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
+        $file = fopen($outDir.DIRECTORY_SEPARATOR.urldecode($file), 'w');
 
         curl_reset($this->curl);
         $ch = $this->curl;
