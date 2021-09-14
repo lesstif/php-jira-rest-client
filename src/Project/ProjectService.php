@@ -357,4 +357,26 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
+    
+     /**
+     * Archive a project only available for premium subscription
+     *
+     * @param string $projectIdOrKey
+     *
+     * @throws JiraException
+     *
+     * @return string response status
+     *
+     * STATUS 401 Returned if the user is not logged in.
+     * STATUS 204 - application/json Returned if the project is successfully archived.
+     * STATUS 403 - Returned if the currently authenticated user does not have permission to archive the project.
+     * STATUS 404 - Returned if the project does not exist.
+     */
+    public function archiveProject($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri . '/' . $projectIdOrKey . '/archive', null, 'PUT');
+
+        return $ret;
+    }
+    
 }
