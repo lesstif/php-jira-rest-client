@@ -371,6 +371,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * STATUS 204 - application/json Returned if the project is successfully archived.
      * STATUS 403 - Returned if the currently authenticated user does not have permission to archive the project.
      * STATUS 404 - Returned if the project does not exist.
+     * STATUS 405 - Method not allowed specified request HTTP method was received and recognized by the server, but is not supported by the target resource.
      */
     public function archiveProject($projectIdOrKey)
     {
