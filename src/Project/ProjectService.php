@@ -357,9 +357,9 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
-    
-     /**
-     * Archive a project only available for premium subscription
+
+    /**
+     * Archive a project only available for premium subscription.
      *
      * @param string $projectIdOrKey
      *
@@ -375,9 +375,8 @@ class ProjectService extends \JiraRestApi\JiraClient
      */
     public function archiveProject($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri . '/' . $projectIdOrKey . '/archive', null, 'PUT');
+        $ret = $this->exec($this->uri.'/'.$projectIdOrKey.'/archive', null, 'PUT');
 
         return $ret;
     }
-    
 }

@@ -176,7 +176,7 @@ interface ConfigurationInterface
     public function isTokenBasedAuth();
 
     /**
-     * Personal Access Token
+     * Personal Access Token.
      *
      * @return string
      */

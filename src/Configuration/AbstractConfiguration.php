@@ -148,7 +148,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /** @var int */
     protected $timeout;
 
-    /** @var boolean */
+    /** @var bool */
     protected $useTokenBasedAuth;
 
     /** @var string */

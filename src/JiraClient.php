@@ -239,7 +239,7 @@ class JiraClient
         $curl_http_headers = [
             'Accept: */*',
             'Content-Type: application/json',
-            'X-Atlassian-Token: no-check'
+            'X-Atlassian-Token: no-check',
         ];
 
         $this->authorization($ch, $curl_http_headers, $cookieFile);
@@ -322,9 +322,9 @@ class JiraClient
     /**
      * Create upload handle.
      *
-     * @param string $url         Request URL
-     * @param string $upload_file Filename
-     * @param resource $ch CUrl handler
+     * @param string   $url         Request URL
+     * @param string   $upload_file Filename
+     * @param resource $ch          CUrl handler
      *
      * @return resource
      */
@@ -333,7 +333,7 @@ class JiraClient
         $curl_http_headers = [
             'Accept: */*',
             'Content-Type: multipart/form-data',
-            'X-Atlassian-Token: no-check'
+            'X-Atlassian-Token: no-check',
         ];
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -513,8 +513,8 @@ class JiraClient
 
         // if cookie file not exist, using id/pwd login
         if (!file_exists($cookieFile)) {
-            if ($this->getConfiguration()->isTokenBasedAuth() === true ){
-                $curl_http_headers[] = 'Authorization: Bearer ' . $this->getConfiguration()->getPeronalAccessToken();
+            if ($this->getConfiguration()->isTokenBasedAuth() === true) {
+                $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPeronalAccessToken();
             } else {
                 $username = $this->getConfiguration()->getJiraUser();
                 $password = $this->getConfiguration()->getJiraPassword();
@@ -587,7 +587,7 @@ class JiraClient
         $curl_http_header = [
             'Accept: */*',
             'Content-Type: application/json',
-            'X-Atlassian-Token: no-check'
+            'X-Atlassian-Token: no-check',
         ];
 
         $file = fopen($outDir.DIRECTORY_SEPARATOR.urldecode($file), 'w');
