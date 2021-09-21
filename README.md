@@ -65,6 +65,9 @@ copy .env.example file to .env on your project root.
 JIRA_HOST="https://your-jira.host.com"
 JIRA_USER="jira-username"
 JIRA_PASS="jira-password-OR-api-token"
+# if TOKEN_BASED_AUTH set to true, ignore JIRA_USER and JIRA_PASS.
+TOKEN_BASED_AUTH=true
+PERSONAL_ACCESS_TOKEN="your-access-token-here"
 # to enable session cookie authorization
 # COOKIE_AUTH_ENABLED=true
 # COOKIE_FILE=storage/jira-cookie.txt

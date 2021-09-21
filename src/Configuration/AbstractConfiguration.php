@@ -148,6 +148,12 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /** @var int */
     protected $timeout;
 
+    /** @var boolean */
+    protected $useTokenBasedAuth;
+
+    /** @var string */
+    protected $personalAccessToken;
+
     /**
      * @return string
      */
@@ -344,5 +350,21 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getTimeout()
     {
         return $this->timeout;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTokenBasedAuth()
+    {
+        return $this->useTokenBasedAuth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPeronalAccessToken()
+    {
+        return $this->personalAccessToken;
     }
 }
