@@ -494,8 +494,8 @@ class JiraClient
      * Add authorize to curl request.
      *
      * @param resource $ch
-     * @param $curl_http_headers
-     * @param null $cookieFile
+     * @param string[] $curl_http_headers
+     * @param string|null $cookieFile
      */
     protected function authorization($ch, &$curl_http_headers, $cookieFile = null)
     {
