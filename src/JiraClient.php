@@ -259,7 +259,10 @@ class JiraClient
             curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
         }
         if ($this->getConfiguration()->getTimeout()) {
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
+            curl_setopt($ch, CURLOPT_TIMEOUT, $this->getConfiguration()->getTimeout());
+        }
+        if ($this->getConfiguration()->getConnectTimeout()) {
+          curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getConnectTimeout());
         }
 
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getConfiguration()->getCurlOptUserAgent());

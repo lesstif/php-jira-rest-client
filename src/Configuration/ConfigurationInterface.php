@@ -164,6 +164,13 @@ interface ConfigurationInterface
      *
      * @return int
      */
+    public function getConnectTimeout();
+
+    /**
+     * The maximum number of seconds to allow cURL functions to execute.
+     *
+     * @return int
+     */
     public function getTimeout();
 
     /**

@@ -148,6 +148,9 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /** @var int */
     protected $timeout;
 
+    /** @var int */
+    protected $connectTimeout;
+
     /** @var bool */
     protected $useTokenBasedAuth;
 
@@ -350,6 +353,14 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getTimeout()
     {
         return $this->timeout;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConnectTimeout()
+    {
+      return $this->connectTimeout;
     }
 
     /**
