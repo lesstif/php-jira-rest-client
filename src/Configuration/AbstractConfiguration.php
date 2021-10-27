@@ -360,7 +360,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     public function getConnectTimeout()
     {
-      return $this->connectTimeout;
+        return $this->connectTimeout;
     }
 
     /**
