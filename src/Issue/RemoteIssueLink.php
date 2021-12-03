@@ -22,7 +22,7 @@ class RemoteIssueLink implements \JsonSerializable
     /** @var \JiraRestApi\Issue\RemoteIssueLinkObject|null */
     public $object;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this));
     }

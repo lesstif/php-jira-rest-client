@@ -21,7 +21,7 @@ class IssueLink implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Comment */
     public $comment;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $vars = array_filter(get_object_vars($this));
 

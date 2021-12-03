@@ -7,7 +7,7 @@ class IssueV3 extends Issue
     /** @var \JiraRestApi\Issue\IssueFieldV3 */
     public $fields;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this));
     }
