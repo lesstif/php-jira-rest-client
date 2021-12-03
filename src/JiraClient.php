@@ -512,7 +512,7 @@ class JiraClient
         }
 
         // if cookie file not exist, using id/pwd login
-        if (!file_exists($cookieFile)) {
+        if (!is_string($cookieFile) || !file_exists($cookieFile)) {
             if ($this->getConfiguration()->isTokenBasedAuth() === true) {
                 $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPeronalAccessToken();
             } else {
