@@ -64,7 +64,7 @@ class DotEnvConfiguration extends AbstractConfiguration
             return $default;
         }
 
-        switch ($value === null ?? 'null' : strtolower($value)) {
+        switch ($value === null ? 'null' : strtolower($value)) {
             case 'true':
             case '(true)':
                 return true;
