@@ -39,7 +39,7 @@ class GroupSearchResult implements \JsonSerializable
     /** @var \JiraRestApi\User\User[] */
     public $values;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this));
     }

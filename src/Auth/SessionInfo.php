@@ -18,7 +18,7 @@ class SessionInfo implements \JsonSerializable
      */
     public $value;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this));
     }

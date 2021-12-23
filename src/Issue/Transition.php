@@ -72,7 +72,7 @@ class Transition implements \JsonSerializable
         array_push($this->update['comment'], $ar);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this));
     }

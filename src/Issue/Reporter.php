@@ -32,7 +32,7 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $accountId;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $vars = (get_object_vars($this));
 
@@ -47,7 +47,7 @@ class Reporter implements \JsonSerializable
         }
 
         if (empty($vars)) {
-            return;
+            return null;
         }
 
         return $vars;

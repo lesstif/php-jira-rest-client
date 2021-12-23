@@ -122,7 +122,7 @@ class Project implements \JsonSerializable
     /** @var int */
     public $categoryId;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);
