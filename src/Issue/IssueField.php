@@ -138,7 +138,8 @@ class IssueField implements \JsonSerializable
         }
     }
 
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         $vars = array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);

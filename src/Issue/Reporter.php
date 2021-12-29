@@ -32,7 +32,8 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $accountId;
 
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         $vars = (get_object_vars($this));
 

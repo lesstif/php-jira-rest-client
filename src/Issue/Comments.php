@@ -16,7 +16,8 @@ class Comments implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Comment[] */
     public $comments;
 
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }
