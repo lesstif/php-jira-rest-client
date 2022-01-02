@@ -84,7 +84,8 @@ class Location implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);

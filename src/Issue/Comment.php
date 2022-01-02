@@ -37,7 +37,8 @@ class Comment implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }
