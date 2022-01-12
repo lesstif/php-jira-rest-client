@@ -564,7 +564,7 @@ class JiraClient
                 $v = $value;
             }
 
-            $queryParam .= $key.'='.$v.'&';
+            $queryParam .= rawurlencode($key).'='.rawurlencode($v).'&';
         }
 
         return $queryParam;
