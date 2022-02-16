@@ -1006,7 +1006,7 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get a remote issue links on the issue.
+     * Get a remote issue link on the issue.
      *
      * @param string|int $issueIdOrKey Issue id Or Key
      *
