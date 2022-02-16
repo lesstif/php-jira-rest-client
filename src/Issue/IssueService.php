@@ -1142,10 +1142,10 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove labels.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int    $issueIdOrKey
      * @param string[]|null $addLablesParam
      * @param string[]|null $removeLabelsParam
-     * @param bool       $notifyUsers
+     * @param bool          $notifyUsers
      *
      * @throws JiraException
      *
@@ -1180,10 +1180,10 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove fix versions.
      *
-     * @param string|int $issueIdOrKey
+     * @param string|int    $issueIdOrKey
      * @param string[]|null $addFixVersionsParam
      * @param string[]|null $removeFixVersionsParam
-     * @param bool       $notifyUsers
+     * @param bool          $notifyUsers
      *
      * @throws JiraException
      *
