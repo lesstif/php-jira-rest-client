@@ -1012,7 +1012,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return array array os RemoteIssueLink class
+     * @return RemoteIssueLink[]
      *
      * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks
@@ -1039,7 +1039,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return object
+     * @return RemoteIssueLink
      */
     public function createOrUpdateRemoteIssueLink($issueIdOrKey, RemoteIssueLink $ril)
     {
