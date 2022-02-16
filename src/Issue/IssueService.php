@@ -92,7 +92,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array Array of results, where each result represents one batch of insertions
+     * @return Issue[] Array of results, where each result represents one batch of insertions
      */
     public function createMultiple($issueFields, $batchSize = 50)
     {
