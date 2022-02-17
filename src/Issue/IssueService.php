@@ -92,7 +92,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array Array of results, where each result represents one batch of insertions
+     * @return Issue[] Array of results, where each result represents one batch of insertions
      */
     public function createMultiple($issueFields, $batchSize = 50)
     {
@@ -1006,13 +1006,13 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get a remote issue links on the issue.
+     * Get all remote issue links on the issue.
      *
      * @param string|int $issueIdOrKey Issue id Or Key
      *
      * @throws JiraException
      *
-     * @return array array os RemoteIssueLink class
+     * @return RemoteIssueLink[]
      *
      * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks
@@ -1039,7 +1039,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return object
+     * @return RemoteIssueLink
      */
     public function createOrUpdateRemoteIssueLink($issueIdOrKey, RemoteIssueLink $ril)
     {
@@ -1142,10 +1142,10 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove labels.
      *
-     * @param string|int $issueIdOrKey
-     * @param array|null $addLablesParam
-     * @param array|null $removeLabelsParam
-     * @param bool       $notifyUsers
+     * @param string|int    $issueIdOrKey
+     * @param string[]|null $addLablesParam
+     * @param string[]|null $removeLabelsParam
+     * @param bool          $notifyUsers
      *
      * @throws JiraException
      *
@@ -1180,10 +1180,10 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove fix versions.
      *
-     * @param string|int $issueIdOrKey
-     * @param array|null $addFixVersionsParam
-     * @param array|null $removeFixVersionsParam
-     * @param bool       $notifyUsers
+     * @param string|int    $issueIdOrKey
+     * @param string[]|null $addFixVersionsParam
+     * @param string[]|null $removeFixVersionsParam
+     * @param bool          $notifyUsers
      *
      * @throws JiraException
      *
