@@ -151,6 +151,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Perform a transition on an issue](#perform-a-transition-on-an-issue)
 - [Perform an advanced search, using the JQL](#perform-an-advanced-search)
     - [Simple JQL](#simple-query)
+    - [Simple Query with LinkedIssue](#simple-query-with-linkedissue)
     - [JQL With pagination](#jql-with-pagination)
     - [Using JQL Query class](#jql-query-class)
 - [Remote Issue Link](#remote-issue-link)
