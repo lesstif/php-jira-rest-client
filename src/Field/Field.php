@@ -111,6 +111,7 @@ class Field implements \JsonSerializable
     /* @var Schema */
     public $schema;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

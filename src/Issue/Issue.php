@@ -44,6 +44,7 @@ class Issue implements \JsonSerializable
     /** @var \JiraRestApi\Issue\ChangeLog|null */
     public $changelog;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

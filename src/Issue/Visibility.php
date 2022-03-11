@@ -27,6 +27,7 @@ class Visibility implements \JsonSerializable
         return $this->value;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

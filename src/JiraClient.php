@@ -235,7 +235,14 @@ class JiraClient
             }
         }
 
-        $this->authorization($ch, $cookieFile);
+        // save HTTP Headers
+        $curl_http_headers = [
+            'Accept: */*',
+            'Content-Type: application/json',
+            'X-Atlassian-Token: no-check',
+        ];
+
+        $this->authorization($ch, $curl_http_headers, $cookieFile);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
@@ -263,10 +270,11 @@ class JiraClient
         }
 
         curl_setopt($ch, CURLOPT_ENCODING, '');
+
         curl_setopt(
             $ch,
             CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
+            $curl_http_headers
         );
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
@@ -314,13 +322,20 @@ class JiraClient
     /**
      * Create upload handle.
      *
-     * @param string $url         Request URL
-     * @param string $upload_file Filename
+     * @param string   $url         Request URL
+     * @param string   $upload_file Filename
+     * @param resource $ch          CUrl handler
      *
      * @return resource
      */
     private function createUploadHandle($url, $upload_file, $ch)
     {
+        $curl_http_headers = [
+            'Accept: */*',
+            'Content-Type: multipart/form-data',
+            'X-Atlassian-Token: no-check',
+        ];
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -352,7 +367,7 @@ class JiraClient
             $this->log->debug('using CURLFile='.var_export($attachments, true));
         }
 
-        $this->authorization($ch);
+        $this->authorization($ch, $curl_http_headers);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
@@ -379,11 +394,8 @@ class JiraClient
         if (!function_exists('ini_get') || !ini_get('open_basedir')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: */*',
-            'Content-Type: multipart/form-data',
-            'X-Atlassian-Token: nocheck',
-        ]);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $curl_http_headers);
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
 
@@ -481,9 +493,11 @@ class JiraClient
     /**
      * Add authorize to curl request.
      *
-     * @param resource $ch
+     * @param resource    $ch
+     * @param string[]    $curl_http_headers
+     * @param string|null $cookieFile
      */
-    protected function authorization($ch, $cookieFile = null)
+    protected function authorization($ch, &$curl_http_headers, $cookieFile = null)
     {
         // use cookie
         if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
@@ -498,10 +512,14 @@ class JiraClient
         }
 
         // if cookie file not exist, using id/pwd login
-        if (!file_exists($cookieFile)) {
-            $username = $this->getConfiguration()->getJiraUser();
-            $password = $this->getConfiguration()->getJiraPassword();
-            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        if (!is_string($cookieFile) || !file_exists($cookieFile)) {
+            if ($this->getConfiguration()->isTokenBasedAuth() === true) {
+                $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPeronalAccessToken();
+            } else {
+                $username = $this->getConfiguration()->getJiraUser();
+                $password = $this->getConfiguration()->getJiraPassword();
+                curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+            }
         }
     }
 
@@ -546,7 +564,7 @@ class JiraClient
                 $v = $value;
             }
 
-            $queryParam .= $key.'='.$v.'&';
+            $queryParam .= rawurlencode($key).'='.rawurlencode($v).'&';
         }
 
         return $queryParam;
@@ -566,7 +584,13 @@ class JiraClient
      */
     public function download(string $url, string $outDir, string $file, string $cookieFile = null)
     {
-        $file = fopen($outDir.DIRECTORY_SEPARATOR.$file, 'w');
+        $curl_http_header = [
+            'Accept: */*',
+            'Content-Type: application/json',
+            'X-Atlassian-Token: no-check',
+        ];
+
+        $file = fopen($outDir.DIRECTORY_SEPARATOR.urldecode($file), 'w');
 
         curl_reset($this->curl);
         $ch = $this->curl;
@@ -576,7 +600,7 @@ class JiraClient
         // output to file handle
         curl_setopt($ch, CURLOPT_FILE, $file);
 
-        $this->authorization($ch, $cookieFile);
+        $this->authorization($ch, $curl_http_header, $cookieFile);
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
@@ -604,17 +628,17 @@ class JiraClient
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
 
+        if ($this->isRestApiV3()) {
+            $curl_http_header[] = 'x-atlassian-force-account-id: true';
+        }
+
         curl_setopt(
             $ch,
             CURLOPT_HTTPHEADER,
-            ['Accept: */*', 'Content-Type: application/json', 'X-Atlassian-Token: no-check']
+            $curl_http_header
         );
 
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
-
-        if ($this->isRestApiV3()) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-atlassian-force-account-id: true']);
-        }
 
         $this->log->debug('Curl exec='.$url);
         $response = curl_exec($ch);

@@ -28,6 +28,7 @@ class IssueType implements \JsonSerializable
     /** @var int */
     public $avatarId;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

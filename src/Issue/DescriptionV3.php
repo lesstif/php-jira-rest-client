@@ -21,6 +21,7 @@ class DescriptionV3 implements \JsonSerializable
     /** @var \JiraRestApi\Issue\ContentField[]|null */
     public $content;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

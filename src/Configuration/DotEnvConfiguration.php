@@ -43,6 +43,9 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->useV3RestApi = $this->env('JIRA_REST_API_V3', false);
 
         $this->timeout = $this->env('JIRA_TIMEOUT', 30);
+
+        $this->useTokenBasedAuth = $this->env('TOKEN_BASED_AUTH', false);
+        $this->personalAccessToken = $this->env('PERSONAL_ACCESS_TOKEN', false);
     }
 
     /**
@@ -61,7 +64,7 @@ class DotEnvConfiguration extends AbstractConfiguration
             return $default;
         }
 
-        switch (strtolower($value)) {
+        switch ($value === null ? 'null' : strtolower($value)) {
             case 'true':
             case '(true)':
                 return true;
@@ -134,7 +137,7 @@ class DotEnvConfiguration extends AbstractConfiguration
     private function loadDotEnv(string $path)
     {
         $requireParam = [
-            'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',
+            'JIRA_HOST', 'TOKEN_BASED_AUTH',
         ];
 
         // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102

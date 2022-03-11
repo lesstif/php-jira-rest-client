@@ -165,4 +165,20 @@ interface ConfigurationInterface
      * @return int
      */
     public function getTimeout();
+
+    /**
+     * check whether token based auth.
+     *
+     * @see https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html
+     *
+     * @return bool
+     */
+    public function isTokenBasedAuth();
+
+    /**
+     * Personal Access Token.
+     *
+     * @return string
+     */
+    public function getPeronalAccessToken();
 }

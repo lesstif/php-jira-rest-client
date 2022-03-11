@@ -34,6 +34,9 @@ class ArrayConfiguration extends AbstractConfiguration
 
         $this->useV3RestApi = false;
 
+        $this->useTokenBasedAuth = false;
+        $this->personalAccessToken = '';
+
         foreach ($configuration as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
