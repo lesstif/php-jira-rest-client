@@ -1250,6 +1250,45 @@ try {
 }
 ```
 
+##### Simple Query with LinkedIssue
+
+[See Jira API reference](https://support.atlassian.com/jira-work-management/docs/advanced-search-reference-jql-functions/#Advancedsearchingfunctionsreference-linkedIssueslinkedIssues--)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+use JiraRestApi\Issue\JqlFunction;
+
+// Searches for issues that are linked to an issue. You can restrict the search to links of a particular type. 
+try {
+    $linkedIssue = JqlFunction::linkedIssues('TEST-01', 'IN', 'is blocked by');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->search($linkedIssue->expression);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+
+// Searches for epics and subtasks. If the issue is not an epic, the search returns all subtasks for the issue. 
+try {
+    $linkedIssue = JqlFunction::linkedissue('TEST-01');
+
+    $issueService = new IssueService();
+
+    $ret = $issueService->search($linkedIssue->expression);
+
+    var_dump($ret);
+} catch (JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
+}
+```
+
 ##### JQL with pagination
 
 [See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-search)
