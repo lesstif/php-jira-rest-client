@@ -242,6 +242,7 @@ class JqlFunction
      * Searches for epics and subtasks. If the issue is not an epic, the search returns all subtasks for the issue.
      *
      * @param $issueKey
+     *
      * @return JqlFunction
      */
     public static function linkedissue($issueKey)
@@ -256,9 +257,8 @@ class JqlFunction
      *
      * @see https://support.atlassian.com/jira-work-management/docs/advanced-search-reference-jql-functions/#Advancedsearchingfunctionsreference-linkedIssueslinkedIssues--
      *
-     *
      * @param string      $issueKey
-     * @param string      $supportedOperator Supported operators IN or NOT IN
+     * @param string      $supportedOperator     Supported operators IN or NOT IN
      * @param null|string $caseSensitiveLinkType
      *
      * @return JqlFunction
