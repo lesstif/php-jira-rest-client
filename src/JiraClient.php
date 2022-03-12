@@ -5,7 +5,7 @@ namespace JiraRestApi;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Configuration\DotEnvConfiguration;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger as Logger;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
