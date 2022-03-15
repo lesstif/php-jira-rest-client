@@ -36,13 +36,13 @@ class JqlFunction
      * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-approverapprover()
      *      jql function reference
      *
-     * @param string $user
+     * @param string,... $users
      *
      * @return JqlFunction
      */
-    public static function approver($user)
+    public static function approver(...$users)
     {
-        return new self('approver('.implode(', ', func_get_args()).')');
+        return new self('approver('.implode(', ', $users).')');
     }
 
     /**
@@ -346,13 +346,13 @@ class JqlFunction
      * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-approvedpendingBy()
      *      jql function reference
      *
-     * @param string $user
+     * @param string,... $users
      *
      * @return JqlFunction
      */
-    public static function pendingBy($user)
+    public static function pendingBy(...$users)
     {
-        return new self('pendingBy('.implode(', ', func_get_args()).')');
+        return new self('pendingBy('.implode(', ', $users).')');
     }
 
     /**
