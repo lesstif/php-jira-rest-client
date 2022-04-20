@@ -64,7 +64,7 @@ class Project implements \JsonSerializable
     /**
      * Project leader info.
      *
-     * @var array
+     * @var string
      */
     public $lead;
 
@@ -203,7 +203,7 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param array $lead
+     * @param string $lead
      *
      * @return Project
      */
