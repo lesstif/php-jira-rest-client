@@ -99,7 +99,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get the Components defined in a Jira Project
+     * Get the Components defined in a Jira Project.
      *
      * @param string|int $projectIdOrKey
      *
