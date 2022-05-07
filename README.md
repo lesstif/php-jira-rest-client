@@ -130,6 +130,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Delete Project](#delete-project)
 - [Get Project Info](#get-project-info)
 - [Get All Project list](#get-all-project-list)
+- [Get Project Components](#get-project-components)
 - [Get Project Type](#get-project-type)
 - [Get Project Version](#get-project-version)
 
@@ -373,6 +374,32 @@ try {
     }			
 } catch (JiraRestApi\JiraException $e) {
 	print("Error Occured! " . $e->getMessage());
+}
+
+```
+
+#### Get Project Components
+
+[See Jira API reference (Get project components)](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#project-getProjectComponents)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\JiraException;
+
+try {
+    $proj = new ProjectService();
+
+    $prjs = $proj->getAllProjects();
+
+    // Extract and show Project Components for every Jira Project
+    foreach ($prjs as $p) {
+        var_export($proj->getProjectComponents($p->id));
+    }
+} catch (JiraRestApi\JiraException $e) {
+    print("Error Occured! " . $e->getMessage());
 }
 
 ```

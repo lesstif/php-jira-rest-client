@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\Component\Component;
 use JiraRestApi\Issue\IssueType;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
@@ -92,6 +93,26 @@ class ProjectService extends \JiraRestApi\JiraClient
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
+        }, $json);
+
+        return $results;
+    }
+
+    /**
+     * Get the Components defined in a Jira Project.
+     *
+     * @param string|int $projectIdOrKey
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return \JiraRestApi\Component\Component[]
+     */
+    public function getProjectComponents($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$projectIdOrKey/components", null);
+        $json = json_decode($ret);
+        $results = array_map(function ($elem) {
+            return $this->json_mapper->map($elem, new Component());
         }, $json);
 
         return $results;
