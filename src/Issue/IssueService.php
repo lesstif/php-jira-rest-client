@@ -1154,12 +1154,16 @@ class IssueService extends \JiraRestApi\JiraClient
     public function updateLabels($issueIdOrKey, $addLablesParam, $removeLabelsParam, $notifyUsers = true)
     {
         $labels = [];
-        foreach ($addLablesParam as $a) {
-            array_push($labels, ['add' => $a]);
+        if ($addLablesParam !== null) {
+            foreach ($addLablesParam as $a) {
+                array_push($labels, ['add' => $a]);
+            }
         }
 
-        foreach ($removeLabelsParam as $r) {
-            array_push($labels, ['remove' => $r]);
+        if ($removeLabelsParam !== null) {
+            foreach ($removeLabelsParam as $r) {
+                array_push($labels, ['remove' => $r]);
+            }
         }
 
         $postData = json_encode([
