@@ -1196,12 +1196,16 @@ class IssueService extends \JiraRestApi\JiraClient
     public function updateFixVersions($issueIdOrKey, $addFixVersionsParam, $removeFixVersionsParam, $notifyUsers = true)
     {
         $fixVersions = [];
-        foreach ($addFixVersionsParam as $a) {
-            array_push($fixVersions, ['add' => ['name' => $a]]);
+        if ($addFixVersionsParam !== null) {
+            foreach ($addFixVersionsParam as $a) {
+                array_push($fixVersions, ['add' => ['name' => $a]]);
+            }
         }
 
-        foreach ($removeFixVersionsParam as $r) {
-            array_push($fixVersions, ['remove' => ['name' => $r]]);
+        if ($removeFixVersionsParam !== null) {
+            foreach ($removeFixVersionsParam as $r) {
+                array_push($fixVersions, ['remove' => ['name' => $r]]);
+            }
         }
 
         $postData = json_encode([
