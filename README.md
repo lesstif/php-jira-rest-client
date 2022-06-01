@@ -1095,7 +1095,7 @@ Adds a new comment to an issue.
 COMMENT;
 
     $comment->setBody($body)
-        ->setVisibility('role', 'Users');
+        ->setVisibilityAsString('role', 'Users');
     ;
 
     $issueService = new IssueService();
