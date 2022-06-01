@@ -47,25 +47,18 @@ class Project implements \JsonSerializable
     /**
      * avatar URL.
      *
-     * @var array
      */
-    public $avatarUrls;
+    public \stdClass $avatarUrls;
 
     /**
      * Project category.
      *
-     * @var array
      */
-    public $projectCategory;
+    public \stdClass $projectCategory;
 
-    /** @var string|null */
     public ?string $description;
 
-    /**
-     * Project leader info.
-     *
-     * @var array
-     */
+    // Project leader info.
     public array $lead;
 
     private string $leadName;
@@ -75,7 +68,7 @@ class Project implements \JsonSerializable
      *
      * @var string
      */
-    public $leadAccountId;
+    public string $leadAccountId;
 
     /**
      * ComponentList [\JiraRestApi\Project\Component].
@@ -91,38 +84,30 @@ class Project implements \JsonSerializable
      */
     public $issueTypes;
 
-    /** @var string|null */
-    public $assigneeType;
+    public ?string $assigneeType;
 
-    /** @var array|null */
-    public $versions;
+    public array $versions = [];
 
     /** @var array|null */
     public $roles;
 
     /** @var string */
-    public $url;
+    public string $url;
 
     /** @var string */
-    public $projectTypeKey;
+    public string $projectTypeKey;
 
-    /** @var string */
-    public $projectTemplateKey;
+    public ?string $projectTemplateKey;
 
-    /** @var int */
-    public $avatarId;
+    public int $avatarId;
 
-    /** @var int */
-    public $issueSecurityScheme;
+    public int $issueSecurityScheme;
 
-    /** @var int */
-    public $permissionScheme;
+    public int $permissionScheme;
 
-    /** @var int */
-    public $notificationScheme;
+    public int $notificationScheme;
 
-    /** @var int */
-    public $categoryId;
+    public int $categoryId;
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
@@ -138,83 +123,48 @@ class Project implements \JsonSerializable
         return $params;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Project
-     */
-    public function setId($id)
+    public function setId(string $id) :static
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return Project
-     */
-    public function setKey($key)
+    public function setKey(string $key) :static
     {
         $this->key = $key;
 
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Project
-     */
-    public function setName($name)
+    public function setName(string $name) :static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @param array $avatarUrls
-     *
-     * @return Project
-     */
-    public function setAvatarUrls($avatarUrls)
+    public function setAvatarUrls(\stdClass $avatarUrls) :static
     {
         $this->avatarUrls = $avatarUrls;
 
         return $this;
     }
 
-    /**
-     * @param array $projectCategory
-     *
-     * @return Project
-     */
-    public function setProjectCategory($projectCategory)
+    public function setProjectCategory(\stdClass $projectCategory) :static
     {
         $this->projectCategory = $projectCategory;
 
         return $this;
     }
 
-    /**
-     * @param null|string $description
-     *
-     * @return Project
-     */
-    public function setDescription($description)
+    public function setDescription(string $description) : static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @param string $leadName
-     *
-     * @return Project
-     */
     public function setLeadName(string $leadName): static
     {
         $this->leadName = $leadName;
@@ -222,108 +172,63 @@ class Project implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @param string $leadAccountId
-     *
-     * @return Project
-     */
-    public function setLeadAccountId($leadAccountId)
+    public function setLeadAccountId(string $leadAccountId) :static
     {
         $this->leadAccountId = $leadAccountId;
 
         return $this;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return Project
-     */
-    public function setUrl($url)
+    public function setUrl(string $url) :static
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * @param string $projectTypeKey
-     *
-     * @return Project
-     */
-    public function setProjectTypeKey($projectTypeKey)
+    public function setProjectTypeKey(string $projectTypeKey) :static
     {
         $this->projectTypeKey = $projectTypeKey;
 
         return $this;
     }
 
-    /**
-     * @param string $projectTemplateKey
-     *
-     * @return Project
-     */
-    public function setProjectTemplateKey($projectTemplateKey)
+    public function setProjectTemplateKey(string $projectTemplateKey) :static
     {
         $this->projectTemplateKey = $projectTemplateKey;
 
         return $this;
     }
 
-    /**
-     * @param int $avatarId
-     *
-     * @return Project
-     */
-    public function setAvatarId($avatarId)
+    public function setAvatarId(int $avatarId) :static
     {
         $this->avatarId = $avatarId;
 
         return $this;
     }
 
-    /**
-     * @param int $issueSecurityScheme
-     *
-     * @return Project
-     */
-    public function setIssueSecurityScheme($issueSecurityScheme)
+    public function setIssueSecurityScheme(int $issueSecurityScheme) :static
     {
         $this->issueSecurityScheme = $issueSecurityScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $permissionScheme
-     *
-     * @return Project
-     */
-    public function setPermissionScheme($permissionScheme)
+    public function setPermissionScheme(int $permissionScheme) :static
     {
         $this->permissionScheme = $permissionScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $notificationScheme
-     *
-     * @return Project
-     */
-    public function setNotificationScheme($notificationScheme)
+    public function setNotificationScheme(int $notificationScheme) :static
     {
         $this->notificationScheme = $notificationScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $categoryId
-     *
-     * @return Project
-     */
-    public function setCategoryId($categoryId)
+    public function setCategoryId(int $categoryId) :static
     {
         $this->categoryId = $categoryId;
 
@@ -331,13 +236,10 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param null|string $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
-     *
+     * $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
      * @throws JiraException
-     *
-     * @return Project
      */
-    public function setAssigneeType($assigneeType)
+    public function setAssigneeType(?string $assigneeType) :static
     {
         if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
             throw new JiraException('invalid assigneeType:'.$assigneeType);

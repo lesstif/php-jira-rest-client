@@ -28,7 +28,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $prjs = $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            '\JiraRestApi\Project\Project'
+            Project::class
         );
 
         return $prjs;

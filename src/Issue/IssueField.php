@@ -36,11 +36,11 @@ class IssueField implements \JsonSerializable
 
     public ?string $environment;
 
-    /* @var \JiraRestApi\Issue\Component[] */
+    /* @var \JiraRestApi\Issue\Component[] This property must don't describe the type feature for JSON deserialized. */
     public $components;
 
     /** @var \JiraRestApi\Issue\Comments */
-    public $comment;
+    public ?Comments $comment = null;
 
     /** @var object */
     public $votes;
