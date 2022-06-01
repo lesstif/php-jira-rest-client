@@ -59,14 +59,16 @@ class Project implements \JsonSerializable
     public $projectCategory;
 
     /** @var string|null */
-    public $description;
+    public ?string $description;
 
     /**
      * Project leader info.
      *
      * @var array
      */
-    public $lead;
+    public array $lead;
+
+    private string $leadName;
 
     /**
      * The account ID of the project lead.
@@ -125,9 +127,15 @@ class Project implements \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this), function ($var) {
+        $params = array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);
         });
+        if (! empty($this->leadName)) {
+            $params['lead'] = $this->leadName;
+            unset($params['leadName']);
+        }
+
+        return $params;
     }
 
     /**
@@ -203,13 +211,13 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param array $lead
+     * @param string $leadName
      *
      * @return Project
      */
-    public function setLead($lead)
+    public function setLeadName(string $leadName): static
     {
-        $this->lead = $lead;
+        $this->leadName = $leadName;
 
         return $this;
     }
