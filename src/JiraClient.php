@@ -517,10 +517,10 @@ class JiraClient
                 // JIRA Cloud API v3 using Basic Auth
                 // See https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
                 if ($this->getConfiguration()->getUseV3RestApi()) {
-                    $token = base64_encode($this->getConfiguration()->getJiraUser() . ':' . $this->getConfiguration()->getPeronalAccessToken());
-                    $curl_http_headers[] = 'Authorization: Basic ' . $token;
-                }   else {
-                    $curl_http_headers[] = 'Authorization: Bearer ' . $this->getConfiguration()->getPeronalAccessToken();
+                    $token = base64_encode($this->getConfiguration()->getJiraUser().':'.$this->getConfiguration()->getPeronalAccessToken());
+                    $curl_http_headers[] = 'Authorization: Basic '.$token;
+                } else {
+                    $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPeronalAccessToken();
                 }
             } else {
                 $username = $this->getConfiguration()->getJiraUser();

@@ -17,12 +17,12 @@ class Visibility implements \JsonSerializable
         $this->value = $value;
     }
 
-    public function getType() :string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getValue() :string
+    public function getValue(): string
     {
         return $this->value;
     }
