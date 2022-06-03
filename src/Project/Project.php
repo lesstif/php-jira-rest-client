@@ -12,37 +12,32 @@ class Project implements \JsonSerializable
     /**
      * return only if Project query by key(not id).
      *
-     * @var string
      */
-    public $expand;
+    public string $expand;
 
     /**
      * Project URI.
      *
-     * @var string
      */
-    public $self;
+    public string $self;
 
     /**
      * Project id.
      *
-     * @var string
      */
-    public $id;
+    public string $id;
 
     /**
      * Project key.
      *
-     * @var string
      */
-    public $key;
+    public string $key;
 
     /**
      * Project name.
      *
-     * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * avatar URL.
@@ -86,13 +81,10 @@ class Project implements \JsonSerializable
 
     public array $versions = [];
 
-    /** @var array|null */
-    public $roles;
+    public ?array $roles;
 
-    /** @var string */
     public string $url;
 
-    /** @var string */
     public string $projectTypeKey;
 
     public ?string $projectTemplateKey;

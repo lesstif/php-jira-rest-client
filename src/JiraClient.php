@@ -16,68 +16,64 @@ class JiraClient
     /**
      * @var string
      */
-    public $cookieFile;
+    public string $cookieFile;
 
     /**
      * Json Mapper.
      *
      * @var \JsonMapper
      */
-    protected $json_mapper;
+    protected \JsonMapper $json_mapper;
 
     /**
      * HTTP response code.
      *
-     * @var string|int
      */
-    protected $http_response;
+    protected string|int $http_response;
 
     /**
      * JIRA REST API URI.
      *
      * @var string
      */
-    private $api_uri = '/rest/api/2';
+    private string $api_uri = '/rest/api/2';
 
     /**
      * CURL instance.
      *
-     * @var resource
      */
-    protected $curl;
+    protected \CurlHandle $curl;
 
     /**
      * Monolog instance.
      *
-     * @var \Monolog\Logger
      */
-    protected $log;
+    protected LoggerInterface $log;
 
     /**
      * Jira Rest API Configuration.
      *
      * @var ConfigurationInterface
      */
-    protected $configuration;
+    protected ConfigurationInterface $configuration;
 
     /**
      * json en/decode options.
      *
      * @var int
      */
-    protected $jsonOptions;
+    protected int $jsonOptions;
 
     /**
      * Constructor.
      *
-     * @param ConfigurationInterface $configuration
-     * @param LoggerInterface        $logger
-     * @param string                 $path
+     * @param ConfigurationInterface|null $configuration
+     * @param LoggerInterface|null $logger
+     * @param string $path
      *
      * @throws JiraException
-     * @throws \Exception
      */
-    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
+    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, string $path = './')
     {
         if ($configuration === null) {
             if (!file_exists($path.'.env')) {
@@ -137,32 +133,23 @@ class JiraClient
      *
      * @param string $log_level
      *
-     * @return int
+     * @return \Monolog\Level
      */
-    private function convertLogLevel(string $log_level)
+    private function convertLogLevel(string $log_level) : \Monolog\Level
     {
         $log_level = strtoupper($log_level);
 
-        switch ($log_level) {
-            case 'EMERGENCY':
-                return Logger::EMERGENCY;
-            case 'ALERT':
-                return Logger::ALERT;
-            case 'CRITICAL':
-                return Logger::CRITICAL;
-            case 'ERROR':
-                return Logger::ERROR;
-            case 'WARNING':
-                return Logger::WARNING;
-            case 'NOTICE':
-                return Logger::NOTICE;
-            case 'DEBUG':
-                return Logger::DEBUG;
-            case 'INFO':
-                return Logger::INFO;
-            default:
-                return Logger::WARNING;
-        }
+        return match ($log_level) {
+            'EMERGENCY' => \Monolog\Level::Emergency,
+            'ALERT' => \Monolog\Level::Alert,
+            'CRITICAL' => \Monolog\Level::Critical,
+            'ERROR' => \Monolog\Level::Error,
+            'WARNING' => \Monolog\Level::Warning,
+            'NOTICE' =>  \Monolog\Level::Notice,
+            'DEBUG' => \Monolog\Level::Debug,
+            'INFO' => \Monolog\Level::Info,
+            default => \Monolog\Level::Warning,
+        };
     }
 
     /**
@@ -172,7 +159,7 @@ class JiraClient
      *
      * @return array
      */
-    protected function filterNullVariable($haystack)
+    protected function filterNullVariable(array $haystack) :array
     {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
@@ -192,16 +179,16 @@ class JiraClient
     /**
      * Execute REST request.
      *
-     * @param string            $context        Rest API context (ex.:issue, search, etc..)
-     * @param string|array|null $post_data
-     * @param string            $custom_request [PUT|DELETE]
-     * @param string            $cookieFile     cookie file
-     *
-     * @throws JiraException
+     * @param string $context        Rest API context (ex.:issue, search, etc..)
+     * @param array|string|null $post_data
+     * @param string|null $custom_request [PUT|DELETE]
+     * @param string|null $cookieFile     cookie file
      *
      * @return string|bool
+     *@throws JiraException
+     *
      */
-    public function exec($context, $post_data = null, $custom_request = null, $cookieFile = null)
+    public function exec(string $context, array|string $post_data = null, string $custom_request = null, string $cookieFile = null) : string|bool
     {
         $url = $this->createUrlByContext($context);
 
@@ -322,13 +309,8 @@ class JiraClient
     /**
      * Create upload handle.
      *
-     * @param string   $url         Request URL
-     * @param string   $upload_file Filename
-     * @param resource $ch          CUrl handler
-     *
-     * @return resource
      */
-    private function createUploadHandle($url, $upload_file, $ch)
+    private function createUploadHandle(string $url, string $upload_file, \CurlHandle $ch) :\CurlHandle
     {
         $curl_http_headers = [
             'Accept: */*',
@@ -407,14 +389,8 @@ class JiraClient
     /**
      * File upload.
      *
-     * @param string $context       url context
-     * @param array  $filePathArray upload file path.
-     *
-     * @throws JiraException
-     *
-     * @return array
      */
-    public function upload($context, $filePathArray)
+    public function upload(string $context, array $filePathArray) :array
     {
         $url = $this->createUrlByContext($context);
 
@@ -454,15 +430,7 @@ class JiraClient
         return $results;
     }
 
-    /**
-     * @param array    $chArr
-     * @param resource $mh
-     * @param string   $body
-     * @param int      $result_code
-     *
-     * @throws \JiraRestApi\JiraException
-     */
-    protected function closeCURLHandle(array $chArr, $mh, string $body, int $result_code)
+    protected function closeCURLHandle(array $chArr, \CurlMultiHandle $mh, string $body, int $result_code) :void
     {
         foreach ($chArr as $ch) {
             $this->log->debug('CURL Close handle..');
@@ -479,11 +447,8 @@ class JiraClient
     /**
      * Get URL by context.
      *
-     * @param string $context
-     *
-     * @return string
      */
-    protected function createUrlByContext($context)
+    protected function createUrlByContext(string $context) :string
     {
         $host = $this->getConfiguration()->getJiraHost();
 
@@ -493,11 +458,8 @@ class JiraClient
     /**
      * Add authorize to curl request.
      *
-     * @param resource    $ch
-     * @param string[]    $curl_http_headers
-     * @param string|null $cookieFile
      */
-    protected function authorization($ch, &$curl_http_headers, $cookieFile = null)
+    protected function authorization(\CurlHandle $ch, array &$curl_http_headers, string $cookieFile = null): void
     {
         // use cookie
         if ($this->getConfiguration()->isCookieAuthorizationEnabled()) {
@@ -517,10 +479,10 @@ class JiraClient
                 // JIRA Cloud API v3 using Basic Auth
                 // See https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
                 if ($this->getConfiguration()->getUseV3RestApi()) {
-                    $token = base64_encode($this->getConfiguration()->getJiraUser().':'.$this->getConfiguration()->getPeronalAccessToken());
+                    $token = base64_encode($this->getConfiguration()->getJiraUser().':'.$this->getConfiguration()->getPersonalAccessToken());
                     $curl_http_headers[] = 'Authorization: Basic '.$token;
                 } else {
-                    $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPeronalAccessToken();
+                    $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPersonalAccessToken();
                 }
             } else {
                 $username = $this->getConfiguration()->getJiraUser();
@@ -533,9 +495,8 @@ class JiraClient
     /**
      * Jira Rest API Configuration.
      *
-     * @return ConfigurationInterface
      */
-    public function getConfiguration()
+    public function getConfiguration() :ConfigurationInterface
     {
         return $this->configuration;
     }
@@ -545,7 +506,7 @@ class JiraClient
      *
      * @param string $api_uri
      */
-    public function setAPIUri($api_uri)
+    public function setAPIUri($api_uri) :string
     {
         $this->api_uri = $api_uri;
     }
@@ -553,11 +514,8 @@ class JiraClient
     /**
      * convert to query array to http query parameter.
      *
-     * @param array $paramArray
-     *
-     * @return string
      */
-    public function toHttpQueryParameter(array $paramArray)
+    public function toHttpQueryParameter(array $paramArray) :string
     {
         $queryParam = '?';
 
@@ -580,16 +538,8 @@ class JiraClient
     /**
      * download and save into outDir.
      *
-     * @param string $url        full url
-     * @param string $outDir     save dir
-     * @param string $file       save filename
-     * @param string $cookieFile cookie filename
-     *
-     * @throws JiraException
-     *
-     * @return bool|mixed
      */
-    public function download(string $url, string $outDir, string $file, string $cookieFile = null)
+    public function download(string $url, string $outDir, string $file, string $cookieFile = null) : mixed
     {
         $curl_http_header = [
             'Accept: */*',
@@ -689,11 +639,8 @@ class JiraClient
     /**
      * setting cookie file path.
      *
-     * @param string $cookieFile
-     *
-     * @return $this
      */
-    public function setCookieFile(string $cookieFile)
+    public function setCookieFile(string $cookieFile) :static
     {
         $this->cookieFile = $cookieFile;
 
@@ -703,9 +650,8 @@ class JiraClient
     /**
      * Config a curl handle with proxy configuration (if set) from ConfigurationInterface.
      *
-     * @param resource $ch
      */
-    private function proxyConfigCurlHandle($ch)
+    private function proxyConfigCurlHandle(\CurlHandle $ch) :void
     {
         // Add proxy settings to the curl.
         if ($this->getConfiguration()->getProxyServer()) {
@@ -721,9 +667,8 @@ class JiraClient
     /**
      * setting REST API url to V3.
      *
-     * @return $this
      */
-    public function setRestApiV3()
+    public function setRestApiV3() :static
     {
         $this->api_uri = '/rest/api/3';
 
@@ -733,9 +678,8 @@ class JiraClient
     /**
      * check whether current API is v3.
      *
-     * @return bool
      */
-    public function isRestApiV3()
+    public function isRestApiV3() :bool
     {
         return $this->configuration->getUseV3RestApi();
     }
@@ -743,11 +687,8 @@ class JiraClient
     /**
      * setting JSON en/decoding options.
      *
-     * @param int $jsonOptions
-     *
-     * @return $this
      */
-    public function setJsonOptions(int $jsonOptions)
+    public function setJsonOptions(int $jsonOptions) :static
     {
         $this->jsonOptions = $jsonOptions;
 
@@ -757,9 +698,8 @@ class JiraClient
     /**
      * get json en/decode options.
      *
-     * @return int
      */
-    public function getJsonOptions()
+    public function getJsonOptions() :int
     {
         return $this->jsonOptions;
     }
