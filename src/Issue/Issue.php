@@ -6,7 +6,6 @@ class Issue implements \JsonSerializable
 {
     /**
      * return only if Project query by key(not id).
-     *
      */
     public ?string $expand;
 

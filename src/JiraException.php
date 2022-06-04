@@ -22,7 +22,6 @@ class JiraException extends \Exception
 
     /**
      * Create a new Jira exception instance.
-     *
      */
     public function __construct(?string $message = null, int $code = 0, \Throwable $previous = null, string $response = null)
     {
@@ -33,9 +32,8 @@ class JiraException extends \Exception
 
     /**
      * Get error response.
-     *
      */
-    public function getResponse() : ?string
+    public function getResponse(): ?string
     {
         return $this->response;
     }

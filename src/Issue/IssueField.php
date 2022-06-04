@@ -190,9 +190,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue reporter name.
-     *
      */
-    public function setReporterName(string $name) :static
+    public function setReporterName(string $name): static
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -205,9 +204,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue reporter accountId.
-     *
      */
-    public function setReporterAccountId(string $accountId) :static
+    public function setReporterAccountId(string $accountId): static
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -220,7 +218,6 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue assignee name.
-     *
      */
     public function setAssigneeNameAsString(string $name): static
     {
@@ -235,9 +232,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue assignee accountId.
-     *
      */
-    public function setAssigneeAccountId(string $accountId) :static
+    public function setAssigneeAccountId(string $accountId): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -254,9 +250,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue priority name.
-     *
      */
-    public function setPriorityNameAsString(string $name) : static
+    public function setPriorityNameAsString(string $name): static
     {
         if ($this->priority === null) {
             $this->priority = new Priority();
@@ -274,9 +269,8 @@ class IssueField implements \JsonSerializable
      *
      * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
      * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
-     *
      */
-    public function setDescription(?string $description) : static
+    public function setDescription(?string $description): static
     {
         if (!empty($description)) {
             $this->description = $description;
@@ -287,7 +281,6 @@ class IssueField implements \JsonSerializable
 
     /**
      * add a Affects version.
-     *
      */
     public function addVersionAsString(string $version): static
     {
@@ -351,9 +344,8 @@ class IssueField implements \JsonSerializable
 
     /**
      *  set parent issue.
-     *
      */
-    public function setParentKeyOrId(string $keyOrId) :static
+    public function setParentKeyOrId(string $keyOrId): static
     {
         if (is_null($this->parent)) {
             $this->parent = new Issue();
@@ -368,7 +360,7 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function setParent(Issue $parent) : void
+    public function setParent(Issue $parent): void
     {
         $this->parent = $parent;
     }
@@ -395,9 +387,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set security level.
-     *
      */
-    public function setSecurityId(int $issue_security_id) :static
+    public function setSecurityId(int $issue_security_id): static
     {
         if (empty($this->security)) {
             $this->security = new SecurityScheme();
@@ -430,7 +421,7 @@ class IssueField implements \JsonSerializable
      *
      * @see https://confluence.atlassian.com/jirakb/how-to-set-assignee-to-unassigned-via-rest-api-in-jira-744721880.html
      */
-    public function setAssigneeToUnassigned() : static
+    public function setAssigneeToUnassigned(): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -441,7 +432,7 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function setAssigneeToDefault() :static
+    public function setAssigneeToDefault(): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();

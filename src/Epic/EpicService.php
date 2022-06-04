@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Epic;
 
-use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Issue\AgileIssue;
 use Psr\Log\LoggerInterface;

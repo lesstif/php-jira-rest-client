@@ -11,31 +11,26 @@ class Project implements \JsonSerializable
 
     /**
      * return only if Project query by key(not id).
-     *
      */
     public string $expand;
 
     /**
      * Project URI.
-     *
      */
     public string $self;
 
     /**
      * Project id.
-     *
      */
     public string $id;
 
     /**
      * Project key.
-     *
      */
     public ?string $key;
 
     /**
      * Project name.
-     *
      */
     public string $name;
 
