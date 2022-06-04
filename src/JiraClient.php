@@ -13,15 +13,11 @@ use Psr\Log\LoggerInterface;
  */
 class JiraClient
 {
-    /**
-     * @var string
-     */
     public string $cookieFile;
 
     /**
      * Json Mapper.
      *
-     * @var \JsonMapper
      */
     protected \JsonMapper $json_mapper;
 
@@ -34,7 +30,6 @@ class JiraClient
     /**
      * JIRA REST API URI.
      *
-     * @var string
      */
     private string $api_uri = '/rest/api/2';
 
@@ -53,14 +48,12 @@ class JiraClient
     /**
      * Jira Rest API Configuration.
      *
-     * @var ConfigurationInterface
      */
     protected ConfigurationInterface $configuration;
 
     /**
      * json en/decode options.
      *
-     * @var int
      */
     protected int $jsonOptions;
 
@@ -153,11 +146,38 @@ class JiraClient
     }
 
     /**
-     * Serilize only not null field.
-     *
-     * @param array $haystack
-     *
+     * @param \CurlHandle|bool $ch
+     * @param array $curl_http_headers
+     * @param string|null $cookieFile
      * @return array
+     */
+    public function curlPrepare(\CurlHandle|bool $ch, array $curl_http_headers, ?string $cookieFile): array
+    {
+        $this->authorization($ch, $curl_http_headers, $cookieFile);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
+        if ($this->getConfiguration()->isCurlOptSslCert()) {
+            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
+        }
+        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
+        }
+        if ($this->getConfiguration()->isCurlOptSslKey()) {
+            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
+        }
+        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
+            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
+        }
+        if ($this->getConfiguration()->getTimeout()) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
+        }
+        return $curl_http_headers;
+    }
+
+    /**
+     * Serialize only not null field.
+     *
      */
     protected function filterNullVariable(array $haystack) :array
     {
@@ -185,7 +205,7 @@ class JiraClient
      * @param string|null $cookieFile     cookie file
      *
      * @return string|bool
-     *@throws JiraException
+     * @throws JiraException
      *
      */
     public function exec(string $context, array|string $post_data = null, string $custom_request = null, string $cookieFile = null) : string|bool
@@ -229,25 +249,7 @@ class JiraClient
             'X-Atlassian-Token: no-check',
         ];
 
-        $this->authorization($ch, $curl_http_headers, $cookieFile);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-        if ($this->getConfiguration()->isCurlOptSslCert()) {
-            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
-        }
-        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
-            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKey()) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
-            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
-        }
-        if ($this->getConfiguration()->getTimeout()) {
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
-        }
+        $curl_http_headers = $this->curlPrepare($ch, $curl_http_headers, $cookieFile);
 
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getConfiguration()->getCurlOptUserAgent());
 
@@ -509,6 +511,8 @@ class JiraClient
     public function setAPIUri($api_uri) :string
     {
         $this->api_uri = $api_uri;
+
+        return $this->api_uri;
     }
 
     /**
@@ -557,26 +561,7 @@ class JiraClient
         // output to file handle
         curl_setopt($ch, CURLOPT_FILE, $file);
 
-        $this->authorization($ch, $curl_http_header, $cookieFile);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
-
-        if ($this->getConfiguration()->isCurlOptSslCert()) {
-            curl_setopt($ch, CURLOPT_SSLCERT, $this->getConfiguration()->isCurlOptSslCert());
-        }
-        if ($this->getConfiguration()->isCurlOptSslCertPassword()) {
-            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->getConfiguration()->isCurlOptSslCertPassword());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKey()) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->getConfiguration()->isCurlOptSslKey());
-        }
-        if ($this->getConfiguration()->isCurlOptSslKeyPassword()) {
-            curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->getConfiguration()->isCurlOptSslKeyPassword());
-        }
-        if ($this->getConfiguration()->getTimeout()) {
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
-        }
+        $curl_http_header = $this->curlPrepare($ch, $curl_http_header, $cookieFile);
 
         $this->proxyConfigCurlHandle($ch);
 

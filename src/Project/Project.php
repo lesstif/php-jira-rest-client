@@ -31,7 +31,7 @@ class Project implements \JsonSerializable
      * Project key.
      *
      */
-    public string $key;
+    public ?string $key;
 
     /**
      * Project name.
