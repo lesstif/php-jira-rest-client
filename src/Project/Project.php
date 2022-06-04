@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\AssigneeTypeEnum;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\JiraException;
 
@@ -228,7 +229,6 @@ class Project implements \JsonSerializable
     /**
      * $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
      *
-     * @throws JiraException
      */
     public function setAssigneeType(?string $assigneeType): static
     {
@@ -237,6 +237,13 @@ class Project implements \JsonSerializable
         }
 
         $this->assigneeType = $assigneeType;
+
+        return $this;
+    }
+
+    public function setAssigneeTypeAsEnum(AssigneeTypeEnum $assigneeType): static
+    {
+        $this->assigneeType = $assigneeType->type();
 
         return $this;
     }

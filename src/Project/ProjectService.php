@@ -258,13 +258,8 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * get specified's project versions.
      *
-     * @param string|int $projectIdOrKey
-     *
-     * @throws \JiraRestApi\JiraException
-     *
-     * @return Version[] array of version
      */
-    public function getVersions($projectIdOrKey)
+    public function getVersions(string $projectIdOrKey) : \ArrayObject
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
