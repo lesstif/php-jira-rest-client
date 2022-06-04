@@ -7,17 +7,17 @@ namespace JiraRestApi\Configuration;
  */
 abstract class AbstractConfiguration implements ConfigurationInterface
 {
-    protected string $jiraHost;
+    protected ?string $jiraHost;
 
-    protected string $jiraUser;
+    protected ?string $jiraUser;
 
-    protected string $jiraPassword;
+    protected ?string $jiraPassword;
 
     protected bool $jiraLogEnabled;
 
-    protected string $jiraLogFile;
+    protected ?string $jiraLogFile;
 
-    protected string $jiraLogLevel;
+    protected ?string $jiraLogLevel;
 
     /**
      * Curl options CURLOPT_SSL_VERIFYHOST.
