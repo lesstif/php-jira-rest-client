@@ -11,9 +11,9 @@ enum AssigneeTypeEnum
     public function type(): string
     {
         return match ($this) {
-            AssigneeTypeEnum::PROJECT_LEAD => 'PROJECT_LEAD',
+            AssigneeTypeEnum::PROJECT_LEAD   => 'PROJECT_LEAD',
             AssigneeTypeEnum::COMPONENT_LEAD => 'COMPONENT_LEAD',
-            AssigneeTypeEnum::UNASSIGNED => 'UNASSIGNED',
+            AssigneeTypeEnum::UNASSIGNED     => 'UNASSIGNED',
         };
     }
 }

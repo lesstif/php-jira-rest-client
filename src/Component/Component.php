@@ -4,7 +4,6 @@ namespace JiraRestApi\Component;
 
 use JiraRestApi\AssigneeTypeEnum;
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\Project\Project;
 use JiraRestApi\User\User;
 
 /**
@@ -38,54 +37,54 @@ class Component implements \JsonSerializable
 
     public bool $isAssigneeTypeValid;
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : static
+    public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function setDescription($description) : static
+    public function setDescription($description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function setLeadUserName(string $leadUserName) : static
+    public function setLeadUserName(string $leadUserName): static
     {
         $this->leadUserName = $leadUserName;
 
         return $this;
     }
 
-    public function setAssigneeType(string $assigneeType) : static
+    public function setAssigneeType(string $assigneeType): static
     {
         $this->assigneeType = $assigneeType;
 
         return $this;
     }
 
-    public function setAssigneeTypeAsEnum(AssigneeTypeEnum $assigneeType) : static
+    public function setAssigneeTypeAsEnum(AssigneeTypeEnum $assigneeType): static
     {
         $this->assigneeType = $assigneeType->type();
 
         return $this;
     }
 
-    public function setProjectKey(string $projectKey) : static
+    public function setProjectKey(string $projectKey): static
     {
         $this->project = $projectKey;
 
         return $this;
     }
 
-    public function setProject(string $project) : static
+    public function setProject(string $project): static
     {
         $this->project = $project;
 

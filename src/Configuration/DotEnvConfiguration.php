@@ -50,9 +50,8 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
-     *
      */
-    private function env(string $key, mixed $default = null) :mixed
+    private function env(string $key, mixed $default = null): mixed
     {
         $value = $_ENV[$key] ?? null;
 
@@ -87,9 +86,8 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * Determine if a given string starts with a given substring.
-     *
      */
-    public function startsWith(string $haystack, array|string $needles) :bool
+    public function startsWith(string $haystack, array|string $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if ($needle != '' && strpos($haystack, $needle) === 0) {
@@ -102,7 +100,6 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * Determine if a given string ends with a given substring.
-     *
      */
     public function endsWith(string $haystack, array|string $needles): bool
     {
@@ -117,7 +114,6 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * load dotenv.
-     *
      */
     private function loadDotEnv(string $path)
     {
@@ -133,5 +129,4 @@ class DotEnvConfiguration extends AbstractConfiguration
         $dotenv->required($requireParam);
         //}
     }
-
 }
