@@ -12,31 +12,26 @@ class Project implements \JsonSerializable
 
     /**
      * return only if Project query by key(not id).
-     *
      */
     public string $expand;
 
     /**
      * Project URI.
-     *
      */
     public string $self;
 
     /**
      * Project id.
-     *
      */
     public string $id;
 
     /**
      * Project key.
-     *
      */
     public ?string $key;
 
     /**
      * Project name.
-     *
      */
     public string $name;
 
@@ -228,7 +223,6 @@ class Project implements \JsonSerializable
 
     /**
      * $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
-     *
      */
     public function setAssigneeType(?string $assigneeType): static
     {

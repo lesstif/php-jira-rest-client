@@ -21,73 +21,61 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 
     /**
      * Curl options CURLOPT_SSL_VERIFYHOST.
-     *
      */
     protected bool $curlOptSslVerifyHost;
 
     /**
      * Curl options CURLOPT_SSL_VERIFYPEER.
-     *
      */
     protected bool $curlOptSslVerifyPeer;
 
     /**
      * Curl option CURLOPT_USERAGENT.
-     *
      */
     protected string $curlOptUserAgent;
 
     /**
      * Curl options CURLOPT_VERBOSE.
-     *
      */
     protected bool $curlOptVerbose;
 
     /**
      * HTTP header 'Authorization: Bearer {token}' for OAuth.
-     *
      */
     protected ?string $oauthAccessToken;
 
     /**
      * enable cookie authorization.
-     *
      */
     protected bool $cookieAuthEnabled;
 
     /**
      * HTTP cookie file name.
-     *
      */
     protected ?string $cookieFile;
 
     /**
      * Proxy server.
-     *
      */
     protected ?string $proxyServer;
 
     /**
      * Proxy port.
-     *
      */
     protected ?string $proxyPort;
 
     /**
      * Proxy user.
-     *
      */
     protected ?string $proxyUser;
 
     /**
      * Proxy password.
-     *
      */
     protected ?string $proxyPassword;
 
     /**
      * Use Jira Cloud REST API v3.
-     *
      */
     protected bool $useV3RestApi;
 
@@ -105,142 +93,140 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 
     protected ?string $personalAccessToken;
 
-    public function getJiraHost() :string
+    public function getJiraHost(): string
     {
         return $this->jiraHost;
     }
 
-    public function getJiraUser() :string
+    public function getJiraUser(): string
     {
         return $this->jiraUser;
     }
 
-    public function getJiraPassword() :string
+    public function getJiraPassword(): string
     {
         return $this->jiraPassword;
     }
 
-    public function getJiraLogEnabled() :bool
+    public function getJiraLogEnabled(): bool
     {
         return $this->jiraLogEnabled;
     }
 
-    public function getJiraLogFile() :string
+    public function getJiraLogFile(): string
     {
         return $this->jiraLogFile;
     }
 
-    public function getJiraLogLevel() :string
+    public function getJiraLogLevel(): string
     {
         return $this->jiraLogLevel;
     }
 
-    public function isCurlOptSslVerifyHost() :bool
+    public function isCurlOptSslVerifyHost(): bool
     {
         return $this->curlOptSslVerifyHost;
     }
 
-    public function isCurlOptSslVerifyPeer() :bool
+    public function isCurlOptSslVerifyPeer(): bool
     {
         return $this->curlOptSslVerifyPeer;
     }
 
-    public function isCurlOptSslCert() : ?string
+    public function isCurlOptSslCert(): ?string
     {
         return $this->curlOptSslCert;
     }
 
-    public function isCurlOptSslCertPassword() : ?string
+    public function isCurlOptSslCertPassword(): ?string
     {
         return $this->curlOptSslCertPassword;
     }
 
-    public function isCurlOptSslKey() : ?string
+    public function isCurlOptSslKey(): ?string
     {
         return $this->curlOptSslKey;
     }
 
-    public function isCurlOptSslKeyPassword() : ?string
+    public function isCurlOptSslKeyPassword(): ?string
     {
         return $this->curlOptSslKeyPassword;
     }
 
-    public function isCurlOptVerbose() :bool
+    public function isCurlOptVerbose(): bool
     {
         return $this->curlOptVerbose;
     }
 
     /**
      * Get curl option CURLOPT_USERAGENT.
-     *
      */
-    public function getCurlOptUserAgent() : ?string
+    public function getCurlOptUserAgent(): ?string
     {
         return $this->curlOptUserAgent;
     }
 
-    public function getOAuthAccessToken() :string
+    public function getOAuthAccessToken(): string
     {
         return $this->oauthAccessToken;
     }
 
-    public function isCookieAuthorizationEnabled() :bool
+    public function isCookieAuthorizationEnabled(): bool
     {
         return $this->cookieAuthEnabled;
     }
 
     /**
      * get default User-Agent String.
-     *
      */
-    public function getDefaultUserAgentString() :string
+    public function getDefaultUserAgentString(): string
     {
         $curlVersion = curl_version();
 
         return sprintf('curl/%s (%s)', $curlVersion['version'], $curlVersion['host']);
     }
 
-    public function getCookieFile() : ?string
+    public function getCookieFile(): ?string
     {
         return $this->cookieFile;
     }
 
-    public function getProxyServer() : ?string
+    public function getProxyServer(): ?string
     {
         return $this->proxyServer;
     }
 
-    public function getProxyPort() : ?string
+    public function getProxyPort(): ?string
     {
         return $this->proxyPort;
     }
 
-    public function getProxyUser() : ?string
+    public function getProxyUser(): ?string
     {
         return $this->proxyUser;
     }
 
-    public function getProxyPassword() : ?string
+    public function getProxyPassword(): ?string
     {
         return $this->proxyPassword;
     }
 
-    public function getUseV3RestApi() :bool
+    public function getUseV3RestApi(): bool
     {
         return $this->useV3RestApi;
     }
 
-    public function getTimeout() :int
+    public function getTimeout(): int
     {
         return $this->timeout;
     }
 
-    public function isTokenBasedAuth() :bool
+    public function isTokenBasedAuth(): bool
     {
         return $this->useTokenBasedAuth;
     }
 
-    public function getPersonalAccessToken() :string
+    public function getPersonalAccessToken(): string
     {
         return $this->personalAccessToken;
     }
