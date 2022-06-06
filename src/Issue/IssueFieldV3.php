@@ -8,10 +8,10 @@ class IssueFieldV3 extends IssueField
 {
     use ClassSerialize;
 
-    /** @var \JiraRestApi\Issue\DescriptionV3|null */
+    /** @var \JiraRestApi\Issue\DescriptionV3|string|null */
     public $description;
 
-    /** @var \JiraRestApi\Issue\DescriptionV3|null */
+    /** @var \JiraRestApi\Issue\DescriptionV3|string|null */
     public $environment;
 
     /**
@@ -19,7 +19,7 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this|IssueField
      */
-    public function setDescription($description)
+    public function setDescription($description) : static
     {
         $this->description = $description;
 
