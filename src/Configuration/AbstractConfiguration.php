@@ -9,7 +9,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 {
     protected ?string $jiraHost;
 
-    protected ?string $jiraUser;
+    protected ?string $jiraUser = null;
 
     protected ?string $jiraPassword;
 
@@ -42,7 +42,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /**
      * HTTP header 'Authorization: Bearer {token}' for OAuth.
      */
-    protected ?string $oauthAccessToken;
+    protected ?string $oauthAccessToken = null;
 
     /**
      * enable cookie authorization.
@@ -52,27 +52,27 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     /**
      * HTTP cookie file name.
      */
-    protected ?string $cookieFile;
+    protected ?string $cookieFile = null;
 
     /**
      * Proxy server.
      */
-    protected ?string $proxyServer;
+    protected ?string $proxyServer = null;
 
     /**
      * Proxy port.
      */
-    protected ?string $proxyPort;
+    protected ?string $proxyPort = null;
 
     /**
      * Proxy user.
      */
-    protected ?string $proxyUser;
+    protected ?string $proxyUser = null;
 
     /**
      * Proxy password.
      */
-    protected ?string $proxyPassword;
+    protected ?string $proxyPassword = null;
 
     /**
      * Use Jira Cloud REST API v3.
@@ -87,7 +87,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 
     protected ?string $curlOptSslKeyPassword;
 
-    protected int $timeout;
+    protected int $timeout = 60;
 
     protected bool $useTokenBasedAuth;
 

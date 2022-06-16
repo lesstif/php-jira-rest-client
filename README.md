@@ -103,11 +103,23 @@ use JiraRestApi\Configuration\ArrayConfiguration;
 use JiraRestApi\Issue\IssueService;
 
 $iss = new IssueService(new ArrayConfiguration(
-          array(
+          [
                'jiraHost' => 'https://your-jira.host.com',
-               // for basic authorization:
-               'jiraUser' => 'jira-username',
-               'jiraPassword' => 'jira-password-OR-api-token',
+                // Basic authentication deprecated 
+                /*                 
+                 'jiraUser' => 'jira-username',
+                'jiraPassword' => 'jira-password-OR-api-token',
+                */
+               // instead,you can use the token based authentication. 
+               'useV3RestApi' => false,
+               'useTokenBasedAuth' => true,
+               'personalAccessToken' => 'your-token-here',
+                
+                // custom log config
+               'jiraLogEnabled' => true,
+               'jiraLogFile' => "my-jira-rest-client.log",
+               'jiraLogLevel' => 'INFO',
+        
                // to enable session cookie authorization (with basic authorization only)
                'cookieAuthEnabled' => true,
                'cookieFile' => storage_path('jira-cookie.txt'),
@@ -116,7 +128,7 @@ $iss = new IssueService(new ArrayConfiguration(
                'proxyPort' => 'proxy-port',
                'proxyUser' => 'proxy-username',
                'proxyPassword' => 'proxy-password',
-          )
+          ]
    ));
 ```
 
