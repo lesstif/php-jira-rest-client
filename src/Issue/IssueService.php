@@ -319,7 +319,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comments Comments class
      */
     public function getComments($issueIdOrKey, array $paramArray = [])
     {
@@ -328,12 +328,12 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment'.$this->toHttpQueryParameter($paramArray), null);
 
         $this->log->debug('get comments result='.var_export($ret, true));
-        $comment = $this->json_mapper->map(
+        $comments = $this->json_mapper->map(
             json_decode($ret),
-            new Comment()
+            new Comments()
         );
 
-        return $comment;
+        return $comments;
     }
 
     /**
