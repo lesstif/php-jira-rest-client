@@ -9,19 +9,19 @@ class IssueFieldV3 extends IssueField
     use ClassSerialize;
 
     /** @var \JiraRestApi\Issue\DescriptionV3|null */
-    public $description;
+    public ?DescriptionV3 $descriptionV3;
 
     /** @var \JiraRestApi\Issue\DescriptionV3|null */
-    public $environment;
+    public ?DescriptionV3 $environmentV3;
 
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
      * @return $this|IssueField
      */
-    public function setDescription($description)
+    public function setDescriptionV3(?DescriptionV3 $description) : static
     {
-        $this->description = $description;
+        $this->descriptionV3 = $description;
 
         return $this;
     }
@@ -31,13 +31,13 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function addDescriptionParagraph($description)
+    public function addDescriptionParagraph(?DescriptionV3 $description) : static
     {
         if (empty($this->description)) {
-            $this->description = new DescriptionV3();
+            $this->descriptionV3 = new DescriptionV3();
         }
 
-        $this->description->addDescriptionContent('paragraph', $description);
+        $this->descriptionV3->addDescriptionContent('paragraph', $description);
 
         return $this;
     }
@@ -48,13 +48,13 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function addDescriptionHeading($level, $description)
+    public function addDescriptionHeading($level, string $description) : static
     {
-        if (empty($this->description)) {
-            $this->description = new DescriptionV3();
+        if (empty($this->descriptionV3)) {
+            $this->descriptionV3 = new DescriptionV3();
         }
 
-        $this->description->addDescriptionContent('heading', $description, ['level' => $level]);
+        $this->descriptionV3->addDescriptionContent('heading', $description, ['level' => $level]);
 
         return $this;
     }
@@ -64,10 +64,10 @@ class IssueFieldV3 extends IssueField
      *
      * @return $this
      */
-    public function setEnvironment($environment)
+    public function setEnvironment(?DescriptionV3 $environment) : static
     {
-        if (!empty($environment)) {
-            $this->environment = $environment;
+        if (!empty($this->environmentV3)) {
+            $this->environmentV3 = $environment;
         }
 
         return $this;

@@ -497,7 +497,7 @@ class JiraClient
      *
      * @param string $api_uri
      */
-    public function setAPIUri($api_uri): string
+    public function setAPIUri(string $api_uri): string
     {
         $this->api_uri = $api_uri;
 
