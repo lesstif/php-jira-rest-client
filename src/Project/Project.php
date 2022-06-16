@@ -75,7 +75,7 @@ class Project implements \JsonSerializable
 
     public ?string $assigneeType;
 
-    public array $versions = [];
+    public ?array $versions = [];
 
     public ?array $roles;
 
@@ -104,6 +104,9 @@ class Project implements \JsonSerializable
         if (!empty($this->leadName)) {
             $params['lead'] = $this->leadName;
             unset($params['leadName']);
+        }
+        if ($this->versions === null or count($this->versions) === 0) {
+            unset($params['version']);
         }
 
         return $params;
