@@ -87,7 +87,7 @@ class JiraClient
                 $this->log = new Logger('JiraClient');
                 $this->log->pushHandler(new StreamHandler(
                     $this->configuration->getJiraLogFile(),
-                    $this->convertLogLevel($this->configuration->getJiraLogLevel())
+                    $this->configuration->getJiraLogLevel()
                 ));
             }
         } else {
@@ -112,30 +112,6 @@ class JiraClient
                 $this->jsonOptions |= JSON_THROW_ON_ERROR;
             }
         }
-    }
-
-    /**
-     * Convert log level.
-     *
-     * @param string $log_level
-     *
-     * @return \Monolog\Level
-     */
-    private function convertLogLevel(string $log_level): \Monolog\Level
-    {
-        $log_level = strtoupper($log_level);
-
-        return match ($log_level) {
-            'EMERGENCY' => \Monolog\Level::Emergency,
-            'ALERT'     => \Monolog\Level::Alert,
-            'CRITICAL'  => \Monolog\Level::Critical,
-            'ERROR'     => \Monolog\Level::Error,
-            'WARNING'   => \Monolog\Level::Warning,
-            'NOTICE'    => \Monolog\Level::Notice,
-            'DEBUG'     => \Monolog\Level::Debug,
-            'INFO'      => \Monolog\Level::Info,
-            default     => \Monolog\Level::Warning,
-        };
     }
 
     /**
