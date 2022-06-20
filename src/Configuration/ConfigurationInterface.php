@@ -15,170 +15,116 @@ interface ConfigurationInterface
 {
     /**
      * Jira host.
-     *
-     * @return string
      */
-    public function getJiraHost();
+    public function getJiraHost(): string;
 
     /**
      * Jira login.
-     *
-     * @return string
      */
-    public function getJiraUser();
+    public function getJiraUser(): string;
 
     /**
      * Jira password.
-     *
-     * @return string
      */
-    public function getJiraPassword();
+    public function getJiraPassword(): string;
 
     /**
      * Enabled write to log.
-     *
-     * @return bool
      */
-    public function getJiraLogEnabled();
+    public function getJiraLogEnabled(): bool;
 
     /**
      * Path to log file.
-     *
-     * @return string
      */
-    public function getJiraLogFile();
+    public function getJiraLogFile(): string;
 
     /**
      * Log level (DEBUG, INFO, ERROR, WARNING).
-     *
-     * @return string
      */
-    public function getJiraLogLevel();
+    public function getJiraLogLevel(): string;
 
     /**
      * Curl options CURLOPT_SSL_VERIFYHOST.
-     *
-     * @return bool
      */
-    public function isCurlOptSslVerifyHost();
+    public function isCurlOptSslVerifyHost(): bool;
 
     /**
      * Curl options CURLOPT_SSL_VERIFYPEER.
-     *
-     * @return bool
      */
-    public function isCurlOptSslVerifyPeer();
+    public function isCurlOptSslVerifyPeer(): bool;
 
-    /**
-     * @return string
-     */
-    public function isCurlOptSslCert();
+    public function isCurlOptSslCert(): ?string;
 
-    /**
-     * @return string
-     */
-    public function isCurlOptSslCertPassword();
+    public function isCurlOptSslCertPassword(): ?string;
 
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKey();
+    public function isCurlOptSslKey(): ?string;
 
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKeyPassword();
+    public function isCurlOptSslKeyPassword(): ?string;
 
     /**
      * Curl options CURLOPT_VERBOSE.
-     *
-     * @return bool
      */
-    public function isCurlOptVerbose();
+    public function isCurlOptVerbose(): bool;
 
     /**
      * Get curl option CURLOPT_USERAGENT.
-     *
-     * @return string
      */
-    public function getCurlOptUserAgent();
+    public function getCurlOptUserAgent(): ?string;
 
     /**
      * HTTP header 'Authorization: Bearer {token}' for OAuth.
-     *
-     * @return string
      */
-    public function getOAuthAccessToken();
+    public function getOAuthAccessToken(): ?string;
 
     /**
      * Use cookie authorization. Login with username and password only once, then use session cookie.
-     *
-     * @return bool
      */
-    public function isCookieAuthorizationEnabled();
+    public function isCookieAuthorizationEnabled(): bool;
 
     /**
      * get HTTP cookie file name.
-     *
-     * @return mixed
      */
-    public function getCookieFile();
+    public function getCookieFile(): mixed;
 
     /**
      * Proxy server.
-     *
-     * @return string
      */
-    public function getProxyServer();
+    public function getProxyServer(): ?string;
 
     /**
      * Proxy port.
-     *
-     * @return string
      */
-    public function getProxyPort();
+    public function getProxyPort(): ?string;
 
     /**
      * Proxy user.
-     *
-     * @return string
      */
-    public function getProxyUser();
+    public function getProxyUser(): ?string;
 
     /**
      * Proxy password.
-     *
-     * @return string
      */
-    public function getProxyPassword();
+    public function getProxyPassword(): ?string;
 
     /**
      * use REST v3 API.
-     *
-     * @return bool
      */
-    public function getUseV3RestApi();
+    public function getUseV3RestApi(): bool;
 
     /**
      * The number of seconds to wait while trying to connect.
-     *
-     * @return int
      */
-    public function getTimeout();
+    public function getTimeout(): int;
 
     /**
      * check whether token based auth.
      *
      * @see https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html
-     *
-     * @return bool
      */
-    public function isTokenBasedAuth();
+    public function isTokenBasedAuth(): bool;
 
     /**
-     * Personal Access Token
-     *
-     * @return string
+     * Personal Access Token.
      */
-    public function getPeronalAccessToken();
+    public function getPersonalAccessToken(): string;
 }

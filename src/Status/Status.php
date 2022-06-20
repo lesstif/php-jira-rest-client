@@ -13,6 +13,7 @@ class Status implements \JsonSerializable
     /** @var string */
     public $description;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

@@ -2,21 +2,19 @@
 
 namespace JiraRestApi\Epic;
 
-use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Issue\AgileIssue;
 use Psr\Log\LoggerInterface;
 
 class EpicService extends \JiraRestApi\JiraClient
 {
-    use AgileApiTrait;
-
     private $uri = '/epic';
+    private $version = '1.0';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
-        $this->setupAPIUri();
+        $this->setAPIUri('/rest/agile/'.$this->version);
     }
 
     public function getEpic($id, $paramArray = []): ?Epic

@@ -18,19 +18,12 @@ class JiraException extends \Exception
      *
      * @var string|null
      */
-    protected $response;
+    protected ?string $response;
 
     /**
      * Create a new Jira exception instance.
-     *
-     * @param string     $message
-     * @param int        $code
-     * @param \Throwable $previous
-     * @param string     $response
-     *
-     * @return void
      */
-    public function __construct($message = null, $code = 0, \Throwable $previous = null, $response = null)
+    public function __construct(?string $message = null, int $code = 0, \Throwable $previous = null, string $response = null)
     {
         parent::__construct($message, $code, $previous);
 
@@ -39,10 +32,8 @@ class JiraException extends \Exception
 
     /**
      * Get error response.
-     *
-     * @return string|null
      */
-    public function getResponse()
+    public function getResponse(): ?string
     {
         return $this->response;
     }

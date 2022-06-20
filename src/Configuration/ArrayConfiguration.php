@@ -13,9 +13,6 @@ namespace JiraRestApi\Configuration;
  */
 class ArrayConfiguration extends AbstractConfiguration
 {
-    /**
-     * @param array $configuration
-     */
     public function __construct(array $configuration)
     {
         $this->jiraLogEnabled = true;

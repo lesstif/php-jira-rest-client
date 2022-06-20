@@ -21,6 +21,7 @@ class ChangeLog implements \JsonSerializable
     /** @var \JiraRestApi\Issue\History[]|null */
     public $histories;
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));

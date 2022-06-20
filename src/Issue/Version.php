@@ -39,6 +39,7 @@ class Version implements \JsonSerializable
         $this->name = $name;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
