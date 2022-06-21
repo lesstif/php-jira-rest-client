@@ -45,7 +45,7 @@ class Project implements \JsonSerializable
      */
     public \stdClass $projectCategory;
 
-    public ?string $description;
+    public ?string $description = null;
 
     // Project leader info.
     public array $lead;
