@@ -373,7 +373,6 @@ class IssueField implements \JsonSerializable
         foreach ($component as $c) {
             $this->components[] = new Component($c);
         }
-        \JiraRestApi\Dumper::dd($this->components);
 
         return $this;
     }
