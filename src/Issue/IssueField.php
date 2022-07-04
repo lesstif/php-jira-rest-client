@@ -2,77 +2,58 @@
 
 namespace JiraRestApi\Issue;
 
+use DateTimeInterface;
 use JiraRestApi\ClassSerialize;
+use JiraRestApi\Project\Project;
 
 class IssueField implements \JsonSerializable
 {
     use ClassSerialize;
 
-    /** @var string */
-    public $summary;
+    public string $summary;
 
-    /** @var array */
-    public $progress;
+    public array $progress;
 
-    /** @var \JiraRestApi\Issue\TimeTracking */
-    public $timeTracking;
+    public ?TimeTracking $timeTracking = null;
 
-    /** @var \JiraRestApi\Issue\IssueType */
-    public $issuetype;
+    public ?IssueType $issuetype;
 
-    /** @var \JiraRestApi\Issue\Reporter|null */
-    public $reporter;
+    public ?Reporter $reporter = null;
 
-    /** @var \DateTimeInterface */
-    public $created;
+    public ?DateTimeInterface $created;
 
-    /** @var \DateTimeInterface */
-    public $updated;
+    public ?DateTimeInterface $updated = null;
 
-    /** @var string|null */
-    public $description;
+    public string $description;
 
-    /** @var \JiraRestApi\Issue\Priority|null */
-    public $priority;
+    public ?Priority $priority = null;
 
-    /** @var \JiraRestApi\Issue\IssueStatus */
-    public $status;
+    public ?IssueStatus $status = null;
 
-    /** @var array */
-    public $labels;
+    public array $labels;
 
-    /** @var \JiraRestApi\Project\Project */
-    public $project;
+    public Project $project;
 
-    /** @var string|null */
-    public $environment;
+    public ?string $environment;
 
-    /** @var \JiraRestApi\Issue\Component[] */
+    /* @var \JiraRestApi\Issue\Component[] This property must don't describe the type feature for JSON deserialized. */
     public $components;
 
-    /** @var \JiraRestApi\Issue\Comments */
-    public $comment;
+    public ?Comments $comment = null;
 
-    /** @var object */
-    public $votes;
+    public object $votes;
 
-    /** @var object|null */
-    public $resolution;
+    public ?object $resolution;
 
-    /** @var array */
-    public $fixVersions;
+    public array $fixVersions;
 
-    /** @var \JiraRestApi\Issue\Reporter|null */
-    public $creator;
+    public ?Reporter $creator;
 
-    /** @var object|null */
-    public $watches;
+    public ?object $watches;
 
-    /** @var object|null */
-    public $worklog;
+    public ?object $worklog;
 
-    /** @var \JiraRestApi\Issue\Reporter|null */
-    public $assignee;
+    public ?Reporter $assignee = null;
 
     /** @var \JiraRestApi\Issue\Version[] */
     public $versions;
@@ -80,54 +61,43 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
 
-    /** @var string|null */
-    public $aggregatetimespent;
+    public ?string $aggregatetimespent;
 
-    /** @var string|null */
-    public $timeestimate;
+    public ?string $timeestimate;
 
-    /** @var string|null */
-    public $aggregatetimeoriginalestimate;
+    public ?string $aggregatetimeoriginalestimate;
 
-    /** @var string|null */
-    public $resolutiondate;
+    public ?string $resolutiondate;
 
-    /** @var \DateTimeInterface|null */
-    public $duedate;
+    public ?DateTimeInterface $duedate = null;
 
-    /** @var array */
-    public $issuelinks;
+    private string $duedateString;
+
+    public array $issuelinks;
 
     /** @var \JiraRestApi\Issue\Issue[] */
     public $subtasks;
 
-    /** @var int */
-    public $workratio;
+    public int $workratio;
 
-    /** @var object|null */
-    public $aggregatetimeestimate;
+    public ?object $aggregatetimeestimate;
 
-    /** @var object|null */
-    public $aggregateprogress;
+    public ?object $aggregateprogress;
 
-    /** @var object|null */
-    public $lastViewed;
+    public ?object $lastViewed;
 
-    /** @var object|null */
-    public $timeoriginalestimate;
+    public ?object $timeoriginalestimate;
 
     /** @var object|null */
     public $parent;
 
-    /** @var array|null */
-    public $customFields;
+    public ?array $customFields;
 
-    /** @var \JiraRestApi\Issue\SecurityScheme|null */
-    public $security;
+    public ?SecurityScheme $security;
 
     public function __construct($updateIssue = false)
     {
-        if ($updateIssue != true) {
+        if ($updateIssue !== true) {
             $this->project = new \JiraRestApi\Project\Project();
 
             $this->assignee = new Reporter();
@@ -138,6 +108,7 @@ class IssueField implements \JsonSerializable
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $vars = array_filter(get_object_vars($this), function ($var) {
@@ -165,46 +136,52 @@ class IssueField implements \JsonSerializable
             }
         }
 
+        // replace duedate field
+        if (!empty($this->duedateString)) {
+            $vars['duedate'] = $this->duedateString;
+            unset($vars['duedateString']);
+        }
+
         return $vars;
     }
 
-    public function getCustomFields()
+    public function getCustomFields(): ?array
     {
         return $this->customFields;
     }
 
-    public function addCustomField($key, $value)
+    public function addCustomField(string $key, string|int|float $value): static
     {
         $this->customFields[$key] = $value;
 
         return $this;
     }
 
-    public function getProjectKey()
+    public function getProjectKey(): string
     {
         return $this->project->key;
     }
 
-    public function getProjectId()
+    public function getProjectId(): string
     {
         return $this->project->id;
     }
 
-    public function setProjectKey($key)
+    public function setProjectKey(string $key): static
     {
         $this->project->key = $key;
 
         return $this;
     }
 
-    public function setProjectId($id)
+    public function setProjectId(string $id): static
     {
         $this->project->id = $id;
 
         return $this;
     }
 
-    public function setSummary($summary)
+    public function setSummary(string $summary)
     {
         $this->summary = $summary;
 
@@ -213,12 +190,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue reporter name.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
-    public function setReporterName($name)
+    public function setReporterName(string $name): static
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -231,12 +204,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue reporter accountId.
-     *
-     * @param string $accountId
-     *
-     * @return $this
      */
-    public function setReporterAccountId($accountId)
+    public function setReporterAccountId(string $accountId): static
     {
         if (is_null($this->reporter)) {
             $this->reporter = new Reporter();
@@ -249,14 +218,10 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue assignee name.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
-    public function setAssigneeName($name)
+    public function setAssigneeNameAsString(string $name): static
     {
-        if (is_null($this->assignee)) {
+        if ($this->assignee === null) {
             $this->assignee = new Reporter();
         }
 
@@ -267,12 +232,8 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue assignee accountId.
-     *
-     * @param string $accountId
-     *
-     * @return $this
      */
-    public function setAssigneeAccountId($accountId)
+    public function setAssigneeAccountId(string $accountId): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -289,14 +250,10 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue priority name.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
-    public function setPriorityName($name)
+    public function setPriorityNameAsString(string $name): static
     {
-        if (is_null($this->priority)) {
+        if ($this->priority === null) {
             $this->priority = new Priority();
         }
 
@@ -312,12 +269,8 @@ class IssueField implements \JsonSerializable
      *
      * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
      * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
-     *
-     * @param string|null $description
-     *
-     * @return $this
      */
-    public function setDescription($description)
+    public function setDescription(?string $description): static
     {
         if (!empty($description)) {
             $this->description = $description;
@@ -328,23 +281,26 @@ class IssueField implements \JsonSerializable
 
     /**
      * add a Affects version.
-     *
-     * @param string|array $version mixed string or array
-     *
-     * @return $this
      */
-    public function addVersion($version)
+    public function addVersionAsString(string $version): static
     {
         if (is_null($this->versions)) {
             $this->versions = [];
         }
 
-        if (is_string($version)) {
-            array_push($this->versions, new Version($version));
-        } elseif (is_array($version)) {
-            foreach ($version as $v) {
-                array_push($this->versions, new Version($v));
-            }
+        $this->versions[] = new Version($version);
+
+        return $this;
+    }
+
+    public function addVersionAsArray(array $version): static
+    {
+        if (is_null($this->versions)) {
+            $this->versions = [];
+        }
+
+        foreach ($version as $v) {
+            $this->versions[] = new Version($v);
         }
 
         return $this;
@@ -352,18 +308,10 @@ class IssueField implements \JsonSerializable
 
     /**
      * add issue label.
-     *
-     * @param string $label
-     *
-     * @return $this
      */
-    public function addLabel($label)
+    public function addLabelAsString(string $label): static
     {
-        if (is_null($this->labels)) {
-            $this->labels = [];
-        }
-
-        array_push($this->labels, $label);
+        $this->labels[] = $label;
 
         return $this;
     }
@@ -371,110 +319,98 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type.
      *
-     * @param IssueType $issueType mixed IssueType or string
-     *
-     * @return $this
+     * @param string $issueTypeName IssueType as string(for example,Bug, Task, etc..)
      */
-    public function setIssueType($issueType)
+    public function setIssueTypeAsString(string $issueTypeName): static
     {
-        if (is_string($issueType)) {
-            if (is_null($this->issuetype)) {
-                $this->issuetype = new IssueType();
-            }
+        $this->issuetype = new IssueType();
 
-            $this->issuetype->name = $issueType;
-        } else {
-            $this->issuetype = $issueType;
-        }
+        $this->issuetype->name = $issueTypeName;
 
         return $this;
     }
 
-    public function getIssueType()
+    public function setIssueType(IssueType $issueType): static
+    {
+        $this->issuetype = $issueType;
+
+        return $this;
+    }
+
+    public function getIssueType(): IssueType
     {
         return $this->issuetype;
     }
 
     /**
      *  set parent issue.
-     *
-     * @param string $keyOrId
      */
-    public function setParentKeyOrId($keyOrId)
+    public function setParentKeyOrId(string $keyOrId): static
     {
+        if (is_null($this->parent)) {
+            $this->parent = new Issue();
+        }
+
         if (is_numeric($keyOrId)) {
-            $this->parent['id'] = $keyOrId;
-        } elseif (is_string($keyOrId)) {
-            $this->parent['key'] = $keyOrId;
+            $this->parent->id = $keyOrId;
+        } else {
+            $this->parent->key = $keyOrId;
         }
 
         return $this;
     }
 
-    public function setParent(Issue $parent)
+    public function setParent(Issue $parent): void
     {
         $this->parent = $parent;
     }
 
     /**
      * add issue component.
-     *
-     * @param string|array $component mixed string or array
-     *
-     * @return $this
      */
-    public function addComponents($component)
+    public function addComponentsAsArray(array $component): static
     {
-        if (is_null($this->components)) {
-            $this->components = [];
+        foreach ($component as $c) {
+            $this->components[] = new Component($c);
         }
 
-        if (is_string($component)) {
-            array_push($this->components, new Component($component));
-        } elseif (is_array($component)) {
-            foreach ($component as $c) {
-                array_push($this->components, new Component($c));
-            }
-        }
+        return $this;
+    }
+
+    public function addComponentAsString(string $component): static
+    {
+        $this->components[] = new Component($component);
 
         return $this;
     }
 
     /**
      * set security level.
-     *
-     * @param int $id issue's security id
-     *
-     * @return $this
      */
-    public function setSecurityId($id)
+    public function setSecurityId(int $issue_security_id): static
     {
         if (empty($this->security)) {
             $this->security = new SecurityScheme();
         }
 
-        $this->security->id = $id;
+        $this->security->id = $issue_security_id;
 
         return $this;
     }
 
     /**
      * set issue's due date.
-     *
-     * @param \DateTimeInterface|null $duedate due date string or DateTimeInterface object
-     * @param string                  $format  datetime string format.
-     *
-     * @return $this
      */
-    public function setDueDate($duedate, $format = 'Y-m-d')
+    public function setDueDateAsString(string $duedate): static
     {
-        if (is_string($duedate)) {
-            $this->duedate = $duedate;
-        } elseif ($duedate instanceof \DateTimeInterface) {
-            $this->duedate = $duedate->format($format);
-        } else {
-            $this->duedate = null;
-        }
+        $this->duedateString = $duedate;
+
+        return $this;
+    }
+
+    public function setDueDateAsDateTime(DateTimeInterface $duedate, $format = 'Y-m-d'): static
+    {
+        $this->duedateString = $duedate->format($format);
 
         return $this;
     }
@@ -484,7 +420,7 @@ class IssueField implements \JsonSerializable
      *
      * @see https://confluence.atlassian.com/jirakb/how-to-set-assignee-to-unassigned-via-rest-api-in-jira-744721880.html
      */
-    public function setAssigneeToUnassigned()
+    public function setAssigneeToUnassigned(): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();
@@ -495,7 +431,7 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function setAssigneeToDefault()
+    public function setAssigneeToDefault(): static
     {
         if (is_null($this->assignee)) {
             $this->assignee = new Reporter();

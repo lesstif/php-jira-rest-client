@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\Component\Component;
 use JiraRestApi\Issue\IssueType;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
@@ -27,7 +28,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $prjs = $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            '\JiraRestApi\Project\Project'
+            Project::class
         );
 
         return $prjs;
@@ -92,6 +93,26 @@ class ProjectService extends \JiraRestApi\JiraClient
         $json = json_decode($ret);
         $results = array_map(function ($elem) {
             return $this->json_mapper->map($elem, new IssueType());
+        }, $json);
+
+        return $results;
+    }
+
+    /**
+     * Get the Components defined in a Jira Project.
+     *
+     * @param string|int $projectIdOrKey
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return \JiraRestApi\Component\Component[]
+     */
+    public function getProjectComponents($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri."/$projectIdOrKey/components", null);
+        $json = json_decode($ret);
+        $results = array_map(function ($elem) {
+            return $this->json_mapper->map($elem, new Component());
         }, $json);
 
         return $results;
@@ -236,14 +257,8 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     /**
      * get specified's project versions.
-     *
-     * @param string|int $projectIdOrKey
-     *
-     * @throws \JiraRestApi\JiraException
-     *
-     * @return Version[] array of version
      */
-    public function getVersions($projectIdOrKey)
+    public function getVersions(string $projectIdOrKey): \ArrayObject
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
@@ -354,6 +369,28 @@ class ProjectService extends \JiraRestApi\JiraClient
     public function deleteProject($projectIdOrKey)
     {
         $ret = $this->exec($this->uri.'/'.$projectIdOrKey, null, 'DELETE');
+
+        return $ret;
+    }
+
+    /**
+     * Archive a project only available for premium subscription.
+     *
+     * @param string $projectIdOrKey
+     *
+     * @throws JiraException
+     *
+     * @return string response status
+     *
+     * STATUS 401 Returned if the user is not logged in.
+     * STATUS 204 - application/json Returned if the project is successfully archived.
+     * STATUS 403 - Returned if the currently authenticated user does not have permission to archive the project.
+     * STATUS 404 - Returned if the project does not exist.
+     * STATUS 405 - Method not allowed specified request HTTP method was received and recognized by the server, but is not supported by the target resource.
+     */
+    public function archiveProject($projectIdOrKey)
+    {
+        $ret = $this->exec($this->uri.'/'.$projectIdOrKey.'/archive', null, 'PUT');
 
         return $ret;
     }
