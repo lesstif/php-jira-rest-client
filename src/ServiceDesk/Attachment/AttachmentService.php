@@ -1,26 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Attachment;
 
 use JiraRestApi\Issue\Attachment;
 use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
+use JsonException;
+use JsonMapper;
 use JsonMapper_Exception;
 
 class AttachmentService
 {
-    /**
-     * @var ServiceDeskClient
-     */
-    private $client;
+    private ServiceDeskClient $client;
+    private JsonMapper $jsonMapper;
+    private int $serviceDeskId;
 
-    /**
-     * @var int
-     */
-    private $serviceDeskId;
-
-    public function __construct(ServiceDeskClient $client) {
+    public function __construct(ServiceDeskClient $client)
+    {
         $this->client = $client;
+        $this->jsonMapper = $client->getMapper();
         $this->serviceDeskId = $client->getServiceDeskId();
     }
 
@@ -40,14 +40,13 @@ class AttachmentService
     }
 
     /**
-     * @throws JsonMapper_Exception
-     * @throws JiraException
      * @return Attachment[]
+     * @throws JiraException|JsonException|JsonMapper_Exception
      */
     public function addAttachmentToRequest(int $requestId, array $temporaryFiles): array
     {
-        $attachment_ids = array_map(function (string $upload): string {
-            $upload = json_decode($upload, true);
+        $attachment_ids = array_map(static function (string $upload): string {
+            $upload = json_decode($upload, true, 512, JSON_THROW_ON_ERROR);
 
             return $upload['temporaryAttachments'][0]['temporaryAttachmentId'];
         }, $temporaryFiles);
@@ -59,7 +58,7 @@ class AttachmentService
 
         $result = $this->client->exec(
             $this->client->createUrl('/request/%d/attachment', [$requestId,]),
-            json_encode($parameters, JSON_UNESCAPED_UNICODE),
+            json_encode($parameters, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE),
             'POST'
         );
 
@@ -82,16 +81,15 @@ class AttachmentService
 
     /**
      * @return Attachment[]
-     * @throws JsonMapper_Exception
+     * @throws JsonMapper_Exception|JsonException
      */
     private function createAttachmentsFromJson(string $result): array
     {
-        $attachmentData = json_decode($result, false);
+        $attachmentData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
 
         $attachments = [];
-        foreach($attachmentData as $attachment)
-        {
-            $attachments[] = $this->client->mapWithoutDecode($attachment, new Attachment());
+        foreach ($attachmentData as $attachment) {
+            $attachments[] = $this->jsonMapper->map($attachment, new Attachment());
         }
 
         return $attachments;

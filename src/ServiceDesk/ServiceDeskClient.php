@@ -1,21 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk;
 
+use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\JiraClient;
-use JsonMapper_Exception;
+use JsonMapper;
 use Psr\Log\LoggerInterface;
 
 class ServiceDeskClient extends JiraClient
 {
+    public function __construct(
+        ConfigurationInterface $configuration = null,
+        LoggerInterface $logger = null,
+        string $path = './'
+    ) {
+        parent::__construct($configuration, $logger, $path);
+
+        $this->json_mapper->bEnforceMapType = false;
+    }
+
     /**
-     * Get URL by context.
-     *
-     * @param string $context
-     *
-     * @return string
+     * @inheritDoc
      */
-    protected function createUrlByContext($context)
+    protected function createUrlByContext(string $context): string
     {
         $host = $this->getConfiguration()->getJiraHost();
 
@@ -27,15 +36,14 @@ class ServiceDeskClient extends JiraClient
         return $this->log;
     }
 
-    public function log(string $message): void
+    public function getMapper(): JsonMapper
     {
-        $this->log->info($message);
+        return $this->json_mapper;
     }
 
     public function createUrl(string $format, array $parameters, array $urlParameters = []): string
     {
-        if (count($urlParameters) > 0)
-        {
+        if (count($urlParameters) > 0) {
             $format .= '?%s';
             $parameters[] = http_build_query($urlParameters);
         }
@@ -43,31 +51,6 @@ class ServiceDeskClient extends JiraClient
         array_unshift($parameters, $format);
 
         return call_user_func_array("sprintf", $parameters);
-    }
-
-    /**
-     * @param mixed $dataObject
-     * @return mixed
-     * @throws JsonMapper_Exception
-     */
-    public function map(string $jsonData, $dataObject)
-    {
-        $data = json_decode($jsonData, false);
-
-        return $this->mapWithoutDecode($data, $dataObject);
-    }
-
-    /**
-     * @param mixed $dataObject
-     * @return mixed
-     * @throws JsonMapper_Exception
-     */
-    public function mapWithoutDecode(object $jsonData, $dataObject)
-    {
-        return $this->json_mapper->map(
-            $jsonData,
-            $dataObject
-        );
     }
 
     public function getServiceDeskId(): int

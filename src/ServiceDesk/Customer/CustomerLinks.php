@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Customer;
 
 use JiraRestApi\ClassSerialize;
@@ -11,23 +13,6 @@ class CustomerLinks implements JsonSerializable
     use ClassSerialize;
     use DataObjectTrait;
 
-    /**
-     * @var string
-     */
-    public $jiraRest;
-
-    /**
-     * @var object
-     */
-    public $avatarUrls;
-
-    private function setJiraRest(string $jiraRest): void
-    {
-        $this->jiraRest = $jiraRest;
-    }
-
-    private function setAvatarUrls(object $avatarUrls): void
-    {
-        $this->avatarUrls = $avatarUrls;
-    }
+    public string $jiraRest;
+    public object $avatarUrls;
 }

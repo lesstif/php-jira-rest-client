@@ -1,66 +1,68 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Customer;
 
 use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
+use JsonException;
+use JsonMapper;
 use JsonMapper_Exception;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class CustomerService
 {
-    /**
-     * @var ServiceDeskClient
-     */
-    private $client;
-
-    /**
-     * @var UserService
-     */
-    private $userService;
-
-    /**
-     * @var string
-     */
-    private $uri = '/customer';
+    private ServiceDeskClient $client;
+    private UserService $userService;
+    private string $uri = '/customer';
+    private LoggerInterface $logger;
+    private JsonMapper $jsonMapper;
 
     public function __construct(
         ServiceDeskClient $client,
         UserService $userService
-    )
-    {
+    ) {
         $this->client = $client;
         $this->userService = $userService;
+        $this->logger = $client->getLogger();
+        $this->jsonMapper = $client->getMapper();
     }
 
     /**
      * Creates a new customer.
      *
-     * @throws JsonMapper_Exception
-     * @throws JiraException
+     * @throws JsonMapper_Exception|JiraException|JsonException
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/customer
      */
-    public function create(array $data): Customer
+    public function create(array|string $data): Customer
     {
-        $this->client->log("Create Customer=\n".json_encode($data));
+        if (is_array($data)) {
+            $data = json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        }
 
-        $result = $this->client->exec($this->uri, json_encode($data, JSON_UNESCAPED_UNICODE), 'POST');
+        $this->logger->info("Create Customer=\n" . $data);
 
-        return $this->client->map($result, new Customer());
+        $result = $this->client->exec($this->uri, $data, 'POST');
+
+        return $this->jsonMapper->map(
+            json_decode($result, false, 512, JSON_THROW_ON_ERROR),
+            new Customer()
+        );
     }
 
     /**
      * Creates a new customer.
      *
-     * @throws JsonMapper_Exception
-     * @throws JiraException
+     * @throws JsonMapper_Exception|JiraException|JsonException
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/customer
      */
     public function createFromCustomer(Customer $customer): Customer
     {
-        $data = json_encode($customer);
+        $data = json_encode($customer, JSON_THROW_ON_ERROR);
 
         return $this->create($data);
     }
@@ -71,8 +73,7 @@ class CustomerService
      * @param array $parameters Possible values for $paramArray 'username', 'key'.
      *                          "Either the 'username' or the 'key' query parameters need to be provided".
      *
-     * @throws JsonMapper_Exception
-     * @throws JiraException
+     * @throws JsonMapper_Exception|JiraException
      */
     public function get(array $parameters): Customer
     {
@@ -87,9 +88,7 @@ class CustomerService
      * @param array $parameters
      *
      * @return Customer[]
-     * @throws JsonMapper_Exception
-     * @throws JiraException
-     * @throws RuntimeException
+     * @throws JsonMapper_Exception|JiraException|RuntimeException
      */
     public function findCustomers(array $parameters): array
     {
@@ -103,9 +102,7 @@ class CustomerService
      *
      * @return Customer[]
      *
-     * @throws JsonMapper_Exception
-     * @throws JiraException
-     * @throws RuntimeException
+     * @throws JsonMapper_Exception|JiraException|RuntimeException
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get
      */
     public function findCustomersByQuery(array $parameters): array
@@ -119,9 +116,7 @@ class CustomerService
      * @param array $parameters
      *
      * @return Customer[]
-     * @throws JsonMapper_Exception
-     * @throws JiraException
-     * @throws RuntimeException
+     * @throws JsonMapper_Exception|JiraException|RuntimeException
      */
     public function getCustomers(array $parameters): array
     {
@@ -139,10 +134,8 @@ class CustomerService
     {
         $customers = [];
 
-        foreach($users as $user)
-        {
-            if (!$user instanceof User)
-            {
+        foreach ($users as $user) {
+            if (!$user instanceof User) {
                 throw new RuntimeException('Only able to parse User-objects.');
             }
 
@@ -154,18 +147,19 @@ class CustomerService
 
     private function userToCustomer(User $user): Customer
     {
-        $customerData = [
-            'name' => $user->name,
-            'key' => $user->key,
-            'emailAddress' => $user->emailAddress,
-            'displayName' => $user->displayName,
-            'active' => $user->active,
-            'timeZone' => $user->timeZone,
-            '_links' => $this->avatarUrlsToLinks($user->self, $user->avatarUrls),
-            'self' => $user->self,
-        ];
+        $customer = new Customer();
+        $customer->name = $user->name;
+        $customer->key = $user->key;
+        $customer->emailAddress = $user->emailAddress;
+        $customer->displayName = $user->displayName;
+        $customer->active = $user->active;
+        $customer->timeZone = $user->timeZone;
+        $customer->setLinks(
+            $this->avatarUrlsToLinks($user->self, $user->avatarUrls)
+        );
+        $customer->self = $user->self;
 
-        return new Customer($customerData);
+        return $customer;
     }
 
     private function avatarUrlsToLinks(?string $url, ?object $avatarUrls): ?CustomerLinks
@@ -174,11 +168,10 @@ class CustomerService
             return null;
         }
 
-        return new CustomerLinks(
-            [
-                'jiraRest' => $url,
-                'avatarUrls' => $avatarUrls,
-            ]
-        );
+        $customerLinks = new CustomerLinks();
+        $customerLinks->jiraRest = $url;
+        $customerLinks->avatarUrls = $avatarUrls;
+
+        return $customerLinks;
     }
 }

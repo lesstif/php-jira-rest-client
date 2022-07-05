@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Comment;
 
 use DateTime;
@@ -14,52 +16,34 @@ class Comment implements JsonSerializable
     use ClassSerialize;
     use DataObjectTrait;
 
-    /**
-     * @var int
-     */
-    public $id;
+    public int $id;
+    public string $body;
+    public bool $public = true;
+    public Reporter $author;
+    public DateTimeInterface $created;
+    public array $_links;
 
-    /**
-     * @var string
-     */
-    public $body;
-
-    /**
-     * @var bool
-     */
-    public $public = true;
-
-    /**
-     * @var Reporter
-     */
-    public $author;
-
-    /**
-     * @var DateTimeInterface
-     */
-    public $created;
-
-    /**
-     * @var array
-     */
-    public $_links;
-
-    private function setId(string $id): void
+    public function setId(string $id): void
     {
         $this->id = (int)$id;
     }
 
-    private function setAuthor(array $author): void
+    public function setAuthor(array $author): void
     {
-        $this->author = new Reporter($author);
+        $this->author = new Reporter();
+        foreach ($author as $key => $value) {
+            if (property_exists($this->author, $key)) {
+                $this->author->$key = $value;
+            }
+        }
     }
 
-    private function setCreated(array $created): void
+    public function setCreated(array $created): void
     {
         $this->created = new DateTime($created['iso8601']);
     }
 
-    private function setLinks(array $links): void
+    public function setLinks(array $links): void
     {
         $this->_links = $links;
     }

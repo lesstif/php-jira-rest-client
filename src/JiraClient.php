@@ -645,4 +645,9 @@ class JiraClient
     {
         return $this->jsonOptions;
     }
+
+    public function getHttpResponse(): string|int
+    {
+        return $this->http_response;
+    }
 }

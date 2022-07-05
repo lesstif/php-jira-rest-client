@@ -1,86 +1,90 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Comment;
 
 use InvalidArgumentException;
 use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
+use JsonException;
+use JsonMapper;
 use JsonMapper_Exception;
+use Psr\Log\LoggerInterface;
 
 class CommentService
 {
-    /**
-     * @var ServiceDeskClient
-     */
-    private $client;
-
-    /**
-     * @var string
-     */
-    private $uri = '/servicedeskapi/request';
+    private ServiceDeskClient $client;
+    private string $uri = '/servicedeskapi/request';
+    private LoggerInterface $logger;
+    private JsonMapper $jsonMapper;
 
     public function __construct(ServiceDeskClient $client)
     {
         $this->client = $client;
+        $this->logger = $client->getLogger();
+        $this->jsonMapper = $client->getMapper();
     }
 
     /**
-     * @throws JiraException
-     * @throws JsonMapper_Exception
+     * @throws JiraException|JsonMapper_Exception|JsonException
      */
-    public function addComment(int $issueId, Comment $comment): Comment
+    public function addComment(string $issueId, Comment $comment): Comment
     {
-        $this->client->log("addComment=\n");
+        $this->logger->info("addComment=\n");
 
         if (empty($comment->body)) {
             throw new JiraException('comment param must have body text.');
         }
 
-        $data = json_encode($comment);
+        $data = json_encode($comment, JSON_THROW_ON_ERROR);
 
         $result = $this->client->exec(
             $this->client->createUrl('%s/%d/comment', [$this->uri, $issueId,]),
             $data
         );
 
-        $this->client->getLogger()->debug('add comment result=' . var_export($result, true));
+        $this->logger->debug('add comment result=' . var_export($result, true));
 
-        return $this->client->map($result, new Comment());
+        return $this->jsonMapper->map(
+            json_decode($result, false, 512, JSON_THROW_ON_ERROR),
+            new Comment()
+        );
     }
 
     /**
-     * @throws JiraException
-     * @throws JsonMapper_Exception
+     * @throws JiraException|JsonMapper_Exception|JsonException
      */
-    public function getComment(int $issueId, int $commentId): Comment
+    public function getComment(string $issueId, int $commentId): Comment
     {
-        $this->client->log("getComment=\n");
+        $this->logger->info("getComment=\n");
 
         $result = $this->client->exec(
             $this->client->createUrl('%s/%d/comment/%d', [$this->uri, $issueId, $commentId,])
         );
 
-        $this->client->getLogger()->debug('get comment result=' . var_export($result, true));
+        $this->logger->debug('get comment result=' . var_export($result, true));
 
-        return $this->client->map($result, new Comment());
+        return $this->jsonMapper->map(
+            json_decode($result, false, 512, JSON_THROW_ON_ERROR),
+            new Comment()
+        );
     }
 
     /**
      * @return Comment[]
      *
-     * @throws JiraException
-     * @throws JsonMapper_Exception
-     * @throws InvalidArgumentException
+     * @throws JiraException|JsonMapper_Exception|InvalidArgumentException|JsonException
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request/{issueIdOrKey}/comment-getRequestComments
      */
     public function getCommentsForRequest(
-        int $issueId,
+        string $issueId,
         bool $showPublicComments = true,
         bool $showInternalComments = true,
         int $startIndex = 0,
         int $amountOfItems = 50
     ): array {
-        $this->client->log("getComments for request=\n");
+        $this->logger->info("getComments for request=\n");
 
         $searchParameters = $this->getRequestSearchParameters(
             $showPublicComments,
@@ -93,13 +97,16 @@ class CommentService
             $this->client->createUrl('%s/%d/comment', [$this->uri, $issueId,], $searchParameters)
         );
 
-        $this->client->getLogger()->debug('get comments result=' . var_export($result, true));
+        $this->logger->debug('get comments result=' . var_export($result, true));
 
-        $commentData = json_decode($result, false);
+        $commentData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
 
         $comments = [];
         foreach ($commentData as $comment) {
-            $comments[] = $this->client->mapWithoutDecode($comment, new Comment());
+            $comments[] = $this->jsonMapper->map(
+                $comment,
+                new Comment()
+            );
         }
 
         return $comments;

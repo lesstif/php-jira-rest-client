@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Request;
 
+use DateTime;
 use DateTimeInterface;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\ServiceDesk\Customer\Customer;
 use JiraRestApi\ServiceDesk\DataObjectTrait;
+use JsonMapper;
 use JsonSerializable;
 
 class Request implements JsonSerializable
@@ -13,55 +17,19 @@ class Request implements JsonSerializable
     use ClassSerialize;
     use DataObjectTrait;
 
-    /**
-     * @var int
-     */
-    public $issueId;
-
-    /**
-     * @var string
-     */
-    public $issueKey;
-
-    /**
-     * @var string
-     */
-    public $requestTypeId;
-
-    /**
-     * @var string
-     */
-    public $serviceDeskId;
-
-    /**
-     * @var \DateTime
-     */
-    public $createdDate;
-
-    /**
-     * @var Customer
-     */
-    public $reporter;
-
-    /**
-     * @var object
-     */
-    public $requestFieldValues;
-
-    /**
-     * @var RequestStatus
-     */
-    public $currentStatus;
-
+    public string $issueId;
+    public string $issueKey;
+    public string $requestTypeId;
+    public string $serviceDeskId;
+    public DateTimeInterface $createdDate;
+    public Customer $reporter;
+    public array $requestFieldValues;
+    public RequestStatus $currentStatus;
     /**
      * @var Customer[]
      */
-    public $requestParticipants = [];
-
-    /**
-     * @var object
-     */
-    public $_links;
+    public array $requestParticipants = [];
+    public object $_links;
 
     public function setRequestTypeId(string $requestTypeId): self
     {
@@ -72,9 +40,8 @@ class Request implements JsonSerializable
 
     public function setCreatedDate(object $createdDate): void
     {
-        if (!$createdDate instanceof DateTimeInterface)
-        {
-            $createdDate = new \DateTime($createdDate->iso8601);
+        if (!$createdDate instanceof DateTimeInterface) {
+            $createdDate = new DateTime($createdDate->iso8601);
         }
 
         $this->createdDate = $createdDate;
@@ -82,9 +49,8 @@ class Request implements JsonSerializable
 
     public function setReporter(object $reporter): self
     {
-        if (!$reporter instanceof Customer)
-        {
-            $reporter = new Customer($reporter);
+        if (!$reporter instanceof Customer) {
+            $reporter = $this->map($reporter, new Customer());
         }
 
         $this->reporter = $reporter;
@@ -113,12 +79,12 @@ class Request implements JsonSerializable
         return $this;
     }
 
-    private function setCurrentStatus(object $currentStatus): void
+    public function setCurrentStatus(object $currentStatus): void
     {
-        $this->currentStatus = new RequestStatus($currentStatus);
+        $this->currentStatus = $this->map($currentStatus, new RequestStatus());
     }
 
-    private function setLinks(object $links): void
+    public function setLinks(object $links): void
     {
         $this->_links = $links;
     }
@@ -130,5 +96,14 @@ class Request implements JsonSerializable
         unset($data['reporter']);
 
         return array_filter($data);
+    }
+
+    private function map(object $data, object $target)
+    {
+        $mapper = new JsonMapper();
+        return $mapper->map(
+            $data,
+            $target
+        );
     }
 }

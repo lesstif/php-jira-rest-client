@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Organisation;
 
 use JiraRestApi\ClassSerialize;
@@ -11,22 +13,11 @@ class Organisation implements JsonSerializable
     use ClassSerialize;
     use DataObjectTrait;
 
-    /**
-     * @var int
-     */
-    public $id;
+    public int $id;
+    public string $name;
+    public array $_links;
 
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var object
-     */
-    public $_links;
-
-    private function setLinks(array $links): void
+    public function setLinks(array $links): void
     {
         $this->_links = $links;
     }

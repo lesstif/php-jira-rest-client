@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JiraRestApi\ServiceDesk\Customer;
 
 use JiraRestApi\ClassSerialize;
@@ -11,51 +13,27 @@ class Customer implements JsonSerializable
     use ClassSerialize;
     use DataObjectTrait;
 
-    /**
-     * @var string
-     */
-    public $key;
+    public string $key;
+    public string $name;
+    public string $emailAddress;
+    public string $displayName;
+    public bool $active;
+    public string $timeZone;
+    public ?CustomerLinks $_links;
+    public string $self;
 
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $emailAddress;
-
-    /**
-     * @var string
-     */
-    public $displayName;
-
-    /**
-     * @var bool
-     */
-    public $active;
-
-    /**
-     * @var string
-     */
-    public $timeZone;
-
-    /**
-     * @var CustomerLinks|null
-     */
-    public $_links;
-
-    /**
-     * @var string
-     */
-    public $self;
-
-    private function setLinks($links): void
+    public function setLinks($links): void
     {
-        if (!$links instanceof CustomerLinks)
-        {
-            $links = new CustomerLinks($links);
+        if ($links === null) {
+            return;
+        }
+
+        if (!$links instanceof CustomerLinks) {
+            $data = $links;
+
+            $links = new CustomerLinks();
+            $links->jiraRest = $data['jiraRest'];
+            $links->avatarUrls = $data['avatarUrls'];
         }
 
         $this->_links = $links;
