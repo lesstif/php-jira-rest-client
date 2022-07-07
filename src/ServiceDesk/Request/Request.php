@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\ServiceDesk\Request;
 
+use DateTime;
 use DateTimeInterface;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\ServiceDesk\Customer\Customer;
@@ -34,7 +35,7 @@ class Request implements JsonSerializable
     public $serviceDeskId;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $createdDate;
 
@@ -74,7 +75,7 @@ class Request implements JsonSerializable
     {
         if (!$createdDate instanceof DateTimeInterface)
         {
-            $createdDate = new \DateTime($createdDate->iso8601);
+            $createdDate = new DateTime($createdDate->iso8601);
         }
 
         $this->createdDate = $createdDate;
@@ -123,11 +124,28 @@ class Request implements JsonSerializable
         $this->_links = $links;
     }
 
+    /**
+     * @param Customer[] $requestParticipants
+     */
+    public function setRequestParticipants(array $requestParticipants): self
+    {
+        $this->requestParticipants = $requestParticipants;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         $data = get_object_vars($this);
-        $data['raiseOnBehalfOf'] = $data['reporter']->emailAddress;
+        if ($this->reporter)
+        {
+            $data['raiseOnBehalfOf'] = $this->reporter->accountId ?? $this->reporter->emailAddress;
+        }
         unset($data['reporter']);
+
+        $data['requestParticipants'] = array_map(static function (Customer $customer): string {
+            return $customer->accountId ?? $customer->emailAddress;
+        }, $this->requestParticipants);
 
         return array_filter($data);
     }
