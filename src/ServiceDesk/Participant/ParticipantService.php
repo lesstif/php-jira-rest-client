@@ -97,7 +97,7 @@ class ParticipantService
     {
         return json_encode([
             'usernames' => array_map(static function (Customer $participant): string {
-                return $participant->name;
+                return $participant->accountId ?? $participant->emailAddress;
             }, $participants),
         ]);
     }
