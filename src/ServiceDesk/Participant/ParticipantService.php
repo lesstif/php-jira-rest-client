@@ -8,7 +8,7 @@ use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\Customer\Customer;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
 use JiraRestApi\User\User;
-use JsonMapper_Exception;
+use Psr\Log\LoggerInterface;
 
 class ParticipantService
 {
@@ -17,26 +17,32 @@ class ParticipantService
      */
     private $client;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(ServiceDeskClient $client)
     {
         $this->client = $client;
+        $this->logger = $client->getLogger();
     }
 
     /**
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request/{issueIdOrKey}/participant-getRequestParticipants
+     * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-get
      *
      * @return Customer[] The participants of the customer request, at the specified page of the results.
      * @throws JiraException
      */
     public function getParticipantOfRequest(int $requestId, int $start = 0, int $limit = 50): array
     {
-        $this->client->log("getParticipant=\n");
+        $this->logger->debug("getParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('servicedeskapi/request/%d/participant?start=%d&limit=%d', [$requestId, $start, $limit])
+            $this->client->createUrl('/request/%d/participant?start=%d&limit=%d', [$requestId, $start, $limit])
         );
 
-        $this->client->getLogger()->debug('get participant result=' . var_export($result, true));
+        $this->logger->debug('get participant result=' . var_export($result, true));
 
         return $this->mapResult($result);
     }
@@ -44,21 +50,21 @@ class ParticipantService
     /**
      * @param User[] $participants
      *
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request/{issueIdOrKey}/participant-addRequestParticipants
+     * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-post
      *
      * @return Customer[] The participants of the customer request.
      * @throws JiraException
      */
     public function addParticipantToRequest(int $requestId, array $participants): array
     {
-        $this->client->log("addParticipant=\n");
+        $this->logger->debug("addParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('servicedeskapi/request/%d/participant', [$requestId]),
+            $this->client->createUrl('/request/%d/participant', [$requestId]),
             $this->encodeParticipants($participants)
         );
 
-        $this->client->getLogger()->debug('add participant result=' . var_export($result, true));
+        $this->logger->debug('add participant result=' . var_export($result, true));
 
         return $this->mapResult($result);
     }
@@ -66,7 +72,7 @@ class ParticipantService
     /**
      * @param Customer[] $participants
      *
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request/{issueIdOrKey}/participant-removeRequestParticipants
+     * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-delete
      *
      * @return Customer[] The first page of participants of the customer request after removing the specified users.
      *
@@ -75,15 +81,15 @@ class ParticipantService
      */
     public function removeParticipantFromRequest(int $requestId, array $participants): array
     {
-        $this->client->log("removeParticipant=\n");
+        $this->logger->debug("removeParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('servicedeskapi/request/%d/participant', [$requestId]),
+            $this->client->createUrl('/request/%d/participant', [$requestId]),
             $this->encodeParticipants($participants),
             'DELETE'
         );
 
-        $this->client->getLogger()->debug('remove participant result=' . var_export($result, true));
+        $this->logger->debug('remove participant result=' . var_export($result, true));
 
         return $this->mapResult($result);
     }
@@ -96,7 +102,7 @@ class ParticipantService
     private function encodeParticipants(array $participants): string
     {
         return json_encode([
-            'usernames' => array_map(static function (Customer $participant): string {
+            'accountIds' => array_map(static function (Customer $participant): string {
                 return $participant->accountId ?? $participant->emailAddress;
             }, $participants),
         ]);
@@ -106,7 +112,6 @@ class ParticipantService
      * @param string $result
      *
      * @return Customer[]
-     * @throws JsonMapper_Exception
      */
     private function mapResult(string $result): array
     {
@@ -114,7 +119,7 @@ class ParticipantService
         $users = [];
 
         foreach ($userData->values as $user) {
-            $users[] = $this->client->map(
+            $users[] = $this->client->mapWithoutDecode(
                 $user,
                 new Customer()
             );
