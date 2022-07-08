@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParticipantServiceTest extends TestCase
 {
-
     /**
      * @var ServiceDeskClient|MockObject
      */
@@ -29,6 +28,13 @@ class ParticipantServiceTest extends TestCase
         $this->client->method('mapWithoutDecode')->willReturnCallback(static function (object $jsonData, $dataObject): object {
             return (new JsonMapper())->map($jsonData, $dataObject);
         });
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->client = null;
     }
 
     public function testGetParticipant(): void
