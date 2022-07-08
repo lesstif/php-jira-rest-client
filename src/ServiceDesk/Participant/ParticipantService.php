@@ -32,12 +32,10 @@ class ParticipantService
     /**
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-get
      *
-     * @param int|string $issueIdOrKey
-     *
      * @return Customer[] The participants of the customer request, at the specified page of the results.
      * @throws JiraException|JsonMapper_Exception
      */
-    public function getParticipantOfRequest($issueIdOrKey, int $start = 0, int $limit = 50): array
+    public function getParticipantOfRequest(string $issueIdOrKey, int $start = 0, int $limit = 50): array
     {
         $this->logger->debug("getParticipant=\n");
 
@@ -53,13 +51,12 @@ class ParticipantService
     /**
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-post
      *
-     * @param int|string $issueIdOrKey
      * @param User[] $participants
      *
      * @return Customer[] The participants of the customer request.
      * @throws JiraException|JsonMapper_Exception
      */
-    public function addParticipantToRequest($issueIdOrKey, array $participants): array
+    public function addParticipantToRequest(string $issueIdOrKey, array $participants): array
     {
         $this->logger->debug("addParticipant=\n");
 
@@ -76,7 +73,6 @@ class ParticipantService
     /**
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-delete
      *
-     * @param int|string $issueIdOrKey
      * @param Customer[] $participants
      *
      * @return Customer[] The first page of participants of the customer request after removing the specified users.
@@ -84,7 +80,7 @@ class ParticipantService
      * @throws JiraException
      * @throws JsonException|JsonMapper_Exception
      */
-    public function removeParticipantFromRequest($issueIdOrKey, array $participants): array
+    public function removeParticipantFromRequest(string $issueIdOrKey, array $participants): array
     {
         $this->logger->debug("removeParticipant=\n");
 
@@ -119,7 +115,7 @@ class ParticipantService
     {
         $userData = json_decode($result, false);
 
-        return array_map(function(object $user): Customer {
+        return array_map(function (object $user): Customer {
             return $this->client->mapWithoutDecode(
                 $user,
                 new Customer()
