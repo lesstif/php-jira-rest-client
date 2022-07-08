@@ -8,6 +8,7 @@ use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\Customer\Customer;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
 use JiraRestApi\User\User;
+use JsonMapper_Exception;
 use Psr\Log\LoggerInterface;
 
 class ParticipantService
@@ -32,7 +33,7 @@ class ParticipantService
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-get
      *
      * @return Customer[] The participants of the customer request, at the specified page of the results.
-     * @throws JiraException
+     * @throws JiraException|JsonMapper_Exception
      */
     public function getParticipantOfRequest(int $requestId, int $start = 0, int $limit = 50): array
     {
@@ -53,7 +54,7 @@ class ParticipantService
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-post
      *
      * @return Customer[] The participants of the customer request.
-     * @throws JiraException
+     * @throws JiraException|JsonMapper_Exception
      */
     public function addParticipantToRequest(int $requestId, array $participants): array
     {
@@ -77,7 +78,7 @@ class ParticipantService
      * @return Customer[] The first page of participants of the customer request after removing the specified users.
      *
      * @throws JiraException
-     * @throws JsonException
+     * @throws JsonException|JsonMapper_Exception
      */
     public function removeParticipantFromRequest(int $requestId, array $participants): array
     {
@@ -96,8 +97,6 @@ class ParticipantService
 
     /**
      * @param Customer[] $participants
-     *
-     * @return string
      */
     private function encodeParticipants(array $participants): string
     {
@@ -109,22 +108,18 @@ class ParticipantService
     }
 
     /**
-     * @param string $result
-     *
      * @return Customer[]
+     * @throws JsonMapper_Exception
      */
     private function mapResult(string $result): array
     {
-        $userData = json_decode($result);
-        $users = [];
+        $userData = json_decode($result, false);
 
-        foreach ($userData->values as $user) {
-            $users[] = $this->client->mapWithoutDecode(
+        return array_map(function(object $user): Customer {
+            return $this->client->mapWithoutDecode(
                 $user,
                 new Customer()
             );
-        }
-
-        return $users;
+        }, $userData->values ?? []);
     }
 }
