@@ -7,7 +7,6 @@ namespace JiraRestApi\ServiceDesk\Participant;
 use JiraRestApi\JiraException;
 use JiraRestApi\ServiceDesk\Customer\Customer;
 use JiraRestApi\ServiceDesk\ServiceDeskClient;
-use JiraRestApi\User\User;
 use JsonMapper_Exception;
 use Psr\Log\LoggerInterface;
 
@@ -51,7 +50,7 @@ class ParticipantService
     /**
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-post
      *
-     * @param User[] $participants
+     * @param Customer[] $participants
      *
      * @return Customer[] The participants of the customer request.
      * @throws JiraException|JsonMapper_Exception
