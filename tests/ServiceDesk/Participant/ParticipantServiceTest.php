@@ -48,7 +48,7 @@ class ParticipantServiceTest extends TestCase
 
         $this->client->method('exec')->willReturn(json_encode(['values' => [$customerData]]));
 
-        $result = $participantService->getParticipantOfRequest(123);
+        $result = $participantService->getParticipantOfRequest('K-123');
 
         $this->assertEquals([new Customer($customerData)], $result);
     }
@@ -70,7 +70,7 @@ class ParticipantServiceTest extends TestCase
 
         $this->client->method('exec')->willReturn(json_encode(['values' => $customerData]));
 
-        $result = $participantService->addParticipantToRequest(123, [new Customer($customerData[1])]);
+        $result = $participantService->addParticipantToRequest('K-123', [new Customer($customerData[1])]);
 
         $this->assertEquals([new Customer($customerData[0]), new Customer($customerData[1])], $result);
     }
@@ -92,7 +92,7 @@ class ParticipantServiceTest extends TestCase
 
         $this->client->method('exec')->willReturn(json_encode(['values' => $customerData]));
 
-        $result = $participantService->removeParticipantFromRequest(123, [new Customer(['accountId' => 'la-la'])]);
+        $result = $participantService->removeParticipantFromRequest('K-123', [new Customer(['accountId' => 'la-la'])]);
 
         $this->assertEquals([new Customer($customerData[0]), new Customer($customerData[1])], $result);
     }

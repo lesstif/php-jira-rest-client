@@ -32,15 +32,17 @@ class ParticipantService
     /**
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-get
      *
+     * @param int|string $issueIdOrKey
+     *
      * @return Customer[] The participants of the customer request, at the specified page of the results.
      * @throws JiraException|JsonMapper_Exception
      */
-    public function getParticipantOfRequest(int $requestId, int $start = 0, int $limit = 50): array
+    public function getParticipantOfRequest($issueIdOrKey, int $start = 0, int $limit = 50): array
     {
         $this->logger->debug("getParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('/request/%d/participant?start=%d&limit=%d', [$requestId, $start, $limit])
+            $this->client->createUrl('/request/%s/participant?start=%d&limit=%d', [$issueIdOrKey, $start, $limit])
         );
 
         $this->logger->debug('get participant result=' . var_export($result, true));
@@ -49,19 +51,20 @@ class ParticipantService
     }
 
     /**
-     * @param User[] $participants
-     *
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-post
+     *
+     * @param int|string $issueIdOrKey
+     * @param User[] $participants
      *
      * @return Customer[] The participants of the customer request.
      * @throws JiraException|JsonMapper_Exception
      */
-    public function addParticipantToRequest(int $requestId, array $participants): array
+    public function addParticipantToRequest($issueIdOrKey, array $participants): array
     {
         $this->logger->debug("addParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('/request/%d/participant', [$requestId]),
+            $this->client->createUrl('/request/%s/participant', [$issueIdOrKey]),
             $this->encodeParticipants($participants)
         );
 
@@ -71,21 +74,22 @@ class ParticipantService
     }
 
     /**
-     * @param Customer[] $participants
-     *
      * @see https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-participant-delete
+     *
+     * @param int|string $issueIdOrKey
+     * @param Customer[] $participants
      *
      * @return Customer[] The first page of participants of the customer request after removing the specified users.
      *
      * @throws JiraException
      * @throws JsonException|JsonMapper_Exception
      */
-    public function removeParticipantFromRequest(int $requestId, array $participants): array
+    public function removeParticipantFromRequest($issueIdOrKey, array $participants): array
     {
         $this->logger->debug("removeParticipant=\n");
 
         $result = $this->client->exec(
-            $this->client->createUrl('/request/%d/participant', [$requestId]),
+            $this->client->createUrl('/request/%s/participant', [$issueIdOrKey]),
             $this->encodeParticipants($participants),
             'DELETE'
         );
