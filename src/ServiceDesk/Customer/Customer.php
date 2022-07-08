@@ -24,6 +24,11 @@ class Customer implements JsonSerializable
     /**
      * @var string
      */
+    public $accountId;
+
+    /**
+     * @var string
+     */
     public $emailAddress;
 
     /**

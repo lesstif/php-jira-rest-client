@@ -157,6 +157,7 @@ class CustomerService
         $customerData = [
             'name' => $user->name,
             'key' => $user->key,
+            'accountId' => $user->accountId,
             'emailAddress' => $user->emailAddress,
             'displayName' => $user->displayName,
             'active' => $user->active,
