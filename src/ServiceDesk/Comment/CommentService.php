@@ -17,7 +17,7 @@ class CommentService
     /**
      * @var string
      */
-    private $uri = '/servicedeskapi/request';
+    private $uri = '/request';
 
     public function __construct(ServiceDeskClient $client)
     {
