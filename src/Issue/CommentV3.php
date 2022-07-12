@@ -27,4 +27,18 @@ class CommentV3 extends Comment
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function addCommentNode($type, $text = null, $attrs = [])
+    {
+        if (empty($this->body)) {
+            $this->body = new DescriptionV3();
+        }
+
+        $this->body->addDescriptionContent($type, $text, $attrs);
+
+        return $this;
+    }
 }

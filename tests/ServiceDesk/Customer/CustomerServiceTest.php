@@ -149,6 +149,7 @@ class CustomerServiceTest extends TestCase
     private function createCustomer(): Customer
     {
         $customer = new Customer();
+        $customer->accountId = '21';
         $customer->name = 'Test Customer';
         $customer->emailAddress = 'test@customer.com';
         $customer->active = true;
@@ -161,6 +162,7 @@ class CustomerServiceTest extends TestCase
     {
         $user = new User();
         $user->key = $key;
+        $user->accountId = '21';
         $user->self = '';
         $user->name = 'Test Customer';
         $user->displayName = 'Test Customer';

@@ -150,6 +150,7 @@ class CustomerService
         $customer = new Customer();
         $customer->name = $user->name;
         $customer->key = $user->key;
+        $customer->accountId = $user->accountId;
         $customer->emailAddress = $user->emailAddress;
         $customer->displayName = $user->displayName;
         $customer->active = $user->active;

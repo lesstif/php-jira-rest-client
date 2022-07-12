@@ -28,6 +28,11 @@ class User implements \JsonSerializable
     /**
      * @var string
      */
+    public $accountId;
+
+    /**
+     * @var string
+     */
     public $name;
 
     /**

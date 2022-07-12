@@ -15,6 +15,7 @@ class Customer implements JsonSerializable
 
     public string $key;
     public string $name;
+    public string $accountId;
     public string $emailAddress;
     public string $displayName;
     public bool $active;
