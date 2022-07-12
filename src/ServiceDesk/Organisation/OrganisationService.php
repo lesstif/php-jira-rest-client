@@ -29,6 +29,7 @@ class OrganisationService
 
     /**
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization-createOrganization
      */
     public function create(array|string $data): Organisation
@@ -37,7 +38,7 @@ class OrganisationService
             $data = json_encode($data, JSON_THROW_ON_ERROR);
         }
 
-        $this->logger->info("Create ServiceDesk Organisation=\n" . $data);
+        $this->logger->info("Create ServiceDesk Organisation=\n".$data);
 
         $result = $this->client->exec($this->uri, $data, 'POST');
 
@@ -46,6 +47,7 @@ class OrganisationService
 
     /**
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization-createOrganization
      */
     public function createFromOrganisation(Organisation $organisation): Organisation
@@ -61,17 +63,19 @@ class OrganisationService
     public function get(string $organisationId): Organisation
     {
         $result = $this->client->exec(
-            $this->client->createUrl('%s/%s', [$this->uri, $organisationId,])
+            $this->client->createUrl('%s/%s', [$this->uri, $organisationId])
         );
 
         return $this->createOrganisation($result);
     }
 
     /**
-     * Returns the organisations paginated
+     * Returns the organisations paginated.
+     *
+     * @throws JiraException|JsonMapper_Exception|JsonException
      *
      * @return Organisation[]
-     * @throws JiraException|JsonMapper_Exception|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization
      */
     public function getOrganisations(int $startIndex, int $amountOfItems): array
@@ -80,7 +84,7 @@ class OrganisationService
             $this->createGetOrganisationsUrl($startIndex, $amountOfItems)
         );
 
-        $this->logger->info("Result=\n" . $result);
+        $this->logger->info("Result=\n".$result);
 
         $organisationData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
         $organisations = [];
@@ -93,10 +97,11 @@ class OrganisationService
     }
 
     /**
-     * Returns the organisation customers paginated
+     * Returns the organisation customers paginated.
+     *
+     * @throws JsonMapper_Exception|JiraException|JsonException
      *
      * @return Customer[]
-     * @throws JsonMapper_Exception|JiraException|JsonException
      */
     public function getCustomersForOrganisation(int $startIndex, int $amountOfItems, Organisation $organisation): array
     {
@@ -104,7 +109,7 @@ class OrganisationService
             $this->createGetCustomersUrl($organisation->id, $startIndex, $amountOfItems)
         );
 
-        $this->logger->info("Result=\n" . $result);
+        $this->logger->info("Result=\n".$result);
 
         $customerData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
         $customers = [];
@@ -121,19 +126,17 @@ class OrganisationService
 
     /**
      * @param Customer[] $customers
+     *
      * @throws JiraException
      */
     public function addCustomersToOrganisation(array $customers, Organisation $organisation): void
     {
-        $customerNames = array_map(
-            static function (Customer $customer): string {
-                return $customer->name;
-            },
-            $customers
-        );
+        $customerNames = array_map(static function (Customer $customer) {
+            return $customer->name;
+        }, $customers);
 
         $this->client->exec(
-            $this->client->createUrl('%s/%s', [$this->uri, $organisation->id,]),
+            $this->client->createUrl('%s/%s', [$this->uri, $organisation->id]),
             ['usernames' => $customerNames],
             'POST'
         );
@@ -145,7 +148,7 @@ class OrganisationService
     public function deleteOrganisation(Organisation $organisation): void
     {
         $this->client->exec(
-            $this->client->createUrl('%s/%s', [$this->uri, $organisation->id,]),
+            $this->client->createUrl('%s/%s', [$this->uri, $organisation->id]),
             null,
             'DELETE'
         );
@@ -165,8 +168,8 @@ class OrganisationService
 
         return $this->client->createUrl(
             '%s?%s',
-            [$this->uri,],
-            ['start' => $startIndex, 'limit' => $amountOfItems,]
+            [$this->uri],
+            ['start' => $startIndex, 'limit' => $amountOfItems]
         );
     }
 
@@ -184,8 +187,8 @@ class OrganisationService
 
         return $this->client->createUrl(
             '%s/%s/user?%s',
-            [$this->uri, $organisationId,],
-            ['start' => $startIndex, 'limit' => $amountOfItems,]
+            [$this->uri, $organisationId],
+            ['start' => $startIndex, 'limit' => $amountOfItems]
         );
     }
 

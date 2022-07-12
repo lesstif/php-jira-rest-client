@@ -36,6 +36,7 @@ class CustomerService
      * Creates a new customer.
      *
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/customer
      */
     public function create(array|string $data): Customer
@@ -44,7 +45,7 @@ class CustomerService
             $data = json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
         }
 
-        $this->logger->info("Create Customer=\n" . $data);
+        $this->logger->info("Create Customer=\n".$data);
 
         $result = $this->client->exec($this->uri, $data, 'POST');
 
@@ -58,6 +59,7 @@ class CustomerService
      * Creates a new customer.
      *
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/customer
      */
     public function createFromCustomer(Customer $customer): Customer
@@ -87,8 +89,9 @@ class CustomerService
      *
      * @param array $parameters
      *
-     * @return Customer[]
      * @throws JsonMapper_Exception|JiraException|RuntimeException
+     *
+     * @return Customer[]
      */
     public function findCustomers(array $parameters): array
     {
@@ -100,9 +103,10 @@ class CustomerService
     /**
      * Returns a list of users that match with a specific query.
      *
+     * @throws JsonMapper_Exception|JiraException|RuntimeException
+     *
      * @return Customer[]
      *
-     * @throws JsonMapper_Exception|JiraException|RuntimeException
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get
      */
     public function findCustomersByQuery(array $parameters): array
@@ -115,8 +119,9 @@ class CustomerService
     /**
      * @param array $parameters
      *
-     * @return Customer[]
      * @throws JsonMapper_Exception|JiraException|RuntimeException
+     *
+     * @return Customer[]
      */
     public function getCustomers(array $parameters): array
     {
@@ -127,8 +132,10 @@ class CustomerService
 
     /**
      * @param User[] $users
-     * @return Customer[]
+     *
      * @throws RuntimeException
+     *
+     * @return Customer[]
      */
     private function usersToCustomers(array $users): array
     {

@@ -25,7 +25,7 @@ class Comment implements JsonSerializable
 
     public function setId(string $id): void
     {
-        $this->id = (int)$id;
+        $this->id = (int) $id;
     }
 
     public function setAuthor(array $author): void

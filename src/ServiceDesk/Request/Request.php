@@ -102,8 +102,7 @@ class Request implements JsonSerializable
     public function jsonSerialize(): array
     {
         $data = get_object_vars($this);
-        if ($this->reporter)
-        {
+        if ($this->reporter) {
             $data['raiseOnBehalfOf'] = $this->reporter->accountId ?? $this->reporter->emailAddress;
         }
         unset($data['reporter']);
@@ -118,6 +117,7 @@ class Request implements JsonSerializable
     private function map(object $data, object $target)
     {
         $mapper = new JsonMapper();
+
         return $mapper->map(
             $data,
             $target

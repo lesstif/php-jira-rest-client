@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace JiraRestApi\ServiceDesk\Request;
 
-use ArrayObject;
 use InvalidArgumentException;
-use JiraRestApi\Project\ProjectService;
-use JiraRestApi\ServiceDesk\Attachment\AttachmentService;
-use JiraRestApi\ServiceDesk\Customer\Customer;
-use JiraRestApi\ServiceDesk\Comment\CommentService;
-use JiraRestApi\ServiceDesk\Comment\Comment;
-use JiraRestApi\ServiceDesk\ServiceDeskClient;
-use JsonException;
-use JsonMapper;
-use JsonMapper_Exception;
 use JiraRestApi\Issue\Attachment;
 use JiraRestApi\Issue\Issue;
 use JiraRestApi\Issue\Notify;
@@ -27,6 +17,15 @@ use JiraRestApi\Issue\TimeTracking;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\Issue\Worklog;
 use JiraRestApi\JiraException;
+use JiraRestApi\Project\ProjectService;
+use JiraRestApi\ServiceDesk\Attachment\AttachmentService;
+use JiraRestApi\ServiceDesk\Comment\Comment;
+use JiraRestApi\ServiceDesk\Comment\CommentService;
+use JiraRestApi\ServiceDesk\Customer\Customer;
+use JiraRestApi\ServiceDesk\ServiceDeskClient;
+use JsonException;
+use JsonMapper;
+use JsonMapper_Exception;
 use Psr\Log\LoggerInterface;
 
 class RequestService
@@ -65,6 +64,7 @@ class RequestService
 
     /**
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-getCustomerRequestByIdOrKey
      */
     public function get(string $issueId, array $expandParameters = [], Request $request = null): Request
@@ -72,10 +72,10 @@ class RequestService
         $request = ($request) ?: new Request();
 
         $result = $this->client->exec(
-            $this->client->createUrl('%s/%s?%s', [$this->uri, $issueId,], $expandParameters)
+            $this->client->createUrl('%s/%s?%s', [$this->uri, $issueId], $expandParameters)
         );
 
-        $this->logger->info("Result=\n" . $result);
+        $this->logger->info("Result=\n".$result);
 
         return $this->jsonMapper->map(
             json_decode($result, false, 512, JSON_THROW_ON_ERROR),
@@ -84,24 +84,26 @@ class RequestService
     }
 
     /**
-     * @return Request[]
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
+     * @return Request[]
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-getMyCustomerRequests
      */
     public function getRequestsByCustomer(Customer $customer, array $searchParameters): array
     {
         $defaultSearchParameters = [
-            'serviceDeskId' => $this->serviceDeskId,
+            'serviceDeskId'    => $this->serviceDeskId,
             'requestOwnership' => 'OWNED_REQUESTS',
-            'start' => 0,
-            'limit' => 50,
-            'searchTerm' => $customer->name,
+            'start'            => 0,
+            'limit'            => 50,
+            'searchTerm'       => $customer->name,
         ];
 
         $searchParameters = array_merge($defaultSearchParameters, $searchParameters);
 
         $result = $this->client->exec(
-            $this->client->createUrl('%s?%s', [$this->uri,], $searchParameters)
+            $this->client->createUrl('%s?%s', [$this->uri], $searchParameters)
         );
 
         $requestData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
@@ -119,15 +121,16 @@ class RequestService
 
     /**
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-createCustomerRequest
      */
     public function create(Request $request): Request
     {
-        $request->serviceDeskId = (string)$this->serviceDeskId;
+        $request->serviceDeskId = (string) $this->serviceDeskId;
 
         $data = json_encode($request, JSON_THROW_ON_ERROR);
 
-        $this->logger->info("Create ServiceDeskRequest=\n" . $data);
+        $this->logger->info("Create ServiceDeskRequest=\n".$data);
 
         $result = $this->client->exec($this->uri, $data, 'POST');
 
@@ -141,8 +144,10 @@ class RequestService
      * Add one or more file to a request.
      *
      * @param Attachment[] $attachments
-     * @return Attachment[]
+     *
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
+     * @return Attachment[]
      */
     public function addAttachments(int $requestId, array $attachments): array
     {
@@ -150,7 +155,7 @@ class RequestService
 
         $attachments = $this->attachmentService->addAttachmentToRequest($requestId, $temporaryFileNames);
 
-        $this->logger->info('addAttachments result=' . var_export($attachments, true));
+        $this->logger->info('addAttachments result='.var_export($attachments, true));
 
         return $attachments;
     }
@@ -172,18 +177,14 @@ class RequestService
     }
 
     /**
+     * @throws JiraException|JsonMapper_Exception|JsonException|InvalidArgumentException
+     *
      * @return Comment[]
      *
-     * @throws JiraException|JsonMapper_Exception|JsonException|InvalidArgumentException
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request/{issueIdOrKey}/comment-getRequestComments
      */
-    public function getCommentsForRequest(
-        string $issueId,
-        bool $showPublicComments = true,
-        bool $showInternalComments = true,
-        int $startIndex = 0,
-        int $amountOfItems = 50
-    ): array {
+    public function getCommentsForRequest(string $issueId, bool $showPublicComments = true, bool $showInternalComments = true, int $startIndex = 0, int $amountOfItems = 50): array
+    {
         return $this->commentService->getCommentsForRequest(
             $issueId,
             $showPublicComments,
@@ -199,6 +200,7 @@ class RequestService
      * @param string|null $assigneeName Assigns an issue to a user.
      *                                  If the assigneeName is "-1" automatic assignee is used.
      *                                  A null name will remove the assignee.
+     *
      * @throws JiraException|JsonException
      */
     public function changeAssignee(string $issueIdOrKey, ?string $assigneeName): string|bool
@@ -209,10 +211,10 @@ class RequestService
 
         $data = json_encode($ar, JSON_THROW_ON_ERROR);
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/assignee", $data, 'PUT');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
 
         $this->logger->info(
-            'change assignee of ' . $issueIdOrKey . ' to ' . $assigneeName . ' result=' . var_export($ret, true)
+            'change assignee of '.$issueIdOrKey.' to '.$assigneeName.' result='.var_export($ret, true)
         );
 
         return $ret;
@@ -231,10 +233,10 @@ class RequestService
 
         $data = json_encode($ar, JSON_THROW_ON_ERROR);
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/assignee", $data, 'PUT');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/assignee", $data, 'PUT');
 
         $this->logger->info(
-            'change assignee of ' . $issueIdOrKey . ' to ' . $accountId . ' result=' . var_export($ret, true)
+            'change assignee of '.$issueIdOrKey.' to '.$accountId.' result='.var_export($ret, true)
         );
 
         return $ret;
@@ -249,11 +251,11 @@ class RequestService
     {
         $this->logger->info("deleteIssue=\n");
 
-        $queryParam = '?' . http_build_query($paramArray);
+        $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey" . $queryParam, '', 'DELETE');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey".$queryParam, '', 'DELETE');
 
-        $this->logger->info('delete issue ' . $issueIdOrKey . ' result=' . var_export($ret, true));
+        $this->logger->info('delete issue '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $ret;
     }
@@ -261,16 +263,17 @@ class RequestService
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
      *
-     * @return Transition[] array of Transition class
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
+     * @return Transition[] array of Transition class
      */
     public function getTransition(string $issueIdOrKey, array $paramArray = []): array
     {
-        $queryParam = '?' . http_build_query($paramArray);
+        $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/transitions" . $queryParam);
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/transitions".$queryParam);
 
-        $this->logger->info('getTransitions result=' . var_export($ret, true));
+        $this->logger->info('getTransitions result='.var_export($ret, true));
 
         $data = json_encode(
             json_decode($ret, false, 512, JSON_THROW_ON_ERROR)->transitions,
@@ -294,7 +297,7 @@ class RequestService
         $this->logger->info('findTransitonId=');
 
         $ret = $this->getTransition($issueIdOrKey);
-        $this->logger->info('getTransitions result=' . var_export($ret, true));
+        $this->logger->info('getTransitions result='.var_export($ret, true));
 
         foreach ($ret as $trans) {
             $toName = $trans->to->name;
@@ -312,13 +315,13 @@ class RequestService
     /**
      * Perform a transition on an issue.
      *
-     * @return string|null nothing - if transition was successful return http 204(no contents)
-     *
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
+     * @return string|null nothing - if transition was successful return http 204(no contents)
      */
     public function transition(string $issueIdOrKey, Transition $transition): ?string
     {
-        $this->logger->info('transition=' . var_export($transition, true));
+        $this->logger->info('transition='.var_export($transition, true));
 
         if (!isset($transition->transition['id'])) {
             if (isset($transition->transition['untranslatedName'])) {
@@ -337,9 +340,9 @@ class RequestService
 
         $this->logger->info("transition req=$data\n");
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/transitions", $data, 'POST');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/transitions", $data, 'POST');
 
-        $this->logger->info('getTransitions result=' . var_export($ret, true));
+        $this->logger->info('getTransitions result='.var_export($ret, true));
 
         return $ret;
     }
@@ -351,7 +354,7 @@ class RequestService
      */
     public function getTimeTracking(string $issueIdOrKey): TimeTracking
     {
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey");
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey");
         $this->logger->info("getTimeTracking res=$ret\n");
 
         $issue = $this->jsonMapper->map(
@@ -382,7 +385,7 @@ class RequestService
         $this->logger->info("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        return $this->client->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
+        return $this->client->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
     }
 
     /**
@@ -395,7 +398,7 @@ class RequestService
     public function getWorklog(string $issueIdOrKey, array $paramArray = []): PaginatedWorklog
     {
         $ret = $this->client->exec(
-            $this->uri . "/$issueIdOrKey/worklog" . $this->client->toHttpQueryParameter($paramArray)
+            $this->uri."/$issueIdOrKey/worklog".$this->client->toHttpQueryParameter($paramArray)
         );
         $this->logger->debug("getWorklog res=$ret\n");
 
@@ -412,7 +415,7 @@ class RequestService
      */
     public function getWorklogById(string $issueIdOrKey, int $workLogId): Worklog
     {
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/worklog/$workLogId");
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/worklog/$workLogId");
         $this->logger->debug("getWorklogById res=$ret\n");
 
         return $this->jsonMapper->map(
@@ -431,7 +434,7 @@ class RequestService
         $this->logger->info("addWorklog=\n");
 
         $data = json_encode($worklog, JSON_THROW_ON_ERROR);
-        $url = $this->uri . "/$issueIdOrKey/worklog";
+        $url = $this->uri."/$issueIdOrKey/worklog";
         $type = 'POST';
 
         $ret = $this->client->exec($url, $data, $type);
@@ -452,7 +455,7 @@ class RequestService
         $this->logger->info("editWorklog=\n");
 
         $data = json_encode($worklog, JSON_THROW_ON_ERROR);
-        $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
+        $url = $this->uri."/$issueIdOrKey/worklog/$worklogId";
         $type = 'PUT';
 
         $ret = $this->client->exec($url, $data, $type);
@@ -472,19 +475,20 @@ class RequestService
     {
         $this->logger->info("deleteWorklog=\n");
 
-        $url = $this->uri . "/$issueIdOrKey/worklog/$worklogId";
+        $url = $this->uri."/$issueIdOrKey/worklog/$worklogId";
         $type = 'DELETE';
 
         $ret = $this->client->exec($url, null, $type);
 
-        return (bool)$ret;
+        return (bool) $ret;
     }
 
     /**
      * Get all priorities.
      *
-     * @return Priority[] array of priority class
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
+     * @return Priority[] array of priority class
      */
     public function getAllPriorities(): array
     {
@@ -507,7 +511,7 @@ class RequestService
     {
         $ret = $this->client->exec("priority/$priorityId");
 
-        $this->logger->info('Result=' . $ret);
+        $this->logger->info('Result='.$ret);
 
         return $this->jsonMapper->map(
             json_decode($ret, false, 512, JSON_THROW_ON_ERROR),
@@ -518,14 +522,15 @@ class RequestService
     /**
      * get watchers.
      *
-     * @return Reporter[]
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
+     * @return Reporter[]
      */
     public function getWatchers(string $issueIdOrKey): array
     {
         $this->logger->info("getWatchers=\n");
 
-        $url = $this->uri . "/$issueIdOrKey/watchers";
+        $url = $this->uri."/$issueIdOrKey/watchers";
 
         $ret = $this->client->exec($url);
 
@@ -546,7 +551,7 @@ class RequestService
         $this->logger->info("addWatcher=\n");
 
         $data = json_encode($watcher, JSON_THROW_ON_ERROR);
-        $url = $this->uri . "/$issueIdOrKey/watchers";
+        $url = $this->uri."/$issueIdOrKey/watchers";
         $type = 'POST';
 
         $this->client->exec($url, $data, $type);
@@ -563,9 +568,9 @@ class RequestService
     {
         $this->logger->debug("removeWatcher=\n");
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/watchers/?username=$watcher", '', 'DELETE');
 
-        $this->logger->debug('remove watcher ' . $issueIdOrKey . ' result=' . var_export($ret, true));
+        $this->logger->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $this->client->getHttpResponse() == 204;
     }
@@ -579,9 +584,9 @@ class RequestService
     {
         $this->logger->debug("removeWatcher=\n");
 
-        $ret = $this->client->exec($this->uri . "/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
+        $ret = $this->client->exec($this->uri."/$issueIdOrKey/watchers/?accountId=$accountId", '', 'DELETE');
 
-        $this->logger->debug('remove watcher ' . $issueIdOrKey . ' result=' . var_export($ret, true));
+        $this->logger->debug('remove watcher '.$issueIdOrKey.' result='.var_export($ret, true));
 
         return $this->client->getHttpResponse() == 204;
     }
@@ -590,18 +595,19 @@ class RequestService
      * Get the metadata for creating issues.
      *
      * @param array $paramArray Possible keys for $paramArray: 'projectIds', 'projectKeys', 'issuetypeIds', 'issuetypeNames'.
-     * @return object array of metadata for creating issues.
+     *
      * @throws JiraException|JsonException
      *
+     * @return object array of metadata for creating issues.
      */
     public function getCreateMeta(array $paramArray = [], bool $retrieveAllFieldsAndValues = true): object
     {
         $paramArray['expand'] = ($retrieveAllFieldsAndValues) ? 'projects.issuetypes.fields' : null;
         $paramArray = array_filter($paramArray);
 
-        $queryParam = '?' . http_build_query($paramArray);
+        $queryParam = '?'.http_build_query($paramArray);
 
-        $ret = $this->client->exec($this->uri . '/createmeta' . $queryParam);
+        $ret = $this->client->exec($this->uri.'/createmeta'.$queryParam);
 
         return json_decode($ret, false, 512, JSON_THROW_ON_ERROR);
     }
@@ -609,40 +615,33 @@ class RequestService
     /**
      * returns the metadata(include custom field) for an issue.
      *
-     * @return array of custom fields
-     *
      * @throws JiraException|JsonException
+     *
+     * @return array of custom fields
      *
      * @see https://confluence.atlassian.com/jirakb/how-to-retrieve-available-options-for-a-multi-select-customfield-via-jira-rest-api-815566715.html How to retrieve available options for a multi-select customfield via JIRA REST API
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-editmeta-get
      */
-    public function getEditMeta(
-        string $idOrKey,
-        bool $overrideEditableFlag = false,
-        bool $overrideScreenSecurity = false
-    ): array {
-        $queryParam = '?' . http_build_query(
-                [
-                    'overrideEditableFlag' => $overrideEditableFlag,
-                    'overrideScreenSecurity' => $overrideScreenSecurity,
-                ]
-            );
+    public function getEditMeta(string $idOrKey, bool $overrideEditableFlag = false, bool $overrideScreenSecurity = false): array
+    {
+        $queryParam = '?'.http_build_query(
+            [
+                'overrideEditableFlag'   => $overrideEditableFlag,
+                'overrideScreenSecurity' => $overrideScreenSecurity,
+            ]
+        );
 
-        $uri = sprintf('%s/%s/editmeta', $this->uri, $idOrKey) . $queryParam;
+        $uri = sprintf('%s/%s/editmeta', $this->uri, $idOrKey).$queryParam;
 
         $ret = $this->client->exec($uri);
 
         $metas = json_decode($ret, true, 512, JSON_THROW_ON_ERROR);
 
-        return array_filter(
-            $metas['fields'],
-            static function ($key) {
-                $pos = strpos($key, 'customfield');
+        return array_filter($metas['fields'], static function ($key) {
+            $pos = strpos($key, 'customfield');
 
-                return $pos !== false;
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+            return $pos !== false;
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -654,7 +653,7 @@ class RequestService
      */
     public function notify(string $issueIdOrKey, Notify $notify): void
     {
-        $full_uri = $this->uri . "/$issueIdOrKey/notify";
+        $full_uri = $this->uri."/$issueIdOrKey/notify";
 
         $notify->to['groups'] = $this->notifySetSelf($notify->to['groups']);
         $notify->restrict['groups'] = $this->notifySetSelf($notify->restrict['groups']);
@@ -666,22 +665,23 @@ class RequestService
         $ret = $this->client->exec($full_uri, $data, 'POST');
 
         if ($ret !== true) {
-            throw new JiraException('notify failed: response code=' . $ret);
+            throw new JiraException('notify failed: response code='.$ret);
         }
     }
 
     /**
      * Get a remote issue links on the issue.
      *
-     * @return RemoteIssueLink[]
      * @throws JiraException|JsonMapper_Exception|JsonException
+     *
+     * @return RemoteIssueLink[]
      *
      * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks
      */
     public function getRemoteIssueLink(string $issueIdOrKey): array
     {
-        $full_uri = $this->uri . "/$issueIdOrKey/remotelink";
+        $full_uri = $this->uri."/$issueIdOrKey/remotelink";
 
         $ret = $this->client->exec($full_uri, null);
 
@@ -695,11 +695,9 @@ class RequestService
     /**
      * @throws JiraException|JsonMapper_Exception|JsonException
      */
-    public function createOrUpdateRemoteIssueLink(
-        string|int $issueIdOrKey,
-        RemoteIssueLink $remoteIssueLink
-    ): RemoteIssueLink {
-        $full_uri = $this->uri . "/$issueIdOrKey/remotelink";
+    public function createOrUpdateRemoteIssueLink(string $issueIdOrKey, RemoteIssueLink $remoteIssueLink): RemoteIssueLink
+    {
+        $full_uri = $this->uri."/$issueIdOrKey/remotelink";
 
         $data = json_encode($remoteIssueLink, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
@@ -739,9 +737,9 @@ class RequestService
     /**
      * get all issue security schemes.
      *
-     * @return SecurityScheme[] array of SecurityScheme class
-     *
      * @throws JsonMapper_Exception|JiraException|JsonException
+     *
+     * @return SecurityScheme[] array of SecurityScheme class
      */
     public function getAllIssueSecuritySchemes(): array
     {
@@ -772,7 +770,7 @@ class RequestService
      */
     public function getIssueSecuritySchemes(int $securityId): SecurityScheme
     {
-        $url = '/issuesecurityschemes/' . $securityId;
+        $url = '/issuesecurityschemes/'.$securityId;
 
         $ret = $this->client->exec($url);
 
@@ -787,12 +785,8 @@ class RequestService
      *
      * @throws JiraException|JsonException
      */
-    public function updateLabels(
-        string $issueIdOrKey,
-        array $addLabelsParameters,
-        array $removeLabelsParameters,
-        bool $notifyUsers = true
-    ): bool {
+    public function updateLabels(string $issueIdOrKey, array $addLabelsParameters, array $removeLabelsParameters, bool $notifyUsers = true): bool
+    {
         $labels = [];
         foreach ($addLabelsParameters as $a) {
             $labels[] = ['add' => $a];
@@ -808,11 +802,11 @@ class RequestService
             ],
         ], JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 
-        $this->logger->info("Update labels=\n" . $postData);
+        $this->logger->info("Update labels=\n".$postData);
 
-        $queryParam = '?' . http_build_query(['notifyUsers' => $notifyUsers]);
+        $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
 
-        return $this->client->exec($this->uri . "/$issueIdOrKey" . $queryParam, $postData, 'PUT');
+        return $this->client->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
     }
 
     /**
@@ -828,13 +822,10 @@ class RequestService
         $projectKey = explode('-', $issueIdOrKey);
         $transitions = $project->getProjectTransitionsToArray($projectKey[0]);
 
-        $this->logger->debug('getTransitions result=' . var_export($transitions, true));
+        $this->logger->debug('getTransitions result='.var_export($transitions, true));
 
         foreach ($transitions as $trans) {
-            if (
-                strcasecmp($trans['name'], $untranslatedName) === 0 ||
-                strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0
-            ) {
+            if (strcasecmp($trans['name'], $untranslatedName) === 0 || strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
                 return $trans['id'];
             }
         }

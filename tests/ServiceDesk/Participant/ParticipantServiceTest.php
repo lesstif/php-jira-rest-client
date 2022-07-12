@@ -87,7 +87,7 @@ class ParticipantServiceTest extends TestCase
     private function createCustomer(array $data): Customer
     {
         $customer = new Customer();
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $customer->$key = $value;
         }
 

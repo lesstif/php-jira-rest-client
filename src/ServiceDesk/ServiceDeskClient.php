@@ -50,7 +50,7 @@ class ServiceDeskClient extends JiraClient
 
         array_unshift($parameters, $format);
 
-        return call_user_func_array("sprintf", $parameters);
+        return call_user_func_array('sprintf', $parameters);
     }
 
     public function getServiceDeskId(): int

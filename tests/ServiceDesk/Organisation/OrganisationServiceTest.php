@@ -24,7 +24,8 @@ class OrganisationServiceTest extends TestCase
         ];
 
         $item = array_merge(
-            $data, [
+            $data,
+            [
                 'links' => ['http://example.com/123'],
             ]
         );

@@ -26,26 +26,29 @@ class AttachmentService
 
     /**
      * @param Attachment[] $attachments
-     * @return string[]
+     *
      * @throws JiraException
+     *
+     * @return string[]
      */
     public function createTemporaryFiles(array $attachments): array
     {
         $fileNames = $this->getFilenamesFromAttachments($attachments);
 
         return $this->client->upload(
-            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$this->serviceDeskId,]),
+            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$this->serviceDeskId]),
             $fileNames
         );
     }
 
     /**
-     * @return Attachment[]
      * @throws JiraException|JsonException|JsonMapper_Exception
+     *
+     * @return Attachment[]
      */
     public function addAttachmentToRequest(int $requestId, array $temporaryFiles): array
     {
-        $attachment_ids = array_map(static function (string $upload): string {
+        $attachment_ids = array_map(static function (string $upload) {
             $upload = json_decode($upload, true, 512, JSON_THROW_ON_ERROR);
 
             return $upload['temporaryAttachments'][0]['temporaryAttachmentId'];
@@ -53,11 +56,11 @@ class AttachmentService
 
         $parameters = [
             'temporaryAttachmentIds' => $attachment_ids,
-            'public' => false,
+            'public'                 => false,
         ];
 
         $result = $this->client->exec(
-            $this->client->createUrl('/request/%d/attachment', [$requestId,]),
+            $this->client->createUrl('/request/%d/attachment', [$requestId]),
             json_encode($parameters, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE),
             'POST'
         );
@@ -67,21 +70,20 @@ class AttachmentService
 
     /**
      * @param Attachment[] $attachments
+     *
      * @return string[]
      */
     private function getFilenamesFromAttachments(array $attachments): array
     {
-        return array_map(
-            static function (Attachment $attachment): string {
-                return $attachment->filename;
-            },
-            $attachments
-        );
+        return array_map(static function (Attachment $attachment) {
+            return $attachment->filename;
+        }, $attachments);
     }
 
     /**
-     * @return Attachment[]
      * @throws JsonMapper_Exception|JsonException
+     *
+     * @return Attachment[]
      */
     private function createAttachmentsFromJson(string $result): array
     {
