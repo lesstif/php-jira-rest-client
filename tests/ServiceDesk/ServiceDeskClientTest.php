@@ -23,7 +23,6 @@ class ServiceDeskClientTest extends TestCase
         $configuration = $this->createMock(ConfigurationInterface::class);
         $configuration->method('getJiraLogEnabled')->willReturn(true);
         $configuration->method('getUseV3RestApi')->willReturn(true);
-        $configuration->method('getServiceDeskId')->willReturn(105);
 
         $this->logger = $this->createMock(LoggerInterface::class);
 
@@ -86,12 +85,5 @@ class ServiceDeskClientTest extends TestCase
         $expected = 'https://example.com/api/v1/user/get?start=1&amount=10';
 
         self::assertSame($expected, $result);
-    }
-
-    public function testGetServiceDeskId(): void
-    {
-        $result = $this->uut->getServiceDeskId();
-
-        self::assertSame(105, $result);
     }
 }

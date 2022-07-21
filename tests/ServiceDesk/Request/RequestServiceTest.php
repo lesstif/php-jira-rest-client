@@ -42,7 +42,6 @@ class RequestServiceTest extends TestCase
 
         $this->client = $this->createMock(ServiceDeskClient::class);
         $this->client->method('getMapper')->willReturn($mapper);
-        $this->client->method('getServiceDeskId')->willReturn($this->serviceDeskId);
 
         $this->commentService = $this->createMock(CommentService::class);
         $this->attachmentService = $this->createMock(AttachmentService::class);
@@ -99,11 +98,11 @@ class RequestServiceTest extends TestCase
             ],
         ];
         $searchParameters = [
-            'serviceDeskId' => $this->client->getServiceDeskId(),
             'start' => 0,
             'limit' => 50,
             'searchTerm' => $customer->name,
             'requestOwnership' => 'OWNED_REQUESTS',
+            'serviceDeskId' => $this->serviceDeskId,
         ];
         $url = 'https://example.com/request/customers';
 
@@ -114,7 +113,7 @@ class RequestServiceTest extends TestCase
             ->with($url)
             ->willReturn(json_encode(['values' => $items]));
 
-        $result = $this->uut->getRequestsByCustomer($customer, []);
+        $result = $this->uut->getRequestsByCustomer($customer, [], $this->serviceDeskId);
 
         self::assertCount(2, $result);
     }
@@ -122,6 +121,7 @@ class RequestServiceTest extends TestCase
     public function testCreate(): void
     {
         $request = new Request();
+        $request->serviceDeskId = (string) $this->serviceDeskId;
         $request->issueKey = 'asjdkhgashd';
         $request->serviceDeskId = '10';
         $request->reporter = new Customer();

@@ -15,13 +15,11 @@ class AttachmentService
 {
     private ServiceDeskClient $client;
     private JsonMapper $jsonMapper;
-    private int $serviceDeskId;
 
     public function __construct(ServiceDeskClient $client)
     {
         $this->client = $client;
         $this->jsonMapper = $client->getMapper();
-        $this->serviceDeskId = $client->getServiceDeskId();
     }
 
     /**
@@ -31,12 +29,12 @@ class AttachmentService
      *
      * @return string[]
      */
-    public function createTemporaryFiles(array $attachments): array
+    public function createTemporaryFiles(array $attachments, int $serviceDeskId): array
     {
         $fileNames = $this->getFilenamesFromAttachments($attachments);
 
         return $this->client->upload(
-            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$this->serviceDeskId]),
+            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$serviceDeskId]),
             $fileNames
         );
     }

@@ -127,6 +127,4 @@ interface ConfigurationInterface
      * Personal Access Token.
      */
     public function getPersonalAccessToken(): string;
-
-    public function getServiceDeskId(): ?int;
 }
