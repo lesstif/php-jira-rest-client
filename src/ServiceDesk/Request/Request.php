@@ -20,7 +20,7 @@ class Request implements JsonSerializable
     public string $issueId;
     public string $issueKey;
     public string $requestTypeId;
-    public string $serviceDeskId;
+    public ?string $serviceDeskId = null;
     public DateTimeInterface $createdDate;
     public ?Customer $reporter = null;
     public array $requestFieldValues;

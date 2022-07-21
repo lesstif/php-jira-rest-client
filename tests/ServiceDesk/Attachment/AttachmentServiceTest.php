@@ -31,9 +31,10 @@ class AttachmentServiceTest extends TestCase
         ];
 
         $url = 'https://example.com/upload';
+        $serviceDeskId = 15;
 
         $client->method('createUrl')
-            ->with('/servicedesk/%d/attachTemporaryFile', [$client->getServiceDeskId()])
+            ->with('/servicedesk/%d/attachTemporaryFile', [$serviceDeskId])
             ->willReturn($url);
         $client->method('upload')
             ->with($url, ['image_1.png', 'image_2.png', 'image_3.png'])
@@ -41,7 +42,7 @@ class AttachmentServiceTest extends TestCase
 
         $uut = new AttachmentService($client);
 
-        $result = $uut->createTemporaryFiles($attachments);
+        $result = $uut->createTemporaryFiles($attachments, $serviceDeskId);
 
         self::assertSame($expected, $result);
     }

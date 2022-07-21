@@ -52,9 +52,4 @@ class ServiceDeskClient extends JiraClient
 
         return call_user_func_array('sprintf', $parameters);
     }
-
-    public function getServiceDeskId(): int
-    {
-        return $this->configuration->getServiceDeskId();
-    }
 }

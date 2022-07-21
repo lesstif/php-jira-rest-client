@@ -36,7 +36,6 @@ class RequestService
     private LoggerInterface $logger;
     private JsonMapper $jsonMapper;
     private string $uri = '/request';
-    private int $serviceDeskId;
 
     public function __construct(
         ServiceDeskClient $client,
@@ -48,7 +47,6 @@ class RequestService
         $this->attachmentService = $attachmentService;
         $this->logger = $client->getLogger();
         $this->jsonMapper = $client->getMapper();
-        $this->serviceDeskId = $client->getServiceDeskId();
     }
 
     /**
@@ -90,15 +88,18 @@ class RequestService
      *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-getMyCustomerRequests
      */
-    public function getRequestsByCustomer(Customer $customer, array $searchParameters): array
+    public function getRequestsByCustomer(Customer $customer, array $searchParameters, int $serviceDeskId = null): array
     {
         $defaultSearchParameters = [
-            'serviceDeskId'    => $this->serviceDeskId,
             'requestOwnership' => 'OWNED_REQUESTS',
-            'start'            => 0,
-            'limit'            => 50,
-            'searchTerm'       => $customer->name,
+            'start' => 0,
+            'limit' => 50,
+            'searchTerm' => $customer->name,
         ];
+
+        if ($serviceDeskId !== null) {
+            $defaultSearchParameters['serviceDeskId'] = $serviceDeskId;
+        }
 
         $searchParameters = array_merge($defaultSearchParameters, $searchParameters);
 
@@ -120,13 +121,15 @@ class RequestService
     }
 
     /**
-     * @throws JiraException|JsonMapper_Exception|JsonException
+     * @throws JiraException|JsonMapper_Exception|JsonException|InvalidArgumentException
      *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-createCustomerRequest
      */
     public function create(Request $request): Request
     {
-        $request->serviceDeskId = (string) $this->serviceDeskId;
+        if (empty($request->serviceDeskId)) {
+            throw new InvalidArgumentException('Service desk ID is not set.');
+        }
 
         $data = json_encode($request, JSON_THROW_ON_ERROR);
 
