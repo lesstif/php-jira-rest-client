@@ -629,6 +629,18 @@ class JiraClient
     }
 
     /**
+     * setting REST API url to V2.
+     *
+     * @return $this
+     */
+    public function setRestApiV2()
+    {
+        $this->api_uri = '/rest/api/2';
+
+        return $this;
+    }
+
+    /**
      * setting JSON en/decoding options.
      */
     public function setJsonOptions(int $jsonOptions): static
@@ -644,5 +656,10 @@ class JiraClient
     public function getJsonOptions(): int
     {
         return $this->jsonOptions;
+    }
+
+    public function getHttpResponse(): string|int
+    {
+        return $this->http_response;
     }
 }

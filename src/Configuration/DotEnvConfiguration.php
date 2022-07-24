@@ -46,6 +46,7 @@ class DotEnvConfiguration extends AbstractConfiguration
 
         $this->useTokenBasedAuth = $this->env('TOKEN_BASED_AUTH', false);
         $this->personalAccessToken = $this->env('PERSONAL_ACCESS_TOKEN', false);
+        $this->serviceDeskId = $this->env('JIRA_SERVICE_DESK_ID', null);
     }
 
     /**

@@ -93,6 +93,8 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 
     protected ?string $personalAccessToken;
 
+    protected ?int $serviceDeskId;
+
     public function getJiraHost(): string
     {
         return $this->jiraHost;
@@ -229,5 +231,10 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getPersonalAccessToken(): string
     {
         return $this->personalAccessToken;
+    }
+
+    public function getServiceDeskId(): ?int
+    {
+        return $this->serviceDeskId;
     }
 }

@@ -267,7 +267,7 @@ class JqlFunction
     {
         $expression = "issue $supportedOperator linkedIssues($issueKey";
         if ($caseSensitiveLinkType !== null) {
-            $expression .= ', '.'\''.$caseSensitiveLinkType.'\'';
+            $expression .= ', \''.$caseSensitiveLinkType.'\'';
         }
         $expression .= ')';
 

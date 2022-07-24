@@ -27,7 +27,7 @@ class DescriptionV3 implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    public function addDescriptionContent($type, $text, $attrs = [])
+    public function addDescriptionContent($type, $text = null, $attrs = [])
     {
         $cf = new ContentField();
 
@@ -37,10 +37,12 @@ class DescriptionV3 implements \JsonSerializable
             $cf->attrs = $attrs;
         }
 
-        $cf->content[] = [
-            'type' => 'text',
-            'text' => $text,
-        ];
+        if (!empty($text)) {
+            $cf->content[] = [
+                'type' => 'text',
+                'text' => $text,
+            ];
+        }
 
         if (empty($this->content)) {
             $this->content = [];

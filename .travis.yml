@@ -1,6 +1,6 @@
 language: php
 
-php:  
+php:
   - 8.0
   - 8.1
 
@@ -16,7 +16,7 @@ script:
   - ./vendor/bin/phpunit --verbose tests/MapperTest
 
 jobs:
-  include:   
+  include:
     - php: 8.0
       env: TYPE=phpstan
       script:
