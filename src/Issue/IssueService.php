@@ -50,6 +50,13 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
 
+        // very ugly workaround for avoiding below error.
+        // JSON property "description" in class "JiraRestApi\Issue\IssueFieldV3" is an object and cannot be converted to a string
+        // @see https://github.com/lesstif/php-jira-rest-client/issues/457
+        if ($this->isRestApiV3()) {
+            $ret = str_replace('description', 'descriptionv3', $ret);
+        }
+
         $this->log->info("Result=\n".$ret);
 
         return $issue = $this->json_mapper->map(

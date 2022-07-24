@@ -783,13 +783,13 @@ require 'vendor/autoload.php';
 
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\IssueFieldV3;
+use JiraRestApi\Issue\DescriptionV3;
 use JiraRestApi\JiraException;
 
 try {
     $issueField = new IssueFieldV3();
 
     $paraDesc =<<< DESC
-
 Full description for issue
 - order list 1
 - order list 2
@@ -797,18 +797,15 @@ Full description for issue
 -- sub order list 1
 - order list 3 
 DESC;
-    
-    $issueField->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+            $descV3 = new DescriptionV3();
+            $descV3->addDescriptionContent('paragraph', $paraDesc);
+
+            $issueField->setProjectKey('TEST')
+                ->setSummary("something's wrong")
                 ->setAssigneeAccountId('user-account-id-here')
                 ->setPriorityNameAsString('Critical')
                 ->setIssueTypeAsString('Bug')
-                ->addDescriptionHeading(3, 'level 3 heading here')
-                ->addDescriptionParagraph($paraDesc)
-                ->addVersion(['1.0.1', '1.0.3'])
-                ->addComponents(['Component-1', 'Component-2'])
-                // set issue security if you need.
-                ->setDueDateAsString('2019-06-19')
+                ->setDescriptionV3($descV3)
             ;
 	
     $issueService = new IssueService();

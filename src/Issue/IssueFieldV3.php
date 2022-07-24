@@ -4,20 +4,23 @@ namespace JiraRestApi\Issue;
 
 use JiraRestApi\ClassSerialize;
 
+/**
+ * Atlassian Document Format
+ *
+ * @see https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/
+ */
 class IssueFieldV3 extends IssueField
 {
     use ClassSerialize;
 
-    /** @var \JiraRestApi\Issue\DescriptionV3|null */
     public ?DescriptionV3 $descriptionV3;
 
-    /** @var \JiraRestApi\Issue\DescriptionV3|null */
     public ?DescriptionV3 $environmentV3;
 
     /**
      * @param \JiraRestApi\Issue\DescriptionV3|null $description
      *
-     * @return $this|IssueField
+     * @return IssueFieldV3
      */
     public function setDescriptionV3(?DescriptionV3 $description): static
     {
@@ -71,5 +74,20 @@ class IssueFieldV3 extends IssueField
         }
 
         return $this;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        $params = array_filter(get_object_vars($this), function ($var) {
+            return !is_null($var);
+        });
+
+        if ($this->descriptionV3 != null) {
+            $params['description'] = $this->descriptionV3;
+            unset($params['descriptionV3']);
+        }
+
+        return $params;
     }
 }
