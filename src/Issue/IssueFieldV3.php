@@ -5,7 +5,7 @@ namespace JiraRestApi\Issue;
 use JiraRestApi\ClassSerialize;
 
 /**
- * Atlassian Document Format
+ * Atlassian Document Format.
  *
  * @see https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/
  */
