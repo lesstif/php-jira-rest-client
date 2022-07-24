@@ -155,6 +155,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Issue](#create-issue)
 - [Create Issue - bulk](#create-multiple-issues)
 - [Create Sub Task](#create-sub-task)
+- [Create Issue using REST API V3](#create-issue-using-rest-api-v3)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
