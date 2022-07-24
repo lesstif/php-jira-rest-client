@@ -92,9 +92,9 @@ class RequestService
     {
         $defaultSearchParameters = [
             'requestOwnership' => 'OWNED_REQUESTS',
-            'start' => 0,
-            'limit' => 50,
-            'searchTerm' => $customer->name,
+            'start'            => 0,
+            'limit'            => 50,
+            'searchTerm'       => $customer->name,
         ];
 
         if ($serviceDeskId !== null) {
