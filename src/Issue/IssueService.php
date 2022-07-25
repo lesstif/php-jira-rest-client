@@ -1165,7 +1165,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->info("Update labels=\n".$postData);
 
-        $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
+        $queryParam = '';
+        if (!$notifyUsers) {
+            $queryParam = '?'.http_build_query(['notifyUsers' => 'false']);
+        }
 
         $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
 
