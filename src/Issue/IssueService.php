@@ -912,9 +912,9 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return array array of meta data for creating issues.
+     * @return object object of meta data for creating issues.
      */
-    public function getCreateMeta(array $paramArray = [], bool $expand = true): array
+    public function getCreateMeta(array $paramArray = [], bool $expand = true): object
     {
         $paramArray['expand'] = ($expand) ? 'projects.issuetypes.fields' : null;
         $paramArray = array_filter($paramArray);
