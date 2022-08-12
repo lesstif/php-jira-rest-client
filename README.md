@@ -11,6 +11,9 @@
 [![Monthly Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/monthly)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Daily Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/daily)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 
+# On-premise only
+If you want to interact with Jira Cloud instead of On-premise(Server or Data Center), [use this repository](https://github.com/lesstif/php-JiraCloud-RESTAPI).
+
 # Requirements
 
 - PHP >= 8.0
@@ -32,8 +35,8 @@
     or add the following to your composer.json file.
    ```json
    {
-       'require': {
-           'lesstif/php-jira-rest-client': '^4.0'
+       "require": {
+           "lesstif/php-jira-rest-client": "^4.0"
        }
    }
    ```
