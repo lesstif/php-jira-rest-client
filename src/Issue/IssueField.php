@@ -56,7 +56,7 @@ class IssueField implements \JsonSerializable
     public ?Reporter $assignee = null;
 
     /** @var \JiraRestApi\Issue\Version[] */
-    public ?array $versions;
+    public $versions;
 
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
