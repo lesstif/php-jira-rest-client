@@ -30,8 +30,6 @@ class ArrayConfiguration extends AbstractConfiguration
         $this->curlOptUserAgent = $this->getDefaultUserAgentString();
         $this->serviceDeskId = null;
 
-        $this->useV3RestApi = false;
-
         $this->useTokenBasedAuth = false;
         $this->personalAccessToken = '';
 

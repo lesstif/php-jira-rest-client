@@ -40,8 +40,6 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->proxyUser = $this->env('PROXY_USER');
         $this->proxyPassword = $this->env('PROXY_PASSWORD');
 
-        $this->useV3RestApi = $this->env('JIRA_REST_API_V3', false);
-
         $this->timeout = $this->env('JIRA_TIMEOUT', 30);
 
         $this->useTokenBasedAuth = $this->env('TOKEN_BASED_AUTH', false);

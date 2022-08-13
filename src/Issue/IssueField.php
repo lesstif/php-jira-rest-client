@@ -56,7 +56,7 @@ class IssueField implements \JsonSerializable
     public ?Reporter $assignee = null;
 
     /** @var \JiraRestApi\Issue\Version[] */
-    public $versions;
+    public ?array $versions;
 
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
@@ -265,10 +265,6 @@ class IssueField implements \JsonSerializable
     /**
      * set issue description.
      *
-     * REST API V3 must use addDescriptionXXXX
-     *
-     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionHeading
-     * @see \JiraRestApi\Issue\IssueFieldV3::addDescriptionParagraph
      */
     public function setDescription(?string $description): static
     {

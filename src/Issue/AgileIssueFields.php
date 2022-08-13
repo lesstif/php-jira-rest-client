@@ -2,7 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
-class AgileIssueFields extends IssueFieldV3
+class AgileIssueFields extends IssueField
 {
     /** @var \JiraRestApi\Epic\Epic|null */
     public $epic;

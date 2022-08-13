@@ -74,11 +74,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     protected ?string $proxyPassword = null;
 
-    /**
-     * Use Jira Cloud REST API v3.
-     */
-    protected bool $useV3RestApi;
-
     protected ?string $curlOptSslCert;
 
     protected ?string $curlOptSslCertPassword;
@@ -211,11 +206,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getProxyPassword(): ?string
     {
         return $this->proxyPassword;
-    }
-
-    public function getUseV3RestApi(): bool
-    {
-        return $this->useV3RestApi;
     }
 
     public function getTimeout(): int

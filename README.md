@@ -32,8 +32,8 @@
     or add the following to your composer.json file.
    ```json
    {
-       'require': {
-           'lesstif/php-jira-rest-client': '^4.0'
+       "require": {
+           "lesstif/php-jira-rest-client": "^5.0"
        }
    }
    ```
@@ -76,7 +76,6 @@ PROXY_SERVER='your-proxy-server'
 PROXY_PORT='proxy-port'
 PROXY_USER='proxy-username'
 PROXY_PASSWORD='proxy-password'
-JIRA_REST_API_V3=false
 ```
 
 **Important Note:**
@@ -85,14 +84,6 @@ Instead of password, you should using [API token](https://confluence.atlassian.c
 
 **Laravel Users:** 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
-
-**REST API V3 Note:**
-In accordance to the [Atlassian's deprecation notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/), After the 29th of april 2019, REST API no longer supported username and userKey, 
-and instead use the account ID.
-if you are JIRA Cloud users, you need to set *JIRA_REST_API_V3=true* in the .env file.
-
-**CAUTION**
-this library not fully supported JIRA REST API V3 yet. 
 
 ## use array
 
@@ -111,7 +102,6 @@ $iss = new IssueService(new ArrayConfiguration(
                 'jiraPassword' => 'jira-password-OR-api-token',
                 */
                // instead,you can use the token based authentication. 
-               'useV3RestApi' => false,
                'useTokenBasedAuth' => true,
                'personalAccessToken' => 'your-token-here',
                 
@@ -155,7 +145,6 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Create Issue](#create-issue)
 - [Create Issue - bulk](#create-multiple-issues)
 - [Create Sub Task](#create-sub-task)
-- [Create Issue using REST API V3](#create-issue-using-rest-api-v3)
 - [Add Attachment](#add-attachment)
 - [Update issue](#update-issue)
     - [Update Labels](#update-labels)
@@ -773,53 +762,6 @@ try {
     print('Error Occured! ' . $e->getMessage());
 }
 ```
-
-#### Create Issue using REST API V3
-
-REST API V3' description field is complicated.
-
-```php
-<?php
-require 'vendor/autoload.php';
-
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\IssueFieldV3;
-use JiraRestApi\Issue\DescriptionV3;
-use JiraRestApi\JiraException;
-
-try {
-    $issueField = new IssueFieldV3();
-
-    $paraDesc =<<< DESC
-Full description for issue
-- order list 1
-- order list 2
--- sub order list 1
--- sub order list 1
-- order list 3 
-DESC;
-            $descV3 = new DescriptionV3();
-            $descV3->addDescriptionContent('paragraph', $paraDesc);
-
-            $issueField->setProjectKey('TEST')
-                ->setSummary("something's wrong")
-                ->setAssigneeAccountId('user-account-id-here')
-                ->setPriorityNameAsString('Critical')
-                ->setIssueTypeAsString('Bug')
-                ->setDescriptionV3($descV3)
-            ;
-	
-    $issueService = new IssueService();
-
-    $ret = $issueService->create($issueField);
-	
-    //If success, Returns a link to the created issue.
-    var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
-	print('Error Occured! ' . $e->getMessage());
-}
-```
-
 If you want to set custom field, you can call the *addCustomField* function with custom field id and value as parameters.
 
 ```php

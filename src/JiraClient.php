@@ -97,10 +97,6 @@ class JiraClient
 
         $this->http_response = 200;
 
-        if ($this->configuration->getUseV3RestApi()) {
-            $this->setRestApiV3();
-        }
-
         $this->curl = curl_init();
 
         $this->jsonOptions = JSON_UNESCAPED_UNICODE;
@@ -444,14 +440,7 @@ class JiraClient
         // if cookie file not exist, using id/pwd login
         if (!is_string($cookieFile) || !file_exists($cookieFile)) {
             if ($this->getConfiguration()->isTokenBasedAuth() === true) {
-                // JIRA Cloud API v3 using Basic Auth
-                // See https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
-                if ($this->getConfiguration()->getUseV3RestApi()) {
-                    $token = base64_encode($this->getConfiguration()->getJiraUser().':'.$this->getConfiguration()->getPersonalAccessToken());
-                    $curl_http_headers[] = 'Authorization: Basic '.$token;
-                } else {
-                    $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPersonalAccessToken();
-                }
+              $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPersonalAccessToken();
             } else {
                 $username = $this->getConfiguration()->getJiraUser();
                 $password = $this->getConfiguration()->getJiraPassword();
@@ -533,10 +522,6 @@ class JiraClient
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         }
 
-        if ($this->isRestApiV3()) {
-            $curl_http_header[] = 'x-atlassian-force-account-id: true';
-        }
-
         curl_setopt(
             $ch,
             CURLOPT_HTTPHEADER,
@@ -608,24 +593,6 @@ class JiraClient
             $password = $this->getConfiguration()->getProxyPassword();
             curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
         }
-    }
-
-    /**
-     * setting REST API url to V3.
-     */
-    public function setRestApiV3(): static
-    {
-        $this->api_uri = '/rest/api/3';
-
-        return $this;
-    }
-
-    /**
-     * check whether current API is v3.
-     */
-    public function isRestApiV3(): bool
-    {
-        return $this->configuration->getUseV3RestApi();
     }
 
     /**

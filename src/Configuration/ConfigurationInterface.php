@@ -107,11 +107,6 @@ interface ConfigurationInterface
     public function getProxyPassword(): ?string;
 
     /**
-     * use REST v3 API.
-     */
-    public function getUseV3RestApi(): bool;
-
-    /**
      * The number of seconds to wait while trying to connect.
      */
     public function getTimeout(): int;

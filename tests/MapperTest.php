@@ -89,40 +89,4 @@ class MapperTest extends TestCase
 
     }
 
-    public function testApiV3()
-    {
-        $ret = file_get_contents('test-data/issueFieldV3.json');
-
-        $issue = $this->mapper->map(
-            json_decode($ret), new \JiraRestApi\Issue\IssueV3()
-        );
-
-        $this->assertInstanceOf(\JiraRestApi\Issue\IssueV3::class, $issue);
-
-        $field = $issue->fields;
-
-        $this->assertInstanceOf(\JiraRestApi\Issue\IssueFieldV3::class, $field);
-
-        $this->assertInstanceOf(\JiraRestApi\Issue\DescriptionV3::class, $field->description);
-
-        $this->assertEquals(1, $field->description->version);
-
-        $this->assertObjectHasAttribute('id', $field->reporter);
-
-        $this->assertEquals(1, $field->environment->version);
-
-        //$this->assertTrue(is_array($issue->schema));
-        $this->assertArrayHasKey(0, $field->versions);
-        $this->assertObjectHasAttribute('id', $field->versions[0]);
-
-        $this->assertObjectHasAttribute('id', $field->assignee);
-        $this->assertGreaterThanOrEqual(1, count($field->environment->content));
-        $this->assertObjectHasAttribute('id', $field->security);
-
-        $this->assertObjectHasAttribute('labels', $field);
-        $this->assertEquals('bugfix', $field->labels[0]);
-
-        //$this->assertObjectHasAttribute('remainingEstimate', $field->timetracking);
-        //$this->assertEquals(5, $field->timetracking->remainingEstimate);
-    }
 }
