@@ -264,7 +264,6 @@ class IssueField implements \JsonSerializable
 
     /**
      * set issue description.
-     *
      */
     public function setDescription(?string $description): static
     {
