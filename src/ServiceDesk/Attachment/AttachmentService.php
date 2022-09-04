@@ -29,12 +29,12 @@ class AttachmentService
      *
      * @return string[]
      */
-    public function createTemporaryFiles(array $attachments, int $serviceDeskId): array
+    public function createTemporaryFiles(array $attachments, string $serviceDeskId): array
     {
         $fileNames = $this->getFilenamesFromAttachments($attachments);
 
         return $this->client->upload(
-            $this->client->createUrl('/servicedesk/%d/attachTemporaryFile', [$serviceDeskId]),
+            $this->client->createUrl('/servicedesk/%s/attachTemporaryFile', [$serviceDeskId]),
             $fileNames
         );
     }

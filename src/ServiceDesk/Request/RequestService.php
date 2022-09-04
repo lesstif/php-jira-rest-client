@@ -152,9 +152,9 @@ class RequestService
      *
      * @return Attachment[]
      */
-    public function addAttachments(int $requestId, array $attachments): array
+    public function addAttachments(string $serviceDeskId, int $requestId, array $attachments): array
     {
-        $temporaryFileNames = $this->attachmentService->createTemporaryFiles($attachments);
+        $temporaryFileNames = $this->attachmentService->createTemporaryFiles($attachments, $serviceDeskId);
 
         $attachments = $this->attachmentService->addAttachmentToRequest($requestId, $temporaryFileNames);
 

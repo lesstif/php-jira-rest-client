@@ -38,6 +38,13 @@ class Request implements JsonSerializable
         return $this;
     }
 
+    public function setServiceDeskId(string $serviceDeskId): self
+    {
+        $this->serviceDeskId = $serviceDeskId;
+
+        return $this;
+    }
+
     public function setCreatedDate(object $createdDate): void
     {
         if (!$createdDate instanceof DateTimeInterface) {

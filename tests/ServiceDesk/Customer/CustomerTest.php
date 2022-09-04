@@ -13,17 +13,16 @@ class CustomerTest extends TestCase
 {
     public function testSetLinksArray(): void
     {
-        $links = [
-            'jiraRest' => 'http://example.com',
-            'avatarUrls' => new stdClass(),
-        ];
+        $links = new stdClass();
+        $links->jiraRest = 'http://example.com';
+        $links->avatarUrls = new stdClass();
 
         $uut = new Customer();
         $uut->setLinks($links);
 
         self::assertInstanceOf(CustomerLinks::class, $uut->_links);
-        self::assertSame($links['jiraRest'], $uut->_links->jiraRest);
-        self::assertSame($links['avatarUrls'], $uut->_links->avatarUrls);
+        self::assertSame($links->jiraRest, $uut->_links->jiraRest);
+        self::assertSame($links->avatarUrls, $uut->_links->avatarUrls);
     }
 
     public function testSetLinks(): void
