@@ -138,6 +138,9 @@ class JiraClient
         if ($this->getConfiguration()->getTimeout()) {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
         }
+        if ($this->getConfiguration()->isCurlOptExtraHTTPHeader()) {
+            array_merge($curl_http_headers,json_decode($this->getConfiguration()->isCurlOptExtraHTTPHeader(),true));
+        }
 
         return $curl_http_headers;
     }

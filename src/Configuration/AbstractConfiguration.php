@@ -82,6 +82,8 @@ abstract class AbstractConfiguration implements ConfigurationInterface
 
     protected ?string $curlOptSslKeyPassword;
 
+    protected ?string $curlOptExtraHTTPHeader;
+
     protected int $timeout = 60;
 
     protected bool $useTokenBasedAuth;
@@ -148,6 +150,11 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function isCurlOptSslKeyPassword(): ?string
     {
         return $this->curlOptSslKeyPassword;
+    }
+
+    public function isCurlOptExtraHTTPHeader(): ?string
+    {
+        return $this->curlOptExtraHTTPHeader;
     }
 
     public function isCurlOptVerbose(): bool

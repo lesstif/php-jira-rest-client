@@ -61,6 +61,8 @@ interface ConfigurationInterface
 
     public function isCurlOptSslKeyPassword(): ?string;
 
+    public function isCurlOptExtraHTTPHeader(): ?string;
+
     /**
      * Curl options CURLOPT_VERBOSE.
      */
