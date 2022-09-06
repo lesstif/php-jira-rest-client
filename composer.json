@@ -1,5 +1,5 @@
 {
-    "name": "lesstif/php-jira-rest-client",
+    "name": "alanbort/php-jira-rest-client",
     "description": "JIRA REST API Client for PHP Users.",
     "type": "library",
     "keywords": ["jira", "rest", "jira-php", "jira-rest"],
