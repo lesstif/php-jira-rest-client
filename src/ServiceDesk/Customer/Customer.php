@@ -32,9 +32,7 @@ class Customer implements JsonSerializable
         if (!$links instanceof CustomerLinks) {
             $data = $links;
 
-            $links = new CustomerLinks();
-            $links->jiraRest = $data['jiraRest'];
-            $links->avatarUrls = $data['avatarUrls'];
+            $links = new CustomerLinks($data);
         }
 
         $this->_links = $links;
