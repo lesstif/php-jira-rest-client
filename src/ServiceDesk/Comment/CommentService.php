@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 class CommentService
 {
     private ServiceDeskClient $client;
-    private string $uri = '/servicedeskapi/request';
+    private string $uri = '/request';
     private LoggerInterface $logger;
     private JsonMapper $jsonMapper;
 
