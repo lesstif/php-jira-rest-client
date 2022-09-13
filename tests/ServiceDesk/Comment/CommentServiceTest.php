@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class CommentServiceTest extends TestCase
 {
-    private string $uri = '/servicedeskapi/request';
+    private string $uri = '/request';
 
     public function testAddCommentWithNoBody(): void
     {
