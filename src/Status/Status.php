@@ -11,7 +11,7 @@ class Status implements \JsonSerializable
     public $name;
 
     /** @var string */
-    public $description;
+    public ?string $description = null;
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
