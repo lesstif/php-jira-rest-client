@@ -14,7 +14,7 @@ class AgileIssueService extends \JiraRestApi\JiraClient
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/' . $this->agileVersion);
+        $this->setAPIUri('/rest/agile/'.$this->agileVersion);
     }
 
     public function get($issueIdOrKey, $paramArray = []): ?AgileIssue
