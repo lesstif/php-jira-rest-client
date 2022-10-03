@@ -162,7 +162,7 @@ class RequestServiceTest extends TestCase
             ->with(10, $fileNames)
             ->willReturn($attachments);
 
-        $result = $this->uut->addAttachments(10, $attachments);
+        $result = $this->uut->addAttachments('1', 10, $attachments);
 
         self::assertSame($attachments, $result);
     }

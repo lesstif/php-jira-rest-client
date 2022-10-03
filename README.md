@@ -11,6 +11,9 @@
 [![Monthly Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/monthly)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Daily Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/daily)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 
+# On-Premise only
+If you want to interact with Jira cloud instead of On-Premise(Server, Data Center), [check out this repository](https://github.com/lesstif/php-JiraCloud-RESTAPI).
+
 # Requirements
 
 - PHP >= 8.0
@@ -615,7 +618,7 @@ try {
     $issueField = new IssueField();
 
     $issueField->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+                ->setSummary('something\'s wrong')
                 ->setAssigneeNameAsString('lesstif')
                 ->setPriorityNameAsString('Critical')
                 ->setIssueTypeAsString('Bug')
@@ -650,7 +653,7 @@ try {
     $issueField = new IssueField();
 
     $issueField->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+                ->setSummary('something\'s wrong')
                 ->setAssigneeNameAsString('lesstif')
                 ->setPriorityNameAsString('Critical')
                 ->setIssueTypeAsString('Bug')
@@ -693,7 +696,7 @@ try {
     $issueFieldOne = new IssueField();
 
     $issueFieldOne->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+                ->setSummary('something\'s wrong')
                 ->setPriorityNameAsString('Critical')
                 ->setIssueTypeAsString('Bug')
                 ->setDescription('Full description for issue');
@@ -742,7 +745,7 @@ try {
     $issueField = new IssueField();
 
     $issueField->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+                ->setSummary('something\'s wrong')
                 ->setAssigneeNameAsString('lesstif')
                 ->setPriorityNameAsString('Critical')
                 ->setDescription('Full description for issue')
@@ -769,7 +772,7 @@ try {
     $issueField = new IssueField();
 
     $issueField->setProjectKey('TEST')
-                ->setSummary('something's wrong')
+                ->setSummary('something\'s wrong')
                 ->setAssigneeNameAsString('lesstif')
                 ->setPriorityNameAsString('Critical')
                 ->setIssueTypeAsString('Bug')
