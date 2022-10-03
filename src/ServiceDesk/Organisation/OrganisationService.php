@@ -81,9 +81,9 @@ class OrganisationService
         $paramArray = $this->client->toHttpQueryParameter([
             'start' => $start,
             'limit' => $limit,
-            ]);
+        ]);
 
-        $response = $this->client->exec($this->uri. $paramArray, null);
+        $response = $this->client->exec($this->uri.$paramArray, null);
 
         $this->logger->info("Result=\n".$response);
 
