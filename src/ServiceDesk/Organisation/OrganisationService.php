@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 class OrganisationService
 {
     private ServiceDeskClient $client;
-    private string $uri = '/servicedeskapi/organization';
+    private string $uri = '/organization';
     private LoggerInterface $logger;
     private JsonMapper $jsonMapper;
 
@@ -30,15 +30,13 @@ class OrganisationService
     /**
      * @throws JsonMapper_Exception|JiraException|JsonException
      *
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization-createOrganization
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/organization-createOrganization
      */
-    public function create(array|string $data): Organisation
+    public function create(string $orgName): Organisation
     {
-        if (is_array($data)) {
-            $data = json_encode($data, JSON_THROW_ON_ERROR);
-        }
+        $this->logger->info("Create ServiceDesk Organisation=\n".$orgName);
 
-        $this->logger->info("Create ServiceDesk Organisation=\n".$data);
+        $data = json_encode(['name' => $orgName]);
 
         $result = $this->client->exec($this->uri, $data, 'POST');
 
@@ -48,7 +46,7 @@ class OrganisationService
     /**
      * @throws JsonMapper_Exception|JiraException|JsonException
      *
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization-createOrganization
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/organization-createOrganization
      */
     public function createFromOrganisation(Organisation $organisation): Organisation
     {
@@ -76,20 +74,23 @@ class OrganisationService
      *
      * @return Organisation[]
      *
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/organization
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/organization-getOrganizations
      */
-    public function getOrganisations(int $startIndex, int $amountOfItems): array
+    public function getOrganisations(int $start, int $limit): array
     {
-        $result = $this->client->exec(
-            $this->createGetOrganisationsUrl($startIndex, $amountOfItems)
-        );
+        $paramArray = $this->client->toHttpQueryParameter([
+            'start' => $start,
+            'limit' => $limit,
+            ]);
 
-        $this->logger->info("Result=\n".$result);
+        $response = $this->client->exec($this->uri. $paramArray, null);
 
-        $organisationData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
+        $this->logger->info("Result=\n".$response);
+
+        $organisationData = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
         $organisations = [];
 
-        foreach ($organisationData->values as $organisation) {
+        foreach ($organisationData['values'] as $organisation) {
             $organisations[] = $this->jsonMapper->map($organisation, new Organisation());
         }
 
@@ -111,7 +112,7 @@ class OrganisationService
 
         $this->logger->info("Result=\n".$result);
 
-        $customerData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
+        $customerData = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
         $customers = [];
 
         foreach ($customerData as $customer) {
@@ -157,25 +158,6 @@ class OrganisationService
     /**
      * @throws InvalidArgumentException
      */
-    private function createGetOrganisationsUrl(int $startIndex, int $amountOfItems): string
-    {
-        if ($startIndex < 0) {
-            throw new InvalidArgumentException('Start index can not be lower then 0.');
-        }
-        if ($amountOfItems < 1) {
-            throw new InvalidArgumentException('Amount of items can not be lower then 1.');
-        }
-
-        return $this->client->createUrl(
-            '%s?%s',
-            [$this->uri],
-            ['start' => $startIndex, 'limit' => $amountOfItems]
-        );
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
     private function createGetCustomersUrl(int $organisationId, int $startIndex, int $amountOfItems): string
     {
         if ($startIndex < 0) {
@@ -198,7 +180,7 @@ class OrganisationService
     private function createOrganisation(string $data): Organisation
     {
         return $this->jsonMapper->map(
-            json_decode($data, false, 512, JSON_THROW_ON_ERROR),
+            json_decode($data, true, 512, JSON_THROW_ON_ERROR),
             new Organisation()
         );
     }

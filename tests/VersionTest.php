@@ -13,7 +13,12 @@ class VersionTest extends TestCase
     private $versionName = '1.0.0';
     private $project = 'TEST';
 
-    public function testCreateVersion()
+    /**
+     * @test
+     * @return void
+     * @throws \JsonMapper_Exception
+     */
+    public function create_version()
     {
         try {
             $projectService = new ProjectService();
@@ -38,10 +43,10 @@ class VersionTest extends TestCase
     }
 
     /**
-     * @depends testCreateVersion
+     * @depends create_version
      *
      */
-    public function testUpdateProject()
+    public function update_project_version()
     {
         try {
             $versionService = new VersionService();
@@ -63,7 +68,7 @@ class VersionTest extends TestCase
 
             return $ver->name;
         } catch (JiraException $e) {
-            print("Error Occured! " . $e->getMessage());
+            print("Error Occurred! " . $e->getMessage());
         }
     }
 

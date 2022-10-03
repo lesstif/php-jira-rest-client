@@ -213,6 +213,7 @@ class JiraClient
             'Accept: */*',
             'Content-Type: application/json',
             'X-Atlassian-Token: no-check',
+            'X-ExperimentalApi: opt-in',    // for JSM
         ];
 
         $curl_http_headers = $this->curlPrepare($ch, $curl_http_headers, $cookieFile);

@@ -22,7 +22,6 @@ class ServiceDeskClientTest extends TestCase
     {
         $configuration = $this->createMock(ConfigurationInterface::class);
         $configuration->method('getJiraLogEnabled')->willReturn(true);
-        $configuration->method('getUseV3RestApi')->willReturn(true);
 
         $this->logger = $this->createMock(LoggerInterface::class);
 
