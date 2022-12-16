@@ -15,6 +15,7 @@ class JsonMapperHelper
      */
     public static function setUndefinedProperty($object, $propName, $jsonValue)
     {
+        $object = (object)(array) $object;
         // If the property is a custom field type, assign a value to the custom Fields array.
         if (substr($propName, 0, 12) == 'customfield_') {
             if (!is_null($jsonValue)) {
