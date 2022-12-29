@@ -61,8 +61,13 @@ you can choose loads environment variables either 'dotenv' or 'array'.
 
 ## use dotenv
 
+If you want to use Dotenv based configuration,first of all, you have to install dependency.
 
-copy .env.example file to .env on your project root.	
+```sh
+composer require vlucas/phpdotenv
+```
+
+then copy .env.example file to .env on your project root.	
 
 ```sh
 JIRA_HOST='https://your-jira.host.com'

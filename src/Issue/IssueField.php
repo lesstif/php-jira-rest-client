@@ -2,10 +2,12 @@
 
 namespace JiraRestApi\Issue;
 
+use AllowDynamicProperties;
 use DateTimeInterface;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\Project\Project;
 
+#[AllowDynamicProperties]
 class IssueField implements \JsonSerializable
 {
     use ClassSerialize;
