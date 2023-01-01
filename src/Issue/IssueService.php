@@ -610,6 +610,51 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * get property.
+     *
+     * @param string   $issueIdOrKey
+     * @param Property $property
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return void
+     */
+    public function setProperty(string $issueIdOrKey, Property $property)
+    {
+        $this->log->info("setProperty=\n");
+
+        $data = json_encode($property->value);
+        $url = $this->uri."/$issueIdOrKey/properties/".$property->key;
+        $type = 'PUT';
+
+        $ret = $this->exec($url, $data, $type);
+    }
+
+    /**
+     * get property.
+     *
+     * @param string $issueIdOrKey
+     * @param string $property     the name of the property, e.g.com.railsware.SmartChecklist.checklist
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return Property
+     */
+    public function getProperty(string $issueIdOrKey, $property): Property
+    {
+        $ret = $this->exec($this->uri."/$issueIdOrKey/properties/".$property);
+
+        $this->log->debug("getProperty res=$ret\n");
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new Property()
+        );
+    }
+
+    /**
      * get getWorklog.
      *
      * @param string $issueIdOrKey
