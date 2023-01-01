@@ -160,6 +160,8 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Add watcher to Issue](#add-watcher-to-issue)
 - [Remove watcher from Issue](#remove-watcher-from-issue)
 - [Send a notification to the recipients](#issue-notify)
+- [Read property](#read-property)
+- [Write property](#write-propert)
 
 ### Comment
 - [Add comment](#add-comment)
@@ -1029,6 +1031,52 @@ try {
     var_dump($ret);
 } catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(FALSE, "Remove Issue Failed : " . $e->getMessage());
+}
+```
+
+#### Read property
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-properties/#api-rest-api-3-issue-issueidorkey-properties-propertykey-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+    $issueService = new IssueService();
+    $property = $issueService->getProperty($issueKey, 'com.railsware.SmartChecklist.checklist');
+    
+    var_dump($property);
+} catch (JiraRestApi\JiraException $e) {
+    print('Error Occured! ' . $e->getMessage());
+}
+```
+
+#### Write property
+
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-properties/#api-rest-api-3-issue-issueidorkey-properties-propertykey-put)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\Issue\Property;
+use JiraRestApi\JiraException;
+
+$issueKey = "TEST-879";
+
+try {
+    $issueService = new IssueService();
+    $property = new Property();
+    $property->value = "- First entry\n- second entry";
+    $issueService->setProperty($issueKey, $property);
+} catch (JiraRestApi\JiraException $e) {
+    print('Error Occured! ' . $e->getMessage());
 }
 ```
 
