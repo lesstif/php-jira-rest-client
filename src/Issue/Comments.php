@@ -4,6 +4,9 @@ namespace JiraRestApi\Issue;
 
 class Comments implements \JsonSerializable
 {
+    /** @var string */
+    public $self;
+
     /** @var int */
     public $startAt;
 
