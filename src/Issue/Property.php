@@ -10,9 +10,7 @@ class Property
 {
     use ClassSerialize;
 
-    /** @var string */
-    public $key;
+    public string $key;
 
-    /** @var string */
-    public $value;
+    public string $value;
 }
