@@ -66,6 +66,10 @@ class Worklog
      */
     public $visibility;
 
+    public string $issueId;
+
+    public string $created;
+
     /**
      * Function to serialize obj vars.
      *
