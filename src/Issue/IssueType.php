@@ -21,6 +21,8 @@ class IssueType implements \JsonSerializable
 
     public int $avatarId;
 
+    public int $hierarchyLevel;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {

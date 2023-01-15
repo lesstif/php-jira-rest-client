@@ -29,6 +29,14 @@ class Reporter implements \JsonSerializable
 
     public string $accountId;
 
+    public string $locale;
+
+    public array $groups;
+
+    public array $applicationRoles;
+
+    public string $expand;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {

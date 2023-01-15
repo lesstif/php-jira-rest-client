@@ -95,6 +95,14 @@ class Project implements \JsonSerializable
 
     public int $categoryId;
 
+    public bool $simplified;
+
+    public string $style;
+
+    public bool $isPrivate;
+
+    public array $properties;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
