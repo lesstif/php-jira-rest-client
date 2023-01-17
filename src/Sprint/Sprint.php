@@ -33,7 +33,7 @@ class Sprint implements \JsonSerializable
     public $endDate;
     
     /* @var string */
-    public $activatedDate
+    public $activatedDate;
 
     /* @var string */
     public $completeDate;
