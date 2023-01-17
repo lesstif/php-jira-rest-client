@@ -31,6 +31,9 @@ class Sprint implements \JsonSerializable
 
     /* @var string */
     public $endDate;
+    
+    /* @var string */
+    public $activatedDate
 
     /* @var string */
     public $completeDate;
