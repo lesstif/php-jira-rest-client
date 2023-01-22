@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
@@ -44,12 +45,13 @@ class Sprint implements \JsonSerializable
         return $this;
     }
 
-    public function setOriginBoardIdAsStringOrInt(string|int $originBoardId) : self
+    public function setOriginBoardIdAsStringOrInt(string|int $originBoardId): self
     {
         $this->originBoardId = strval($originBoardId);
 
         return $this;
     }
+
     public function setStartDateAsDateTime(DateTimeInterface $startDate, $format = 'Y-m-d'): static
     {
         $this->startDate = $startDate->format($format);
