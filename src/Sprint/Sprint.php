@@ -14,32 +14,25 @@ class Sprint implements \JsonSerializable
 {
     use JsonSerializableTrait;
 
-    /* @var string */
-    public $self;
+    public string $self;
 
-    /* @var int */
-    public $id;
+    public string $id;
 
-    /* @var string */
-    public $name;
+    public string $name;
 
-    /* @var string */
-    public $state;
+    public string $state;
 
-    /* @var string */
-    public $startDate;
+    public string $startDate;
 
-    /* @var string */
-    public $endDate;
+    public string $endDate;
 
-    /* @var string */
-    public $completeDate;
+    public string $activatedDate;
 
-    /* @var int */
-    public $originBoardId;
+    public string $completeDate;
 
-    /** @var string */
-    public $goal;
+    public string $originBoardId;
+
+    public string $goal;
 
     public function setName(string $sprintName): string
     {
