@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
@@ -23,9 +24,8 @@ class SprintService extends JiraClient
      * @param object $json JSON object structure from json_decode
      *
      * @throws \JsonMapper_Exception
-     *
      */
-    public function getSprintFromJSON(object $json) : Sprint
+    public function getSprintFromJSON(object $json): Sprint
     {
         $sprint = $this->json_mapper->map(
             $json,
@@ -35,7 +35,7 @@ class SprintService extends JiraClient
         return $sprint;
     }
 
-    public function getSprint(string|int $sprintId) :Sprint
+    public function getSprint(string|int $sprintId): Sprint
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
@@ -48,7 +48,6 @@ class SprintService extends JiraClient
     }
 
     /**
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
@@ -67,7 +66,7 @@ class SprintService extends JiraClient
         return $issues;
     }
 
-    public function createSprint(Sprint $sprint) : Sprint
+    public function createSprint(Sprint $sprint): Sprint
     {
         $data = json_encode($sprint);
 
