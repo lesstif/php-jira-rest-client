@@ -1,13 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: meshulam
- * Date: 23/09/2017
- * Time: 14:17.
- */
+declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
 
+use DateTimeInterface;
 use JiraRestApi\JsonSerializableTrait;
 
 class Sprint implements \JsonSerializable
@@ -34,15 +30,37 @@ class Sprint implements \JsonSerializable
 
     public string $goal;
 
-    public function setName(string $sprintName): string
+    public function setNameAsString(string $sprintName): self
     {
         $this->name = $sprintName;
 
-        return $sprintName;
+        return $this;
     }
 
-    public function getName(): string
+    public function setGoalAsString(string $sprintGoal): self
     {
-        return $this->name;
+        $this->goal = $sprintGoal;
+
+        return $this;
+    }
+
+    public function setOriginBoardIdAsStringOrInt(string|int $originBoardId) : self
+    {
+        $this->originBoardId = strval($originBoardId);
+
+        return $this;
+    }
+    public function setStartDateAsDateTime(DateTimeInterface $startDate, $format = 'Y-m-d'): static
+    {
+        $this->startDate = $startDate->format($format);
+
+        return $this;
+    }
+
+    public function setEndDateAsDateTime(DateTimeInterface $endDate, $format = 'Y-m-d'): static
+    {
+        $this->endDate = $endDate->format($format);
+
+        return $this;
     }
 }
