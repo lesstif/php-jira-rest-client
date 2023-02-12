@@ -77,7 +77,7 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setReleaseDateAsDateTime(DateTimeInterface $releaseDate, string $format='Y-m-d'): static
+    public function setReleaseDateAsDateTime(DateTimeInterface $releaseDate, string $format = 'Y-m-d'): static
     {
         $this->releaseDate = $releaseDate->format($format);
 
@@ -98,7 +98,7 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format='Y-m-d'): static
+    public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format = 'Y-m-d'): static
     {
         $this->startDate = $startDate->format($format);
 
@@ -112,7 +112,7 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setUserStartDateAsDateTime(\DateTimeInterface $userStartDate, string $format='Y-m-d'): static
+    public function setUserStartDateAsDateTime(\DateTimeInterface $userStartDate, string $format = 'Y-m-d'): static
     {
         $this->userStartDate = $userStartDate->format($format);
 

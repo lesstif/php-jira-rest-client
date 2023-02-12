@@ -84,7 +84,7 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return Version
      */
-    public function update(Version $version) : Version
+    public function update(Version $version): Version
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');
