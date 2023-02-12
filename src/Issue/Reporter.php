@@ -37,6 +37,10 @@ class Reporter implements \JsonSerializable
 
     public string $expand;
 
+    public bool $deleted;
+
+    public string $accountType;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {

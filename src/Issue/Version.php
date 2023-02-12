@@ -2,37 +2,32 @@
 
 namespace JiraRestApi\Issue;
 
+use DateTime;
+use DateTimeInterface;
+
 class Version implements \JsonSerializable
 {
-    /** @var string */
-    public $self;
+    public string $self;
 
-    /** @var string */
-    public $id;
+    public string $id;
 
-    /** @var string Version name: ex: 4.2.3 */
-    public $name;
+    // Version name: ex: 4.2.3
+    public ?string $name;
 
-    /** @var string|null version description: ex; improvement performance */
-    public $description;
+    // version description: ex; improvement performance
+    public ?string $description;
 
-    /** @var bool */
-    public $archived;
+    public bool $archived;
 
-    /** @var bool */
-    public $released;
+    public bool $released;
 
-    /** @var \DateTimeInterface|null */
-    public $releaseDate;
+    public \DateTimeInterface|string $releaseDate;
 
-    /** @var bool */
-    public $overdue;
+    public bool $overdue;
 
-    /** @var string|null */
-    public $userReleaseDate;
+    public ?string $userReleaseDate;
 
-    /** @var int */
-    public $projectId;
+    public int $projectId;
 
     public function __construct($name = null)
     {
@@ -45,14 +40,14 @@ class Version implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    public function setProjectId($id)
+    public function setProjectId($id): static
     {
         $this->projectId = $id;
 
         return $this;
     }
 
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -66,28 +61,28 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setArchived($archived)
+    public function setArchived($archived): static
     {
         $this->archived = $archived;
 
         return $this;
     }
 
-    public function setReleased($released)
+    public function setReleased($released): static
     {
         $this->released = $released;
 
         return $this;
     }
 
-    public function setReleaseDate($releaseDate)
+    public function setReleaseDate(DateTimeInterface $releaseDate): static
     {
         $this->releaseDate = $releaseDate;
 
         return $this;
     }
 
-    public function setUserReleaseDate($userReleaseDate)
+    public function setUserReleaseDateAsDateTime($userReleaseDate): static
     {
         $this->userReleaseDate = $userReleaseDate;
 

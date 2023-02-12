@@ -103,6 +103,8 @@ class Project implements \JsonSerializable
 
     public array $properties;
 
+    public bool $archived;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
