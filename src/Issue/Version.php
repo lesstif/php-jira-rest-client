@@ -20,13 +20,16 @@ class Version implements \JsonSerializable
 
     public bool $released;
 
-    public \DateTimeInterface|string $releaseDate;
+    public string $releaseDate;
 
     public bool $overdue;
 
     public ?string $userReleaseDate;
 
     public int $projectId;
+
+    public ?string $startDate;
+    public ?string $userStartDate;
 
     public function __construct($name = null)
     {
@@ -74,7 +77,14 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setReleaseDate(DateTimeInterface $releaseDate): static
+    public function setReleaseDateAsDateTime(DateTimeInterface $releaseDate, string $format='Y-m-d'): static
+    {
+        $this->releaseDate = $releaseDate->format($format);
+
+        return $this;
+    }
+
+    public function setReleaseDateAsString(string $releaseDate): static
     {
         $this->releaseDate = $releaseDate;
 
@@ -84,6 +94,34 @@ class Version implements \JsonSerializable
     public function setUserReleaseDateAsDateTime($userReleaseDate): static
     {
         $this->userReleaseDate = $userReleaseDate;
+
+        return $this;
+    }
+
+    public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format='Y-m-d'): static
+    {
+        $this->startDate = $startDate->format($format);
+
+        return $this;
+    }
+
+    public function setStartDateAsString(?string $startDate): static
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function setUserStartDateAsDateTime(\DateTimeInterface $userStartDate, string $format='Y-m-d'): static
+    {
+        $this->userStartDate = $userStartDate->format($format);
+
+        return $this;
+    }
+
+    public function setUserStartDateAsString(?string $userStartDate): static
+    {
+        $this->userStartDate = $userStartDate;
 
         return $this;
     }
