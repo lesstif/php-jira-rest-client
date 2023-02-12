@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Issue;
 
-use DateTime;
 use DateTimeInterface;
 
 class Version implements \JsonSerializable
