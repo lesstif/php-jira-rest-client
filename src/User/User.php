@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\User;
 
-use JiraRestApi\ClassSerialize;
 use JiraRestApi\Issue\Reporter;
 
 /**
