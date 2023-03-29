@@ -396,13 +396,13 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
     
     /**
-     * Get all the Roles of a Jira Project
+     * Get all the Roles of a Jira Project.
      *
      * @param int|string $projectIdOrKey
      *
-     * @return string
-     *
      * @throws JiraException
+     *
+     * @return string
      */
     public function getRolesOfProject(int|string $projectIdOrKey): string
     {
@@ -410,31 +410,33 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Assign a Role to a Project
+     * Assign a Role to a Project.
      *
      * @param int|string $projectIdOrKey
-     * @param int $roleId
-     *
-     * @return string
+     * @param int        $roleId
      *
      * @throws JiraException
+     *
+     * @return string
      */
     public function assignRoleToProject(int|string $projectIdOrKey, int $roleId): string
     {
-        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'. $roleId, null, 'PUT');
+        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'.$roleId, null, 'PUT');
     }
 
     /**
-     * Add Role Actor to a Project Role
+     * Add Role Actor to a Project Role.
      *
      * @param int|string $projectIdOrKey
-     * @param int $roleId
-     * @param string $actor
-     * @return string
+     * @param int        $roleId
+     * @param string     $actor
+     *
      * @throws JiraException
+     *
+     * @return string
      */
     public function addProjectRoleActors(int|string $projectIdOrKey, int $roleId, string $actor): string
     {
-        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'. $roleId, $actor, 'POST');
+        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'.$roleId, $actor, 'POST');
     }
 }
