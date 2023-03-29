@@ -394,4 +394,47 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
+    
+    /**
+     * Get all the Roles of a Jira Project
+     *
+     * @param int|string $projectIdOrKey
+     *
+     * @return string
+     *
+     * @throws JiraException
+     */
+    public function getRolesOfProject(int|string $projectIdOrKey): string
+    {
+        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role', null, 'PUT');
+    }
+
+    /**
+     * Assign a Role to a Project
+     *
+     * @param int|string $projectIdOrKey
+     * @param int $roleId
+     *
+     * @return string
+     *
+     * @throws JiraException
+     */
+    public function assignRoleToProject(int|string $projectIdOrKey, int $roleId): string
+    {
+        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'. $roleId, null, 'PUT');
+    }
+
+    /**
+     * Add Role Actor to a Project Role
+     *
+     * @param int|string $projectIdOrKey
+     * @param int $roleId
+     * @param string $actor
+     * @return string
+     * @throws JiraException
+     */
+    public function addProjectRoleActors(int|string $projectIdOrKey, int $roleId, string $actor): string
+    {
+        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'. $roleId, $actor, 'POST');
+    }
 }
