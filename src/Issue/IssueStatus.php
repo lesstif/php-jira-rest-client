@@ -11,7 +11,7 @@ class IssueStatus implements \JsonSerializable
     public $id;
 
     /* @var string|null */
-    public $description;
+    public ?string $description = null;
 
     /* @var string */
     public $iconUrl;
