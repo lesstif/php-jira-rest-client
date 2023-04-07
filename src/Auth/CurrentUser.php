@@ -24,7 +24,7 @@ class CurrentUser implements \JsonSerializable
     public $loginInfo;
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

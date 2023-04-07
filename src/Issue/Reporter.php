@@ -42,7 +42,7 @@ class Reporter implements \JsonSerializable
     public string $accountType;
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         $vars = (get_object_vars($this));
 

@@ -29,10 +29,8 @@ class IssueLinkType implements \JsonSerializable
     public $self;
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
-        $vars = array_filter(get_object_vars($this));
-
-        return $vars;
+        return array_filter(get_object_vars($this));
     }
 }
