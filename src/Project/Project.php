@@ -106,7 +106,7 @@ class Project implements \JsonSerializable
     public bool $archived;
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $params = array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);

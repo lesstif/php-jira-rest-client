@@ -13,7 +13,7 @@ class Component implements \JsonSerializable
     }
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

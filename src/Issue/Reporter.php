@@ -42,9 +42,9 @@ class Reporter implements \JsonSerializable
     public string $accountType;
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
-        $vars = (get_object_vars($this));
+        $vars = get_object_vars($this);
 
         foreach ($vars as $key => $value) {
             if ($key === 'name' && ($this->isWantUnassigned() === true)) {
