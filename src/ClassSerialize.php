@@ -14,7 +14,7 @@ trait ClassSerialize
      */
     public function toArray(array $ignoreProperties = [], bool $excludeMode = true): array
     {
-        $tmp = (get_object_vars($this));
+        $tmp = get_object_vars($this);
         $retAr = null;
 
         foreach ($tmp as $key => $value) {
