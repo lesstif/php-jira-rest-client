@@ -14,6 +14,8 @@
 # On-Premise only
 If you want to interact with Jira cloud instead of On-Premise(Server, Data Center), [check out this repository](https://github.com/lesstif/php-JiraCloud-RESTAPI).
 
+From version >= 5.0.0 of this repository this project is only using V2 of the Jira rest API, to use V3 [check out this repository](https://github.com/lesstif/php-JiraCloud-RESTAPI).
+
 # Requirements
 
 - PHP >= 8.0
@@ -980,8 +982,6 @@ try {
 }
 ```
 
-REST API V3(JIRA Cloud) users must use *changeAssigneeByAccountId* method with accountId.
-
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -1031,7 +1031,7 @@ try {
 ```
 
 #### Read property
-[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-properties/#api-rest-api-3-issue-issueidorkey-properties-propertykey-get)
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-properties/#api-rest-api-2-issue-issueidorkey-properties-propertykey-get)
 
 ```php
 <?php
@@ -1054,7 +1054,7 @@ try {
 
 #### Write property
 
-[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-properties/#api-rest-api-3-issue-issueidorkey-properties-propertykey-put)
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-properties/#api-rest-api-2-issue-issueidorkey-properties-propertykey-put)
 
 ```php
 <?php
@@ -1555,55 +1555,6 @@ try {
 }
 
 ```
-
-[See Jira API V3 reference](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-issueIdOrKey-worklog-post)
-
-```php
-<?php
-require 'vendor/autoload.php';
-
-// Worklog example for API V3 assumes JIRA_REST_API_V3=true is configured in
-// your .env file.
-
-use JiraRestApi\Issue\ContentField;
-use JiraRestApi\Issue\IssueService;
-use JiraRestApi\Issue\Worklog;
-use JiraRestApi\JiraException;
-
-$issueKey = 'TEST-961';
-
-try {
-    $workLog = new Worklog();
-
-    $paragraph = new ContentField();
-    $paragraph->type = 'paragraph';
-    $paragraph->content[] = [
-        'text' => 'I did some work here.',
-        'type' => 'text',
-    ];
-
-    $comment = new ContentField();
-    $comment->type = 'doc';
-    $comment->version = 1;
-    $comment->content[] = $paragraph;
-
-    $workLog->setComment($comment)
-            ->setStarted('2016-05-28 12:35:54')
-            ->setTimeSpent('1d 2h 3m');
-
-    $issueService = new IssueService();
-
-    $ret = $issueService->addWorklog($issueKey, $workLog);
-
-    $workLogid = $ret->{'id'};
-
-    var_dump($ret);
-} catch (JiraRestApi\JiraException $e) {
-    $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
-}
-
-```
-
 
 #### edit worklog in issue
 
