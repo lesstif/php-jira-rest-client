@@ -21,7 +21,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project[] array of Project class
      */
-    public function getAllProjects($paramArray = [])
+    public function getAllProjects($paramArray = []): \ArrayObject
     {
         $ret = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
 
@@ -225,7 +225,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Version[] array of version
      */
-    public function getVersionsPagenated(int|string $projectIdOrKey, array $queryParam = []): array
+    public function getVersionsPagenated(int|string $projectIdOrKey, array $queryParam = []): \ArrayObject
     {
         $default = [
             'startAt'    => 0,
