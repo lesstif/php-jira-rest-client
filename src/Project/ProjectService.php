@@ -394,7 +394,7 @@ class ProjectService extends \JiraRestApi\JiraClient
 
         return $ret;
     }
-    
+
     /**
      * Get all the Roles of a Jira Project.
      *
