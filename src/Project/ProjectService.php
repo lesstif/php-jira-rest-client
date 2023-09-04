@@ -65,7 +65,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param int|string $projectIdOrKey Project Key
      *
-     *@throws \JiraRestApi\JiraException
+     * @throws \JiraRestApi\JiraException
      *
      * @return Reporter[]
      */
@@ -83,7 +83,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param int|string $projectIdOrKey
      *
-     *@throws \JiraRestApi\JiraException
+     * @throws \JiraRestApi\JiraException
      *
      * @return IssueType[]
      */
@@ -103,7 +103,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param int|string $projectIdOrKey
      *
-     *@throws \JiraRestApi\JiraException
+     * @throws \JiraRestApi\JiraException
      *
      * @return \JiraRestApi\Component\Component[]
      */
@@ -123,7 +123,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param int|string $projectIdOrKey
      *
-     *@throws JiraException
+     * @throws JiraException
      *
      * @return array
      * @return array
@@ -174,7 +174,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param int|string $key
      *
-     *@throws \JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
      *
      * @return ProjectType
@@ -196,7 +196,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param int|string $key
      *
-     *@throws \JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
      *
      * @return ProjectType
@@ -221,7 +221,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @param int|string $projectIdOrKey
      * @param array      $queryParam
      *
-     *@throws \JiraRestApi\JiraException
+     * @throws \JiraRestApi\JiraException
      *
      * @return Version[] array of version
      */
@@ -279,7 +279,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @param int|string $projectIdOrKey
      * @param string     $versionName
      *
-     *@throws \JiraRestApi\JiraException
+     * @throws \JiraRestApi\JiraException
      *
      * @return Version version
      */
@@ -335,7 +335,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param Project $project
      *
-     *@throws \JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      * @throws JiraException
      *
      * @return Project
@@ -357,7 +357,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * @param int|string $projectIdOrKey
      *
-     *@throws JiraException
+     * @throws JiraException
      *
      * @return string response status
      *
@@ -378,7 +378,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param int|string $projectIdOrKey
      *
-     *@throws JiraException
+     * @throws JiraException
      *
      * @return string response status
      *

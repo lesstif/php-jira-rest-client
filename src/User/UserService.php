@@ -65,7 +65,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @param array $paramArray
      *
-     *@throws \JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
      *
      * @return User[]
@@ -198,7 +198,7 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * @param array $paramArray
      *
-     *@throws \JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
      *
      * @return User[]
