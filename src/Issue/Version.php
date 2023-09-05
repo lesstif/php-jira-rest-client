@@ -20,7 +20,7 @@ class Version implements \JsonSerializable
 
     public bool $released;
 
-    public string $releaseDate;
+    public ?string $releaseDate = null;
 
     public bool $overdue = false;
 
