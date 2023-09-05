@@ -14,7 +14,7 @@ class Version implements \JsonSerializable
     public ?string $name;
 
     // version description: ex; improvement performance
-    public ?string $description;
+    public ?string $description = null;
 
     public bool $archived;
 
@@ -22,14 +22,14 @@ class Version implements \JsonSerializable
 
     public string $releaseDate;
 
-    public bool $overdue;
+    public bool $overdue = false;
 
-    public ?string $userReleaseDate;
+    public ?string $userReleaseDate = null;
 
     public int $projectId;
 
-    public ?string $startDate;
-    public ?string $userStartDate;
+    public ?string $startDate = null;
+    public ?string $userStartDate = null;
 
     public function __construct($name = null)
     {
