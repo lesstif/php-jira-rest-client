@@ -37,6 +37,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->curlOptVerbose = $this->env('CURLOPT_VERBOSE', false);
         $this->proxyServer = $this->env('PROXY_SERVER');
         $this->proxyPort = $this->env('PROXY_PORT');
+        $this->proxyType = $this->env('PROXY_TYPE');
         $this->proxyUser = $this->env('PROXY_USER');
         $this->proxyPassword = $this->env('PROXY_PASSWORD');
 

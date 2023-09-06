@@ -97,6 +97,11 @@ interface ConfigurationInterface
     public function getProxyPort(): ?string;
 
     /**
+     * Proxy type.
+     */
+    public function getProxyType(): ?int;
+
+    /**
      * Proxy user.
      */
     public function getProxyUser(): ?string;
