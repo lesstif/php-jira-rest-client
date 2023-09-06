@@ -65,6 +65,11 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     protected ?string $proxyPort = null;
 
     /**
+     * Proxy type.
+     */
+    protected ?int $proxyType = null;
+
+    /**
      * Proxy user.
      */
     protected ?string $proxyUser = null;
@@ -196,6 +201,11 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function getProxyPort(): ?string
     {
         return $this->proxyPort;
+    }
+
+    public function getProxyType(): ?int
+    {
+        return $this->proxyType;
     }
 
     public function getProxyUser(): ?string

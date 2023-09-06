@@ -605,6 +605,11 @@ class JiraClient
             $password = $this->getConfiguration()->getProxyPassword();
             curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$username:$password");
         }
+
+        // Set the proxy type for curl, default is CURLPROXY_HTTP (0)
+        if ($this->getConfiguration()->getProxyType()) {
+            curl_setopt($ch, CURLOPT_PROXYTYPE, $this->getConfiguration()->getProxyType());
+        }
     }
 
     /**
