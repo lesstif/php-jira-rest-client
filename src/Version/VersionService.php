@@ -35,7 +35,7 @@ class VersionService extends \JiraRestApi\JiraClient
 
         return $this->json_mapper->map(
             json_decode($ret),
-            new Version()
+            Version::class
         );
     }
 
@@ -71,7 +71,7 @@ class VersionService extends \JiraRestApi\JiraClient
 
         return $this->json_mapper->map(
             json_decode($ret),
-            new Version()
+            Version::class
         );
     }
 
@@ -100,7 +100,7 @@ class VersionService extends \JiraRestApi\JiraClient
 
         return $this->json_mapper->map(
             json_decode($ret),
-            new Version()
+            Version::class
         );
     }
 
