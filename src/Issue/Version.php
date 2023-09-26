@@ -31,7 +31,7 @@ class Version implements \JsonSerializable
     public ?string $startDate = null;
     public ?string $userStartDate = null;
 
-    public function __construct($name = null)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }

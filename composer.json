@@ -7,7 +7,7 @@
         "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "netresearch/jsonmapper": "^3.0|^4.0|^5.0",
+        "netresearch/jsonmapper": "^4.2",
         "monolog/monolog": "^2.0|^3.0"
     },
     "suggest": {
