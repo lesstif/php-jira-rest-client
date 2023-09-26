@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace JiraRestApi\Test;
 
@@ -87,6 +87,19 @@ class MapperTest extends TestCase
         $this->assertLessThan(3, count($issue->transitions));
         $this->assertEquals('작업 시작', $issue->transitions[0]->name);
 
+    }
+
+    public function testReporterField()
+    {
+        $ret = file_get_contents('test-data/reporter-no-email-address.json');
+
+        $reporter = $this->mapper->map(
+            json_decode($ret), new Reporter()
+        );
+
+        $this->assertInstanceOf(Reporter::class, $reporter);
+
+        $this->assertEquals('lesstif@gmail.com', $reporter->emailAddress);
     }
 
 }
