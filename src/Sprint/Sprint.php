@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
 
-use DateTimeInterface;
 use JiraRestApi\JsonSerializableTrait;
 
 class Sprint implements \JsonSerializable
@@ -55,6 +54,7 @@ class Sprint implements \JsonSerializable
 
         return $this;
     }
+
     public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format = 'Y-m-d'): static
     {
         $this->startDate = $startDate->format($format);
