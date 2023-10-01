@@ -71,9 +71,9 @@ class SPrintTest extends TestCase
      * @depends get_sprints
      *
      * @param int $sprintId
-     * @return void
+     * @return int
      */
-    public function get_issues_in_sprints(int $sprintId)
+    public function get_issues_in_sprints(int $sprintId) : int
     {
         try {
             $sps = new SprintService();
@@ -82,8 +82,40 @@ class SPrintTest extends TestCase
 
             $this->assertNotNull($sprint);
             Dumper::dump($sprint);
+
+            return $sprintId;
         } catch (Exception $e) {
             $this->fail('testSearch Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     * @depends get_issues_in_sprints
+     *
+     * @param int $sprintId
+     * @return int
+     */
+    public function move_issues_to_sprints(int $sprintId) : int
+    {
+        try {
+            $sp = (new Sprint())
+                ->setMoveIssues([
+                    "MOBL-1",
+                    "MOBL-5",
+                ])
+
+            ;
+
+            $sps = new SprintService();
+
+            $sprint = $sps->moveIssues2Sprint($sprintId, $sp);
+
+            $this->assertNotNull($sprint);
+
+            return $sprintId;
+        } catch (Exception $e) {
+            $this->fail('move_issues_to_sprints Failed : '.$e->getMessage());
         }
     }
 }

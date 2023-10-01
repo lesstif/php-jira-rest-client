@@ -79,4 +79,18 @@ class SprintService extends JiraClient
             new Sprint()
         );
     }
+
+    /**
+     * @see https://docs.atlassian.com/jira-software/REST/9.11.0/#agile/1.0/sprint-moveIssuesToSprint
+     */
+    public function moveIssues2Sprint(int $sprintId, Sprint $sprint): bool
+    {
+        $data = json_encode($sprint);
+
+        $ret = $this->exec($this->uri.'/'.$sprintId.'/issue', $data);
+
+        $this->log->debug('moveIssues2Sprint result='.var_export($ret, true));
+
+        return $ret;
+    }
 }
