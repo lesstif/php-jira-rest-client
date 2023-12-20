@@ -124,7 +124,8 @@ class Notify implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

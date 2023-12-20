@@ -11,7 +11,7 @@ class IssueStatus implements \JsonSerializable
     public $id;
 
     /* @var string|null */
-    public $description;
+    public ?string $description = null;
 
     /* @var string */
     public $iconUrl;
@@ -22,7 +22,8 @@ class IssueStatus implements \JsonSerializable
     /* @var \JiraRestApi\Issue\Statuscategory */
     public $statuscategory;
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

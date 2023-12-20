@@ -1,10 +1,8 @@
 language: php
 
 php:
-  - 7.1
-  - 7.3
-  - 7.4
   - 8.0
+  - 8.1
 
 before_install:
   - travis_retry composer self-update
@@ -19,15 +17,11 @@ script:
 
 jobs:
   include:
-    - php: 7.3
-      env: TYPE=phpstan
-      script:
-        - ./vendor/bin/phpstan analyse
-    - php: 7.4
-      env: TYPE=phpstan
-      script:
-        - ./vendor/bin/phpstan analyse
     - php: 8.0
+      env: TYPE=phpstan
+      script:
+        - ./vendor/bin/phpstan analyse
+    - php: 8.1
       env: TYPE=phpstan
       script:
         - ./vendor/bin/phpstan analyse

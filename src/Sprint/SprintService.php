@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: meshulam
- * Date: 11/08/2017
- * Time: 17:28.
- */
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
 
@@ -16,7 +12,6 @@ use Psr\Log\LoggerInterface;
 
 class SprintService extends JiraClient
 {
-    //https://jira01.devtools.intel.com/rest/agile/1.0/board?projectKeyOrId=34012
     private $uri = '/sprint';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
@@ -29,10 +24,8 @@ class SprintService extends JiraClient
      * @param object $json JSON object structure from json_decode
      *
      * @throws \JsonMapper_Exception
-     *
-     * @return Sprint
      */
-    public function getSprintFromJSON($json)
+    public function getSprintFromJSON(object $json): Sprint
     {
         $sprint = $this->json_mapper->map(
             $json,
@@ -42,38 +35,25 @@ class SprintService extends JiraClient
         return $sprint;
     }
 
-    /**
-     *  get all Sprint list.
-     *
-     * @param string $sprintId
-     *
-     * @throws JiraException
-     * @throws \JsonMapper_Exception
-     *
-     * @return Sprint
-     */
-    public function getSprint(string $sprintId)
+    public function getSprint(string|int $sprintId): Sprint
     {
         $ret = $this->exec($this->uri.'/'.$sprintId, null);
 
         $this->log->info("Result=\n".$ret);
 
-        return $sprint = $this->json_mapper->map(
+        return $this->json_mapper->map(
             json_decode($ret),
             new Sprint()
         );
     }
 
     /**
-     * @param string|int $sprintId
-     * @param array      $paramArray
-     *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return Issue[] array of Issue
      */
-    public function getSprintIssues($sprintId, $paramArray = [])
+    public function getSprintIssues(string|int $sprintId, array $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 
@@ -84,5 +64,33 @@ class SprintService extends JiraClient
         );
 
         return $issues;
+    }
+
+    public function createSprint(Sprint $sprint): Sprint
+    {
+        $data = json_encode($sprint);
+
+        $ret = $this->exec($this->uri, $data);
+
+        $this->log->debug('createSprint result='.var_export($ret, true));
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new Sprint()
+        );
+    }
+
+    /**
+     * @see https://docs.atlassian.com/jira-software/REST/9.11.0/#agile/1.0/sprint-moveIssuesToSprint
+     */
+    public function moveIssues2Sprint(int $sprintId, Sprint $sprint): bool
+    {
+        $data = json_encode($sprint);
+
+        $ret = $this->exec($this->uri.'/'.$sprintId.'/issue', $data);
+
+        $this->log->debug('moveIssues2Sprint result='.var_export($ret, true));
+
+        return $ret;
     }
 }

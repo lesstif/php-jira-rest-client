@@ -4,30 +4,31 @@ namespace JiraRestApi\Issue;
 
 class Visibility implements \JsonSerializable
 {
-    private $type;
-    private $value;
+    private string $type;
+    private string $value;
 
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->type = $type;
     }
 
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

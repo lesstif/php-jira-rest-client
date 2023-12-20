@@ -13,12 +13,16 @@ class ContentField implements \JsonSerializable
     /** @var array */
     public $attrs;
 
+    /** @var string */
+    public $version;
+
     public function __construct()
     {
         $this->content = [];
     }
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

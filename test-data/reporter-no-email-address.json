@@ -1,0 +1,16 @@
+{
+    "reporter": {
+        "self": "https://jira.example.com/rest/api/2/user?username=lesstif",
+        "name": "lesstif",
+        "key": "lesstif",
+        "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=48",
+            "24x24": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=24",
+            "16x16": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=16",
+            "32x32": "https://secure.gravatar.com/avatar/9f1705ef1d8c977eba04f00556e02922?d=mm&s=32"
+        },
+        "displayName": "정광섭",
+        "active": true,
+        "timeZone": "Asia/Seoul"
+    }
+}

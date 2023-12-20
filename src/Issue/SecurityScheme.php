@@ -22,7 +22,8 @@ class SecurityScheme implements \JsonSerializable
     /** @var array security level */
     public $levels;
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

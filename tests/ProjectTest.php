@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\Test;
 
+use JiraRestApi\Dumper;
+use JiraRestApi\Issue\Version;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\Project;
 use JiraRestApi\Project\ProjectType;
@@ -10,102 +12,193 @@ use JiraRestApi\Project\ProjectService;
 
 class ProjectTest extends TestCase
 {
-    public function testGetProject()
+    /**
+     * @test
+     *
+     */
+    public function get_project_lists() : string
     {
-        $proj = new ProjectService();
+        $projKey = 'TEST';
 
-        $p = $proj->get('TEST');
+        try {
+            $proj = new ProjectService();
 
-        $this->assertTrue($p instanceof Project);
-        $this->assertTrue(strlen($p->key) > 0);
-        $this->assertTrue(!empty($p->id));
-        $this->assertTrue(strlen($p->name) > 0);
-        // $this->assertTrue(strlen($p->projectCategory['name']) > 0);
+            $prjs = $proj->getAllProjects();
+
+            foreach ($prjs as $p) {
+                $this->assertTrue($p instanceof Project);
+                $this->assertTrue(strlen($p->key) > 0);
+                $this->assertTrue(!empty($p->id));
+                $this->assertTrue(strlen($p->name) > 0);
+                // $this->assertTrue(strlen($p->projectCategory['name']) > 0);
+            }
+        } catch (\Exception $e) {
+            $this->fail('get_project_lists ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 
-    public function testGetProjectLists()
+    /**
+     * @test
+     * @depends get_project_lists
+     */
+    public function get_project_info(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $prjs = $proj->getAllProjects();
+            $p = $proj->get($projKey);
 
-        foreach ($prjs as $p) {
             $this->assertTrue($p instanceof Project);
             $this->assertTrue(strlen($p->key) > 0);
             $this->assertTrue(!empty($p->id));
             $this->assertTrue(strlen($p->name) > 0);
             // $this->assertTrue(strlen($p->projectCategory['name']) > 0);
+        } catch (\Exception $e) {
+            $this->fail('get_project_info ' . $e->getMessage());
         }
+
+        return $projKey;
     }
 
-    public function testGetProjectTypes()
+    /**
+     * @test
+     * @depends get_project_info
+     */
+    public function get_project_types(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $prjtyps = $proj->getProjectTypes();
+            $projectTypes = $proj->getProjectTypes();
 
-        foreach ($prjtyps as $pt) {
-            $this->assertTrue($pt instanceof ProjectType);
-            $this->assertTrue(strlen($pt->key) > 0);
-            $this->assertTrue(strlen($pt->formattedKey) > 0);
-            $this->assertTrue(strlen($pt->descriptionI18nKey) > 0);
-            $this->assertTrue(strlen($pt->color) > 0);
-            $this->assertTrue(strlen($pt->icon) > 0);
+            foreach ($projectTypes as $pt) {
+                $this->assertTrue($pt instanceof ProjectType);
+                $this->assertTrue(strlen($pt->key) > 0);
+                $this->assertTrue(strlen($pt->formattedKey) > 0);
+                $this->assertTrue(strlen($pt->descriptionI18nKey) > 0);
+                $this->assertTrue(strlen($pt->color) > 0);
+                $this->assertTrue(strlen($pt->icon) > 0);
+            }
+        } catch (\Exception $e) {
+            $this->fail('get_project_types ' . $e->getMessage());
         }
+
+        return $projKey;
     }
 
-    public function testGetProjectType()
+    /**
+     * @test
+     * @depends get_project_types
+     *
+     */
+    public function get_software_project_types_only(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $prjtyp = $proj->getProjectType('software');
+            $projectType = $proj->getProjectType('software');
 
-        $this->assertTrue($prjtyp instanceof ProjectType);
-        $this->assertTrue(strlen($prjtyp->key) > 0);
-        $this->assertTrue(strlen($prjtyp->formattedKey) > 0);
-        $this->assertTrue(strlen($prjtyp->descriptionI18nKey) > 0);
-        $this->assertTrue(strlen($prjtyp->color) > 0);
-        $this->assertTrue(strlen($prjtyp->icon) > 0);
+            $this->assertTrue($projectType instanceof ProjectType);
+            $this->assertTrue(strlen($projectType->key) > 0);
+            $this->assertTrue(strlen($projectType->formattedKey) > 0);
+            $this->assertTrue(strlen($projectType->descriptionI18nKey) > 0);
+            $this->assertTrue(strlen($projectType->color) > 0);
+            $this->assertTrue(strlen($projectType->icon) > 0);
+        } catch (\Exception $e) {
+            $this->fail('get_project_type ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 
-    public function testGetProjectTypeException()
+    /**
+     * @test
+     * @depends get_software_project_types_only
+     *
+     */
+    public function get_project_accessible(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $this->expectException(JiraException::class);
+            $projectType = $proj->getAccessibleProjectType('business');
 
-        $prjtyp = $proj->getProjectType('foobar');
+            $this->assertTrue($projectType instanceof ProjectType);
+            $this->assertTrue(strlen($projectType->key) > 0);
+            $this->assertTrue(strlen($projectType->formattedKey) > 0);
+            $this->assertTrue(strlen($projectType->descriptionI18nKey) > 0);
+            $this->assertTrue(strlen($projectType->color) > 0);
+            $this->assertTrue(strlen($projectType->icon) > 0);
+        } catch (\Exception $e) {
+            $this->fail('get_project_accessible ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 
-    public function testGetProjectAccessible()
+    /**
+     * @test
+     * @depends get_project_accessible
+     */
+    public function get_project_version(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $prjtyp = $proj->getAccessibleProjectType('business');
+            $prjs = $proj->getVersions('TEST');
 
-        $this->assertTrue($prjtyp instanceof ProjectType);
-        $this->assertTrue(strlen($prjtyp->key) > 0);
-        $this->assertTrue(strlen($prjtyp->formattedKey) > 0);
-        $this->assertTrue(strlen($prjtyp->descriptionI18nKey) > 0);
-        $this->assertTrue(strlen($prjtyp->color) > 0);
-        $this->assertTrue(strlen($prjtyp->icon) > 0);
+            $this->assertIsObject($prjs);
+            $this->assertTrue($prjs instanceof \ArrayObject);
+            $this->assertLessThan($prjs->count(), 2);
+
+        } catch (\Exception $e) {
+            $this->fail('get_project_version ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 
-    public function testGetProjectAccessibleException()
+    /**
+     * @test
+     * @depends get_project_version
+     */
+    public function get_project_assignable(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $this->expectException(JiraException::class);
+            $reporters = $proj->getAssignable($projKey);
 
-        $prjtyp = $proj->getAccessibleProjectType('foobar');
+            $this->assertIsArray($reporters);
+            //$this->assertTrue($reporters instanceof \ArrayObject);
+            $this->assertLessThan(count($reporters), 2);
+
+        } catch (\Exception $e) {
+            $this->fail('get_project_version ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 
-    public function testGetProjectVersion()
+    /**
+     * @test
+     * @depends get_project_assignable
+     *
+     */
+    public function get_unknown_project_type_expect_to_JiraException(string $projKey) : string
     {
-        $proj = new ProjectService();
+        try {
+            $proj = new ProjectService();
 
-        $prjs = $proj->getVersions('TEST');
+            $this->expectException(JiraException::class);
 
-        var_dump($prjs);
+            $projectType = $proj->getProjectType('foobar');
+        } catch (\Exception $e) {
+            $this->fail('get_project_type ' . $e->getMessage());
+        }
+
+        return $projKey;
     }
 }

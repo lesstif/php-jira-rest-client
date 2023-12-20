@@ -2,8 +2,8 @@
 
 namespace JiraRestApi\Component;
 
+use JiraRestApi\AssigneeTypeEnum;
 use JiraRestApi\ClassSerialize;
-use JiraRestApi\Project\Project;
 use JiraRestApi\User\User;
 
 /**
@@ -16,140 +16,86 @@ class Component implements \JsonSerializable
 {
     use ClassSerialize;
 
-    /**
-     * uri which was hit.
-     *
-     * @var string
-     */
-    public $self;
+    /** uri which was hit.  */
+    public string $self;
 
-    /** @var string */
-    public $id;
+    public string $id;
 
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var string
-     */
-    public $description;
+    public string $description;
 
-    /**
-     * @var \JiraRestApi\User\User
-     */
-    public $lead;
+    public ?User $lead;
 
-    /**
-     * @var string
-     */
-    public $assigneeType;
+    public string $leadUserName;
 
-    /**
-     * @var int
-     */
-    public $projectId;
+    public string $assigneeType;
 
-    /**
-     * @var string
-     */
-    public $project;
+    public int $projectId;
 
-    /**
-     * @var bool
-     */
-    public $isAssigneeTypeValid;
+    public string $project;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public bool $isAssigneeTypeValid;
+
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Component
-     */
-    public function setName($name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return Component
-     */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @param string $leadUserName
-     *
-     * @return Component
-     */
-    public function setLeadUserName($leadUserName)
+    public function setLeadUserName(string $leadUserName): static
     {
-        if ($this->lead === null) {
-            $this->lead = new User();
-        }
-
-        $this->lead->name = $leadUserName;
+        $this->leadUserName = $leadUserName;
 
         return $this;
     }
 
-    /**
-     * @param string $assigneeType
-     *
-     * @return Component
-     */
-    public function setAssigneeType($assigneeType)
+    public function setAssigneeType(string $assigneeType): static
     {
         $this->assigneeType = $assigneeType;
 
         return $this;
     }
 
-    /**
-     * @param string $projectKey
-     *
-     * @return Component
-     */
-    public function setProjectKey($projectKey)
+    public function setAssigneeTypeAsEnum(AssigneeTypeEnum $assigneeType): static
+    {
+        $this->assigneeType = $assigneeType->type();
+
+        return $this;
+    }
+
+    public function setProjectKey(string $projectKey): static
     {
         $this->project = $projectKey;
 
         return $this;
     }
 
-    /**
-     * @param Project $project
-     *
-     * @return $this
-     */
-    public function setProject(Project $project)
+    public function setProject(string $project): static
     {
-        $this->project = $project->key;
+        $this->project = $project;
 
         return $this;
     }
 
-    /**
-     * @return array|mixed
-     */
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
-        return array_filter(get_object_vars($this));
+        return array_filter(get_object_vars($this), function ($var) {
+            return !is_null($var);
+        });
     }
 }

@@ -8,33 +8,43 @@ class Reporter implements \JsonSerializable
 {
     use ClassSerialize;
 
-    /** @var string */
-    public $self;
+    public string $key;
 
-    /** @var string|null */
-    public $name;
+    public string $timezone;
 
-    /** @var string */
-    public $emailAddress;
+    public string $self;
 
-    /** @var array|null */
-    public $avatarUrls;
+    public ?string $name;
 
-    /** @var string */
-    public $displayName;
+    public ?string $emailAddress = null;
 
-    /** @var string */
-    public $active;
+    public array $avatarUrls;
 
-    /** @var bool want assignee to unassigned */
-    private $wantUnassigned = false;
+    public string $displayName;
 
-    /** @var string */
-    public $accountId;
+    public string $active;
 
-    public function jsonSerialize()
+    // want assignee to unassigned
+    private bool $wantUnassigned = false;
+
+    public string $accountId;
+
+    public string $locale;
+
+    public array $groups;
+
+    public array $applicationRoles;
+
+    public string $expand;
+
+    public bool $deleted;
+
+    public string $accountType;
+
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): ?array
     {
-        $vars = (get_object_vars($this));
+        $vars = get_object_vars($this);
 
         foreach ($vars as $key => $value) {
             if ($key === 'name' && ($this->isWantUnassigned() === true)) {
@@ -47,7 +57,7 @@ class Reporter implements \JsonSerializable
         }
 
         if (empty($vars)) {
-            return;
+            return null;
         }
 
         return $vars;

@@ -15,9 +15,13 @@ class AttachmentService extends \JiraRestApi\JiraClient
      * Returns the meta-data for an attachment, including the URI of the actual attached file.
      *
      * @param string|int $id attachment Id
+     *
      * @outDir string downloads the content and store into outDir
+     *
      * @overwrite boolean determines whether to overwrite the file if it already exists.
+     *
      * @mode int outDir creation mode.
+     *
      * @recursive boolean Allows the creation of nested directories specified in the pathname.
      *
      * @throws \JiraRestApi\JiraException

@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Issue;
 
+use ArrayObject;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\ProjectService;
 
@@ -16,7 +17,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Issue
      */
-    public function getIssueFromJSON($json)
+    public function getIssueFromJSON($json): Issue
     {
         $issue = $this->json_mapper->map(
             $json,
@@ -38,14 +39,9 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Issue class
      */
-    public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
+    public function get($issueIdOrKey, $paramArray = [], $issueObject = null): Issue
     {
-        // for REST API V3
-        if ($this->isRestApiV3()) {
-            $issueObject = ($issueObject) ? $issueObject : new IssueV3();
-        } else {
-            $issueObject = ($issueObject) ? $issueObject : new Issue();
-        }
+        $issueObject = ($issueObject) ? $issueObject : new Issue();
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.$this->toHttpQueryParameter($paramArray), null);
 
@@ -67,7 +63,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Issue created issue key
      */
-    public function create($issueField)
+    public function create($issueField): Issue
     {
         $issue = new Issue();
 
@@ -92,9 +88,9 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array Array of results, where each result represents one batch of insertions
+     * @return Issue[] Array of results, where each result represents one batch of insertions
      */
-    public function createMultiple($issueFields, $batchSize = 50)
+    public function createMultiple($issueFields, $batchSize = 50): array
     {
         $issues = [];
 
@@ -124,7 +120,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Issue[] Result of API call to insert many issues
      */
-    private function bulkInsert($issues)
+    private function bulkInsert($issues): array
     {
         $data = json_encode(['issueUpdates' => $issues]);
 
@@ -150,7 +146,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Attachment[]
      */
-    public function addAttachments($issueIdOrKey, $filePathArray)
+    public function addAttachments($issueIdOrKey, $filePathArray): array
     {
         if (is_array($filePathArray) == false) {
             $filePathArray = [$filePathArray];
@@ -167,19 +163,16 @@ class IssueService extends \JiraRestApi\JiraClient
                 $tmpArr = $this->json_mapper->mapArray(
                     $ret,
                     new \ArrayObject(),
-                    '\JiraRestApi\Issue\Attachment'
+                    Attachment::class
                 );
 
                 foreach ($tmpArr as $t) {
-                    array_push($attachArr, $t);
+                    $attachArr[] = $t;
                 }
             } elseif (is_object($ret)) {
-                array_push(
-                    $attachArr,
-                    $this->json_mapper->map(
-                        $ret,
-                        new Attachment()
-                    )
+                $attachArr[] = $this->json_mapper->map(
+                    $ret,
+                    new Attachment()
                 );
             }
         }
@@ -198,7 +191,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string created issue key
      */
-    public function update($issueIdOrKey, $issueField, $paramArray = [])
+    public function update($issueIdOrKey, $issueField, $paramArray = []): string
     {
         $issue = new Issue();
 
@@ -229,7 +222,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Comment Comment class
      */
-    public function addComment($issueIdOrKey, $comment)
+    public function addComment($issueIdOrKey, $comment): Comment
     {
         $this->log->info("addComment=\n");
 
@@ -262,7 +255,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Comment Comment class
      */
-    public function updateComment($issueIdOrKey, $id, $comment)
+    public function updateComment($issueIdOrKey, $id, $comment): Comment
     {
         $this->log->info("updateComment=\n");
 
@@ -295,7 +288,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Comment Comment class
      */
-    public function getComment($issueIdOrKey, $id, array $paramArray = [])
+    public function getComment($issueIdOrKey, $id, array $paramArray = []): Comment
     {
         $this->log->info("getComment=\n");
 
@@ -319,21 +312,21 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comments Comments class
      */
-    public function getComments($issueIdOrKey, array $paramArray = [])
+    public function getComments($issueIdOrKey, array $paramArray = []): Comments
     {
         $this->log->info("getComments=\n");
 
         $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment'.$this->toHttpQueryParameter($paramArray), null);
 
         $this->log->debug('get comments result='.var_export($ret, true));
-        $comment = $this->json_mapper->map(
+        $comments = $this->json_mapper->map(
             json_decode($ret),
-            new Comment()
+            new Comments()
         );
 
-        return $comment;
+        return $comments;
     }
 
     /**
@@ -346,7 +339,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string|bool
      */
-    public function deleteComment($issueIdOrKey, $id)
+    public function deleteComment($issueIdOrKey, $id): string|bool
     {
         $this->log->info("deleteComment=\n");
 
@@ -369,7 +362,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string|bool
      */
-    public function changeAssignee($issueIdOrKey, $assigneeName)
+    public function changeAssignee($issueIdOrKey, $assigneeName): string|bool
     {
         $this->log->info("changeAssignee=\n");
 
@@ -394,7 +387,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function changeAssigneeByAccountId($issueIdOrKey, $accountId)
+    public function changeAssigneeByAccountId($issueIdOrKey, $accountId): string
     {
         $this->log->info("changeAssigneeByAccountId=\n");
 
@@ -419,7 +412,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string|bool
      */
-    public function deleteIssue($issueIdOrKey, $paramArray = [])
+    public function deleteIssue($issueIdOrKey, $paramArray = []): string|bool
     {
         $this->log->info("deleteIssue=\n");
 
@@ -442,7 +435,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Transition[] array of Transition class
      */
-    public function getTransition($issueIdOrKey, $paramArray = [])
+    public function getTransition($issueIdOrKey, $paramArray = []): ArrayObject
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -455,7 +448,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $transitions = $this->json_mapper->mapArray(
             json_decode($data),
             new \ArrayObject(),
-            '\JiraRestApi\Issue\Transition'
+            Transition::class
         );
 
         return $transitions;
@@ -471,7 +464,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function findTransitonId($issueIdOrKey, $transitionToName)
+    public function findTransitonId($issueIdOrKey, $transitionToName): string
     {
         $this->log->debug('findTransitonId=');
 
@@ -501,7 +494,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return string|null nothing - if transition was successful return http 204(no contents)
      */
-    public function transition($issueIdOrKey, $transition)
+    public function transition($issueIdOrKey, $transition): ?string
     {
         $this->log->debug('transition='.var_export($transition, true));
 
@@ -536,12 +529,12 @@ class IssueService extends \JiraRestApi\JiraClient
      * @param array  $expand
      * @param bool   $validateQuery
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
+    public function search(string $jql, int $startAt = 0, int $maxResults = 15, array $fields = [], array $expand = [], bool $validateQuery = true): IssueSearchResult
     {
         $data = json_encode([
             'jql'           => $jql,
@@ -556,17 +549,11 @@ class IssueService extends \JiraRestApi\JiraClient
         $json = json_decode($ret);
 
         $result = null;
-        if ($this->isRestApiV3()) {
-            $result = $this->json_mapper->map(
-                $json,
-                new IssueSearchResultV3()
-            );
-        } else {
-            $result = $this->json_mapper->map(
-                $json,
-                new IssueSearchResult()
-            );
-        }
+
+        $result = $this->json_mapper->map(
+            $json,
+            new IssueSearchResult()
+        );
 
         return $result;
     }
@@ -574,14 +561,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * get TimeTracking info.
      *
-     * @param string|int $issueIdOrKey
+     * @param string $issueIdOrKey
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return TimeTracking
      */
-    public function getTimeTracking($issueIdOrKey)
+    public function getTimeTracking(string $issueIdOrKey): TimeTracking
     {
         $ret = $this->exec($this->uri."/$issueIdOrKey", null);
         $this->log->debug("getTimeTracking res=$ret\n");
@@ -597,14 +584,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * TimeTracking issues.
      *
-     * @param string|int   $issueIdOrKey Issue id or key
+     * @param string       $issueIdOrKey Issue id or key
      * @param TimeTracking $timeTracking
      *
      * @throws JiraException
      *
      * @return string
      */
-    public function timeTracking($issueIdOrKey, $timeTracking)
+    public function timeTracking(string $issueIdOrKey, TimeTracking $timeTracking): string
     {
         $array = [
             'update' => [
@@ -619,69 +606,112 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+        return $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+    }
 
-        return $ret;
+    /**
+     * get property.
+     *
+     * @param string   $issueIdOrKey
+     * @param Property $property
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return void
+     */
+    public function setProperty(string $issueIdOrKey, Property $property)
+    {
+        $this->log->info("setProperty=\n");
+
+        $data = json_encode($property->value);
+        $url = $this->uri."/$issueIdOrKey/properties/".$property->key;
+        $type = 'PUT';
+
+        $ret = $this->exec($url, $data, $type);
+    }
+
+    /**
+     * get property.
+     *
+     * @param string $issueIdOrKey
+     * @param string $property     the name of the property, e.g.com.railsware.SmartChecklist.checklist
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return Property
+     */
+    public function getProperty(string $issueIdOrKey, $property): Property
+    {
+        $ret = $this->exec($this->uri."/$issueIdOrKey/properties/".$property);
+
+        $this->log->debug("getProperty res=$ret\n");
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new Property()
+        );
     }
 
     /**
      * get getWorklog.
      *
-     * @param string|int $issueIdOrKey
-     * @param array      $paramArray   Possible keys for $paramArray: 'startAt', 'maxResults', 'startedAfter', 'expand'
+     * @param string $issueIdOrKey
+     * @param array  $paramArray   Possible keys for $paramArray: 'startAt', 'maxResults', 'startedAfter', 'expand'
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return PaginatedWorklog
      */
-    public function getWorklog($issueIdOrKey, array $paramArray = [])
+    public function getWorklog(string $issueIdOrKey, array $paramArray = []): PaginatedWorklog
     {
         $ret = $this->exec($this->uri."/$issueIdOrKey/worklog".$this->toHttpQueryParameter($paramArray));
+
         $this->log->debug("getWorklog res=$ret\n");
-        $worklog = $this->json_mapper->map(
+
+        return $this->json_mapper->map(
             json_decode($ret),
             new PaginatedWorklog()
         );
-
-        return $worklog;
     }
 
     /**
      * get getWorklog by Id.
      *
-     * @param string|int $issueIdOrKey
-     * @param int        $workLogId
+     * @param string $issueIdOrKey
+     * @param int    $workLogId
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return Worklog PaginatedWorklog object
      */
-    public function getWorklogById($issueIdOrKey, $workLogId)
+    public function getWorklogById(string $issueIdOrKey, int $workLogId): Worklog
     {
         $ret = $this->exec($this->uri."/$issueIdOrKey/worklog/$workLogId");
+
         $this->log->debug("getWorklogById res=$ret\n");
-        $worklog = $this->json_mapper->map(
+
+        return $this->json_mapper->map(
             json_decode($ret),
             new Worklog()
         );
-
-        return $worklog;
     }
 
     /**
      * add work log to issue.
      *
-     * @param string|int     $issueIdOrKey
-     * @param Worklog|object $worklog
+     * @param string  $issueIdOrKey
+     * @param Worklog $worklog
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return Worklog Worklog Object
      */
-    public function addWorklog($issueIdOrKey, $worklog)
+    public function addWorklog(string $issueIdOrKey, Worklog $worklog)
     {
         $this->log->info("addWorklog=\n");
 
@@ -691,27 +721,25 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($url, $data, $type);
 
-        $ret_worklog = $this->json_mapper->map(
+        return $this->json_mapper->map(
             json_decode($ret),
             new Worklog()
         );
-
-        return $ret_worklog;
     }
 
     /**
      * edit the worklog.
      *
-     * @param string|int     $issueIdOrKey
-     * @param Worklog|object $worklog
-     * @param string|int     $worklogId
+     * @param string  $issueIdOrKey
+     * @param Worklog $worklog
+     * @param int     $worklogId
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return Worklog
      */
-    public function editWorklog($issueIdOrKey, $worklog, $worklogId)
+    public function editWorklog(string $issueIdOrKey, Worklog $worklog, int $worklogId): Worklog
     {
         $this->log->info("editWorklog=\n");
 
@@ -721,25 +749,23 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($url, $data, $type);
 
-        $ret_worklog = $this->json_mapper->map(
+        return $this->json_mapper->map(
             json_decode($ret),
             new Worklog()
         );
-
-        return $ret_worklog;
     }
 
     /**
      * delete worklog.
      *
-     * @param string|int $issueIdOrKey
-     * @param string|int $worklogId
+     * @param string $issueIdOrKey
+     * @param int    $worklogId
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function deleteWorklog($issueIdOrKey, $worklogId)
+    public function deleteWorklog(string $issueIdOrKey, int $worklogId): bool
     {
         $this->log->info("deleteWorklog=\n");
 
@@ -758,67 +784,61 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Priority[] array of priority class
      */
-    public function getAllPriorities()
+    public function getAllPriorities(): ArrayObject
     {
         $ret = $this->exec('priority', null);
 
-        $priorities = $this->json_mapper->mapArray(
+        return $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            '\JiraRestApi\Issue\Priority'
+            Priority::class
         );
-
-        return $priorities;
     }
 
     /**
      * Get priority by id.
      * throws  HTTPException if the priority is not found, or the calling user does not have permission or view it.
      *
-     * @param string|int $priorityId Id of priority.
+     * @param int $priorityId Id of priority.
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return Priority priority
      */
-    public function getPriority($priorityId)
+    public function getPriority(int $priorityId): Priority
     {
         $ret = $this->exec("priority/$priorityId", null);
 
         $this->log->info('Result='.$ret);
 
-        $prio = $this->json_mapper->map(
+        return $this->json_mapper->map(
             json_decode($ret),
             new Priority()
         );
-
-        return $prio;
     }
 
     /**
      * Get priority by id.
      * throws HTTPException if the priority is not found, or the calling user does not have permission or view it.
      *
-     * @param string|int $priorityId Id of priority.
+     * @param int $priorityId Id of priority.
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
      * @return Priority priority
      */
-    public function getCustomFields($priorityId)
+    public function getCustomFields(int $priorityId): Priority
     {
         $ret = $this->exec("priority/$priorityId", null);
 
         $this->log->info('Result='.$ret);
 
-        $prio = $this->json_mapper->map(
+        return $this->json_mapper->map(
             json_decode($ret),
             new Priority()
         );
-
-        return $prio;
     }
 
     /**
@@ -831,7 +851,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return Reporter[]
      */
-    public function getWatchers(string $issueIdOrKey)
+    public function getWatchers(string $issueIdOrKey): ArrayObject
     {
         $this->log->info("getWatchers=\n");
 
@@ -839,26 +859,24 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $ret = $this->exec($url, null);
 
-        $watchers = $this->json_mapper->mapArray(
+        return $this->json_mapper->mapArray(
             json_decode($ret, false)->watchers,
             new \ArrayObject(),
-            '\JiraRestApi\Issue\Reporter'
+            Reporter::class
         );
-
-        return $watchers;
     }
 
     /**
      * add watcher to issue.
      *
-     * @param string|int $issueIdOrKey
-     * @param string     $watcher      watcher id
+     * @param string $issueIdOrKey
+     * @param string $watcher      watcher id
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function addWatcher($issueIdOrKey, $watcher)
+    public function addWatcher(string $issueIdOrKey, string $watcher): bool
     {
         $this->log->info("addWatcher=\n");
 
@@ -874,14 +892,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * remove watcher from issue.
      *
-     * @param string|int $issueIdOrKey
-     * @param string     $watcher      watcher id
+     * @param string $issueIdOrKey
+     * @param string $watcher      watcher id
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function removeWatcher($issueIdOrKey, $watcher)
+    public function removeWatcher(string $issueIdOrKey, string $watcher): bool
     {
         $this->log->debug("removeWatcher=\n");
 
@@ -895,14 +913,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * remove watcher from issue by watcher account id.
      *
-     * @param string|int $issueIdOrKey
-     * @param string     $accountId    Watcher account id.
+     * @param string $issueIdOrKey
+     * @param string $accountId    Watcher account id.
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function removeWatcherByAccountId($issueIdOrKey, $accountId)
+    public function removeWatcherByAccountId(string $issueIdOrKey, string $accountId): bool
     {
         $this->log->debug("removeWatcher=\n");
 
@@ -921,9 +939,9 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return object array of meta data for creating issues.
+     * @return object object of meta data for creating issues.
      */
-    public function getCreateMeta($paramArray = [], $expand = true)
+    public function getCreateMeta(array $paramArray = [], bool $expand = true): object
     {
         $paramArray['expand'] = ($expand) ? 'projects.issuetypes.fields' : null;
         $paramArray = array_filter($paramArray);
@@ -949,7 +967,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @see https://confluence.atlassian.com/jirakb/how-to-retrieve-available-options-for-a-multi-select-customfield-via-jira-rest-api-815566715.html How to retrieve available options for a multi-select customfield via JIRA REST API
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-editmeta-get
      */
-    public function getEditMeta($idOrKey, $overrideEditableFlag = false, $overrideScreenSecurity = false)
+    public function getEditMeta(string $idOrKey, bool $overrideEditableFlag = false, bool $overrideScreenSecurity = false): array
     {
         $queryParam = '?'.http_build_query([
             'overrideEditableFlag'   => $overrideEditableFlag,
@@ -975,14 +993,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Sends a notification (email) to the list or recipients defined in the request.
      *
-     * @param string|int $issueIdOrKey Issue id Or Key
-     * @param Notify     $notify
+     * @param string $issueIdOrKey Issue id Or Key
+     * @param Notify $notify
      *
      * @throws JiraException
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-notify
      */
-    public function notify($issueIdOrKey, $notify)
+    public function notify(string $issueIdOrKey, Notify $notify)
     {
         $full_uri = $this->uri."/$issueIdOrKey/notify";
 
@@ -1006,18 +1024,18 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get a remote issue links on the issue.
+     * Get all remote issue links on the issue.
      *
-     * @param string|int $issueIdOrKey Issue id Or Key
+     * @param string $issueIdOrKey Issue id Or Key
      *
      * @throws JiraException
      *
-     * @return array array os RemoteIssueLink class
+     * @return RemoteIssueLink[]
      *
      * @see https://developer.atlassian.com/server/jira/platform/jira-rest-api-for-remote-issue-links/
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/issue-getRemoteIssueLinks
      */
-    public function getRemoteIssueLink($issueIdOrKey)
+    public function getRemoteIssueLink(string $issueIdOrKey): ArrayObject
     {
         $full_uri = $this->uri."/$issueIdOrKey/remotelink";
 
@@ -1033,15 +1051,15 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param string|int      $issueIdOrKey
+     * @param string          $issueIdOrKey
      * @param RemoteIssueLink $ril
      *
-     * @throws JiraException
      * @throws \JsonMapper_Exception
+     * @throws JiraException
      *
-     * @return object
+     * @return RemoteIssueLink
      */
-    public function createOrUpdateRemoteIssueLink($issueIdOrKey, RemoteIssueLink $ril)
+    public function createOrUpdateRemoteIssueLink(string $issueIdOrKey, RemoteIssueLink $ril): RemoteIssueLink
     {
         $full_uri = $this->uri."/$issueIdOrKey/remotelink";
 
@@ -1060,14 +1078,14 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param string|int $issueIdOrKey
-     * @param string|int $globalId
+     * @param string $issueIdOrKey
+     * @param string $globalId
      *
      * @throws JiraException
      *
      * @return string|bool
      */
-    public function removeRemoteIssueLink($issueIdOrKey, $globalId)
+    public function removeRemoteIssueLink(string $issueIdOrKey, string $globalId): string|bool
     {
         $query = http_build_query(['globalId' => $globalId]);
 
@@ -1095,7 +1113,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return SecurityScheme[] array of SecurityScheme class
      */
-    public function getAllIssueSecuritySchemes()
+    public function getAllIssueSecuritySchemes(): ArrayObject
     {
         $url = '/issuesecurityschemes';
 
@@ -1109,7 +1127,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $res = $this->json_mapper->mapArray(
             $schemes,
             new \ArrayObject(),
-            '\JiraRestApi\Issue\SecurityScheme'
+            SecurityScheme::class
         );
 
         return $res;
@@ -1118,14 +1136,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      *  get issue security scheme.
      *
-     * @param int $securityId security scheme id
+     * @param string $securityId security scheme id
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
      * @return SecurityScheme SecurityScheme
      */
-    public function getIssueSecuritySchemes($securityId)
+    public function getIssueSecuritySchemes(string $securityId): SecurityScheme
     {
         $url = '/issuesecurityschemes/'.$securityId;
 
@@ -1142,24 +1160,28 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove labels.
      *
-     * @param string|int $issueIdOrKey
-     * @param array|null $addLablesParam
-     * @param array|null $removeLabelsParam
-     * @param bool       $notifyUsers
+     * @param string $issueIdOrKey
+     * @param array  $addLablesParam
+     * @param array  $removeLabelsParam
+     * @param bool   $notifyUsers
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function updateLabels($issueIdOrKey, $addLablesParam, $removeLabelsParam, $notifyUsers = true)
+    public function updateLabels(string $issueIdOrKey, array $addLablesParam = [], array $removeLabelsParam = [], bool $notifyUsers = true): bool
     {
         $labels = [];
-        foreach ($addLablesParam as $a) {
-            array_push($labels, ['add' => $a]);
+        if (count($addLablesParam) > 0) {
+            foreach ($addLablesParam as $a) {
+                $labels[] = ['add' => $a];
+            }
         }
 
-        foreach ($removeLabelsParam as $r) {
-            array_push($labels, ['remove' => $r]);
+        if (count($removeLabelsParam) > 0) {
+            foreach ($removeLabelsParam as $r) {
+                $labels[] = ['remove' => $r];
+            }
         }
 
         $postData = json_encode([
@@ -1170,7 +1192,10 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $this->log->info("Update labels=\n".$postData);
 
-        $queryParam = '?'.http_build_query(['notifyUsers' => $notifyUsers]);
+        $queryParam = '';
+        if (!$notifyUsers) {
+            $queryParam = '?'.http_build_query(['notifyUsers' => 'false']);
+        }
 
         $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
 
@@ -1180,24 +1205,28 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * convenient wrapper function for add or remove fix versions.
      *
-     * @param string|int $issueIdOrKey
-     * @param array|null $addFixVersionsParam
-     * @param array|null $removeFixVersionsParam
-     * @param bool       $notifyUsers
+     * @param string $issueIdOrKey
+     * @param array  $addFixVersionsParam
+     * @param array  $removeFixVersionsParam
+     * @param bool   $notifyUsers
      *
      * @throws JiraException
      *
      * @return bool
      */
-    public function updateFixVersions($issueIdOrKey, $addFixVersionsParam, $removeFixVersionsParam, $notifyUsers = true)
+    public function updateFixVersions(string $issueIdOrKey, array $addFixVersionsParam, array $removeFixVersionsParam, bool $notifyUsers = true): bool
     {
         $fixVersions = [];
-        foreach ($addFixVersionsParam as $a) {
-            array_push($fixVersions, ['add' => ['name' => $a]]);
+        if (count($addFixVersionsParam) > 0) {
+            foreach ($addFixVersionsParam as $a) {
+                $fixVersions[] = ['add' => ['name' => $a]];
+            }
         }
 
-        foreach ($removeFixVersionsParam as $r) {
-            array_push($fixVersions, ['remove' => ['name' => $r]]);
+        if (count($removeFixVersionsParam) > 0) {
+            foreach ($removeFixVersionsParam as $r) {
+                $fixVersions[] = ['remove' => ['name' => $r]];
+            }
         }
 
         $postData = json_encode([
@@ -1218,14 +1247,14 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * find transition id by transition's untranslatedName.
      *
-     * @param string|int $issueIdOrKey
-     * @param string     $untranslatedName
+     * @param string $issueIdOrKey
+     * @param string $untranslatedName
      *
      * @throws JiraException
      *
      * @return string
      */
-    public function findTransitonIdByUntranslatedName($issueIdOrKey, $untranslatedName)
+    public function findTransitonIdByUntranslatedName(string $issueIdOrKey, string $untranslatedName): string
     {
         $this->log->debug('findTransitonIdByUntranslatedName=');
 

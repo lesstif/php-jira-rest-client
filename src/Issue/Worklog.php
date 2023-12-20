@@ -66,12 +66,17 @@ class Worklog
      */
     public $visibility;
 
+    public string $issueId;
+
+    public string $created;
+
     /**
      * Function to serialize obj vars.
      *
      * @return array
      */
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

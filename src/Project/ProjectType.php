@@ -8,18 +8,13 @@ class ProjectType
 {
     use ClassSerialize;
 
-    /** @var string */
-    public $key;
+    public string $key;
 
-    /** @var string */
-    public $formattedKey;
+    public string $formattedKey;
 
-    /** @var string */
-    public $descriptionI18nKey;
+    public string $descriptionI18nKey;
 
-    /** @var string */
-    public $icon;
+    public string $icon;
 
-    /** @var string */
-    public $color;
+    public string $color;
 }
