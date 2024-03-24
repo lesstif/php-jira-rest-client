@@ -822,22 +822,26 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get priority by id.
      * throws HTTPException if the priority is not found, or the calling user does not have permission or view it.
      *
-     * @param int $priorityId Id of priority.
+     * @param $paramArray array parameters
      *
      * @throws \JsonMapper_Exception
      * @throws JiraException
      *
-     * @return Priority priority
+     * @return CustomFieldSearchResult array of CustomeFiled
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/9.14.0/#api/2/customFields-getCustomFields
      */
-    public function getCustomFields(int $priorityId): Priority
+    public function getCustomFields(array $paramArray = []): CustomFieldSearchResult
     {
-        $ret = $this->exec("priority/$priorityId", null);
+        $ret = $this->exec("customFields".$this->toHttpQueryParameter($paramArray), null);
 
         $this->log->info('Result='.$ret);
 
+        //\JiraRestApi\Dumper::dd(json_decode($ret, false));
+
         return $this->json_mapper->map(
-            json_decode($ret),
-            new Priority()
+            json_decode($ret, false),
+            new CustomFieldSearchResult()
         );
     }
 

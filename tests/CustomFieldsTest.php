@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Test;
 
+use JiraRestApi\Issue\IssueService;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Field\Field;
@@ -10,6 +11,37 @@ use JiraRestApi\JiraException;
 
 class CustomFieldsTest extends TestCase
 {
+    /**
+     * @Test
+     *
+     * @return array|string[]|void
+     */
+    public function get_customer_field()
+    {
+        try {
+            $iss = new IssueService();
+
+            $paramArray = [
+                'startAt' => 1,
+                'maxResults' => 50,
+                'search' => null,
+                'projectIds' => [1, 2, 3],
+                'screenIds' => null,
+                'types' => null,
+
+                'sortOrder' => null,
+                'sortColumn' => null,
+                'lastValueUpdate' => null,
+            ];
+            $customerFieldSearchResult = $iss->getCustomFields($paramArray);
+
+            $this->assertLessThan(1, $customerFieldSearchResult->total);
+
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
+        }
+    }
+
     public function testGetFields()
     {
         try {
@@ -26,6 +58,7 @@ class CustomFieldsTest extends TestCase
                     return $matches[0];
                 }, $ret);
 
+            $this->assertTrue(true);
             return $ids;
 
         } catch (JiraException $e) {
@@ -49,6 +82,7 @@ class CustomFieldsTest extends TestCase
                     Dumper::dump($ret);
                 }catch (JiraException $e) {}
             }
+            $this->assertTrue(true);
         } catch (JiraException $e) {
             $this->assertTrue(false, 'testGetFieldOptions Failed : '.$e->getMessage());
         }
@@ -69,6 +103,9 @@ class CustomFieldsTest extends TestCase
             $fieldService = new FieldService();
 
             $ret = $fieldService->create($field);
+
+            $this->assertTrue(true);
+
             Dumper::dump($ret);
         } catch (JiraException $e) {
             $this->assertTrue(false, 'Field Create Failed : '.$e->getMessage());

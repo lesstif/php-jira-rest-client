@@ -484,11 +484,14 @@ class JiraClient
     /**
      * convert to query array to http query parameter.
      */
-    public function toHttpQueryParameter(array $paramArray): string
+    public function toHttpQueryParameter(array $paramArray, bool $dropNullKey = true): string
     {
         $queryParam = '?';
 
         foreach ($paramArray as $key => $value) {
+            if ($dropNullKey === true && empty($value)) {
+                continue;
+            }
             $v = null;
 
             // some param field(Ex: expand) type is array.
