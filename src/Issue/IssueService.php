@@ -833,7 +833,7 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function getCustomFields(array $paramArray = []): CustomFieldSearchResult
     {
-        $ret = $this->exec("customFields".$this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec('customFields'.$this->toHttpQueryParameter($paramArray), null);
 
         $this->log->info('Result='.$ret);
 
