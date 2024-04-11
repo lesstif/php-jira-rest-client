@@ -197,6 +197,8 @@ class JiraClient
 
         curl_reset($this->curl);
         $ch = $this->curl;
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->configuration->getTimeout());
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->configuration->getTimeout());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
 
