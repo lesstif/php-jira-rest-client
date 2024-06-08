@@ -47,7 +47,7 @@ class BoardService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get list of boards with paginated results
+     * Get list of boards with paginated results.
      *
      * @param array $paramArray
      *

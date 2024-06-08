@@ -3,7 +3,7 @@
 namespace JiraRestApi\Board;
 
 /**
- * Result object for BoardService::getBoards()
+ * Result object for BoardService::getBoards().
  */
 class BoardResult
 {
