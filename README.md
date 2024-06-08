@@ -2470,6 +2470,43 @@ try {
 }
 
 ```
+
+#### Get boards
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-get)
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Board\BoardService;
+
+try {
+  $results = [];
+  $startAt = 0;
+  $maxResults = 50; // maximum allowed for board queries
+
+  do {
+      $response = $this->boardService->getBoards([
+        'startAt' => $startAt,
+        'maxResults' => $maxResults
+      ]);
+
+      $results = [...$results, ...$response->getBoards()];
+
+      $startAt += $maxResults;
+
+  } while($startAt < $response->total);
+  
+  var_dump($results);
+  
+} catch (JiraRestApi\JiraException $e) {
+    print('Error Occured! ' . $e->getMessage());
+}
+
+```
+
+
+
 #### Get board info
 [See Jira API reference](https://developer.atlassian.com/cloud/jira/software/rest/#api-rest-agile-1-0-board-boardId-get)
 
