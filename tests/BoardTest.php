@@ -44,6 +44,31 @@ class BoardTest extends TestCase
     /**
      * @test
      *
+     * Test we can obtain the paginated board list.
+     */
+    public function get_boards() : string
+    {
+        $board_service = new BoardService();
+
+        $board_list = $board_service->getBoards();
+        $this->assertInstanceOf(BoardResult::class, $board_list, 'We receive a board list.');
+
+        $last_board_id = null;
+        foreach ($board_list->getBoards() as $board) {
+            $this->assertInstanceOf(Board::class, $board, 'Each element of the list is a Board instance.');
+            $this->assertNotNull($board->self, 'self must not null');
+            $this->assertNotNull($board->name, 'name must not null');
+            $this->assertNotNull($board->type, 'type must not null');
+
+            $last_board_id = $board->id;
+        }
+
+        return $last_board_id;
+    }
+
+    /**
+     * @test
+     *
      * @depends get_all_boards
      *
      * Test we can obtain a single board.
