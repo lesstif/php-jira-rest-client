@@ -3,9 +3,9 @@
 namespace JiraRestApi\Board;
 
 /**
- * Result object for BoardService::getBoards().
+ * Paginated Result object for BoardService
  */
-class BoardResult
+class PaginatedResult
 {
     /**
      * @var string
@@ -28,7 +28,7 @@ class BoardResult
     public $total;
 
     /**
-     * @var \JiraRestApi\Board\Board[]
+     * @var array
      */
     public $values;
 
@@ -86,27 +86,27 @@ class BoardResult
     }
 
     /**
-     * @return Board[]
+     * @return array
      */
-    public function getBoards()
+    public function getValues()
     {
         return $this->values;
     }
 
     /**
-     * @param Board[] $boards
+     * @param array $values
      */
-    public function setBoards($boards)
+    public function setValues($values)
     {
-        $this->values = $boards;
+        $this->values = $values;
     }
 
     /**
      * @param int $index
      *
-     * @return Board
+     * @return mixed
      */
-    public function getBoard($index)
+    public function getValue($index)
     {
         return $this->values[$index];
     }
