@@ -369,6 +369,33 @@ class RequestServiceTest extends TestCase
         self::assertSame($item->timeSpent, $result->timeSpent);
     }
 
+	public function testGetWorklogsByIds(): void
+	{
+		$item1 = new stdClass();
+		$item1->id = 25;
+		$item1->timeSpent = '2 hours';
+
+		$item2 = new stdClass();
+		$item2->id = 50;
+		$item2->timeSpent = '2 hours';
+
+
+		$items = [
+			$item1,
+			$item2,
+		];
+
+		$this->client->method('exec')
+			->with("/worklog/list", json_encode(['ids' => [25, 50]]), 'POST')
+			->willReturn(json_encode($items));
+
+		$result = $this->uut->getWorklogsByIds([25, 50]);
+
+		self::assertSame(2, count($result));
+		self::assertSame($item1->timeSpent, $result[0]->timeSpent);
+
+	}
+
     public function testAddWorklog(): void
     {
         $item = $this->createWorkflow(25, '2 hours');
