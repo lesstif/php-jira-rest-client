@@ -12,9 +12,9 @@ trait ClassSerialize
      *
      * @return array
      */
-    public function toArray(array $ignoreProperties = [], bool $excludeMode = true): array
+    public function toArray($ignoreProperties = [], $excludeMode = true)
     {
-        $tmp = get_object_vars($this);
+        $tmp = (get_object_vars($this));
         $retAr = null;
 
         foreach ($tmp as $key => $value) {
@@ -40,7 +40,7 @@ trait ClassSerialize
      *
      * @return string
      */
-    public function toString(array $ignoreProperties = [], bool $excludeMode = true): string
+    public function toString($ignoreProperties = [], $excludeMode = true)
     {
         $ar = $this->toArray($ignoreProperties, $excludeMode);
 

@@ -2,9 +2,6 @@
 
 namespace JiraRestApi\Test;
 
-use DateInterval;
-use DateTime;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;
@@ -15,50 +12,36 @@ use JiraRestApi\JiraException;
 
 class IssueTest extends TestCase
 {
-    /**
-     * @test
-     * @return void
-     */
     public function testIssue()
     {
         $this->markTestIncomplete();
         try {
             $issueService = new IssueService();
 
-            $issue = $issueService->get('TEST-702');
+            $issue = $issueService->get('TEST-867');
 
             file_put_contents('jira-issue.json', json_encode($issue, JSON_PRETTY_PRINT));
 
             print_r($issue->fields->versions[0]);
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
+        } catch (HTTPException $e) {
+            $this->assertTrue(false, $e->getMessage());
         }
     }
 
-    /**
-     * @test
-     * @return string
-     */
-    public function create_issue() : string
+    public function testCreateIssue()
     {
         try {
             $issueField = new IssueField();
 
-            $due = (new DateTime('NOW'))->add(DateInterval::createFromDateString('1 month 5 day'));
-
             $issueField->setProjectKey('TEST')
                         ->setSummary("something's wrong")
-                        ->setAssigneeNameAsString('lesstif')
-                        ->setPriorityNameAsString('Critical')
-                        ->setIssueTypeAsString('Bug')
+                        ->setAssigneeName('lesstif')
+                        ->setPriorityName('Critical')
+                        ->setIssueType('Bug')
                         ->setDescription('Full description for issue')
-                        ->addVersionAsArray(['1.0.1', '1.0.3'])
-                        //->addComponentsAsArray(['Component-1', 'Component-2'])
-                        ->addComponentAsString('Component-1')
-                        ->setDueDateAsDateTime(
-                            (new DateTime('NOW'))->add(DateInterval::createFromDateString('1 month 5 day'))
-                        )
-                        //->setDueDateAsString('2022-10-03')
+                        ->addVersion(['1.0.1', '1.0.3'])
+                        ->addComponents(['Component-1', 'Component-2'])
+                        ->setDueDate('2019-06-19')
             ;
 
             $issueService = new IssueService();
@@ -66,23 +49,23 @@ class IssueTest extends TestCase
             $ret = $issueService->create($issueField);
 
             //If success, Returns a link to the created issue.
-            print_r($ret);
+            //print_r($ret);
 
             $issueKey = $ret->{'key'};
 
             $this->assertNotNull($issueKey);
 
             return $issueKey;
-        } catch (Exception $e) {
-            $this->fail('Create Failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends create_issue
+     * @depends testCreateIssue
+     * @param $issueKey
      */
-    public function get_created_issue(string $issueKey) : string
+    public function testIssueGet($issueKey)
     {
         try {
             $issueService = new IssueService();
@@ -97,59 +80,27 @@ class IssueTest extends TestCase
             $this->assertNotNull($ret->fields->issuetype);
 
             return $issueKey;
-        } catch (Exception $e) {
-            $this->fail('Create Failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends get_created_issue
+     * @depends testIssueGet
      */
-    public function update_issue(string $subTaskIssueKey) :string
-    {
-        //$this->markTestIncomplete();
-        try {
-            $issueField = new IssueField(true);
-
-            $issueField->setAssigneeNameAsString('lesstif')
-                ->setPriorityNameAsString('Major')
-                ->setIssueTypeAsString('Task')
-                ->addLabelAsString('test-label-first')
-                ->addLabelAsString('test-label-second')
-                ->addVersionAsString('1.0.1')
-                ->addVersionAsArray(['1.0.2'])
-                ->setDescription('This is a shorthand for a set operation on the summary field');
-
-            $issueService = new IssueService();
-
-            $issueService->update($subTaskIssueKey, $issueField);
-
-            $this->assertNotNull($subTaskIssueKey);
-
-            return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('update Failed : ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     * @depends update_issue
-     */
-    public function create_subTask_issue(string $issueKey) :string
+    public function testCreateSubTask($issueKey)
     {
         try {
             $issueField = new IssueField();
 
             $issueField->setProjectKey('TEST')
                 ->setSummary("Subtask - something's wrong")
-                ->setAssigneeNameAsString('lesstif')
-                ->setPriorityNameAsString('Critical')
+                ->setAssigneeName('lesstif')
+                ->setPriorityName('Critical')
                 ->setDescription('Subtask - Full description for issue')
-                ->addVersionAsString('1.0.1')
-                ->addVersionAsString('1.0.3')
-                ->setIssueTypeAsString('Sub-task')
+                ->addVersion('1.0.1')
+                ->addVersion('1.0.3')
+                ->setIssueType('Sub-task')
                 ->setParentKeyOrId($issueKey);
 
             $issueService = new IssueService();
@@ -161,16 +112,15 @@ class IssueTest extends TestCase
             $this->assertNotNull($subTaskIssueKey);
 
             return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('Create Failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends create_subTask_issue
+     * @depends testCreateSubTask
      */
-    public function get_created_subtask_issue(string $subTaskIssueKey) : string
+    public function testGetSubTask($subTaskIssueKey)
     {
         try {
             $issueService = new IssueService();
@@ -181,19 +131,18 @@ class IssueTest extends TestCase
 
             $this->assertNotNull($issueKey);
             $this->assertNotNull($ret->fields->summary);
-            //$this->assertEquals('Sub-task', $ret->fields->issuetype->name);
+            $this->assertEquals('Sub-task', $ret->fields->issuetype->name);
 
             return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('Create Failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends get_created_subtask_issue
+     * @depends testGetSubTask
      */
-    public function add_attachment_on_subtask_issue(string $subTaskIssueKey) :string
+    public function testAddAttachment($subTaskIssueKey)
     {
         try {
             $files = [
@@ -211,16 +160,45 @@ class IssueTest extends TestCase
             $this->assertSameSize($files, $ret);
 
             return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('Attach Failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Attach Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends add_attachment_on_subtask_issue
+     * @depends testAddAttachment
      */
-    public function change_assignee(string $subTaskIssueKey) :string
+    public function testUpdateIssue($subTaskIssueKey)
+    {
+        //$this->markTestIncomplete();
+        try {
+            $issueField = new IssueField(true);
+
+            $issueField->setAssigneeName('lesstif')
+                        ->setPriorityName('Major')
+                        //->setIssueType('Task')
+                        ->addLabel('test-label-first')
+                        ->addLabel('test-label-second')
+                        ->addVersion('1.0.1')
+                        ->addVersion('1.0.2')
+                        ->setDescription('This is a shorthand for a set operation on the summary field');
+
+            $issueService = new IssueService();
+
+            $issueService->update($subTaskIssueKey, $issueField);
+
+            $this->assertNotNull($subTaskIssueKey);
+
+            return $subTaskIssueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'update Failed : '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @depends testUpdateIssue
+     */
+    public function testChangeAssignee($subTaskIssueKey)
     {
         try {
             $issueService = new IssueService();
@@ -232,16 +210,15 @@ class IssueTest extends TestCase
             $this->assertNotNull($subTaskIssueKey);
 
             return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('Change assignee failed : ' . $e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'Change assignee failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends change_assignee
+     * @depends testChangeAssignee
      */
-    public function delete_issue(string $subTaskIssueKey) :string
+    public function testDeleteIssue($subTaskIssueKey)
     {
         $this->markTestSkipped();
 
@@ -253,16 +230,15 @@ class IssueTest extends TestCase
             print_r($ret);
 
             return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('delete issue failed : '.$e->getMessage());
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'delete issue failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends change_assignee
+     * @depends testChangeAssignee
      */
-    public function add_comments(string $subTaskIssueKey) :string
+    public function testAddcomment($issueKey)
     {
         //$this->markTestIncomplete();
         try {
@@ -277,24 +253,22 @@ Adds a new comment to an issue.
 COMMENT;
 
             $comment->setBody($body)
-                ->setVisibilityAsString('role', 'Users');
+                ->setVisibility('role', 'Users');
 
             $issueService = new IssueService();
-            $ret = $issueService->addComment($subTaskIssueKey, $comment);
+            $ret = $issueService->addComment($issueKey, $comment);
             print_r($ret);
-            $this->assertNotNull($ret);
 
-            return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('add Comment Failed : ' . $e->getMessage());
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'add Comment Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends add_comments
+     * @depends testAddcomment
      */
-    public function testTransition(string $subTaskIssueKey) : string
+    public function testTransition($issueKey)
     {
         try {
             $transition = new Transition();
@@ -302,38 +276,32 @@ COMMENT;
             $transition->setCommentBody('Issue close by REST API.');
 
             $issueService = new IssueService();
-            $ret = $issueService->transition($subTaskIssueKey, $transition);
+            $ret = $issueService->transition($issueKey, $transition);
 
-            $this->assertNotNull($ret);
-
-            return $subTaskIssueKey;
-        } catch (Exception $e) {
-            $this->fail('testTransition Failed : ' . $e->getMessage());
+            return $issueKey;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testTransition Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends add_comments
+     * @depends testTransition
      */
-    public function issue_search()
+    public function testSearch()
     {
         $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resolved, closed)';
         try {
             $issueService = new IssueService();
 
             $ret = $issueService->search($jql);
-            $this->assertNotNull($ret);
-
-            // Dumper::dump($ret);
-        } catch (Exception $e) {
-            $this->fail('testSearch Failed : ' . $e->getMessage());
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }
 
     /**
-     * @test
-     * @depends issue_search
+     * @depends testSearch
      */
     public function testCustomField()
     {
@@ -342,11 +310,9 @@ COMMENT;
             $issueService = new IssueService();
 
             $ret = $issueService->search($jql);
-            $this->assertNotNull($ret);
-
-            //Dumper::dump($ret);
-        } catch (Exception $e) {
-            $this->fail('testSearch Failed : ' . $e->getMessage());
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
         }
     }
 }

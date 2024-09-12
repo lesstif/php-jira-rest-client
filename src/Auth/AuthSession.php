@@ -18,8 +18,7 @@ class AuthSession implements \JsonSerializable
      */
     public $loginInfo;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }

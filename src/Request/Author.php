@@ -22,8 +22,7 @@ class Author implements \JsonSerializable
     /** @var string */
     public $timeZone;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }

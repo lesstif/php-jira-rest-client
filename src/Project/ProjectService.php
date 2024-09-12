@@ -2,7 +2,6 @@
 
 namespace JiraRestApi\Project;
 
-use JiraRestApi\Component\Component;
 use JiraRestApi\Issue\IssueType;
 use JiraRestApi\Issue\Reporter;
 use JiraRestApi\Issue\Version;
@@ -21,14 +20,14 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project[] array of Project class
      */
-    public function getAllProjects($paramArray = []): \ArrayObject
+    public function getAllProjects($paramArray = [])
     {
         $ret = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
 
         $prjs = $this->json_mapper->mapArray(
             json_decode($ret, false),
             new \ArrayObject(),
-            Project::class
+            '\JiraRestApi\Project\Project'
         );
 
         return $prjs;
@@ -45,7 +44,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project
      */
-    public function get($projectIdOrKey): Project
+    public function get($projectIdOrKey)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey", null);
 
@@ -63,13 +62,13 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get assignable Users for a given project.
      * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
      *
-     * @param int|string $projectIdOrKey Project Key
+     * @param string|int $projectIdOrKey Project Key
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return Reporter[]
      */
-    public function getAssignable(int|string $projectIdOrKey): array
+    public function getAssignable($projectIdOrKey)
     {
         $ret = $this->exec("/user/assignable/search?project=$projectIdOrKey", null);
         $json = json_decode($ret);
@@ -81,13 +80,13 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param int|string $projectIdOrKey
+     * @param string|int $projectIdOrKey
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return IssueType[]
      */
-    public function getStatuses(int|string $projectIdOrKey): array
+    public function getStatuses($projectIdOrKey)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
@@ -99,36 +98,16 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * Get the Components defined in a Jira Project.
-     *
-     * @param int|string $projectIdOrKey
-     *
-     * @throws \JiraRestApi\JiraException
-     *
-     * @return \JiraRestApi\Component\Component[]
-     */
-    public function getProjectComponents(int|string $projectIdOrKey): array
-    {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/components", null);
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
-            return $this->json_mapper->map($elem, new Component());
-        }, $json);
-
-        return $results;
-    }
-
-    /**
      * make transition info array for project issue transition.
      *
-     * @param int|string $projectIdOrKey
+     * @param string|int $projectIdOrKey
      *
      * @throws JiraException
      *
      * @return array
      * @return array
      */
-    public function getProjectTransitionsToArray(int|string $projectIdOrKey): array
+    public function getProjectTransitionsToArray($projectIdOrKey)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
         $json = json_decode($ret);
@@ -157,7 +136,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return ProjectType[]
      */
-    public function getProjectTypes(): array
+    public function getProjectTypes()
     {
         $ret = $this->exec($this->uri.'/type');
 
@@ -172,14 +151,14 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param int|string $key
+     * @param string|int $key
      *
-     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
      *
      * @return ProjectType
      */
-    public function getProjectType(int|string $key): ProjectType
+    public function getProjectType($key)
     {
         $ret = $this->exec($this->uri."/type/$key");
 
@@ -194,14 +173,14 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param int|string $key
+     * @param string|int $key
      *
-     * @throws \JsonMapper_Exception
      * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
      *
      * @return ProjectType
      */
-    public function getAccessibleProjectType(int|string $key): ProjectType
+    public function getAccessibleProjectType($key)
     {
         $ret = $this->exec($this->uri."/type/$key/accessible");
 
@@ -218,14 +197,14 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * get pagenated Project versions.
      *
-     * @param int|string $projectIdOrKey
+     * @param string|int $projectIdOrKey
      * @param array      $queryParam
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return Version[] array of version
      */
-    public function getVersionsPagenated(int|string $projectIdOrKey, array $queryParam = []): \ArrayObject
+    public function getVersionsPagenated($projectIdOrKey, $queryParam = [])
     {
         $default = [
             'startAt'    => 0,
@@ -257,8 +236,14 @@ class ProjectService extends \JiraRestApi\JiraClient
 
     /**
      * get specified's project versions.
+     *
+     * @param string|int $projectIdOrKey
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return Version[] array of version
      */
-    public function getVersions(string $projectIdOrKey): \ArrayObject
+    public function getVersions($projectIdOrKey)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
@@ -276,14 +261,14 @@ class ProjectService extends \JiraRestApi\JiraClient
     /**
      * get specified's project version.
      *
-     * @param int|string $projectIdOrKey
+     * @param string|int $projectIdOrKey
      * @param string     $versionName
      *
      * @throws \JiraRestApi\JiraException
      *
      * @return Version version
      */
-    public function getVersion(int|string $projectIdOrKey, string $versionName): Version
+    public function getVersion($projectIdOrKey, $versionName)
     {
         $ret = $this->exec($this->uri."/$projectIdOrKey/versions");
 
@@ -313,7 +298,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @return Project project
      */
-    public function createProject(Project $project): Project
+    public function createProject($project)
     {
         $data = json_encode($project);
 
@@ -335,12 +320,12 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @param Project $project
      *
-     * @throws \JsonMapper_Exception
      * @throws JiraException
+     * @throws \JsonMapper_Exception
      *
-     * @return Project
+     * @return Project project
      */
-    public function updateProject(Project $project, string|int $projectIdOrKey): Project
+    public function updateProject($project, $projectIdOrKey)
     {
         $data = json_encode($project);
 
@@ -355,7 +340,7 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * @param int|string $projectIdOrKey
+     * @param string $projectIdOrKey
      *
      * @throws JiraException
      *
@@ -366,17 +351,17 @@ class ProjectService extends \JiraRestApi\JiraClient
      * STATUS 403 - Returned if the currently authenticated user does not have permission to delete the project.
      * STATUS 404 - Returned if the project does not exist.
      */
-    public function deleteProject(int|string $projectIdOrKey): string
+    public function deleteProject($projectIdOrKey)
     {
         $ret = $this->exec($this->uri.'/'.$projectIdOrKey, null, 'DELETE');
 
         return $ret;
     }
-
-    /**
-     * Archive a project only available for premium subscription.
+    
+     /**
+     * Archive a project only available for premium subscription
      *
-     * @param int|string $projectIdOrKey
+     * @param string $projectIdOrKey
      *
      * @throws JiraException
      *
@@ -388,55 +373,11 @@ class ProjectService extends \JiraRestApi\JiraClient
      * STATUS 404 - Returned if the project does not exist.
      * STATUS 405 - Method not allowed specified request HTTP method was received and recognized by the server, but is not supported by the target resource.
      */
-    public function archiveProject(int|string $projectIdOrKey): string
+    public function archiveProject($projectIdOrKey)
     {
-        $ret = $this->exec($this->uri.'/'.$projectIdOrKey.'/archive', null, 'PUT');
+        $ret = $this->exec($this->uri . '/' . $projectIdOrKey . '/archive', null, 'PUT');
 
         return $ret;
     }
-
-    /**
-     * Get all the Roles of a Jira Project.
-     *
-     * @param int|string $projectIdOrKey
-     *
-     * @throws JiraException
-     *
-     * @return string
-     */
-    public function getRolesOfProject(int|string $projectIdOrKey): string
-    {
-        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role', null, 'PUT');
-    }
-
-    /**
-     * Assign a Role to a Project.
-     *
-     * @param int|string $projectIdOrKey
-     * @param int        $roleId
-     *
-     * @throws JiraException
-     *
-     * @return string
-     */
-    public function assignRoleToProject(int|string $projectIdOrKey, int $roleId): string
-    {
-        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'.$roleId, null, 'PUT');
-    }
-
-    /**
-     * Add Role Actor to a Project Role.
-     *
-     * @param int|string $projectIdOrKey
-     * @param int        $roleId
-     * @param string     $actor
-     *
-     * @throws JiraException
-     *
-     * @return string
-     */
-    public function addProjectRoleActors(int|string $projectIdOrKey, int $roleId, string $actor): string
-    {
-        return $this->exec($this->uri.'/'.$projectIdOrKey.'/role/'.$roleId, $actor, 'POST');
-    }
+    
 }

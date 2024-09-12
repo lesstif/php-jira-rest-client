@@ -14,9 +14,9 @@ namespace JiraRestApi\Issue;
  */
 class JqlFunction
 {
-    public $expression;
+    public $expression = '';
 
-    public function __construct($expression = '')
+    public function __construct($expression)
     {
         $this->expression = $expression;
     }
@@ -36,13 +36,13 @@ class JqlFunction
      * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-approverapprover()
      *      jql function reference
      *
-     * @param string,... $users
+     * @param string $user
      *
      * @return JqlFunction
      */
-    public static function approver(...$users)
+    public static function approver($user)
     {
-        return new self('approver('.implode(', ', $users).')');
+        return new self('approver('.implode(', ', func_get_args()).')');
     }
 
     /**
@@ -239,35 +239,19 @@ class JqlFunction
     }
 
     /**
-     * Searches for epics and subtasks. If the issue is not an epic, the search returns all subtasks for the issue.
-     *
-     * @param $issueKey
-     *
-     * @return JqlFunction
-     */
-    public static function linkedissue($issueKey)
-    {
-        $expression = "linkedissue = $issueKey";
-
-        return new self($expression);
-    }
-
-    /**
-     * Searches for issues that are linked to an issue. You can restrict the search to links of a particular type.
-     *
-     * @see https://support.atlassian.com/jira-work-management/docs/advanced-search-reference-jql-functions/#Advancedsearchingfunctionsreference-linkedIssueslinkedIssues--
+     * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-linkedIssueslinkedIssues()
+     *      jql function reference
      *
      * @param string      $issueKey
-     * @param string      $supportedOperator     Supported operators IN or NOT IN
-     * @param null|string $caseSensitiveLinkType
+     * @param null|string $linkType
      *
      * @return JqlFunction
      */
-    public static function linkedIssues($issueKey, $supportedOperator = 'IN', $caseSensitiveLinkType = null)
+    public static function linkedIssues($issueKey, $linkType = null)
     {
-        $expression = "issue $supportedOperator linkedIssues($issueKey";
-        if ($caseSensitiveLinkType !== null) {
-            $expression .= ', \''.$caseSensitiveLinkType.'\'';
+        $expression = "cascadeOption($issueKey";
+        if ($linkType !== null) {
+            $expression .= ', '.JqlQuery::quote($linkType);
         }
         $expression .= ')';
 
@@ -346,13 +330,13 @@ class JqlFunction
      * @see https://confluence.atlassian.com/jiracoreserver073/advanced-searching-functions-reference-861257222.html#Advancedsearching-functionsreference-approvedpendingBy()
      *      jql function reference
      *
-     * @param string,... $users
+     * @param string $user
      *
      * @return JqlFunction
      */
-    public static function pendingBy(...$users)
+    public static function pendingBy($user)
     {
-        return new self('pendingBy('.implode(', ', $users).')');
+        return new self('pendingBy('.implode(', ', func_get_args()).')');
     }
 
     /**

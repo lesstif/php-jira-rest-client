@@ -2,54 +2,56 @@
 
 namespace JiraRestApi\Issue;
 
-use DateTimeInterface;
-
 class Version implements \JsonSerializable
 {
-    public string $self;
+    /** @var string */
+    public $self;
 
-    public string $id;
+    /** @var string */
+    public $id;
 
-    // Version name: ex: 4.2.3
-    public string $name;
+    /** @var string Version name: ex: 4.2.3 */
+    public $name;
 
-    // version description: ex; improvement performance
-    public ?string $description = null;
+    /** @var string|null version description: ex; improvement performance */
+    public $description;
 
-    public bool $archived;
+    /** @var bool */
+    public $archived;
 
-    public bool $released;
+    /** @var bool */
+    public $released;
 
-    public ?string $releaseDate = null;
+    /** @var \DateTimeInterface|null */
+    public $releaseDate;
 
-    public bool $overdue = false;
+    /** @var bool */
+    public $overdue;
 
-    public ?string $userReleaseDate = null;
+    /** @var string|null */
+    public $userReleaseDate;
 
-    public int $projectId;
+    /** @var int */
+    public $projectId;
 
-    public ?string $startDate = null;
-    public ?string $userStartDate = null;
-
-    public function __construct(string $name)
+    public function __construct($name = null)
     {
         $this->name = $name;
     }
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return array_filter(get_object_vars($this));
     }
 
-    public function setProjectId($id): static
+    public function setProjectId($id)
     {
         $this->projectId = $id;
 
         return $this;
     }
 
-    public function setName($name): static
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -63,65 +65,30 @@ class Version implements \JsonSerializable
         return $this;
     }
 
-    public function setArchived($archived): static
+    public function setArchived($archived)
     {
         $this->archived = $archived;
 
         return $this;
     }
 
-    public function setReleased($released): static
+    public function setReleased($released)
     {
         $this->released = $released;
 
         return $this;
     }
 
-    public function setReleaseDateAsDateTime(DateTimeInterface $releaseDate, string $format = 'Y-m-d'): static
-    {
-        $this->releaseDate = $releaseDate->format($format);
-
-        return $this;
-    }
-
-    public function setReleaseDateAsString(string $releaseDate): static
+    public function setReleaseDate($releaseDate)
     {
         $this->releaseDate = $releaseDate;
 
         return $this;
     }
 
-    public function setUserReleaseDateAsDateTime($userReleaseDate): static
+    public function setUserReleaseDate($userReleaseDate)
     {
         $this->userReleaseDate = $userReleaseDate;
-
-        return $this;
-    }
-
-    public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format = 'Y-m-d'): static
-    {
-        $this->startDate = $startDate->format($format);
-
-        return $this;
-    }
-
-    public function setStartDateAsString(?string $startDate): static
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function setUserStartDateAsDateTime(\DateTimeInterface $userStartDate, string $format = 'Y-m-d'): static
-    {
-        $this->userStartDate = $userStartDate->format($format);
-
-        return $this;
-    }
-
-    public function setUserStartDateAsString(?string $userStartDate): static
-    {
-        $this->userStartDate = $userStartDate;
 
         return $this;
     }

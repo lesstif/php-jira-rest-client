@@ -2,19 +2,20 @@
 
 namespace JiraRestApi\Issue;
 
+use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use Psr\Log\LoggerInterface;
 
 class AgileIssueService extends \JiraRestApi\JiraClient
 {
-    private $uri = '/issue';
+    use AgileApiTrait;
 
-    private $agileVersion = '1.0';
+    private $uri = '/issue';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/'.$this->agileVersion);
+        $this->setupAPIUri();
     }
 
     public function get($issueIdOrKey, $paramArray = []): ?AgileIssue

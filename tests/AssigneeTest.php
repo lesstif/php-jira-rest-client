@@ -33,7 +33,7 @@ class AssigneeTest extends TestCase
         $issueField = new IssueField();
 
         $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
+            ->setIssueType('Bug')
         ;
 
         $js = $issueField->jsonSerialize();
@@ -46,7 +46,7 @@ class AssigneeTest extends TestCase
         $issueField = new IssueField();
 
         $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
+            ->setIssueType('Bug')
             ->setAssigneeToUnassigned()
         ;
 
@@ -65,7 +65,7 @@ class AssigneeTest extends TestCase
         $issueField = new IssueField();
 
         $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
+            ->setIssueType('Bug')
             ->setAssigneeToDefault()
         ;
 
@@ -84,8 +84,8 @@ class AssigneeTest extends TestCase
         $issueField = new IssueField();
 
         $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
-            ->setAssigneeNameAsString('lesstif')
+            ->setIssueType('Bug')
+            ->setAssigneeName('lesstif')
         ;
 
         $js = $issueField->jsonSerialize();

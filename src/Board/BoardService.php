@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Board;
 
+use JiraRestApi\AgileApiTrait;
 use JiraRestApi\Configuration\ConfigurationInterface;
 use JiraRestApi\Epic\Epic;
 use JiraRestApi\Issue\AgileIssue;
@@ -10,14 +11,14 @@ use Psr\Log\LoggerInterface;
 
 class BoardService extends \JiraRestApi\JiraClient
 {
-    private $uri = '/board';
+    use AgileApiTrait;
 
-    private $agileVersion = '1.0';
+    private $uri = '/board';
 
     public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
-        $this->setAPIUri('/rest/agile/'.$this->agileVersion);
+        $this->setupAPIUri();
     }
 
     /**

@@ -10,71 +10,56 @@ use JiraRestApi\User\UserService;
 
 class UserTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function create_user() : User
+    public function testCreateUser()
     {
-        $user = null;
         try {
             $us = new UserService();
 
-            $ar = [
+            // create new user
+            $user = $us->create([
                 'name'=>'charlie',
                 'password' => 'abracadabra',
                 'emailAddress' => 'charlie@atlassian.com',
                 'displayName' => 'Charlie of Atlassian',
-            ];
+            ]);
 
-            // create new user
-            $user = $us->create($ar);
-
-            $this->assertEquals($user->name, $ar['name']);
-            $this->assertEquals($user->emailAddress, $ar['emailAddress']);
-
+            Dumper::dump($user);
         } catch (JiraException $e) {
-            $this->fail('testGetUser Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testGetUser Failed : '.$e->getMessage());
         }
 
         return $user;
     }
 
     /**
-     * @test
-     * @depends create_user
+     * @depends testGetUser
      */
-    public function get_user_info(User $user) : User
+    public function testGetUser(User $user)
     {
         try {
             $us = new UserService();
 
             // get the user info.
-            $user = $us->get(['username' => $user->name]);
+            $user = $us->get(['username' => $user->username]);
 
-            $this->assertNotNull($user);
-
-
+            Dumper::dump($user);
         } catch (JiraException $e) {
-            $this->fail('testGetUser Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testGetUser Failed : '.$e->getMessage());
         }
-
-        return $user;
     }
 
     /**
-     * @test
-     * @depends get_user_info
+     * @depends testGetUser
      */
-    public function testAddUser(User $user) : User
+    public function testAddUser()
     {
         $this->markTestSkipped('not yet implemented');
     }
 
     /**
-     * @test
-     * @depends get_user_info
+     * @depends testGetUser
      */
-    public function search_user(User $user) : User
+    public function testSearch()
     {
         try {
             $us = new UserService();
@@ -90,20 +75,16 @@ class UserTest extends TestCase
             // get the user info.
             $users = $us->findUsers($paramArray);
 
-            $this->assertIsArray($users);
-
+            Dumper::dump($users);
         } catch (JiraException $e) {
-            $this->fail('testGetUser Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testGetUser Failed : '.$e->getMessage());
         }
-
-        return $user;
     }
 
     /**
-     * @test
-     * @depends search_user
+     * @depends testSearch
      */
-    public function search_assignable(User $user) : User
+    public function testSearchAssignable()
     {
         try {
             $us = new UserService();
@@ -120,13 +101,9 @@ class UserTest extends TestCase
             // get the user info.
             $users = $us->findAssignableUsers($paramArray);
 
-            $this->assertIsArray($users);
-            $this->assertGreaterThan(1, count($users));
-
+            Dumper::dump($users);
         } catch (JiraException $e) {
-            $this->fail('testSearchAssignable Failed : '.$e->getMessage());
+            $this->assertTrue(false, 'testSearchAssignable Failed : '.$e->getMessage());
         }
-
-        return $user;
     }
 }

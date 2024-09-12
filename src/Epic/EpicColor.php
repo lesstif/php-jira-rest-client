@@ -8,5 +8,6 @@ class EpicColor implements \JsonSerializable
 {
     use JsonSerializableTrait;
 
-    public string $key;
+    /** @var string */
+    public $key;
 }

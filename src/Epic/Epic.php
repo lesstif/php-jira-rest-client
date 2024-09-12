@@ -8,14 +8,24 @@ class Epic implements \JsonSerializable
 {
     use JsonSerializableTrait;
 
-    public int $id;
-    public string $key;
-    public string $self;
-    public string $name;
+    /** @var int */
+    public $id;
 
-    public string $summary;
+    /** @var string */
+    public $key;
 
-    public EpicColor $color;
+    /** @var string */
+    public $self;
 
-    public bool $done;
+    /** @var string */
+    public $name;
+
+    /** @var string */
+    public $summary;
+
+    /** @var EpicColor */
+    public $color;
+
+    /** @var bool */
+    public $done;
 }

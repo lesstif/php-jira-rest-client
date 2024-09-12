@@ -35,7 +35,7 @@ class VersionService extends \JiraRestApi\JiraClient
 
         return $this->json_mapper->map(
             json_decode($ret),
-            Version::class
+            new Version()
         );
     }
 
@@ -71,7 +71,7 @@ class VersionService extends \JiraRestApi\JiraClient
 
         return $this->json_mapper->map(
             json_decode($ret),
-            Version::class
+            new Version()
         );
     }
 
@@ -84,23 +84,25 @@ class VersionService extends \JiraRestApi\JiraClient
      *
      * @return Version
      */
-    public function update(Version $version): Version
+    public function update(Version $version)
     {
         if (!$version->id || !is_numeric($version->id)) {
             throw new JiraException($version->id.' is not a valid version id.');
         }
 
-        // avoid weird error "Only one of 'releaseDate' and 'userReleaseDate' can be specified when editing a version."
+        if ($version->releaseDate instanceof \DateTimeInterface) {
+            $version->releaseDate = $version->releaseDate->format('Y-m-d');
+        }
+
+        //Only one of 'releaseDate' and 'userReleaseDate' can be specified when editing a version."
         $version->userReleaseDate = null;
-        $version->userStartDate = null;
 
         $data = json_encode($version);
-
         $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
 
         return $this->json_mapper->map(
             json_decode($ret),
-            Version::class
+            new Version()
         );
     }
 
