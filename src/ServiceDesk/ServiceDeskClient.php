@@ -24,7 +24,7 @@ class ServiceDeskClient extends JiraClient
     /**
      * @inheritDoc
      */
-    protected function createUrlByContext(string $context): string
+    protected function createUrlByContext($context): string
     {
         $host = $this->getConfiguration()->getJiraHost();
 

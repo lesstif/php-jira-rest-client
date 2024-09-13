@@ -3,6 +3,7 @@
 namespace JiraRestApi;
 
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\LogRecord;
 
 class NoOperationMonologHandler extends AbstractProcessingHandler
 {
@@ -13,7 +14,7 @@ class NoOperationMonologHandler extends AbstractProcessingHandler
      *
      * @return void
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         // do nothing
     }
