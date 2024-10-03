@@ -95,6 +95,22 @@ class WorkLogTest extends TestCase
         }
     }
 
+	/**
+	 * @depends testUpdateWorkLogInIssue
+	 */
+	public function testGetWorkLogsByIds($workLogid)
+	{
+		try {
+			$issueService = new IssueService();
+
+			$worklogs = $issueService->getWorklogsByIds([$workLogid]);
+
+			Dumper::dump($worklogs);
+		} catch (JiraException $e) {
+			$this->assertTrue(false, 'testGetWorkLogsByIds Failed : '.$e->getMessage());
+		}
+	}
+
     /**
      * @depends testUpdateWorkLogInIssue
      */

@@ -701,6 +701,26 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
+     * @param array<int> $ids
+     *
+     * @return array<Worklog>
+     */
+    public function getWorklogsByIds(array $ids): array
+    {
+        $ret = $this->exec('/worklog/list', json_encode(['ids' => $ids]), 'POST');
+
+        $this->log->debug("getWorklogsByIds res=$ret\n");
+
+        $worklogsResponse = json_decode($ret, false, 512, JSON_THROW_ON_ERROR);
+
+        $worklogs = array_map(function ($worklog) {
+            return $this->json_mapper->map($worklog, new Worklog());
+        }, $worklogsResponse);
+
+        return $worklogs;
+    }
+
+    /**
      * add work log to issue.
      *
      * @param string  $issueIdOrKey
