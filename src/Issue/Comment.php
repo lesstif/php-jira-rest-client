@@ -18,6 +18,9 @@ class Comment implements \JsonSerializable
     /** @var string */
     public $body;
 
+    /** @var string */
+    public $renderedBody;
+
     /** @var \JiraRestApi\Issue\Reporter */
     public $updateAuthor;
 
