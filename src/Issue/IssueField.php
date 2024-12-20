@@ -47,7 +47,7 @@ class IssueField implements \JsonSerializable
 
     public ?object $resolution;
 
-    public array $fixVersions;
+    public array $fixVersions = [];
 
     public ?Reporter $creator;
 
