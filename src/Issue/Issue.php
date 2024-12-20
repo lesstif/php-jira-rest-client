@@ -29,7 +29,7 @@ class Issue implements \JsonSerializable
 
     public ?array $editmeta;
 
-    public ?ChangeLog $changelog;
+    public ?ChangeLog $changelog = null;
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
