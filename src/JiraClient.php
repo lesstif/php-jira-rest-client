@@ -79,6 +79,9 @@ class JiraClient
         // Properties that are annotated with `@var \DateTimeInterface` should result in \DateTime objects being created.
         $this->json_mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
 
+        // Just class mapping is not enough, bStrictObjectTypeChecking must be set to false.
+        $this->json_mapper->bStrictObjectTypeChecking = false;
+
         // create logger
         if ($this->configuration->getJiraLogEnabled()) {
             if ($logger) {
