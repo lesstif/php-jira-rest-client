@@ -8,7 +8,7 @@ class IssueType implements \JsonSerializable
 
     public string $id;
 
-    public ?string $description;
+    public ?string $description = null;
 
     public string $iconUrl;
 

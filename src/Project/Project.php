@@ -28,7 +28,7 @@ class Project implements \JsonSerializable
     /**
      * Project key.
      */
-    public ?string $key;
+    public ?string $key = null;
 
     /**
      * Project name.
@@ -73,17 +73,17 @@ class Project implements \JsonSerializable
      */
     public $issueTypes;
 
-    public ?string $assigneeType;
+    public ?string $assigneeType = null;
 
     public ?array $versions = [];
 
-    public ?array $roles;
+    public ?array $roles = null;
 
     public string $url;
 
     public string $projectTypeKey;
 
-    public ?string $projectTemplateKey;
+    public ?string $projectTemplateKey = null;
 
     public int $avatarId;
 
