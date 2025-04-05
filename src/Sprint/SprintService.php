@@ -14,7 +14,7 @@ class SprintService extends JiraClient
 {
     private $uri = '/sprint';
 
-    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
+    public function __construct(?ConfigurationInterface $configuration = null, ?LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
         $this->setAPIUri('/rest/agile/1.0');

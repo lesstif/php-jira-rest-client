@@ -80,7 +80,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @throws \Exception
      * @throws \JiraRestApi\JiraException
      */
-    public function __construct(ConfigurationInterface $configuration = null, LoggerInterface $logger = null, $path = './')
+    public function __construct(?ConfigurationInterface $configuration = null, ?LoggerInterface $logger = null, $path = './')
     {
         parent::__construct($configuration, $logger, $path);
         $this->setAPIUri($this->auth_api_uri);
