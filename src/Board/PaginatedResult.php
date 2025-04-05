@@ -3,7 +3,7 @@
 namespace JiraRestApi\Board;
 
 /**
- * Paginated Result object for BoardService
+ * Paginated Result object for BoardService.
  */
 class PaginatedResult
 {

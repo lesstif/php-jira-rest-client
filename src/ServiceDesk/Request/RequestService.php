@@ -65,7 +65,7 @@ class RequestService
      *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-getCustomerRequestByIdOrKey
      */
-    public function get(string $issueId, array $expandParameters = [], Request $request = null): Request
+    public function get(string $issueId, array $expandParameters = [], ?Request $request = null): Request
     {
         $request = ($request) ?: new Request();
 
@@ -88,7 +88,7 @@ class RequestService
      *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-getMyCustomerRequests
      */
-    public function getRequestsByCustomer(Customer $customer, array $searchParameters, int $serviceDeskId = null): array
+    public function getRequestsByCustomer(Customer $customer, array $searchParameters, ?int $serviceDeskId = null): array
     {
         $defaultSearchParameters = [
             'requestOwnership' => 'OWNED_REQUESTS',

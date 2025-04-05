@@ -12,8 +12,8 @@ use Psr\Log\LoggerInterface;
 class ServiceDeskClient extends JiraClient
 {
     public function __construct(
-        ConfigurationInterface $configuration = null,
-        LoggerInterface $logger = null,
+        ?ConfigurationInterface $configuration = null,
+        ?LoggerInterface $logger = null,
         string $path = './'
     ) {
         parent::__construct($configuration, $logger, $path);
