@@ -20,7 +20,7 @@ class Customer implements JsonSerializable
     public string $displayName;
     public bool $active;
     public string $timeZone;
-    public ?CustomerLinks $_links;
+    public ?CustomerLinks $_links = null;
     public string $self;
 
     public function setLinks($links): void

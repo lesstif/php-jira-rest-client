@@ -7,7 +7,7 @@ class Issue implements \JsonSerializable
     /**
      * return only if Project query by key(not id).
      */
-    public ?string $expand;
+    public ?string $expand = null;
 
     public string $self;
 
@@ -17,19 +17,19 @@ class Issue implements \JsonSerializable
 
     public IssueField $fields;
 
-    public ?array $renderedFields;
+    public ?array $renderedFields = null;
 
-    public ?array $names;
+    public ?array $names = null;
 
-    public ?array $schema;
+    public ?array $schema = null;
 
-    public ?array $transitions;
+    public ?array $transitions = null;
 
-    public ?array $operations;
+    public ?array $operations = null;
 
-    public ?array $editmeta;
+    public ?array $editmeta = null;
 
-    public ?ChangeLog $changelog;
+    public ?ChangeLog $changelog = null;
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array

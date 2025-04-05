@@ -18,11 +18,11 @@ class IssueField implements \JsonSerializable
 
     public ?TimeTracking $timeTracking = null;
 
-    public ?IssueType $issuetype;
+    public ?IssueType $issuetype = null;
 
     public ?Reporter $reporter = null;
 
-    public ?DateTimeInterface $created;
+    public ?DateTimeInterface $created = null;
 
     public ?DateTimeInterface $updated = null;
 
@@ -36,7 +36,7 @@ class IssueField implements \JsonSerializable
 
     public Project $project;
 
-    public ?string $environment;
+    public ?string $environment = null;
 
     /* @var \JiraRestApi\Issue\Component[] This property must don't describe the type feature for JSON deserialized. */
     public $components;
@@ -45,15 +45,15 @@ class IssueField implements \JsonSerializable
 
     public object $votes;
 
-    public ?object $resolution;
+    public ?object $resolution = null;
 
     public array $fixVersions;
 
-    public ?Reporter $creator;
+    public ?Reporter $creator = null;
 
-    public ?object $watches;
+    public ?object $watches = null;
 
-    public ?object $worklog;
+    public ?object $worklog = null;
 
     public ?Reporter $assignee = null;
 
@@ -63,13 +63,13 @@ class IssueField implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Attachment[] */
     public $attachment;
 
-    public ?string $aggregatetimespent;
+    public ?string $aggregatetimespent = null;
 
-    public ?string $timeestimate;
+    public ?string $timeestimate = null;
 
-    public ?string $aggregatetimeoriginalestimate;
+    public ?string $aggregatetimeoriginalestimate = null;
 
-    public ?string $resolutiondate;
+    public ?string $resolutiondate = null;
 
     public ?DateTimeInterface $duedate = null;
 
@@ -82,20 +82,20 @@ class IssueField implements \JsonSerializable
 
     public int $workratio;
 
-    public ?object $aggregatetimeestimate;
+    public ?object $aggregatetimeestimate = null;
 
-    public ?object $aggregateprogress;
+    public ?object $aggregateprogress = null;
 
-    public ?object $lastViewed;
+    public ?object $lastViewed = null;
 
-    public ?object $timeoriginalestimate;
+    public ?object $timeoriginalestimate = null;
 
     /** @var object|null */
     public $parent;
 
-    public ?array $customFields;
+    public ?array $customFields = null;
 
-    public ?SecurityScheme $security;
+    public ?SecurityScheme $security = null;
 
     public function __construct($updateIssue = false)
     {

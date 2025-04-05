@@ -25,7 +25,7 @@ class Component implements \JsonSerializable
 
     public string $description;
 
-    public ?User $lead;
+    public ?User $lead = null;
 
     public string $leadUserName;
 
