@@ -114,7 +114,7 @@ class IssueField implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         $vars = array_filter(get_object_vars($this), function ($var) {
-            return !is_null($var);
+            return !empty($var);
         });
 
         // if assignee property has empty value then remove it.
