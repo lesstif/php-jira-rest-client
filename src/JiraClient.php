@@ -205,31 +205,7 @@ class JiraClient
             $this->log->info("Curl $custom_request: $url JsonData=".json_encode($post_data, JSON_UNESCAPED_UNICODE));
         }
 
-        curl_reset($this->curl);
-        $ch = $this->curl;
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->configuration->getTimeout());
-        curl_setopt($ch, CURLOPT_TIMEOUT, $this->configuration->getTimeout());
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        // post_data
-        if (!is_null($post_data)) {
-            // PUT REQUEST
-            if (!is_null($custom_request) && $custom_request == 'PUT') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
-            if (!is_null($custom_request) && $custom_request == 'DELETE') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            } else {
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            }
-        } else {
-            if (!is_null($custom_request) && $custom_request == 'DELETE') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            }
-        }
+        $ch = $this->prepareCurlRequest($url, $post_data, $custom_request);
 
         // save HTTP Headers
         $curl_http_headers = [
@@ -626,6 +602,37 @@ class JiraClient
         if ($this->getConfiguration()->getProxyType()) {
             curl_setopt($ch, CURLOPT_PROXYTYPE, $this->getConfiguration()->getProxyType());
         }
+    }
+
+    private function prepareCurlRequest(string $url, array|string|null $post_data = null, ?string $custom_request = null)
+    {
+        curl_reset($this->curl);
+        $ch = $this->curl;
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->configuration->getTimeout());
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->configuration->getTimeout());
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        // post_data
+        if (!is_null($post_data)) {
+            // PUT REQUEST
+            if (!is_null($custom_request) && $custom_request == 'PUT') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            }
+            if (!is_null($custom_request) && $custom_request == 'DELETE') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            } else {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            }
+        } else {
+            if (!is_null($custom_request) && $custom_request == 'DELETE') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            }
+        }
+
+        return $ch;
     }
 
     /**
