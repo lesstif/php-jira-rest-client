@@ -125,6 +125,13 @@ class Request implements JsonSerializable
     {
         $mapper = new JsonMapper();
 
+        // Adjust settings for JsonMapper v5.0 BC
+        if (property_exists($mapper, 'bStrictNullTypesInArrays')) {
+            $mapper->bStrictNullTypesInArrays = false; // if you want to allow nulls in arrays
+        }
+        $mapper->bStrictNullTypes = false; // if you want to allow nulls
+        $mapper->bStrictObjectTypeChecking = false; // if you want to disable strict type checking
+
         return $mapper->map(
             $data,
             $target

@@ -73,6 +73,13 @@ class JiraClient
 
         $this->json_mapper = new \JsonMapper();
 
+        // Adjust settings for JsonMapper v5.0 BC
+        if (property_exists($this->json_mapper, 'bStrictNullTypesInArrays')) {
+            $this->json_mapper->bStrictNullTypesInArrays = false; // if you want to allow nulls in arrays
+        }
+        $this->json_mapper->bStrictNullTypes = false; // if you want to allow nulls
+        $this->json_mapper->bStrictObjectTypeChecking = false; // if you want to disable strict type checking
+
         // Fix "\JiraRestApi\JsonMapperHelper::class" syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$'
         $this->json_mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
 
