@@ -6,45 +6,33 @@ class Issue implements \JsonSerializable
 {
     /**
      * return only if Project query by key(not id).
-     *
-     * @var string|null
      */
-    public $expand;
+    public ?string $expand;
 
-    /** @var string */
-    public $self;
+    public string $self;
 
-    /** @var string */
-    public $id;
+    public string $id;
 
-    /** @var string */
-    public $key;
+    public string $key;
 
-    /** @var \JiraRestApi\Issue\IssueField */
-    public $fields;
+    public IssueField $fields;
 
-    /** @var array|null */
-    public $renderedFields;
+    public ?array $renderedFields;
 
-    /** @var array|null */
-    public $names;
+    public ?array $names;
 
-    /** @var array|null */
-    public $schema;
+    public ?array $schema;
 
-    /** @var array|null */
-    public $transitions;
+    public ?array $transitions;
 
-    /** @var array|null */
-    public $operations;
+    public ?array $operations;
 
-    /** @var array|null */
-    public $editmeta;
+    public ?array $editmeta;
 
-    /** @var \JiraRestApi\Issue\ChangeLog|null */
-    public $changelog;
+    public ?ChangeLog $changelog;
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

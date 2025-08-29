@@ -10,10 +10,11 @@ class Status implements \JsonSerializable
     /** @var string */
     public $name;
 
-    /** @var string */
-    public $description;
+    /** @var string|null */
+    public ?string $description = null;
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this));
     }

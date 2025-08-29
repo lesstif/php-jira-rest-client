@@ -2,6 +2,7 @@
 
 namespace JiraRestApi\Project;
 
+use JiraRestApi\AssigneeTypeEnum;
 use JiraRestApi\ClassSerialize;
 use JiraRestApi\JiraException;
 
@@ -11,69 +12,52 @@ class Project implements \JsonSerializable
 
     /**
      * return only if Project query by key(not id).
-     *
-     * @var string
      */
-    public $expand;
+    public string $expand;
 
     /**
      * Project URI.
-     *
-     * @var string
      */
-    public $self;
+    public string $self;
 
     /**
      * Project id.
-     *
-     * @var string
      */
-    public $id;
+    public string $id;
 
     /**
      * Project key.
-     *
-     * @var string
      */
-    public $key;
+    public ?string $key;
 
     /**
      * Project name.
-     *
-     * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * avatar URL.
-     *
-     * @var array
      */
-    public $avatarUrls;
+    public \stdClass $avatarUrls;
 
     /**
      * Project category.
-     *
-     * @var array
      */
-    public $projectCategory;
+    public \stdClass $projectCategory;
 
-    /** @var string|null */
-    public $description;
+    public ?string $description = null;
 
-    /**
-     * Project leader info.
-     *
-     * @var array
-     */
-    public $lead;
+    // Project leader info.
+    public array $lead;
+
+    private string $leadName;
 
     /**
      * The account ID of the project lead.
      *
      * @var string
      */
-    public $leadAccountId;
+    public string $leadAccountId;
 
     /**
      * ComponentList [\JiraRestApi\Project\Component].
@@ -89,232 +73,161 @@ class Project implements \JsonSerializable
      */
     public $issueTypes;
 
-    /** @var string|null */
-    public $assigneeType;
+    public ?string $assigneeType;
 
-    /** @var array|null */
-    public $versions;
+    public ?array $versions = [];
 
-    /** @var array|null */
-    public $roles;
+    public ?array $roles;
 
-    /** @var string */
-    public $url;
+    public string $url;
 
-    /** @var string */
-    public $projectTypeKey;
+    public string $projectTypeKey;
 
-    /** @var string */
-    public $projectTemplateKey;
+    public ?string $projectTemplateKey;
 
-    /** @var int */
-    public $avatarId;
+    public int $avatarId;
 
-    /** @var int */
-    public $issueSecurityScheme;
+    public int $issueSecurityScheme;
 
-    /** @var int */
-    public $permissionScheme;
+    public int $permissionScheme;
 
-    /** @var int */
-    public $notificationScheme;
+    public int $notificationScheme;
 
-    /** @var int */
-    public $categoryId;
+    public int $categoryId;
 
-    public function jsonSerialize()
+    public bool $simplified;
+
+    public string $style;
+
+    public bool $isPrivate;
+
+    public array $properties;
+
+    public bool $archived;
+
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): mixed
     {
-        return array_filter(get_object_vars($this), function ($var) {
+        $params = array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);
         });
+        if (!empty($this->leadName)) {
+            $params['lead'] = $this->leadName;
+            unset($params['leadName']);
+        }
+        if ($this->versions === null or count($this->versions) === 0) {
+            unset($params['version']);
+        }
+
+        return $params;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Project
-     */
-    public function setId($id)
+    public function setId(string $id): static
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return Project
-     */
-    public function setKey($key)
+    public function setKey(string $key): static
     {
         $this->key = $key;
 
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Project
-     */
-    public function setName($name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @param array $avatarUrls
-     *
-     * @return Project
-     */
-    public function setAvatarUrls($avatarUrls)
+    public function setAvatarUrls(\stdClass $avatarUrls): static
     {
         $this->avatarUrls = $avatarUrls;
 
         return $this;
     }
 
-    /**
-     * @param array $projectCategory
-     *
-     * @return Project
-     */
-    public function setProjectCategory($projectCategory)
+    public function setProjectCategory(\stdClass $projectCategory): static
     {
         $this->projectCategory = $projectCategory;
 
         return $this;
     }
 
-    /**
-     * @param null|string $description
-     *
-     * @return Project
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @param array $lead
-     *
-     * @return Project
-     */
-    public function setLead($lead)
+    public function setLeadName(string $leadName): static
     {
-        $this->lead = $lead;
+        $this->leadName = $leadName;
 
         return $this;
     }
 
-    /**
-     * @param string $leadAccountId
-     *
-     * @return Project
-     */
-    public function setLeadAccountId($leadAccountId)
+    public function setLeadAccountId(string $leadAccountId): static
     {
         $this->leadAccountId = $leadAccountId;
 
         return $this;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return Project
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): static
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * @param string $projectTypeKey
-     *
-     * @return Project
-     */
-    public function setProjectTypeKey($projectTypeKey)
+    public function setProjectTypeKey(string $projectTypeKey): static
     {
         $this->projectTypeKey = $projectTypeKey;
 
         return $this;
     }
 
-    /**
-     * @param string $projectTemplateKey
-     *
-     * @return Project
-     */
-    public function setProjectTemplateKey($projectTemplateKey)
+    public function setProjectTemplateKey(string $projectTemplateKey): static
     {
         $this->projectTemplateKey = $projectTemplateKey;
 
         return $this;
     }
 
-    /**
-     * @param int $avatarId
-     *
-     * @return Project
-     */
-    public function setAvatarId($avatarId)
+    public function setAvatarId(int $avatarId): static
     {
         $this->avatarId = $avatarId;
 
         return $this;
     }
 
-    /**
-     * @param int $issueSecurityScheme
-     *
-     * @return Project
-     */
-    public function setIssueSecurityScheme($issueSecurityScheme)
+    public function setIssueSecurityScheme(int $issueSecurityScheme): static
     {
         $this->issueSecurityScheme = $issueSecurityScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $permissionScheme
-     *
-     * @return Project
-     */
-    public function setPermissionScheme($permissionScheme)
+    public function setPermissionScheme(int $permissionScheme): static
     {
         $this->permissionScheme = $permissionScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $notificationScheme
-     *
-     * @return Project
-     */
-    public function setNotificationScheme($notificationScheme)
+    public function setNotificationScheme(int $notificationScheme): static
     {
         $this->notificationScheme = $notificationScheme;
 
         return $this;
     }
 
-    /**
-     * @param int $categoryId
-     *
-     * @return Project
-     */
-    public function setCategoryId($categoryId)
+    public function setCategoryId(int $categoryId): static
     {
         $this->categoryId = $categoryId;
 
@@ -322,19 +235,22 @@ class Project implements \JsonSerializable
     }
 
     /**
-     * @param null|string $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
-     *
-     * @throws JiraException
-     *
-     * @return Project
+     * $assigneeType value available for "PROJECT_LEAD" and "UNASSIGNED".
      */
-    public function setAssigneeType($assigneeType)
+    public function setAssigneeType(?string $assigneeType): static
     {
         if (!in_array($assigneeType, ['PROJECT_LEAD', 'UNASSIGNED'])) {
             throw new JiraException('invalid assigneeType:'.$assigneeType);
         }
 
         $this->assigneeType = $assigneeType;
+
+        return $this;
+    }
+
+    public function setAssigneeTypeAsEnum(AssigneeTypeEnum $assigneeType): static
+    {
+        $this->assigneeType = $assigneeType->type();
 
         return $this;
     }

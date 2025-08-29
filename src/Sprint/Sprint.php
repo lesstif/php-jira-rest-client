@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: meshulam
- * Date: 23/09/2017
- * Time: 14:17.
- */
+
+declare(strict_types=1);
 
 namespace JiraRestApi\Sprint;
 
@@ -14,42 +10,83 @@ class Sprint implements \JsonSerializable
 {
     use JsonSerializableTrait;
 
-    /* @var string */
-    public $self;
+    public string $self;
 
-    /* @var int */
-    public $id;
+    public string $id;
 
-    /* @var string */
-    public $name;
+    public string $name;
 
-    /* @var string */
-    public $state;
+    public string $state;
 
-    /* @var string */
-    public $startDate;
+    public string $startDate;
 
-    /* @var string */
-    public $endDate;
+    public string $endDate;
 
-    /* @var string */
-    public $completeDate;
+    public string $activatedDate;
 
-    /* @var int */
-    public $originBoardId;
+    public string $completeDate;
 
-    /** @var string */
-    public $goal;
+    public string $originBoardId;
 
-    public function setName(string $sprintName): string
+    public string $createdDate;
+
+    public string $goal;
+
+    public array $issues;
+
+    public function setNameAsString(string $sprintName): self
     {
         $this->name = $sprintName;
 
-        return $sprintName;
+        return $this;
     }
 
-    public function getName(): string
+    public function setGoalAsString(string $sprintGoal): self
     {
-        return $this->name;
+        $this->goal = $sprintGoal;
+
+        return $this;
+    }
+
+    public function setOriginBoardIdAsStringOrInt(string|int $originBoardId): self
+    {
+        $this->originBoardId = strval($originBoardId);
+
+        return $this;
+    }
+
+    public function setStartDateAsDateTime(\DateTimeInterface $startDate, string $format = 'Y-m-d'): static
+    {
+        $this->startDate = $startDate->format($format);
+
+        return $this;
+    }
+
+    public function setStartDateAsString(string $startDate): static
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function setEndDateAsDateTime(\DateTimeInterface $endDate, string $format = 'Y-m-d'): static
+    {
+        $this->endDate = $endDate->format($format);
+
+        return $this;
+    }
+
+    public function setEndDateAsString(string $endDate): static
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function setMoveIssues(array $issues): static
+    {
+        $this->issues = $issues;
+
+        return $this;
     }
 }

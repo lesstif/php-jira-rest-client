@@ -2,8 +2,6 @@
 
 namespace JiraRestApi\User;
 
-use JiraRestApi\Issue\Reporter;
-
 /**
  * Class to perform all user related queries.
  *
@@ -16,14 +14,14 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * Function to create a new user.
      *
-     * @param User|array $user
+     * @param array|User $user
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
      * @return User User class
      */
-    public function create($user)
+    public function create(array|User $user): User
     {
         $data = json_encode($user);
 
@@ -43,12 +41,12 @@ class UserService extends \JiraRestApi\JiraClient
      * @param array $paramArray Possible values for $paramArray 'username', 'key'.
      *                          "Either the 'username' or the 'key' query parameters need to be provided".
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
-     * @return User User class
+     * @return User
      */
-    public function get($paramArray)
+    public function get(array $paramArray): User
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -67,12 +65,12 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @param array $paramArray
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
      * @return User[]
      */
-    public function findUsers($paramArray)
+    public function findUsers(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -99,14 +97,14 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @param array $paramArray
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
      * @return User[]
      *
      * @see https://docs.atlassian.com/jira/REST/cloud/#api/2/user-findAssignableUsers
      */
-    public function findAssignableUsers($paramArray)
+    public function findAssignableUsers(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -132,14 +130,14 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @param array $paramArray
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
      * @return User[]
      *
      * @see https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-rest-api-2-user-search-query-get
      */
-    public function findUsersByQuery($paramArray)
+    public function findUsersByQuery(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -169,7 +167,7 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @return string
      */
-    public function deleteUser(array $paramArray)
+    public function deleteUser(array $paramArray): string
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -183,15 +181,15 @@ class UserService extends \JiraRestApi\JiraClient
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return Reporter user Object
+     * @return User
      */
-    public function getMyself()
+    public function getMyself(): User
     {
         $ret = $this->exec('myself', null);
 
         $user = $this->json_mapper->map(
             json_decode($ret),
-            new Reporter()
+            new User()
         );
 
         return $user;
@@ -200,12 +198,12 @@ class UserService extends \JiraRestApi\JiraClient
     /**
      * @param array $paramArray
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
      * @return User[]
      */
-    public function getUsers($paramArray)
+    public function getUsers(array $paramArray): array
     {
         $queryParam = '?'.http_build_query($paramArray);
 
@@ -227,14 +225,14 @@ class UserService extends \JiraRestApi\JiraClient
      * Function to update an existing user.
      *
      * @param array      $paramArray
-     * @param User|array $user
+     * @param array|User $user
      *
-     * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
      *
-     * @return User User class
+     * @return User
      */
-    public function update($paramArray, $user)
+    public function update(array $paramArray, array|User $user): User
     {
         $queryParam = '?'.http_build_query($paramArray);
 

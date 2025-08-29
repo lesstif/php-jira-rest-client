@@ -21,11 +21,10 @@ class IssueLink implements \JsonSerializable
     /** @var \JiraRestApi\Issue\Comment */
     public $comment;
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
-        $vars = array_filter(get_object_vars($this));
-
-        return $vars;
+        return array_filter(get_object_vars($this));
     }
 
     /**

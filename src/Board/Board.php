@@ -67,7 +67,8 @@ class Board implements \JsonSerializable
         return $this->location;
     }
 
-    public function jsonSerialize()
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
     {
         return array_filter(get_object_vars($this), function ($var) {
             return !is_null($var);

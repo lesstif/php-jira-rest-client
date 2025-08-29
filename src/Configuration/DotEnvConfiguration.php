@@ -14,7 +14,7 @@ class DotEnvConfiguration extends AbstractConfiguration
      *
      * @throws JiraException
      */
-    public function __construct($path = '.')
+    public function __construct(string $path = '.')
     {
         $this->loadDotEnv($path);
 
@@ -37,23 +37,21 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->curlOptVerbose = $this->env('CURLOPT_VERBOSE', false);
         $this->proxyServer = $this->env('PROXY_SERVER');
         $this->proxyPort = $this->env('PROXY_PORT');
+        $this->proxyType = $this->env('PROXY_TYPE');
         $this->proxyUser = $this->env('PROXY_USER');
         $this->proxyPassword = $this->env('PROXY_PASSWORD');
 
-        $this->useV3RestApi = $this->env('JIRA_REST_API_V3', false);
-
         $this->timeout = $this->env('JIRA_TIMEOUT', 30);
+
+        $this->useTokenBasedAuth = $this->env('TOKEN_BASED_AUTH', false);
+        $this->personalAccessToken = $this->env('PERSONAL_ACCESS_TOKEN', false);
+        $this->serviceDeskId = $this->env('JIRA_SERVICE_DESK_ID', null);
     }
 
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
      */
-    private function env($key, $default = null)
+    private function env(string $key, mixed $default = null): mixed
     {
 
         // Fallback for frameworks like Laravel as the $_ENV method might not work in all
@@ -64,7 +62,7 @@ class DotEnvConfiguration extends AbstractConfiguration
             $value = $_ENV[$key] ?? null;
         }
 
-        if ($value === false) {
+        if ($value === null) {
             return $default;
         }
 
@@ -95,13 +93,8 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * Determine if a given string starts with a given substring.
-     *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
      */
-    public function startsWith($haystack, $needles)
+    public function startsWith(string $haystack, array|string $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if ($needle != '' && strpos($haystack, $needle) === 0) {
@@ -114,13 +107,8 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * Determine if a given string ends with a given substring.
-     *
-     * @param string       $haystack
-     * @param string|array $needles
-     *
-     * @return bool
      */
-    public function endsWith($haystack, $needles)
+    public function endsWith(string $haystack, array|string $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if ((string) $needle === substr($haystack, -strlen($needle))) {
@@ -133,32 +121,19 @@ class DotEnvConfiguration extends AbstractConfiguration
 
     /**
      * load dotenv.
-     *
-     * @param string $path
-     *
-     * @throws JiraException
      */
     private function loadDotEnv(string $path)
     {
         $requireParam = [
-            'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',
+            'JIRA_HOST', 'TOKEN_BASED_AUTH',
         ];
 
         // support for dotenv 1.x and 2.x. see also https://github.com/lesstif/php-jira-rest-client/issues/102
-        if (class_exists('\Dotenv\Dotenv')) {
-            if (method_exists('\Dotenv\Dotenv', 'createImmutable')) {    // v4 or above
-                $dotenv = \Dotenv\Dotenv::createImmutable($path);
+        //if (method_exists('\Dotenv\Dotenv', 'createImmutable')) {    // v4 or above
+        $dotenv = \Dotenv\Dotenv::createImmutable($path);
 
-                $dotenv->safeLoad();
-                $dotenv->required($requireParam);
-            } elseif (method_exists('\Dotenv\Dotenv', 'create')) {    // v3
-                $dotenv = \Dotenv\Dotenv::create($path); // @phpstan-ignore-line
-
-                $dotenv->safeLoad();
-                $dotenv->required($requireParam);
-            }
-        } else {
-            throw new JiraException('can not load PHP dotenv class.!');
-        }
+        $dotenv->safeLoad();
+        $dotenv->required($requireParam);
+        //}
     }
 }

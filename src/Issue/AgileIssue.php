@@ -9,5 +9,5 @@ class AgileIssue extends Issue
     use JsonSerializableTrait;
 
     /** @var \JiraRestApi\Issue\AgileIssueFields */
-    public $fields;
+    public IssueField $fields;
 }
