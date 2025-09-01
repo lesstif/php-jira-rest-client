@@ -523,36 +523,93 @@ class IssueService extends \JiraRestApi\JiraClient
      * Search issues.
      *
      * @param string $jql
-     * @param int    $startAt
+     * @param string $nextPageToken
      * @param int    $maxResults
      * @param array  $fields
-     * @param array  $expand
-     * @param bool   $validateQuery
+     * @param string $expand
+     * @param array  $reconcileIssues
      *
      * @throws \JsonMapper_Exception
      * @throws JiraException
      *
      * @return IssueSearchResult
      */
-    public function search(string $jql, int $startAt = 0, int $maxResults = 15, array $fields = [], array $expand = [], bool $validateQuery = true): IssueSearchResult
+    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueSearchResult
     {
-        $data = json_encode([
-            'jql'           => $jql,
-            'startAt'       => $startAt,
-            'maxResults'    => $maxResults,
-            'fields'        => $fields,
-            'expand'        => $expand,
-            'validateQuery' => $validateQuery,
-        ]);
+        $data = [
+            'jql'             => $jql,
+            'maxResults'      => $maxResults,
+            'fields'          => $fields,
+            'expand'          => $expand,
+            'reconcileIssues' => $reconcileIssues,
+        ];
 
-        $ret = $this->exec('search', $data, 'POST');
+        if ($nextPageToken) {
+            $data['nextPageToken'] = $nextPageToken;
+        }
+
+        $ret = $this->exec('search//jql', json_encode($data), 'POST');
         $json = json_decode($ret);
-
-        $result = null;
 
         $result = $this->json_mapper->map(
             $json,
             new IssueSearchResult()
+        );
+
+        return $result;
+    }
+
+    /**
+     * Search issues.
+     *
+     * @param string $jql
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return string[] array of count
+     *
+     * @phpstan-return array<string>
+     */
+    public function searchApproximateCount(string $jql): array
+    {
+        $data = json_encode([
+            'jql' => $jql,
+        ]);
+
+        $ret = $this->exec('search//approximate-count', $data, 'POST');
+
+        return json_decode($ret, true);
+    }
+
+    /**
+     * Bulk fetch issues.
+     *
+     * @param array $issueIdsOrKeys
+     * @param array $fields
+     * @param array $expand
+     * @param bool  $fieldsByKeys
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return IssueBulkResult
+     */
+    public function bulkFetch(array $issueIdsOrKeys, array $fields = [], array $expand = [], bool $fieldsByKeys = false): IssueBulkResult
+    {
+        $data = json_encode([
+            'issueIdsOrKeys'  => $issueIdsOrKeys,
+            'fields'          => $fields,
+            'expand'          => $expand,
+            'fieldsByKeys'    => $fieldsByKeys,
+        ]);
+        $ret = $this->exec('issue//bulkfetch', $data, 'POST');
+
+        $json = json_decode($ret);
+
+        $result = $this->json_mapper->map(
+            $json,
+            new IssueBulkResult()
         );
 
         return $result;
