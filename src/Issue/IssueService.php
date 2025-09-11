@@ -534,25 +534,26 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search(string $jql, int $startAt = 0, int $maxResults = 15, array $fields = [], array $expand = [], bool $validateQuery = true): IssueSearchResult
+    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueBulkResult
     {
-        $data = json_encode([
-            'jql'           => $jql,
-            'startAt'       => $startAt,
-            'maxResults'    => $maxResults,
-            'fields'        => $fields,
-            'expand'        => $expand,
-            'validateQuery' => $validateQuery,
-        ]);
+        $data = [
+            'jql'             => $jql,
+            'maxResults'      => $maxResults,
+            'fields'          => $fields,
+            'expand'          => $expand,
+            'reconcileIssues' => $reconcileIssues,
+        ];
 
-        $ret = $this->exec('search', $data, 'POST');
+        if ($nextPageToken) {
+            $data['nextPageToken'] = $nextPageToken;
+        }
+
+        $ret = $this->exec('search//jql', json_encode($data), 'POST');
         $json = json_decode($ret);
-
-        $result = null;
 
         $result = $this->json_mapper->map(
             $json,
-            new IssueSearchResult()
+            new IssueBulkResult()
         );
 
         return $result;

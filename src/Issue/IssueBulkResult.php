@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 29.07.15
- * Time: 13:12.
- */
 
 namespace JiraRestApi\Issue;
 
 /**
  * Issue search result.
  */
-class IssueSearchResult
+class IssueBulkResult
 {
     /**
      * @var string
      */
-    public $nextPageToken;
+    public $expand;
 
     /**
      * @var \JiraRestApi\Issue\Issue[]
@@ -24,19 +18,24 @@ class IssueSearchResult
     public $issues;
 
     /**
-     * @return int
+     * @var array
      */
-    public function getNextPageToken()
+    public $issueErrors;
+
+    /**
+     * @return array
+     */
+    public function getIssueErrors()
     {
-        return $this->nextPageToken;
+        return $this->issueErrors;
     }
 
     /**
-     * @param string $nextPageToken
+     * @param array $issueErrors
      */
-    public function setNextPageToken($nextPageToken)
+    public function setIssueErrors($issueErrors)
     {
-        $this->nextPageToken = $nextPageToken;
+        $this->issueErrors = $issueErrors;
     }
 
     /**
@@ -65,4 +64,19 @@ class IssueSearchResult
         return $this->issues[$ndx];
     }
 
+    /**
+     * @return string
+     */
+    public function getExpand()
+    {
+        return $this->expand;
+    }
+
+    /**
+     * @param string $expand
+     */
+    public function setExpand($expand)
+    {
+        $this->expand = $expand;
+    }
 }
