@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: keanor
@@ -14,9 +13,8 @@ namespace JiraRestApi\Issue;
  */
 class IssueSearchResult
 {
-    /**
-     * @var string
-     */
+    public ?string $nextPageToken = null;
+
     public ?string $expand = null;
 
     /**
@@ -42,49 +40,17 @@ class IssueSearchResult
     /**
      * @return int
      */
-    public function getStartAt()
+    public function getNextPageToken()
     {
-        return $this->startAt;
+        return $this->nextPageToken;
     }
 
     /**
-     * @param int $startAt
+     * @param string $nextPageToken
      */
-    public function setStartAt($startAt)
+    public function setNextPageToken($nextPageToken)
     {
-        $this->startAt = $startAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxResults()
-    {
-        return $this->maxResults;
-    }
-
-    /**
-     * @param int $maxResults
-     */
-    public function setMaxResults($maxResults)
-    {
-        $this->maxResults = $maxResults;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param int $total
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
+        $this->nextPageToken = $nextPageToken;
     }
 
     /**
@@ -116,7 +82,7 @@ class IssueSearchResult
     /**
      * @return ?string
      */
-    public function getExpand()
+    public function getExpand() : ?$string
     {
         return $this->expand;
     }
