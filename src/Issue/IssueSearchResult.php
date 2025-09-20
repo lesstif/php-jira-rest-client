@@ -13,10 +13,24 @@ namespace JiraRestApi\Issue;
  */
 class IssueSearchResult
 {
+    public ?string $nextPageToken = null;
+
+    public ?string $expand = null;
+
     /**
-     * @var string
+     * @var int
      */
-    public $nextPageToken;
+    public $startAt;
+
+    /**
+     * @var int
+     */
+    public $maxResults;
+
+    /**
+     * @var int
+     */
+    public $total;
 
     /**
      * @var \JiraRestApi\Issue\Issue[]
@@ -65,4 +79,16 @@ class IssueSearchResult
         return $this->issues[$ndx];
     }
 
+    /**
+     * @return ?string
+     */
+    public function getExpand() : ?$string
+    {
+        return $this->expand;
+    }
+
+    public function setExpand(?string $expand)
+    {
+        $this->expand = $expand;
+    }
 }
