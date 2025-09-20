@@ -7,10 +7,8 @@
         "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "netresearch/jsonmapper": "^4.2",
-        "monolog/monolog": "^2.0|^3.0"
-    },
-    "suggest": {
+        "netresearch/jsonmapper": "^4.2|^5.0",
+        "monolog/monolog": "^2.0|^3.0",
         "vlucas/phpdotenv": "^5.0|^6.0"
     },
     "require-dev": {
