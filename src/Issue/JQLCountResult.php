@@ -36,7 +36,7 @@ class JQLCountResult implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'count' => $this->count
+            'count' => $this->count,
         ];
     }
 }
