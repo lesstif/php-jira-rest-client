@@ -534,7 +534,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueBulkResult
+    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueSearchResult
     {
         $data = [
             'jql'             => $jql,
@@ -548,12 +548,39 @@ class IssueService extends \JiraRestApi\JiraClient
             $data['nextPageToken'] = $nextPageToken;
         }
 
-        $ret = $this->exec('search//jql', json_encode($data), 'POST');
+        $ret = $this->exec('search/jql', json_encode($data), 'POST');
         $json = json_decode($ret);
 
         $result = $this->json_mapper->map(
             $json,
-            new IssueBulkResult()
+            new IssueSearchResult()
+        );
+
+        return $result;
+    }
+
+    /**
+     * Get an approximate count of issues that match a JQL query.
+     *
+     * @param string $jql The JQL query string
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return JQLCountResult
+     */
+    public function searchApproximateCount(string $jql): JQLCountResult
+    {
+        $data = [
+            'jql' => $jql,
+        ];
+
+        $ret = $this->exec('search/approximate-count', json_encode($data), 'POST');
+        $json = json_decode($ret);
+
+        $result = $this->json_mapper->map(
+            $json,
+            new JQLCountResult()
         );
 
         return $result;

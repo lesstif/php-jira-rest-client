@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: keanor
@@ -82,7 +83,7 @@ class IssueSearchResult
     /**
      * @return ?string
      */
-    public function getExpand() : ?$string
+    public function getExpand(): ?string
     {
         return $this->expand;
     }
