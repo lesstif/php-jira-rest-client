@@ -534,7 +534,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueBulkResult
+    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueSearchResult
     {
         $data = [
             'jql'             => $jql,
@@ -553,7 +553,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
         $result = $this->json_mapper->map(
             $json,
-            new IssueBulkResult()
+            new IssueSearchResult()
         );
 
         return $result;
