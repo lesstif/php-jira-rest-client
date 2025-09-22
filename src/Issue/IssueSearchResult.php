@@ -39,7 +39,7 @@ class IssueSearchResult
     public $issues;
 
     /**
-     * @return int
+     * @return string|null
      */
     public function getNextPageToken()
     {
