@@ -548,7 +548,7 @@ class IssueService extends \JiraRestApi\JiraClient
             $data['nextPageToken'] = $nextPageToken;
         }
 
-        $ret = $this->exec('search/jql', json_encode($data), 'POST');
+        $ret = $this->exec('search//jql', json_encode($data), 'POST');
         $json = json_decode($ret);
 
         $result = $this->json_mapper->map(
