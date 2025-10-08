@@ -418,7 +418,7 @@ class JiraClient
     {
         $host = $this->getConfiguration()->getJiraHost();
 
-        return $host.$this->api_uri.'/'.preg_replace('/\//', '', $context, 1);
+        return $host.$this->api_uri.'/'.preg_replace('/^\//', '', $context, 1);
     }
 
     /**
