@@ -35,6 +35,8 @@ class JiraClient
      */
     protected \CurlHandle $curl;
 
+    protected \CurlShareHandle $curlShare = null;
+    
     /**
      * Monolog instance.
      */
@@ -160,17 +162,19 @@ class JiraClient
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
         }
 
-        if (\function_exists('curl_share_init_persistent')) {
-            $share = curl_share_init_persistent([
-                CURL_LOCK_DATA_DNS,
-                CURL_LOCK_DATA_CONNECT,
-            ]);
-        } else {
-            $share = curl_share_init();
-            curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
-            curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+        if ($this->curlShare === null) {
+            if (\function_exists('curl_share_init_persistent')) {
+                $this->curlShare = curl_share_init_persistent([
+                    CURL_LOCK_DATA_DNS,
+                    CURL_LOCK_DATA_CONNECT,
+                ]);
+            } else {
+                $this->curlShare = curl_share_init();
+                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+            }
         }
-        curl_setopt($ch, CURLOPT_SHARE, $share);
+        curl_setopt($ch, CURLOPT_SHARE, $this->curlShare);
 
         return $curl_http_headers;
     }
