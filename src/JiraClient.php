@@ -34,9 +34,12 @@ class JiraClient
      * CURL instance.
      */
     protected \CurlHandle $curl;
-    
+
+    /**
+     * CURL share instance.
+     */
     protected \CurlShareHandle $curlShare = null;
-    
+
     /**
      * Monolog instance.
      */
