@@ -522,13 +522,6 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Search issues.
      *
-     * @param string $jql
-     * @param int    $startAt
-     * @param int    $maxResults
-     * @param array  $fields
-     * @param array  $expand
-     * @param bool   $validateQuery
-     *
      * @throws \JsonMapper_Exception
      * @throws JiraException
      *
