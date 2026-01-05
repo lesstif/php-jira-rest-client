@@ -173,8 +173,8 @@ class JiraClient
                 ]);
             } else {
                 $this->curlShare = curl_share_init();
-                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
-                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+                curl_share_setopt($this->curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+                curl_share_setopt($this->curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
             }
         }
         curl_setopt($ch, CURLOPT_SHARE, $this->curlShare);
