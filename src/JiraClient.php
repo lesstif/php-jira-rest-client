@@ -36,6 +36,11 @@ class JiraClient
     protected \CurlHandle $curl;
 
     /**
+     * CURL share instance.
+     */
+    protected \CurlShareHandle|\CurlSharePersistentHandle|null $curlShare = null;
+
+    /**
      * Monolog instance.
      */
     protected LoggerInterface $log;
@@ -159,6 +164,20 @@ class JiraClient
         if ($this->getConfiguration()->getTimeout()) {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getConfiguration()->getTimeout());
         }
+
+        if ($this->curlShare === null) {
+            if (\function_exists('curl_share_init_persistent')) {
+                $this->curlShare = curl_share_init_persistent([
+                    CURL_LOCK_DATA_DNS,
+                    CURL_LOCK_DATA_CONNECT,
+                ]);
+            } else {
+                $this->curlShare = curl_share_init();
+                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+                curl_share_setopt($share, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+            }
+        }
+        curl_setopt($ch, CURLOPT_SHARE, $this->curlShare);
 
         return $curl_http_headers;
     }
