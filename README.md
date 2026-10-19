@@ -4,8 +4,6 @@
 [![Latest Unstable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/unstable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![tests](https://github.com/lesstif/php-jira-rest-client/actions/workflows/tests.yml/badge.svg)](https://github.com/lesstif/php-jira-rest-client/actions/workflows/tests.yml)
 [![StyleCI](https://styleci.io/repos/30015369/shield?branch=main&style=flat)](https://styleci.io/repos/30015369)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lesstif/php-jira-rest-client/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/lesstif/php-jira-rest-client/?branch=main)
-[![Coverage Status](https://coveralls.io/repos/github/lesstif/php-jira-rest-client/badge.svg)](https://coveralls.io/github/lesstif/php-jira-rest-client)
 [![License](https://poser.pugx.org/lesstif/php-jira-rest-client/license)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Total Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/downloads)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Monthly Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/d/monthly)](https://packagist.org/packages/lesstif/php-jira-rest-client)
