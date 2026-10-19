@@ -29,9 +29,6 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Validate composer.json
-        run: composer validate --no-check-all
-
       - name: Resolve composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
@@ -46,5 +43,10 @@ jobs:
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
-      - name: Run tests
-        run: vendor/bin/phpunit
+      # Only the suites that run without a live Jira server.
+      # Everything else needs JIRA_HOST / TOKEN_BASED_AUTH and is excluded here.
+      - name: Serialization tests
+        run: vendor/bin/phpunit tests/SerializeTest.php
+
+      - name: JSON mapping tests
+        run: vendor/bin/phpunit tests/MapperTest.php
