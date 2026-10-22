@@ -2,6 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/stable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Latest Unstable Version](https://poser.pugx.org/lesstif/php-jira-rest-client/v/unstable)](https://packagist.org/packages/lesstif/php-jira-rest-client)
+[![tests](https://github.com/lesstif/php-jira-rest-client/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/lesstif/php-jira-rest-client/actions/workflows/tests.yml)
 [![StyleCI](https://styleci.io/repos/30015369/shield?branch=main&style=flat)](https://styleci.io/repos/30015369)
 [![License](https://poser.pugx.org/lesstif/php-jira-rest-client/license)](https://packagist.org/packages/lesstif/php-jira-rest-client)
 [![Total Downloads](https://poser.pugx.org/lesstif/php-jira-rest-client/downloads)](https://packagist.org/packages/lesstif/php-jira-rest-client)
