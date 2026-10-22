@@ -17,12 +17,14 @@ class SerializeTest extends TestCase
 
         $r->name = '-1';
         $r->emailAddress = 'user@example.com';
-        $r->avatarUrls = '';
+        // empty string values must be dropped from the serialized array.
+        $r->displayName = '';
+        // typed properties that were never assigned (such as array $avatarUrls) must not appear either.
 
         $d = $r->jsonSerialize();
 
-        //  passing a name value of '' then serialized array has 'name' key and empty value.
-       // $this->assertEquals(true, array_key_exists('name', $d), 'Can\'t found "name" key.');
+        $this->assertEquals('-1', $d['name']);
+        $this->assertEquals(false, array_key_exists('displayName', $d));
         $this->assertEquals(false, array_key_exists('avatarUrls', $d));
     }
 
@@ -32,7 +34,7 @@ class SerializeTest extends TestCase
 
         $r->name = 'KwangSeob Jeong';
         $r->emailAddress = 'user@example.com';
-        $r->avatarUrls = 'http://my.avatar.com/avatarUrls';
+        $r->avatarUrls = ['48x48' => 'http://my.avatar.com/avatarUrls'];
         $r->displayName = 'lesstif';
 
         $d = $r->toArray(['name', 'emailAddress'], $excludeMode = true);

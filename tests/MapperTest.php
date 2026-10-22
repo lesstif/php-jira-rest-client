@@ -19,8 +19,19 @@ class MapperTest extends TestCase
     public function setUp(): void
     {
         $this->mapper = new JsonMapper();
+
+        // Mirror the JsonMapper configuration applied in JiraClient::__construct().
+        if (property_exists($this->mapper, 'bStrictNullTypesInArrays')) {
+            $this->mapper->bStrictNullTypesInArrays = false;
+        }
+        $this->mapper->bStrictNullTypes = false;
         $this->mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
+
+        // Properties typed as \DateTimeInterface should be created as \DateTime.
+        // Class mapping alone is not enough: strict object type checking must be
+        // disabled so JsonMapper passes the date string to the DateTime constructor.
         $this->mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
+        $this->mapper->bStrictObjectTypeChecking = false;
     }
 
     public function tearDown(): void
@@ -41,6 +52,9 @@ class MapperTest extends TestCase
 
         $this->assertEquals('johndoe@example.com', $comment->author->emailAddress);
         $this->assertEquals('KwangSeob Jeong', $comment->updateAuthor->name);
+
+        $this->assertInstanceOf(\DateTime::class, $comment->created);
+        $this->assertInstanceOf(\DateTime::class, $comment->updated);
     }
 
     public function testIssueField()
@@ -58,13 +72,15 @@ class MapperTest extends TestCase
 
         $this->assertInstanceOf(SecurityScheme::class, $issueField->security);
         $this->assertEquals(12345, $issueField->security->id);
+
+        $this->assertInstanceOf(\DateTime::class, $issueField->created);
+        $this->assertInstanceOf(\DateTime::class, $issueField->updated);
     }
 
     public function testIssue()
     {
         $ret = file_get_contents('test-data/issue.json');
 
-        $is = new \JiraRestApi\Issue\IssueService();
         $issue = $this->mapper->map(
                 json_decode($ret), new Issue()
             );
@@ -89,17 +105,25 @@ class MapperTest extends TestCase
 
     }
 
+    /**
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/522
+     */
     public function testReporterField()
     {
         $ret = file_get_contents('test-data/reporter-no-email-address.json');
 
         $reporter = $this->mapper->map(
-            json_decode($ret), new Reporter()
+            json_decode($ret)->reporter, new Reporter()
         );
 
         $this->assertInstanceOf(Reporter::class, $reporter);
 
-        $this->assertEquals('lesstif@gmail.com', $reporter->emailAddress);
+        $this->assertEquals('lesstif', $reporter->name);
+        $this->assertEquals('lesstif', $reporter->key);
+
+        // emailAddress is absent from the JSON. It must be readable and null,
+        // not raise "must not be accessed before initialization".
+        $this->assertNull($reporter->emailAddress);
     }
 
 }
