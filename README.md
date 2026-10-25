@@ -73,6 +73,10 @@ then copy .env.example file to .env on your project root.
 JIRA_HOST='https://your-jira.host.com'
 JIRA_USER='jira-username'
 JIRA_PASS='jira-password-OR-api-token'
+# log settings. JIRA_LOG_FILE is relative to the current working directory (default: jira-rest-client.log)
+JIRA_LOG_ENABLED=true
+JIRA_LOG_FILE='jira-rest-client.log'
+JIRA_LOG_LEVEL='WARNING'
 # if TOKEN_BASED_AUTH set to true, ignore JIRA_USER and JIRA_PASS.
 TOKEN_BASED_AUTH=true
 PERSONAL_ACCESS_TOKEN='your-access-token-here'
@@ -94,6 +98,14 @@ Instead of password, you should using [API token](https://confluence.atlassian.c
 
 **Laravel Users:** 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+
+The default log file `jira-rest-client.log` is created in the current working directory, which is the `public` directory for web requests.
+Since it is usually not writable (and shouldn't be public), set `JIRA_LOG_FILE` to the absolute path of the storage directory,
+or disable logging with `JIRA_LOG_ENABLED=false`.
+
+```sh
+JIRA_LOG_FILE=/path/to/your-laravel-app/storage/logs/jira-rest-client.log
+```
 
 ## OAuth 2.0
 
