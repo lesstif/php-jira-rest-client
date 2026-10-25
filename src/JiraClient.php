@@ -400,9 +400,6 @@ class JiraClient
                 } else {
                     $msg = sprintf('CURL Error: http response=%d, %s', $http_response, $body);
                     $this->log->error($msg);
-
-                    curl_close($ch);
-
                     throw new JiraException($msg);
                 }
             } else {
@@ -410,8 +407,6 @@ class JiraClient
             }
             $idx++;
         }
-
-        curl_close($ch);
 
         return $results;
     }
