@@ -49,8 +49,8 @@ class IssueTest extends TestCase
             $issueField->setProjectKey('TEST')
                         ->setSummary("something's wrong")
                         ->setAssigneeNameAsString('lesstif')
-                        ->setPriorityNameAsString('Critical')
-                        ->setIssueTypeAsString('Bug')
+                        ->setPriorityNameAsString('Highest')
+                        ->setIssueTypeAsString('Task')
                         ->setDescription('Full description for issue')
                         ->addVersionAsArray(['1.0.1', '1.0.3'])
                         //->addComponentsAsArray(['Component-1', 'Component-2'])
@@ -113,7 +113,7 @@ class IssueTest extends TestCase
             $issueField = new IssueField(true);
 
             $issueField->setAssigneeNameAsString('lesstif')
-                ->setPriorityNameAsString('Major')
+                ->setPriorityNameAsString('High')
                 ->setIssueTypeAsString('Task')
                 ->addLabelAsString('test-label-first')
                 ->addLabelAsString('test-label-second')
@@ -145,7 +145,7 @@ class IssueTest extends TestCase
             $issueField->setProjectKey('TEST')
                 ->setSummary("Subtask - something's wrong")
                 ->setAssigneeNameAsString('lesstif')
-                ->setPriorityNameAsString('Critical')
+                ->setPriorityNameAsString('Highest')
                 ->setDescription('Subtask - Full description for issue')
                 ->addVersionAsString('1.0.1')
                 ->addVersionAsString('1.0.3')
@@ -277,7 +277,7 @@ Adds a new comment to an issue.
 COMMENT;
 
             $comment->setBody($body)
-                ->setVisibilityAsString('role', 'Users');
+                ->setVisibilityAsString('role', 'Administrators');
 
             $issueService = new IssueService();
             $ret = $issueService->addComment($subTaskIssueKey, $comment);
@@ -298,7 +298,7 @@ COMMENT;
     {
         try {
             $transition = new Transition();
-            $transition->setTransitionName('Resolved');
+            $transition->setTransitionName('Done');
             $transition->setCommentBody('Issue close by REST API.');
 
             $issueService = new IssueService();
