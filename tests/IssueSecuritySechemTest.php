@@ -4,7 +4,6 @@ namespace JiraRestApi\Test;
 
 use Exception;
 use JsonMapper_Exception;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\Issue;
@@ -13,7 +12,7 @@ use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Transition;
 use JiraRestApi\JiraException;
 
-class IssueSecuritySechemTest extends TestCase
+class IssueSecuritySechemTest extends JiraIntegrationTestCase
 {
     public function testGetAllSecuritySchemes()
     {

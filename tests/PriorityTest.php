@@ -3,12 +3,11 @@
 namespace JiraRestApi\Test;
 
 use JiraRestApi\JiraException;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 
 use JiraRestApi\Priority\PriorityService;
 
-class PriorityTest extends TestCase
+class PriorityTest extends JiraIntegrationTestCase
 {
     public function testAllPriority()
     {

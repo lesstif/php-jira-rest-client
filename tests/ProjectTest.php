@@ -7,10 +7,9 @@ use JiraRestApi\Issue\Version;
 use JiraRestApi\JiraException;
 use JiraRestApi\Project\Project;
 use JiraRestApi\Project\ProjectType;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Project\ProjectService;
 
-class ProjectTest extends TestCase
+class ProjectTest extends JiraIntegrationTestCase
 {
     /**
      * @test

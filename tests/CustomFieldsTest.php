@@ -3,13 +3,12 @@
 namespace JiraRestApi\Test;
 
 use JiraRestApi\Issue\IssueService;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Field\Field;
 use JiraRestApi\Field\FieldService;
 use JiraRestApi\JiraException;
 
-class CustomFieldsTest extends TestCase
+class CustomFieldsTest extends JiraIntegrationTestCase
 {
     /**
      * @Test

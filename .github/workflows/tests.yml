@@ -43,10 +43,7 @@ jobs:
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
-      # Only the suites that run without a live Jira server.
-      # Everything else needs JIRA_HOST / TOKEN_BASED_AUTH and is excluded here.
-      - name: Serialization tests
-        run: vendor/bin/phpunit tests/SerializeTest.php
-
-      - name: JSON mapping tests
-        run: vendor/bin/phpunit tests/MapperTest.php
+      # Tests which need a live Jira server extend JiraIntegrationTestCase
+      # and are skipped because no .env is configured here.
+      - name: Run tests
+        run: vendor/bin/phpunit

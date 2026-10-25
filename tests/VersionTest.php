@@ -2,13 +2,12 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\JiraException;
 use JiraRestApi\Issue\Version;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Version\VersionService;
 
-class VersionTest extends TestCase
+class VersionTest extends JiraIntegrationTestCase
 {
     private string $project = 'TEST';
 

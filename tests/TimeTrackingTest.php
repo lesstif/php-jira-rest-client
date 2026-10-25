@@ -2,12 +2,11 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\TimeTracking;
 use JiraRestApi\JiraException;
 
-class TimeTrackingTest extends TestCase
+class TimeTrackingTest extends JiraIntegrationTestCase
 {
     private $issueKey = 'TEST-76';
 

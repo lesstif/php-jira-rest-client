@@ -2,12 +2,11 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\RemoteIssueLink;
 use JiraRestApi\JiraException;
 
-class RemoteIssueLinkTest extends TestCase
+class RemoteIssueLinkTest extends JiraIntegrationTestCase
 {
 
     public function testCreateRemoteIssueLink()

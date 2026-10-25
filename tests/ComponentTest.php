@@ -5,12 +5,11 @@ namespace JiraRestApi\Test;
 use JiraRestApi\AssigneeTypeEnum;
 use JiraRestApi\Component\Component;
 use JiraRestApi\Component\ComponentService;
-use PHPUnit\Framework\TestCase;
 
 /**
  *
  */
-class ComponentTest extends TestCase
+class ComponentTest extends JiraIntegrationTestCase
 {
     /**
      * @test

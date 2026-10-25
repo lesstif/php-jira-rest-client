@@ -2,13 +2,12 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Comment;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
-class SearchTest extends TestCase
+class SearchTest extends JiraIntegrationTestCase
 {
     public function testSearch()
     {

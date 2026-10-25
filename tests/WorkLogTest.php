@@ -2,13 +2,12 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Issue\Worklog;
 use JiraRestApi\JiraException;
 
-class WorkLogTest extends TestCase
+class WorkLogTest extends JiraIntegrationTestCase
 {
     public $issueKey = 'TEST-165';
 
@@ -80,7 +79,7 @@ class WorkLogTest extends TestCase
     }
 
     /**
-     * @depends testUpdateWorkLogInIssue
+     * @depends testEditWorkLogInIssue
      */
     public function testGetWorkLogById($workLogid)
     {
@@ -96,7 +95,7 @@ class WorkLogTest extends TestCase
     }
 
 	/**
-	 * @depends testUpdateWorkLogInIssue
+	 * @depends testEditWorkLogInIssue
 	 */
 	public function testGetWorkLogsByIds($workLogid)
 	{
@@ -112,7 +111,7 @@ class WorkLogTest extends TestCase
 	}
 
     /**
-     * @depends testUpdateWorkLogInIssue
+     * @depends testEditWorkLogInIssue
      */
     public function testDeleteWorkLogById($workLogid)
     {

@@ -7,11 +7,10 @@ use Exception;
 use JiraRestApi\JiraException;
 use JiraRestApi\Sprint\Sprint;
 use JiraRestApi\Sprint\SprintService;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Issue\Reporter;
 
-class SPrintTest extends TestCase
+class SPrintTest extends JiraIntegrationTestCase
 {
     /**
      * @test

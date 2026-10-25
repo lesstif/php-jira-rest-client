@@ -2,13 +2,12 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\JiraException;
 use JiraRestApi\User\User;
 use JiraRestApi\User\UserService;
 
-class UserTest extends TestCase
+class UserTest extends JiraIntegrationTestCase
 {
     /**
      * @test

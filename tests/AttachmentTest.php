@@ -2,11 +2,10 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Attachment\AttachmentService;
 use JiraRestApi\JiraException;
 
-class AttachmentTest extends TestCase
+class AttachmentTest extends JiraIntegrationTestCase
 {
     public function testGetAttachment()
     {

@@ -3,10 +3,9 @@
 namespace JiraRestApi\Test;
 
 use JiraRestApi\Status\Status;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Status\StatusService;
 
-class StatusTest extends TestCase
+class StatusTest extends JiraIntegrationTestCase
 {
     public function testStatus()
     {

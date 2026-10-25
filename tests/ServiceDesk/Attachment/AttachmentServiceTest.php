@@ -34,7 +34,7 @@ class AttachmentServiceTest extends TestCase
         $serviceDeskId = '15';
 
         $client->method('createUrl')
-            ->with('/servicedesk/%d/attachTemporaryFile', [$serviceDeskId])
+            ->with('/servicedesk/%s/attachTemporaryFile', [$serviceDeskId])
             ->willReturn($url);
         $client->method('upload')
             ->with($url, ['image_1.png', 'image_2.png', 'image_3.png'])

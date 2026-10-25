@@ -2,12 +2,11 @@
 
 namespace JiraRestApi\Test;
 
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\JiraException;
 
-class SubTaskTest extends TestCase
+class SubTaskTest extends JiraIntegrationTestCase
 {
     public $issueKey = 'TEST-143';
 
@@ -18,12 +17,12 @@ class SubTaskTest extends TestCase
 
             $issueField->setProjectKey('TEST')
                 ->setSummary("Subtask - something's wrong")
-                ->setAssigneeName('lesstif')
-                ->setPriorityName('Critical')
-                ->setIssueType('Sub-task')
+                ->setAssigneeNameAsString('lesstif')
+                ->setPriorityNameAsString('Highest')
+                ->setIssueTypeAsString('Sub-task')
                 ->setDescription('Subtask - Full description for issue')
-                ->addVersion('1.0.1')
-                ->addVersion('1.0.3')
+                ->addVersionAsString('1.0.1')
+                ->addVersionAsString('1.0.3')
                 ->setParentKeyOrId($this->issueKey);
 
             $issueService = new IssueService();

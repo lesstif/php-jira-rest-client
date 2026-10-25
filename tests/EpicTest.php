@@ -8,13 +8,12 @@ use Exception;
 use JiraRestApi\Epic\EpicService;
 use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\IssueService;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
 use JiraRestApi\Group\Group;
 use JiraRestApi\Group\GroupService;
 use JiraRestApi\JiraException;
 
-class EpicTest extends TestCase
+class EpicTest extends JiraIntegrationTestCase
 {
     /**
      * @test

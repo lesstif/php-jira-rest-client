@@ -3,7 +3,6 @@
 namespace JiraRestApi\Test;
 
 use ArrayObject;
-use PHPUnit\Framework\TestCase;
 use JiraRestApi\Board\BoardService;
 use JiraRestApi\Board\Board;
 use JiraRestApi\Board\Location;
@@ -12,7 +11,7 @@ use JiraRestApi\Issue\Issue;
 /**
  * Test agile boards integration.
  */
-class BoardTest extends TestCase
+class BoardTest extends JiraIntegrationTestCase
 {
 
     /**

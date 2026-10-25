@@ -2614,6 +2614,18 @@ try {
 
 ```
 
+# Running tests
+
+```sh
+composer install
+vendor/bin/phpunit
+```
+
+Unit tests run without a Jira server.
+Tests which need a live Jira server extend `JiraIntegrationTestCase` and are skipped unless the connection is configured.
+To run them, copy `.env.example` to `.env` and set up your Jira server (see [Configuration](#configuration)).
+Integration tests create and modify real data (projects, issues, users, ...), so use a test instance, not a production one.
+
 # License
 
 Apache V2 License
