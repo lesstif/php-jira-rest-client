@@ -17,8 +17,9 @@ class RequestStatus implements JsonSerializable
     public string $status;
     public DateTime $statusDate;
 
-    public function setStatusDate(array $statusDate): void
+    // JsonMapper passes the JSON object as stdClass, so accept both array and object.
+    public function setStatusDate($statusDate): void
     {
-        $this->statusDate = new DateTime($statusDate['iso8601']);
+        $this->statusDate = new DateTime(((array) $statusDate)['iso8601']);
     }
 }

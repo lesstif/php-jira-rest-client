@@ -26,7 +26,7 @@ class Request implements JsonSerializable
     public array $requestFieldValues;
     public RequestStatus $currentStatus;
     /**
-     * @var Customer[]
+     * @var \JiraRestApi\ServiceDesk\Customer\Customer[]
      */
     public array $requestParticipants = [];
     public object $_links;
@@ -97,7 +97,7 @@ class Request implements JsonSerializable
     }
 
     /**
-     * @param Customer[] $requestParticipants
+     * @param \JiraRestApi\ServiceDesk\Customer\Customer[] $requestParticipants
      */
     public function setRequestParticipants(array $requestParticipants): self
     {

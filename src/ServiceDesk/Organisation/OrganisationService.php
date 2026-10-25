@@ -50,9 +50,7 @@ class OrganisationService
      */
     public function createFromOrganisation(Organisation $organisation): Organisation
     {
-        $data = json_encode($organisation, JSON_THROW_ON_ERROR);
-
-        return $this->create($data);
+        return $this->create($organisation->name);
     }
 
     /**
@@ -78,19 +76,16 @@ class OrganisationService
      */
     public function getOrganisations(int $start, int $limit): array
     {
-        $paramArray = $this->client->toHttpQueryParameter([
-            'start' => $start,
-            'limit' => $limit,
-        ]);
-
-        $response = $this->client->exec($this->uri.$paramArray, null);
+        $response = $this->client->exec(
+            $this->client->createUrl('%s', [$this->uri], ['start' => $start, 'limit' => $limit])
+        );
 
         $this->logger->info("Result=\n".$response);
 
-        $organisationData = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        $organisationData = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
         $organisations = [];
 
-        foreach ($organisationData['values'] as $organisation) {
+        foreach ($organisationData->values as $organisation) {
             $organisations[] = $this->jsonMapper->map($organisation, new Organisation());
         }
 
@@ -103,6 +98,8 @@ class OrganisationService
      * @throws JsonMapper_Exception|JiraException|JsonException
      *
      * @return Customer[]
+     *
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/organization/{organizationId}/user-getUsersInOrganization
      */
     public function getCustomersForOrganisation(int $startIndex, int $amountOfItems, Organisation $organisation): array
     {
@@ -112,10 +109,10 @@ class OrganisationService
 
         $this->logger->info("Result=\n".$result);
 
-        $customerData = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $customerData = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
         $customers = [];
 
-        foreach ($customerData as $customer) {
+        foreach ($customerData->values as $customer) {
             $customers[] = $this->jsonMapper->map(
                 $customer,
                 new Customer()
@@ -128,7 +125,9 @@ class OrganisationService
     /**
      * @param Customer[] $customers
      *
-     * @throws JiraException
+     * @throws JiraException|JsonException
+     *
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/organization/{organizationId}/user-addUsersToOrganization
      */
     public function addCustomersToOrganisation(array $customers, Organisation $organisation): void
     {
@@ -137,8 +136,8 @@ class OrganisationService
         }, $customers);
 
         $this->client->exec(
-            $this->client->createUrl('%s/%s', [$this->uri, $organisation->id]),
-            ['usernames' => $customerNames],
+            $this->client->createUrl('%s/%s/user', [$this->uri, $organisation->id]),
+            json_encode(['usernames' => $customerNames], JSON_THROW_ON_ERROR),
             'POST'
         );
     }
@@ -168,7 +167,7 @@ class OrganisationService
         }
 
         return $this->client->createUrl(
-            '%s/%s/user?%s',
+            '%s/%s/user',
             [$this->uri, $organisationId],
             ['start' => $startIndex, 'limit' => $amountOfItems]
         );
@@ -180,7 +179,7 @@ class OrganisationService
     private function createOrganisation(string $data): Organisation
     {
         return $this->jsonMapper->map(
-            json_decode($data, true, 512, JSON_THROW_ON_ERROR),
+            json_decode($data, false, 512, JSON_THROW_ON_ERROR),
             new Organisation()
         );
     }

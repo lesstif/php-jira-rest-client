@@ -84,6 +84,7 @@ class CustomerServiceTest extends TestCase
 
         self::assertSame($user->key, $result->key);
         self::assertSame($user->emailAddress, $result->emailAddress);
+        self::assertSame($user->timezone, $result->timeZone);
     }
 
     public function testFindCustomers(): void
@@ -168,7 +169,7 @@ class CustomerServiceTest extends TestCase
         $user->displayName = 'Test Customer';
         $user->emailAddress = 'test@customer.com';
         $user->active = true;
-        $user->timeZone = 'UTC';
+        $user->timezone = 'UTC';
 
         return $user;
     }

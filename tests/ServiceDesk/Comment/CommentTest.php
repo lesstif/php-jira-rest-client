@@ -25,7 +25,7 @@ class CommentTest extends TestCase
     {
         $author = [
             'name' => 'test reporter',
-            'active' => '1',
+            'active' => true,
             'emailAddress' => 'reporter@example.com',
             'not_real' => 'true',
         ];

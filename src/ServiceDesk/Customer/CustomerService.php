@@ -155,30 +155,40 @@ class CustomerService
     private function userToCustomer(User $user): Customer
     {
         $customer = new Customer();
-        $customer->name = $user->name;
-        $customer->key = $user->key;
-        $customer->accountId = $user->accountId;
-        $customer->emailAddress = $user->emailAddress;
-        $customer->displayName = $user->displayName;
-        $customer->active = $user->active;
-        $customer->timeZone = $user->timeZone;
+
+        // Jira Server returns no accountId and Jira Cloud returns no key, so copy only the initialized properties.
+        $properties = [
+            'name'         => 'name',
+            'key'          => 'key',
+            'accountId'    => 'accountId',
+            'emailAddress' => 'emailAddress',
+            'displayName'  => 'displayName',
+            'active'       => 'active',
+            'timezone'     => 'timeZone',
+            'self'         => 'self',
+        ];
+        foreach ($properties as $userProperty => $customerProperty) {
+            if (isset($user->{$userProperty})) {
+                $customer->{$customerProperty} = $user->{$userProperty};
+            }
+        }
+
         $customer->setLinks(
-            $this->avatarUrlsToLinks($user->self, $user->avatarUrls)
+            $this->avatarUrlsToLinks($user->self ?? null, $user->avatarUrls ?? null)
         );
-        $customer->self = $user->self;
 
         return $customer;
     }
 
-    private function avatarUrlsToLinks(?string $url, ?object $avatarUrls): ?CustomerLinks
+    private function avatarUrlsToLinks(?string $url, ?array $avatarUrls): ?CustomerLinks
     {
-        if ($avatarUrls === null) {
+        if ($url === null || $avatarUrls === null) {
             return null;
         }
 
         $customerLinks = new CustomerLinks();
         $customerLinks->jiraRest = $url;
-        $customerLinks->avatarUrls = $avatarUrls;
+        $customerLinks->avatarUrls = (object) $avatarUrls;
 
         return $customerLinks;
     }

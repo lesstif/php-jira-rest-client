@@ -28,23 +28,24 @@ class Comment implements JsonSerializable
         $this->id = (int) $id;
     }
 
-    public function setAuthor(array $author): void
+    // JsonMapper passes the JSON object as stdClass, so accept both array and object.
+    public function setAuthor($author): void
     {
         $this->author = new Reporter();
-        foreach ($author as $key => $value) {
+        foreach ((array) $author as $key => $value) {
             if (property_exists($this->author, $key)) {
                 $this->author->$key = $value;
             }
         }
     }
 
-    public function setCreated(array $created): void
+    public function setCreated($created): void
     {
-        $this->created = new DateTime($created['iso8601']);
+        $this->created = new DateTime(((array) $created)['iso8601']);
     }
 
-    public function setLinks(array $links): void
+    public function setLinks($links): void
     {
-        $this->_links = $links;
+        $this->_links = (array) $links;
     }
 }

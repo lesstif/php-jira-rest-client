@@ -17,8 +17,9 @@ class Organisation implements JsonSerializable
     public string $name;
     public array $_links;
 
-    public function setLinks(array $links): void
+    public function setLinks($links): void
     {
-        $this->_links = $links;
+        // JsonMapper passes the JSON object of _links as stdClass.
+        $this->_links = (array) $links;
     }
 }
