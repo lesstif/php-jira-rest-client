@@ -166,15 +166,20 @@ class JiraClient
         }
 
         if ($this->curlShare === null) {
+            $shareData = [CURL_LOCK_DATA_DNS];
+            // CURL_LOCK_DATA_CONNECT requires libcurl >= 7.57.0, but PHP 8.0 - 8.3 can be built with libcurl 7.29.0.
+            // @see https://github.com/lesstif/php-jira-rest-client/issues/567
+            if (\defined('CURL_LOCK_DATA_CONNECT')) {
+                $shareData[] = \constant('CURL_LOCK_DATA_CONNECT');
+            }
+
             if (\function_exists('curl_share_init_persistent')) {
-                $this->curlShare = curl_share_init_persistent([
-                    CURL_LOCK_DATA_DNS,
-                    CURL_LOCK_DATA_CONNECT,
-                ]);
+                $this->curlShare = curl_share_init_persistent($shareData);
             } else {
                 $this->curlShare = curl_share_init();
-                curl_share_setopt($this->curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
-                curl_share_setopt($this->curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+                foreach ($shareData as $data) {
+                    curl_share_setopt($this->curlShare, CURLSHOPT_SHARE, $data);
+                }
             }
         }
         curl_setopt($ch, CURLOPT_SHARE, $this->curlShare);
