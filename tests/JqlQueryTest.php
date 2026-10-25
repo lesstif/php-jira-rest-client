@@ -30,4 +30,44 @@ class JqlQueryTest extends TestCase
 
         $this->assertSame('"cf[10000]" ~ "Maintenance" or "Account.name" != "Research"', $jql->getQuery());
     }
+
+    /**
+     * @test
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/230
+     */
+    public function quote_escapes_double_quote_and_backslash(): void
+    {
+        $this->assertSame('"say \"hi\""', JqlQuery::quote('say "hi"'));
+        $this->assertSame('"C:\\\\temp"', JqlQuery::quote('C:\temp'));
+    }
+
+    /**
+     * @test
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/230
+     */
+    public function quote_text_escapes_text_search_special_characters(): void
+    {
+        $this->assertSame(
+            '"session_start\\\\(\\\\)\\\\: failed \\\\(path\\\\: \\\\/var\\\\/lib\\\\)"',
+            JqlQuery::quoteText('session_start(): failed (path: /var/lib)')
+        );
+        $this->assertSame('"say \\\\\"hi\\\\\" a\\\\\\\\b"', JqlQuery::quoteText('say "hi" a\b'));
+        $this->assertSame('"\\\\+\\\\-\\\\&\\\\|\\\\!\\\\{\\\\}\\\\[\\\\]\\\\^\\\\~\\\\*\\\\?"', JqlQuery::quoteText('+-&|!{}[]^~*?'));
+    }
+
+    /** @test */
+    public function add_text_search_expression(): void
+    {
+        $jql = (new JqlQuery())
+            ->setProject('TEST')
+            ->addTextSearchExpression(JqlQuery::FIELD_SUMMARY, 'index.php(14)')
+            ->addTextSearchExpression(JqlQuery::FIELD_DESCRIPTION, 'a+b', JqlQuery::KEYWORD_OR, JqlQuery::OPERATOR_DOES_NOT_CONTAIN);
+
+        $this->assertSame(
+            '"project" = "TEST" and "summary" ~ "index.php\\\\(14\\\\)" or "description" !~ "a\\\\+b"',
+            $jql->getQuery()
+        );
+    }
 }

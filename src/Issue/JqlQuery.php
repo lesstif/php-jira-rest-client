@@ -452,9 +452,30 @@ class JqlQuery
             return $value->expression;
         }
 
-        $value = str_replace('"', '\\\\"', $value);
+        // escape backslash first, then double quote.
+        $value = str_replace(['\\', '"'], ['\\\\', '\\"'], $value);
 
         return '"'.$value.'"';
+    }
+
+    /**
+     * Quote value for text search ({@see JqlQuery::OPERATOR_CONTAINS}, {@see JqlQuery::OPERATOR_DOES_NOT_CONTAIN}).
+     *
+     * Text search treats characters like + - & | ! ( ) { } [ ] ^ ~ * ? : \ / as special syntax.
+     * This method escapes them, so the value is searched as is (wildcards like * are disabled).
+     *
+     * Example: JqlQuery::quoteText('index.php(14): error') returns '"index.php\\\\(14\\\\)\\\\: error"'
+     *
+     * @param string $value
+     *
+     * @return string
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/230
+     * @see https://confluence.atlassian.com/jirasoftwareserver/search-syntax-for-text-fields-939938747.html
+     */
+    public static function quoteText($value)
+    {
+        return self::quote(preg_replace('/([+\-&|!(){}\[\]^~*?:\\\\\/"])/', '\\\\$1', $value));
     }
 
     /**
@@ -541,6 +562,30 @@ class JqlQuery
     {
         $this->joinExpression(
             self::quoteField($field)." $operator ".self::quote($value),
+            $logicLinkKeyword
+        );
+
+        return $this;
+    }
+
+    /**
+     * Adds text search expression which searches the text as is.
+     *
+     * Example: $query->addTextSearchExpression({@see JqlQuery::FIELD_SUMMARY}, 'index.php(14): error')
+     * appends 'and "summary" ~ "index.php\\\\(14\\\\)\\\\: error"' expression
+     *
+     * @param string $field            text field name (summary, description, comment, text or custom text field)
+     * @param string $text             text to search. Special characters are escaped by {@see JqlQuery::quoteText()}.
+     * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
+     *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
+     * @param string $operator         {@see JqlQuery::OPERATOR_CONTAINS} (default) or {@see JqlQuery::OPERATOR_DOES_NOT_CONTAIN}
+     *
+     * @return JqlQuery
+     */
+    public function addTextSearchExpression($field, $text, $logicLinkKeyword = self::KEYWORD_AND, $operator = self::OPERATOR_CONTAINS)
+    {
+        $this->joinExpression(
+            self::quoteField($field)." $operator ".self::quoteText($text),
             $logicLinkKeyword
         );
 
