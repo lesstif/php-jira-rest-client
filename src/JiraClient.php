@@ -458,9 +458,14 @@ class JiraClient
             $this->log->debug('Using cookie..');
         }
 
-        // if cookie file not exist, using id/pwd login
+        // if cookie file not exist, using OAuth 2.0 access token, personal access token or id/pwd login
         if (!is_string($cookieFile) || !file_exists($cookieFile)) {
-            if ($this->getConfiguration()->isTokenBasedAuth() === true) {
+            $oauthAccessToken = $this->getConfiguration()->getOAuthAccessToken();
+
+            if (!empty($oauthAccessToken)) {
+                // @see https://github.com/lesstif/php-jira-rest-client/issues/92
+                $curl_http_headers[] = 'Authorization: Bearer '.$oauthAccessToken;
+            } elseif ($this->getConfiguration()->isTokenBasedAuth() === true) {
                 $curl_http_headers[] = 'Authorization: Bearer '.$this->getConfiguration()->getPersonalAccessToken();
             } else {
                 $username = $this->getConfiguration()->getJiraUser();

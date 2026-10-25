@@ -76,6 +76,8 @@ JIRA_PASS='jira-password-OR-api-token'
 # if TOKEN_BASED_AUTH set to true, ignore JIRA_USER and JIRA_PASS.
 TOKEN_BASED_AUTH=true
 PERSONAL_ACCESS_TOKEN='your-access-token-here'
+# OAuth 2.0 access token. if set, it is used instead of PERSONAL_ACCESS_TOKEN and JIRA_USER/JIRA_PASS.
+# OAUTH_ACCESS_TOKEN='your-oauth-access-token'
 # to enable session cookie authorization
 # COOKIE_AUTH_ENABLED=true
 # COOKIE_FILE=storage/jira-cookie.txt
@@ -92,6 +94,19 @@ Instead of password, you should using [API token](https://confluence.atlassian.c
 
 **Laravel Users:** 
 If you are developing with laravel framework(5.x), you must append above configuration to your application .env file.
+
+## OAuth 2.0
+
+If `OAUTH_ACCESS_TOKEN` (or `oauthAccessToken` in the array configuration) is set, it is sent as `Authorization: Bearer {token}`
+and takes precedence over the personal access token and basic authentication.
+
+- **Jira Data Center** 8.22 or later: create an [incoming application link (OAuth 2.0)](https://confluence.atlassian.com/adminjiraserver/jira-oauth-2-0-provider-api-1115659070.html).
+  `JIRA_HOST` stays the same.
+- **Jira Cloud**: create an [OAuth 2.0 (3LO) app](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/)
+  and set `JIRA_HOST` to `https://api.atlassian.com/ex/jira/{cloudId}`.
+
+This library only sends the access token. Getting the token (the authorization code flow) and refreshing it is up to your application.
+OAuth 1.0a is not supported.
 
 ## use array
 
@@ -112,6 +127,8 @@ $iss = new IssueService(new ArrayConfiguration(
                // instead,you can use the token based authentication. 
                'useTokenBasedAuth' => true,
                'personalAccessToken' => 'your-token-here',
+               // or OAuth 2.0 access token (takes precedence over the personal access token)
+               // 'oauthAccessToken' => 'your-oauth-access-token',
                 
                 // custom log config
                'jiraLogEnabled' => true,

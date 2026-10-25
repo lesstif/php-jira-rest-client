@@ -168,7 +168,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
         return $this->curlOptUserAgent;
     }
 
-    public function getOAuthAccessToken(): string
+    public function getOAuthAccessToken(): ?string
     {
         return $this->oauthAccessToken;
     }
