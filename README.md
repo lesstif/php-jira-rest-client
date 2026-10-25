@@ -1333,7 +1333,11 @@ try {
 
 ##### JQL with pagination
 
-[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/search-search)
+[See Jira API reference](https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-search/#api-rest-api-2-search-jql-post)
+
+Jira Cloud removed the offset based `/rest/api/2/search` API and uses `nextPageToken` for paging ([CHANGE-2046](https://developer.atlassian.com/changelog/#CHANGE-2046)).
+Jira Server/Data Center doesn't provide the new API, so `search()` automatically falls back to the legacy `/search` API
+and returns the next `startAt` offset as `nextPageToken`. The same code works on both.
 
 ```php
 <?php
@@ -1347,36 +1351,28 @@ $jql = 'project not in (TEST)  and assignee = currentUser() and status in (Resol
 try {
     $issueService = new IssueService();
 
-    $pagination = -1;
-  
-    $startAt = 0;	//the index of the first issue to return (0-based)    
-    $maxResult = 3;	// the maximum number of issues to return (defaults to 50). 
-    $totalCount = -1;	// the number of issues to return
-  
-    // first fetch
-    $ret = $issueService->search($jql, $startAt, $maxResult);
-    $totalCount = $ret->total;
-  	
-    // do something with fetched data
-    foreach ($ret->issues as $issue) {
-        print (sprintf('%s %s \n', $issue->key, $issue->fields->summary));
-    }
-  	
-    // fetch remained data
-    $page = $totalCount / $maxResult;
+    $nextPageToken = '';
+    $maxResult = 3;	// the maximum number of issues to return per page (defaults to 50).
 
-    for ($startAt = 1; $startAt < $page; $startAt++) {
-        $ret = $issueService->search($jql, $startAt * $maxResult, $maxResult);
+    do {
+        $ret = $issueService->search($jql, $nextPageToken, $maxResult, ['summary']);
 
-        print ('\nPaging $startAt\n');
-        print ('-------------------\n');
         foreach ($ret->issues as $issue) {
-            print (sprintf('%s %s \n', $issue->key, $issue->fields->summary));
+            print (sprintf("%s %s \n", $issue->key, $issue->fields->summary));
         }
-    }     
+
+        $nextPageToken = $ret->getNextPageToken();
+    } while (!empty($nextPageToken));
 } catch (JiraRestApi\JiraException $e) {
     $this->assertTrue(false, 'testSearch Failed : '.$e->getMessage());
 }
+```
+
+If you need the number of matched issues on Jira Cloud, use `searchApproximateCount()`.
+
+```php
+$count = $issueService->searchApproximateCount($jql);
+print ($count->count);
 ```
 
 ##### JQL query class

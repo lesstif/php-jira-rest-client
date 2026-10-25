@@ -541,13 +541,58 @@ class IssueService extends \JiraRestApi\JiraClient
             $data['nextPageToken'] = $nextPageToken;
         }
 
-        $ret = $this->exec('/search/jql', json_encode($data), 'POST');
+        try {
+            $ret = $this->exec('/search/jql', json_encode($data), 'POST');
+        } catch (JiraException $e) {
+            // Jira Server/Data Center does not provide /search/jql, fall back to legacy /search.
+            if ($e->getCode() !== 404) {
+                throw $e;
+            }
+
+            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand);
+        }
+
         $json = json_decode($ret);
 
         $result = $this->json_mapper->map(
             $json,
             new IssueSearchResult()
         );
+
+        return $result;
+    }
+
+    /**
+     * Search issues using the legacy /search endpoint (Jira Server/Data Center).
+     *
+     * nextPageToken of the result holds the next startAt offset when more results remain.
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     */
+    protected function searchLegacy(string $jql, int $startAt, int $maxResults, array $fields, string $expand): IssueSearchResult
+    {
+        $data = [
+            'jql'        => $jql,
+            'startAt'    => $startAt,
+            'maxResults' => $maxResults,
+            'fields'     => $fields,
+        ];
+
+        if ($expand) {
+            $data['expand'] = array_map('trim', explode(',', $expand));
+        }
+
+        $ret = $this->exec('/search', json_encode($data), 'POST');
+
+        $result = $this->json_mapper->map(
+            json_decode($ret),
+            new IssueSearchResult()
+        );
+
+        if ($result->startAt + count($result->issues ?? []) < $result->total) {
+            $result->setNextPageToken((string) ($result->startAt + count($result->issues)));
+        }
 
         return $result;
     }
