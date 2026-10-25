@@ -12,5 +12,5 @@ class Property
 
     public string $key;
 
-    public string $value;
+    public mixed $value;
 }

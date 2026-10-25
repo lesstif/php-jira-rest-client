@@ -2,6 +2,8 @@
 
 namespace JiraRestApi\User;
 
+use JiraRestApi\Issue\Property;
+
 /**
  * Class to perform all user related queries.
  *
@@ -246,5 +248,84 @@ class UserService extends \JiraRestApi\JiraClient
             json_decode($ret),
             new User()
         );
+    }
+
+    /**
+     * Returns the keys of all properties for a user.
+     *
+     * @param array $paramArray user to identify: ['username' => ...], ['userKey' => ...] or ['accountId' => ...] (Jira Cloud)
+     *
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return string[] property keys
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/262
+     */
+    public function getPropertyKeys(array $paramArray): array
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri.'/properties'.$queryParam);
+
+        return array_map(static function ($key) {
+            return $key->key;
+        }, json_decode($ret)->keys);
+    }
+
+    /**
+     * Returns the value of a user's property.
+     *
+     * @param array  $paramArray  user to identify: ['username' => ...], ['userKey' => ...] or ['accountId' => ...] (Jira Cloud)
+     * @param string $propertyKey the key of the property
+     *
+     * @throws \JsonMapper_Exception
+     * @throws \JiraRestApi\JiraException
+     *
+     * @return Property
+     */
+    public function getProperty(array $paramArray, string $propertyKey): Property
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $ret = $this->exec($this->uri.'/properties/'.rawurlencode($propertyKey).$queryParam);
+
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new Property()
+        );
+    }
+
+    /**
+     * Sets the value of a user's property. The value can be any JSON serializable value.
+     *
+     * @param array    $paramArray user to identify: ['username' => ...], ['userKey' => ...] or ['accountId' => ...] (Jira Cloud)
+     * @param Property $property   the key and value of the property
+     *
+     * @throws \JiraRestApi\JiraException
+     */
+    public function setProperty(array $paramArray, Property $property): void
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $this->exec(
+            $this->uri.'/properties/'.rawurlencode($property->key).$queryParam,
+            json_encode($property->value),
+            'PUT'
+        );
+    }
+
+    /**
+     * Deletes a user's property.
+     *
+     * @param array  $paramArray  user to identify: ['username' => ...], ['userKey' => ...] or ['accountId' => ...] (Jira Cloud)
+     * @param string $propertyKey the key of the property
+     *
+     * @throws \JiraRestApi\JiraException
+     */
+    public function deleteProperty(array $paramArray, string $propertyKey): void
+    {
+        $queryParam = '?'.http_build_query($paramArray);
+
+        $this->exec($this->uri.'/properties/'.rawurlencode($propertyKey).$queryParam, null, 'DELETE');
     }
 }

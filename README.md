@@ -226,6 +226,7 @@ $iss = new IssueService(new ArrayConfiguration(
 - [Find Users by query](#find-users-by-query)
 - [Delete User](#delete-user)
 - [Update User](#update-user)
+- [User Properties](#user-properties)
 
 ### Group
 - [Create Group](#create-group)
@@ -2010,6 +2011,46 @@ try {
 
     var_dump($updatedUser);
 
+} catch (JiraRestApi\JiraException $e) {
+    print('Error Occured! ' . $e->getMessage());
+}
+
+```
+
+#### User Properties
+
+[See Jira API reference](https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/user/properties)
+
+Gets, sets and deletes user properties. The value can be any JSON serializable value.
+Identify the user with `username` or `userKey` (Jira Server/Data Center), or `accountId` (Jira Cloud).
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\Property;
+use JiraRestApi\JiraException;
+use JiraRestApi\User\UserService;
+
+try {
+    $us = new UserService();
+
+    $user = ['username' => 'lesstif'];
+
+    $property = new Property();
+    $property->key = 'my.settings';
+    $property->value = ['theme' => 'dark', 'pageSize' => 50];
+
+    $us->setProperty($user, $property);
+
+    // ['my.settings', ...]
+    var_dump($us->getPropertyKeys($user));
+
+    // value is decoded JSON: $ret->value->theme === 'dark'
+    $ret = $us->getProperty($user, 'my.settings');
+    var_dump($ret->value);
+
+    $us->deleteProperty($user, 'my.settings');
 } catch (JiraRestApi\JiraException $e) {
     print('Error Occured! ' . $e->getMessage());
 }
