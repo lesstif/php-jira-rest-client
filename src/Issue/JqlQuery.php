@@ -672,22 +672,32 @@ class JqlQuery
     }
 
     /**
-     * Add custom field test to equality.
+     * Add custom field condition. Default operator is equality.
      * This method can be used with system fields and 'custom fields' (defined by user).
      *
      * Example: $query->setCustomField('My Custom field', 'value')
      * appends 'and "My Custom field" = "value"' expression
      *
-     * @param string $field            custom field name
-     * @param string $value            value to equality check
+     * Some fields don't support equality. For example text fields and Tempo fields on Forge
+     * referenced by id only support {@see JqlQuery::OPERATOR_CONTAINS}:
+     * $query->setCustomField('cf[10000]', 'value', JqlQuery::KEYWORD_AND, JqlQuery::OPERATOR_CONTAINS)
+     * appends 'and "cf[10000]" ~ "value"' expression
+     *
+     * @param string $field            custom field name or id (e.g. 'cf[10000]')
+     * @param string $value            value to check
      * @param string $logicLinkKeyword use {@see JqlQuery::KEYWORD_AND} or {@see JqlQuery::KEYWORD_OR}
      *                                 to set join logical operation. Default {@see JqlQuery::KEYWORD_AND}.
+     * @param string $operator         supported scalar operator (see OPERATOR_ constants).
+     *                                 Default {@see JqlQuery::OPERATOR_EQUALS}.
      *
      * @return JqlQuery
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/569
+     * @see https://help.tempo.io/timesheets/latest/expected-changes-in-timesheets-on-forge
      */
-    public function setCustomField($field, $value, $logicLinkKeyword = self::KEYWORD_AND)
+    public function setCustomField($field, $value, $logicLinkKeyword = self::KEYWORD_AND, $operator = self::OPERATOR_EQUALS)
     {
-        return $this->addExpression($field, self::OPERATOR_EQUALS, $value, $logicLinkKeyword);
+        return $this->addExpression($field, $operator, $value, $logicLinkKeyword);
     }
 
     /**

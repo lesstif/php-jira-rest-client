@@ -1415,6 +1415,24 @@ try {
 }
 ```
 
+`setCustomField()` uses `=` by default. Some fields don't support it (e.g. text fields only support `~`),
+so you can pass the operator as the 4th parameter.
+
+Tempo on Forge changed its JQL syntax ([details](https://help.tempo.io/timesheets/latest/expected-changes-in-timesheets-on-forge)):
+`Account` and `Tempo Team` need the `.name` suffix, and fields referenced by id (`cf[10000]`) only support `~`.
+
+```php
+$jql = new JqlQuery();
+
+$jql->setProject('TEST')
+    // "Account.name" = "Maintenance"
+    ->setCustomField('Account.name', 'Maintenance')
+    // "Tempo Team.name" != "Palavin"
+    ->setCustomField('Tempo Team.name', 'Palavin', JqlQuery::KEYWORD_AND, JqlQuery::OPERATOR_NOT_EQUALS)
+    // "cf[10000]" ~ "Maintenance"
+    ->setCustomField('cf[10000]', 'Maintenance', JqlQuery::KEYWORD_AND, JqlQuery::OPERATOR_CONTAINS);
+```
+
 #### Remote Issue Link
 
 
