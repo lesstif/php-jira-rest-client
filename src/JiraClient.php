@@ -496,6 +496,14 @@ class JiraClient
     }
 
     /**
+     * Get the Jira API URI for the request.
+     */
+    public function getAPIUri(): string
+    {
+        return $this->api_uri;
+    }
+
+    /**
      * convert to query array to http query parameter.
      */
     public function toHttpQueryParameter(array $paramArray, bool $dropNullKey = true): string

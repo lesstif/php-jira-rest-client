@@ -1393,6 +1393,43 @@ class IssueService extends \JiraRestApi\JiraClient
         throw new JiraException("Transition name '$untranslatedName' not found on JIRA Server.");
     }
 
+    /**
+     * Render Jira wiki markup to HTML.
+     *
+     * This uses /rest/api/1.0/render, which is not a documented public API (Jira's own editor preview uses it).
+     * To get the rendered fields of an existing issue, get the issue with ['expand' => 'renderedFields'] instead.
+     *
+     * @param string      $markup   Jira wiki markup
+     * @param string|null $issueKey issue key for the rendering context (e.g. attachments and issue links)
+     *
+     * @throws JiraException
+     *
+     * @return string rendered HTML
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/363
+     */
+    public function renderWikiMarkup(string $markup, ?string $issueKey = null): string
+    {
+        $data = [
+            'rendererType'     => 'atlassian-wiki-renderer',
+            'unrenderedMarkup' => $markup,
+        ];
+        if ($issueKey !== null) {
+            $data['issueKey'] = $issueKey;
+        }
+
+        $apiUri = $this->getAPIUri();
+        $this->setAPIUri('/rest/api/1.0');
+
+        try {
+            $ret = $this->exec('/render', json_encode($data), 'POST');
+        } finally {
+            $this->setAPIUri($apiUri);
+        }
+
+        return is_string($ret) ? $ret : '';
+    }
+
     protected function createProjectService(): ProjectService
     {
         return new ProjectService($this->getConfiguration());

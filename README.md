@@ -179,6 +179,7 @@ $iss = new IssueService(new ArrayConfiguration(
 
 ### Issue
 - [Get Issue Info](#get-issue-info)
+- [Render wiki markup to HTML](#render-wiki-markup-to-html)
 - [Create Issue](#create-issue)
 - [Create Issue - bulk](#create-multiple-issues)
 - [Create Sub Task](#create-sub-task)
@@ -638,6 +639,33 @@ try {
 ```
 
 You can access the custom field associated with issue through *$issue->fields->customFields* array or through direct custom field id variables(Ex: *$issue->fields->customfield_10300*).
+
+#### Render wiki markup to HTML
+
+To get the HTML of an existing issue's fields, get the issue with `'expand' => ['renderedFields']` (see above) and use `$issue->renderedFields`.
+
+To render arbitrary wiki markup, use `renderWikiMarkup()`.
+It calls `/rest/api/1.0/render`, which Jira's own editor preview uses. It is not a documented public API, so it may change in future Jira versions.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use JiraRestApi\Issue\IssueService;
+use JiraRestApi\JiraException;
+
+try {
+    $issueService = new IssueService();
+
+    // '<p><b>bold</b> <a href="https://example.com" ...>link</a></p>'
+    $html = $issueService->renderWikiMarkup('*bold* [link|https://example.com]');
+
+    // with an issue key, issue links and attachments are rendered in the context of the issue.
+    $html = $issueService->renderWikiMarkup('see TEST-1 and !screenshot.png!', 'TEST-1');
+} catch (JiraRestApi\JiraException $e) {
+    print('Error Occured! ' . $e->getMessage());
+}
+```
 
 #### Create Issue
 
