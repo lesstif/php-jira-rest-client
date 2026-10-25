@@ -47,7 +47,7 @@ class IssueField implements \JsonSerializable
 
     public ?object $resolution = null;
 
-    public array $fixVersions = [];
+    public ?array $fixVersions = null;
 
     public ?Reporter $creator = null;
 
@@ -335,6 +335,16 @@ class IssueField implements \JsonSerializable
     public function getIssueType(): IssueType
     {
         return $this->issuetype;
+    }
+
+    /**
+     * fixVersions is null when Jira doesn't return it, so always return an array for iteration.
+     *
+     * @return array
+     */
+    public function getFixVersions(): array
+    {
+        return $this->fixVersions ?? [];
     }
 
     /**

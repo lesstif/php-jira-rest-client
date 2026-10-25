@@ -4,6 +4,7 @@ namespace JiraRestApi\Test;
 
 use PHPUnit\Framework\TestCase;
 use JiraRestApi\Dumper;
+use JiraRestApi\Issue\IssueField;
 use JiraRestApi\Issue\Reporter;
 
 class SerializeTest extends TestCase
@@ -51,5 +52,24 @@ class SerializeTest extends TestCase
         $this->assertEquals(true, array_key_exists('emailAddress', $d));
         $this->assertEquals(2, count($d));
         Dumper::dump($d);
+    }
+
+    /**
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/558
+     */
+    public function testFixVersionsDefaultsToNull()
+    {
+        $field = new IssueField();
+
+        $this->assertNull($field->fixVersions);
+        $this->assertArrayNotHasKey('fixVersions', $field->jsonSerialize());
+
+        // Jira may return null for fixVersions; mapping must not fail.
+        $mapped = (new \JsonMapper())->map(json_decode('{"fixVersions": null}'), new IssueField(true));
+        $this->assertNull($mapped->fixVersions);
+        $this->assertSame([], $mapped->getFixVersions());
+
+        $mapped = (new \JsonMapper())->map(json_decode('{"fixVersions": [{"name": "1.0.1"}]}'), new IssueField(true));
+        $this->assertCount(1, $mapped->getFixVersions());
     }
 }
