@@ -15,10 +15,18 @@ use PHPUnit\Framework\TestCase;
  */
 class IssueSearchFallbackTest extends TestCase
 {
-    private function createService(array $responses): IssueService
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // forget the hosts detected by previous tests.
+        (new \ReflectionProperty(IssueService::class, 'legacySearchHosts'))->setValue(null, []);
+    }
+
+    private function createService(array $responses, string $jiraHost = 'http://localhost'): IssueService
     {
         $config = new ArrayConfiguration([
-            'jiraHost'     => 'http://localhost',
+            'jiraHost'     => $jiraHost,
             'jiraUser'     => 'user',
             'jiraPassword' => 'pass',
         ]);
@@ -109,5 +117,36 @@ class IssueSearchFallbackTest extends TestCase
         } finally {
             $this->assertCount(1, $service->requests);
         }
+    }
+
+    /**
+     * @test
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/568
+     */
+    public function search_remembers_data_center_host_and_skips_enhanced_search_api(): void
+    {
+        $legacyResult = json_encode(['startAt' => 0, 'maxResults' => 50, 'total' => 0, 'issues' => []]);
+
+        $service = $this->createService([
+            new JiraException('Not Found', 404),
+            $legacyResult,
+            $legacyResult,
+        ]);
+
+        $service->search('project = TEST');
+        $service->search('project = TEST');
+
+        $this->assertSame(['/search/jql', '/search', '/search'], array_column($service->requests, 'context'));
+
+        // other services for the same host don't need to detect it again.
+        $other = $this->createService([$legacyResult]);
+        $other->search('project = TEST');
+        $this->assertSame(['/search'], array_column($other->requests, 'context'));
+
+        // a different host is detected separately.
+        $cloud = $this->createService([json_encode(['issues' => []])], 'https://example.atlassian.net');
+        $cloud->search('project = TEST');
+        $this->assertSame(['/search/jql'], array_column($cloud->requests, 'context'));
     }
 }

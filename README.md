@@ -1338,6 +1338,7 @@ try {
 Jira Cloud removed the offset based `/rest/api/2/search` API and uses `nextPageToken` for paging ([CHANGE-2046](https://developer.atlassian.com/changelog/#CHANGE-2046)).
 Jira Server/Data Center doesn't provide the new API, so `search()` automatically falls back to the legacy `/search` API
 and returns the next `startAt` offset as `nextPageToken`. The same code works on both.
+The fallback is remembered per Jira host, so later searches call `/search` directly.
 
 ```php
 <?php

@@ -11,6 +11,13 @@ class IssueService extends \JiraRestApi\JiraClient
     private $uri = '/issue';
 
     /**
+     * Jira hosts which don't provide the enhanced search API (/search/jql), i.e. Jira Server/Data Center.
+     *
+     * @var array<string, bool>
+     */
+    private static array $legacySearchHosts = [];
+
+    /**
      * @param object $json
      *
      * @throws \JsonMapper_Exception
@@ -529,6 +536,13 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueSearchResult
     {
+        $host = $this->getConfiguration()->getJiraHost();
+
+        // skip the request which is known to fail with 404.
+        if (isset(self::$legacySearchHosts[$host])) {
+            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand);
+        }
+
         $data = [
             'jql'             => $jql,
             'maxResults'      => $maxResults,
@@ -548,6 +562,8 @@ class IssueService extends \JiraRestApi\JiraClient
             if ($e->getCode() !== 404) {
                 throw $e;
             }
+
+            self::$legacySearchHosts[$host] = true;
 
             return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand);
         }
