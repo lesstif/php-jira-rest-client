@@ -1351,7 +1351,10 @@ class IssueService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * find transition id by transition's untranslatedName.
+     * find transition id by the untranslated name of the transition's to status(aka 'Done').
+     *
+     * Jira Cloud returns the untranslated status name, so it works regardless of the user's language.
+     * Jira Server/Data Center doesn't, so the status name is compared instead.
      *
      * @param string $issueIdOrKey
      * @param string $untranslatedName
@@ -1359,25 +1362,39 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      *
      * @return string
+     *
+     * @see https://github.com/lesstif/php-jira-rest-client/issues/323
      */
     public function findTransitonIdByUntranslatedName(string $issueIdOrKey, string $untranslatedName): string
     {
         $this->log->debug('findTransitonIdByUntranslatedName=');
 
-        $prj = new ProjectService($this->getConfiguration());
         $pkey = explode('-', $issueIdOrKey);
-        $transitionArray = $prj->getProjectTransitionsToArray($pkey[0]);
+        $statuses = $this->createProjectService()->getProjectTransitionsToArray($pkey[0]);
 
-        $this->log->debug('getTransitions result='.var_export($transitionArray, true));
+        $this->log->debug('getProjectTransitionsToArray result='.var_export($statuses, true));
 
-        foreach ($transitionArray as $trans) {
-            if (strcasecmp($trans['name'], $untranslatedName) === 0 ||
-                strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
-                return $trans['id'];
+        // getProjectTransitionsToArray() returns statuses, so find the transition to the matched status.
+        $statusIds = [];
+        foreach ($statuses as $status) {
+            if (strcasecmp($status['untranslatedName'] ?? '', $untranslatedName) === 0 ||
+                strcasecmp($status['name'], $untranslatedName) === 0) {
+                $statusIds[] = (string) $status['id'];
+            }
+        }
+
+        foreach ($this->getTransition($issueIdOrKey) as $trans) {
+            if (in_array((string) $trans->to->id, $statusIds, true)) {
+                return $trans->id;
             }
         }
 
         // transition keyword not found
         throw new JiraException("Transition name '$untranslatedName' not found on JIRA Server.");
+    }
+
+    protected function createProjectService(): ProjectService
+    {
+        return new ProjectService($this->getConfiguration());
     }
 }

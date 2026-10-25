@@ -19,6 +19,9 @@ class IssueStatus implements \JsonSerializable
     /* @var string */
     public $name;
 
+    /* @var string|null status name in English, regardless of the user's language (Jira Cloud only) */
+    public ?string $untranslatedName = null;
+
     /* @var \JiraRestApi\Issue\Statuscategory */
     public $statuscategory;
 

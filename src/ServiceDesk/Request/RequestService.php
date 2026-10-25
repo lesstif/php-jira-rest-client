@@ -842,14 +842,23 @@ class RequestService
         $this->logger->debug('findTransitonIdByUntranslatedName=');
 
         $project = new ProjectService($this->client->getConfiguration());
-        $projectKey = explode('-', $issueIdOrKey);
-        $transitions = $project->getProjectTransitionsToArray($projectKey[0]);
+        $projectKey = explode('-', (string) $issueIdOrKey);
+        $statuses = $project->getProjectTransitionsToArray($projectKey[0]);
 
-        $this->logger->debug('getTransitions result='.var_export($transitions, true));
+        $this->logger->debug('getProjectTransitionsToArray result='.var_export($statuses, true));
 
-        foreach ($transitions as $trans) {
-            if (strcasecmp($trans['name'], $untranslatedName) === 0 || strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
-                return $trans['id'];
+        // getProjectTransitionsToArray() returns statuses, so find the transition to the matched status.
+        // @see https://github.com/lesstif/php-jira-rest-client/issues/323
+        $statusIds = [];
+        foreach ($statuses as $status) {
+            if (strcasecmp($status['untranslatedName'] ?? '', $untranslatedName) === 0 || strcasecmp($status['name'], $untranslatedName) === 0) {
+                $statusIds[] = (string) $status['id'];
+            }
+        }
+
+        foreach ($this->getTransition((string) $issueIdOrKey) as $trans) {
+            if (in_array((string) $trans->to->id, $statusIds, true)) {
+                return $trans->id;
             }
         }
 
