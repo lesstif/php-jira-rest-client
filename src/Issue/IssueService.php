@@ -529,18 +529,22 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * Search issues.
      *
+     * @param bool $validateQuery Jira Server/Data Center only: when false, values that don't exist in the JQL
+     *                            (e.g. an unknown issue key) are ignored instead of failing the search.
+     *                            Jira Cloud's enhanced search API doesn't support it, so it is ignored there.
+     *
      * @throws \JsonMapper_Exception
      * @throws JiraException
      *
      * @return IssueSearchResult
      */
-    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = []): IssueSearchResult
+    public function search(string $jql, string $nextPageToken = '', int $maxResults = 50, array $fields = [], string $expand = '', array $reconcileIssues = [], bool $validateQuery = true): IssueSearchResult
     {
         $host = $this->getConfiguration()->getJiraHost();
 
         // skip the request which is known to fail with 404.
         if (isset(self::$legacySearchHosts[$host])) {
-            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand);
+            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand, $validateQuery);
         }
 
         $data = [
@@ -565,7 +569,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
             self::$legacySearchHosts[$host] = true;
 
-            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand);
+            return $this->searchLegacy($jql, (int) $nextPageToken, $maxResults, $fields, $expand, $validateQuery);
         }
 
         $json = json_decode($ret);
@@ -586,7 +590,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws \JsonMapper_Exception
      * @throws JiraException
      */
-    protected function searchLegacy(string $jql, int $startAt, int $maxResults, array $fields, string $expand): IssueSearchResult
+    protected function searchLegacy(string $jql, int $startAt, int $maxResults, array $fields, string $expand, bool $validateQuery = true): IssueSearchResult
     {
         $data = [
             'jql'        => $jql,
@@ -594,6 +598,10 @@ class IssueService extends \JiraRestApi\JiraClient
             'maxResults' => $maxResults,
             'fields'     => $fields,
         ];
+
+        if (!$validateQuery) {
+            $data['validateQuery'] = false;
+        }
 
         if ($expand) {
             $data['expand'] = array_map('trim', explode(',', $expand));

@@ -103,6 +103,56 @@ class IssueSearchFallbackTest extends TestCase
     }
 
     /** @test */
+    public function legacy_search_sends_validate_query_when_disabled(): void
+    {
+        $legacyResult = json_encode(['startAt' => 0, 'maxResults' => 50, 'total' => 0, 'issues' => []]);
+
+        $service = $this->createService([
+            new JiraException('Not Found', 404),
+            $legacyResult,
+            $legacyResult,
+        ]);
+
+        // first search detects the Data Center host, second one goes to /search directly.
+        $service->search('issueKey in (TEST-1, TEST-999)', validateQuery: false);
+        $service->search('issueKey in (TEST-1, TEST-999)', validateQuery: false);
+
+        $this->assertSame(['/search/jql', '/search', '/search'], array_column($service->requests, 'context'));
+        $this->assertFalse($service->requests[1]['data']['validateQuery']);
+        $this->assertFalse($service->requests[2]['data']['validateQuery']);
+    }
+
+    /** @test */
+    public function legacy_search_omits_validate_query_when_enabled_after_disabled(): void
+    {
+        $legacyResult = json_encode(['startAt' => 0, 'maxResults' => 50, 'total' => 0, 'issues' => []]);
+
+        $service = $this->createService([
+            new JiraException('Not Found', 404),
+            $legacyResult,
+            $legacyResult,
+        ]);
+
+        $service->search('issueKey in (TEST-1, TEST-999)', validateQuery: false);
+        $service->search('issueKey in (TEST-1, TEST-999)', validateQuery: true);
+
+        $this->assertSame(['/search/jql', '/search', '/search'], array_column($service->requests, 'context'));
+        $this->assertArrayNotHasKey('validateQuery', $service->requests[2]['data']);
+    }
+
+    /** @test */
+    public function enhanced_search_does_not_send_validate_query(): void
+    {
+        $service = $this->createService([
+            json_encode(['issues' => []]),
+        ]);
+
+        $service->search('issueKey in (TEST-1, TEST-999)', validateQuery: false);
+
+        $this->assertArrayNotHasKey('validateQuery', $service->requests[0]['data']);
+    }
+
+    /** @test */
     public function search_does_not_fall_back_on_other_errors(): void
     {
         $service = $this->createService([
